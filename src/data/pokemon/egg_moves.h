@@ -2507,16 +2507,7 @@ static const u16 sRioluEggMoveLearnset[] = {
 
 #if P_FAMILY_HIPPOPOTAS
 static const u16 sHippopotasEggMoveLearnset[] = {
-    MOVE_STOCKPILE,
-    MOVE_SWALLOW,
-    MOVE_SPIT_UP,
     MOVE_CURSE,
-    MOVE_SLACK_OFF,
-    MOVE_BODY_SLAM,
-    MOVE_SAND_TOMB,
-    MOVE_REVENGE,
-    MOVE_SLEEP_TALK,
-    MOVE_WHIRLWIND,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_HIPPOPOTAS
@@ -3582,10 +3573,7 @@ static const u16 sFurfrouEggMoveLearnset[] = {
 
 #if P_FAMILY_ESPURR
 static const u16 sEspurrEggMoveLearnset[] = {
-    MOVE_TRICK,
-    MOVE_YAWN,
     MOVE_ASSIST,
-    MOVE_BARRIER,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_ESPURR
@@ -4152,11 +4140,7 @@ static const u16 sChewtleEggMoveLearnset[] = {
 
 #if P_FAMILY_YAMPER
 static const u16 sYamperEggMoveLearnset[] = {
-    MOVE_DOUBLE_EDGE,
-    MOVE_SAND_ATTACK,
     MOVE_FLAME_CHARGE,
-    MOVE_DISCHARGE,
-    MOVE_HOWL,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_YAMPER

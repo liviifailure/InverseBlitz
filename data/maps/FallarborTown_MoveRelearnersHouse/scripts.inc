@@ -13,6 +13,9 @@ FallarborTown_MoveRelearnersHouse_EventScript_MoveRelearner::
 FallarborTown_MoveRelearnersHouse_EventScript_MoveRelearnerStart::
 	goto_if_set FLAG_TEMP_1, FallarborTown_MoveRelearnersHouse_EventScript_AskTeachMove
 	msgbox FallarborTown_MoveRelearnersHouse_Text_ImTheMoveTutor, MSGBOX_DEFAULT
+	goto_if_ge VAR_BADGE_COUNT, 8, FallarborTown_MoveRelearnersHouse_EventScript_SetFlagAndContinue
+	msgbox FallarborTown_MoveRelearnersHouse_Text_ComeBackAfterGymChallenge, MSGBOX_DEFAULT
+FallarborTown_MoveRelearnersHouse_EventScript_SetFlagAndContinue::
 	setflag FLAG_TEMP_1
 	goto FallarborTown_MoveRelearnersHouse_EventScript_AskTeachMove
 	end
@@ -72,6 +75,11 @@ FallarborTown_MoveRelearnersHouse_Text_ImTheMoveTutor:
 	.string "of yours if you'd like.\p"
 	.string "I'll do it for a HEART SCALE.\n"
 	.string "I'm collecting those now.$"
+
+FallarborTown_MoveRelearnersHouse_Text_ComeBackAfterGymChallenge:
+	.string "If you complete the GYM Challenge,\n"
+	.string "I might be able to teach your POKéMON\l"
+	.string "even more moves!$"
 
 FallarborTown_MoveRelearnersHouse_Text_ThatsAHeartScaleWantMeToTeachMove:
 	.string "Oh! That's it! That's an honest to\n"

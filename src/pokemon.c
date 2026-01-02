@@ -5722,7 +5722,7 @@ u32 GetRelearnerLevelUpMoves(struct Pokemon *mon, u16 *moves)
 
         for (u32 i = 0; i < MAX_LEVEL_UP_MOVES && learnset[i].move != LEVEL_UP_MOVE_END; i++)
         {
-            if (learnset[i].level > level)
+            if (learnset[i].level > level && VarGet(VAR_BADGE_COUNT) < 8)
                 break;
 
             u32 j;
@@ -5934,7 +5934,7 @@ bool32 HasRelearnerLevelUpMoves(struct Pokemon *mon)
 
         for (u32 i = 0; i < MAX_LEVEL_UP_MOVES && learnset[i].move != LEVEL_UP_MOVE_END; i++)
         {
-            if (learnset[i].level > level)
+            if (learnset[i].level > level && VarGet(VAR_BADGE_COUNT) < 8)
                 break;
             if (learnset[i].move != MOVE_SKETCH && !DoesMonHaveMove(learnedMoves, learnset[i].move))
                 return TRUE;

@@ -40,9 +40,12 @@ EverGrandeCity_PokemonLeague_1F_Pokemart:
 	.2byte ITEM_AGGRONITE
 	.2byte ITEM_AMPHAROSITE
 	.2byte ITEM_BANETTITE
+	.2byte ITEM_BLASTOISINITE
 	.2byte ITEM_BLAZIKENITE
 	.2byte ITEM_CAMERUPTITE
 	.2byte ITEM_CHANDELURITE
+	.2byte ITEM_CHARIZARDITE_X
+	.2byte ITEM_CHARIZARDITE_Y
 	.2byte ITEM_CHESNAUGHTITE
 	.2byte ITEM_CLEFABLITE
 	.2byte ITEM_DELPHOXITE
@@ -163,4 +166,3 @@ EverGrandeCity_PokemonLeague_1F_Text_HaventObtainedAllBadges:
 EverGrandeCity_PokemonLeague_1F_Text_GoForth:
 	.string "TRAINER! Believe in yourself and your\n"
 	.string "POKéMON, and go forth!$"
-
