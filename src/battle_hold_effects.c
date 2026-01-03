@@ -685,7 +685,7 @@ static enum ItemEffect TryCureParalysis(u32 battler, ActivationTiming timing)
     {
         gBattleMons[battler].status1 &= ~STATUS1_PARALYSIS;
         gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_CURED_PARALYSIS;
-        if (timing == IsOnSwitchInFirstTurnActivation || gBattleMainFunc == BattleTurnPassed)
+        if (timing == IsOnSwitchInFirstTurnActivation)
             BattleScriptExecute(BattleScript_BerryCureStatusEnd2);
         else
             BattleScriptCall(BattleScript_BerryCureStatusRet);
@@ -703,7 +703,7 @@ static enum ItemEffect TryCurePoison(u32 battler, ActivationTiming timing)
     {
         gBattleMons[battler].status1 &= ~(STATUS1_PSN_ANY | STATUS1_TOXIC_COUNTER);
         gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_CURED_POISON;
-        if (timing == IsOnSwitchInFirstTurnActivation || gBattleMainFunc == BattleTurnPassed)
+        if (timing == IsOnSwitchInFirstTurnActivation)
             BattleScriptExecute(BattleScript_BerryCureStatusEnd2);
         else
             BattleScriptCall(BattleScript_BerryCureStatusRet);
@@ -721,7 +721,7 @@ static enum ItemEffect TryCureBurn(u32 battler, ActivationTiming timing)
     {
         gBattleMons[battler].status1 &= ~STATUS1_BURN;
         gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_CURED_BURN;
-        if (timing == IsOnSwitchInFirstTurnActivation || gBattleMainFunc == BattleTurnPassed)
+        if (timing == IsOnSwitchInFirstTurnActivation)
             BattleScriptExecute(BattleScript_BerryCureStatusEnd2);
         else
             BattleScriptCall(BattleScript_BerryCureStatusRet);
@@ -750,7 +750,7 @@ static enum ItemEffect TryCureFreezeOrFrostbite(u32 battler, ActivationTiming ti
 
     if (effect == ITEM_STATUS_CHANGE)
     {
-        if (timing == IsOnSwitchInFirstTurnActivation || gBattleMainFunc == BattleTurnPassed)
+        if (timing == IsOnSwitchInFirstTurnActivation)
             BattleScriptExecute(BattleScript_BerryCureStatusEnd2);
         else
             BattleScriptCall(BattleScript_BerryCureStatusRet);
@@ -769,7 +769,7 @@ static enum ItemEffect TryCureSleep(u32 battler, ActivationTiming timing)
         gBattleMons[battler].volatiles.nightmare = FALSE;
         gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_CURED_SLEEP;
         TryDeactivateSleepClause(GetBattlerSide(battler), gBattlerPartyIndexes[battler]);
-        if (timing == IsOnSwitchInFirstTurnActivation || gBattleMainFunc == BattleTurnPassed)
+        if (timing == IsOnSwitchInFirstTurnActivation)
             BattleScriptExecute(BattleScript_BerryCureStatusEnd2);
         else
             BattleScriptCall(BattleScript_BerryCureStatusRet);
@@ -786,7 +786,7 @@ static enum ItemEffect TryCureConfusion(u32 battler, ActivationTiming timing)
     if (gBattleMons[battler].volatiles.confusionTurns > 0)
     {
         RemoveConfusionStatus(battler);
-        if (timing == IsOnSwitchInFirstTurnActivation || gBattleMainFunc == BattleTurnPassed)
+        if (timing == IsOnSwitchInFirstTurnActivation)
             BattleScriptExecute(BattleScript_BerryCureConfusionEnd2);
         else
             BattleScriptCall(BattleScript_BerryCureConfusionRet);
@@ -841,7 +841,7 @@ static enum ItemEffect TryCureAnyStatus(u32 battler, ActivationTiming timing)
             gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_NORMALIZED_STATUS;
         gBattleMons[battler].status1 = 0;
         RemoveConfusionStatus(battler);
-        if (timing == IsOnSwitchInFirstTurnActivation || gBattleMainFunc == BattleTurnPassed)
+        if (timing == IsOnSwitchInFirstTurnActivation)
             BattleScriptExecute(BattleScript_BerryCureStatusEnd2);
         else
             BattleScriptCall(BattleScript_BerryCureStatusRet);

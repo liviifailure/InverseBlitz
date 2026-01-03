@@ -2833,7 +2833,7 @@ static const u16 sAudinoEggMoveLearnset[] = {
 
 #if P_FAMILY_TIMBURR
 static const u16 sTimburrEggMoveLearnset[] = {
-    MOVE_DRAIN_PUNCH,
+    MOVE_POWER_UP_PUNCH,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_TIMBURR
