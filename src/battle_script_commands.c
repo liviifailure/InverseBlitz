@@ -13333,7 +13333,8 @@ static void Cmd_pickup(void)
             if ((ability == ABILITY_PICKUP || ability == ABILITY_HONEY_GATHER || ability == ABILITY_BALL_FETCH)
                 && species != SPECIES_NONE
                 && species != SPECIES_EGG
-                && heldItem == ITEM_NONE)
+                && heldItem == ITEM_NONE
+                && GetMonData(&gPlayerParty[i], MON_DATA_HP) > 0)
             {
                 if ((gBattleTypeFlags & BATTLE_TYPE_TRAINER) && IsGymLeader(TRAINER_BATTLE_PARAM.opponentA))
                 {

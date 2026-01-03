@@ -1506,10 +1506,6 @@ static void ShowSaveInfoWindow(void)
     {
         textColor[1] = TEXT_COLOR_BLUE;
     }
-    else if (faintCount <= 4)
-    {
-        textColor[1] = TEXT_COLOR_LIGHT_RED; // This will appear as yellow.
-    }
     // else textColor[1] remains TEXT_COLOR_RED (4)
 
     ConvertIntToDecimalStringN(gStringVar4, faintCount, STR_CONV_MODE_LEFT_ALIGN, 10);

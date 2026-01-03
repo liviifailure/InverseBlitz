@@ -6946,7 +6946,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         FOOTPRINT(Heatran)
         SHADOW(-1, 0, SHADOW_SIZE_M)
         .isMegaEvolution = TRUE,
-        .isSubLegendary = TRUE,
+        .isLegendary = TRUE,
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sHeatranLevelUpLearnset,
         .teachableLearnset = sHeatranTeachableLearnset,

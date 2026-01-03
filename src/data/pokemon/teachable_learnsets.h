@@ -28290,6 +28290,7 @@ static const u16 sKlefkiTeachableLearnset[] = {
 #if P_FAMILY_PHANTUMP
 static const u16 sPhantumpTeachableLearnset[] = {
     MOVE_ATTRACT,
+    MOVE_BULLET_SEED,
     MOVE_CUT,
     MOVE_DIG,
     MOVE_DOUBLE_TEAM,
@@ -28322,6 +28323,7 @@ static const u16 sPhantumpTeachableLearnset[] = {
 
 static const u16 sTrevenantTeachableLearnset[] = {
     MOVE_ATTRACT,
+    MOVE_BULLET_SEED,
     MOVE_CALM_MIND,
     MOVE_CUT,
     MOVE_DIG,
@@ -31993,6 +31995,7 @@ static const u16 sYamperTeachableLearnset[] = {
     MOVE_PROTECT,
     MOVE_REST,
     MOVE_SLEEP_TALK,
+    MOVE_SNARL,
     MOVE_SNORE,
     MOVE_SWIFT,
     MOVE_THUNDER,
@@ -32012,6 +32015,7 @@ static const u16 sBoltundTeachableLearnset[] = {
     MOVE_PROTECT,
     MOVE_REST,
     MOVE_SLEEP_TALK,
+    MOVE_SNARL,
     MOVE_SNORE,
     MOVE_SWIFT,
     MOVE_THUNDER,

@@ -2507,7 +2507,7 @@ static const u16 sRioluEggMoveLearnset[] = {
 
 #if P_FAMILY_HIPPOPOTAS
 static const u16 sHippopotasEggMoveLearnset[] = {
-    MOVE_CURSE,
+    MOVE_SLACK_OFF,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_HIPPOPOTAS

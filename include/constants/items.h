@@ -1021,12 +1021,7 @@
 #define ITEM_ZYGARDITE 852
 #define ITEM_DRAMPANITE 853
 #define ITEM_FALINKSITE 854
-#define ITEM_MED_KIT 855
-#define ITEM_PORTABLE_PC 856
 
-<<<<<<< ours
-#define ITEMS_COUNT 857
-=======
 // Legends Z-A: Mega Dimension DLC Mega Stones
 #define ITEM_HEATRANITE 855
 #define ITEM_DARKRANITE 856
@@ -1048,8 +1043,10 @@
 #define ITEM_TATSUGIRINITE 872
 #define ITEM_GLIMMORANITE 873
 
-#define ITEMS_COUNT 874
->>>>>>> theirs
+#define ITEM_MED_KIT 874
+#define ITEM_PORTABLE_PC 875
+
+#define ITEMS_COUNT 876
 #define ITEM_FIELD_ARROW ITEMS_COUNT
 
 // A special item id associated with "Cancel"/"Exit" etc. in a list of items or decorations

@@ -3433,7 +3433,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .levelUpLearnset = sSpritzeeLevelUpLearnset,
         .teachableLearnset = sSpritzeeTeachableLearnset,
         .eggMoveLearnset = sSpritzeeEggMoveLearnset,
-        .evolutions = EVOLUTION({EVO_LEVEL, 25, SPECIES_AROMATISSE}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 28, SPECIES_AROMATISSE}),
     },
 
     [SPECIES_AROMATISSE] =
