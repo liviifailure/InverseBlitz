@@ -4043,12 +4043,6 @@ static const u16 sJangmoOEggMoveLearnset[] = {
 
 #if P_FAMILY_GROOKEY
 static const u16 sGrookeyEggMoveLearnset[] = {
-    MOVE_GROWTH,
-    MOVE_HAMMER_ARM,
-    MOVE_FAKE_OUT,
-    MOVE_STRENGTH,
-    MOVE_NATURE_POWER,
-    MOVE_WORRY_SEED,
     MOVE_LEECH_SEED,
     MOVE_UNAVAILABLE,
 };

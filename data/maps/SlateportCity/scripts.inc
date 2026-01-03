@@ -926,6 +926,7 @@ SlateportCity_Pokemart_StageThreeMegas:
 	.2byte ITEM_SHARPEDONITE
 	.2byte ITEM_STARMINITE
 	.2byte ITEM_SWAMPERTITE
+	.2byte ITEM_VENUSAURITE
 	pokemartlistend
 
 @ Scene with Capt Sterns interview and Team Aqua announcing plans to steal Submarine

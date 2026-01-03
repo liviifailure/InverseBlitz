@@ -406,7 +406,7 @@ const struct AbilityInfo gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_PICKUP] =
     {
         .name = _("Pickup"),
-        .description = COMPOUND_STRING("May pick up items."),
+        .description = COMPOUND_STRING("May pick up berries."),
         .aiRating = 1,
     },
 
@@ -884,7 +884,7 @@ const struct AbilityInfo gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_HONEY_GATHER] =
     {
         .name = _("Honey Gather"),
-        .description = COMPOUND_STRING("May gather Honey."),
+        .description = COMPOUND_STRING("May pick up berries."),
         .aiRating = 0,
     },
 
@@ -1801,7 +1801,7 @@ const struct AbilityInfo gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_BALL_FETCH] =
     {
         .name = _("Ball Fetch"),
-        .description = COMPOUND_STRING("Fetches failed Poké Ball."),
+        .description = COMPOUND_STRING("May pick up berries."),
         .aiRating = 0,
     },
 

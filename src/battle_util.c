@@ -4682,17 +4682,6 @@ u32 AbilityBattleEffects(enum AbilityEffect caseID, u32 battler, enum Ability ab
             gBattlerAttacker = battler;
             switch (gLastUsedAbility)
             {
-            case ABILITY_PICKUP:
-                if (gBattleMons[battler].item == ITEM_NONE
-                 && gBattleStruct->changedItems[battler] == ITEM_NONE   // Will not inherit an item
-                 && PickupHasValidTarget(battler))
-                {
-                    gBattlerTarget = RandomUniformExcept(RNG_PICKUP, 0, gBattlersCount - 1, CantPickupItem);
-                    gLastUsedItem = GetBattlerPartyState(gBattlerTarget)->usedHeldItem;
-                    BattleScriptExecute(BattleScript_PickupActivates);
-                    effect++;
-                }
-                break;
             case ABILITY_HARVEST:
                 if ((IsBattlerWeatherAffected(battler, B_WEATHER_SUN) || RandomPercentage(RNG_HARVEST, 50))
                  && gBattleMons[battler].item == ITEM_NONE
@@ -4859,21 +4848,6 @@ u32 AbilityBattleEffects(enum AbilityEffect caseID, u32 battler, enum Ability ab
                 {
                     gBattleScripting.battler = battler;
                     BattleScriptExecute(BattleScript_PowerConstruct);
-                    effect++;
-                }
-                break;
-            case ABILITY_BALL_FETCH:
-                if (gBattleMons[battler].item == ITEM_NONE
-                    && gBattleResults.catchAttempts[ItemIdToBallId(gLastUsedBall)] >= 1
-                    && !gHasFetchedBall)
-                {
-                    gLastUsedItem = gLastUsedBall;
-                    gBattleScripting.battler = battler;
-                    gBattleMons[battler].item = gLastUsedItem;
-                    BtlController_EmitSetMonData(battler, B_COMM_TO_CONTROLLER, REQUEST_HELDITEM_BATTLE, 0, 2, &gLastUsedItem);
-                    MarkBattlerForControllerExec(battler);
-                    gHasFetchedBall = TRUE;
-                    BattleScriptExecute(BattleScript_BallFetch);
                     effect++;
                 }
                 break;

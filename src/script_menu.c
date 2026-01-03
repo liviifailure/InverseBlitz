@@ -96,6 +96,7 @@ struct GiftMonMenu
     u8 bottomWindowId;
     u16 monSpriteIds[MAX_GIFT_MON];
     u16 selectedMonSpriteId;
+    u16 selectedMonSpecies;
 };
 
 static EWRAM_DATA struct GiftMonMenu sGiftMonMenuData = {0};
@@ -217,13 +218,13 @@ static void GiftMonMenu_CreateFrontSprite(u16 species)
     // Destroy the old sprite if it exists
     if (sGiftMonMenuData.selectedMonSpriteId != 0xFFFF)
     {
-        // The species of the previously displayed mon is not tracked, so we can't reliably free its specific palette tag.
-        // Instead, we'll free the generic tag and rely on the new unique tag to load the correct palette.
-        FreeSpritePaletteByTag(TAG_GIFT_MON_PIC_PALETTE);
+        // The species of the previously displayed mon is now tracked, so we can free its specific palette tag.
+        FreeSpritePaletteByTag(sGiftMonMenuData.selectedMonSpecies);
         FreeAndDestroyMonPicSprite(sGiftMonMenuData.selectedMonSpriteId);
         sGiftMonMenuData.selectedMonSpriteId = 0xFFFF;
     }
 
+    sGiftMonMenuData.selectedMonSpecies = species;
     if (species != GIFT_MON_FINISH_ID)
     {
         if (species == GIFT_MON_RANDOM_ID)
@@ -932,6 +933,7 @@ for (i = 0; i < argc; ++i) {
         memset(sGiftMonSelections, 0, sizeof(sGiftMonSelections));
         GiftMonMenu_ClearChosenMonIcons();
         sGiftMonMenuData.selectedMonSpriteId = 0xFFFF;
+        sGiftMonMenuData.selectedMonSpecies = 0;
         LoadMonIconPalettes();
         memset(sGiftSpriteIds, 0xFF, sizeof(sGiftSpriteIds));
         sGiftMonMenuData.monSpriteId = MAX_SPRITES;
@@ -1018,7 +1020,7 @@ for (i = 0; i < argc; ++i) {
         template.firstArrowType = SCROLL_ARROW_UP;
         template.secondArrowType = SCROLL_ARROW_DOWN;
         template.tileTag = 2000,
-        template.palTag = 1,
+        template.palTag = 2001,
         template.palNum = 0;
 
         gTasks[taskId].data[6] = AddScrollIndicatorArrowPair(&template, &gScrollableMultichoice_ScrollOffset);
