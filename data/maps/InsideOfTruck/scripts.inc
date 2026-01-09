@@ -30,6 +30,9 @@
 #define LOCALID_TV 31
 #define LOCALID_CUBCHOO 32
 #define LOCALID_SKITTY 33
+#define LOCALID_PANSEAR 34
+#define LOCALID_PANPOUR 35
+#define LOCALID_PANSAGE 36
 
 InsideOfTruck_MapScripts::
 	map_script MAP_SCRIPT_ON_LOAD, InsideOfTruck_OnLoad
@@ -54,8 +57,9 @@ InsideOfTruck_OnLoad:
 	setflag FLAG_HIDE_TRUCK_TV
 	setflag FLAG_HIDE_TRUCK_CUBCHOO
 	setflag FLAG_HIDE_TRUCK_SKITTY
+	setflag FLAG_HIDE_TRUCK_PANSEAR
 	@ Randomly select a scenario and un-hide the corresponding NPCs
-	random 10 @ Number of scenarios
+	random 11 @ Number of scenarios
 	switch VAR_RESULT
 	case 0, InsideOfTruck_EventScript_SetupKommoo
 	case 1, InsideOfTruck_EventScript_SetupShuppets
@@ -68,6 +72,7 @@ InsideOfTruck_OnLoad:
 	case 8, InsideOfTruck_EventScript_SetupCofagrigus
 	@ case 9, InsideOfTruck_EventScript_SetupCubchooTV
 	case 9, InsideOfTruck_EventScript_SetupSkitty
+	case 10, InsideOfTruck_EventScript_SetupMonkeys
 	end
 
 InsideOfTruck_EventScript_SetupKommoo::
@@ -116,6 +121,10 @@ InsideOfTruck_EventScript_SetupCubchooTV::
 
 InsideOfTruck_EventScript_SetupSkitty::
 	clearflag FLAG_HIDE_TRUCK_SKITTY
+	return
+
+InsideOfTruck_EventScript_SetupMonkeys::
+	clearflag FLAG_HIDE_TRUCK_PANSEAR
 	return
 
 InsideOfTruck_EventScript_KommooCry::
@@ -374,3 +383,36 @@ InsideOfTruck_Text_Shuppet2:
 
 InsideOfTruck_Text_Shuppet3:
 	.string "This SHUPPET seems not to notice you.$"
+
+InsideOfTruck_EventScript_Pansear::
+	lock
+	faceplayer
+	msgbox InsideOfTruck_Text_Pansear, MSGBOX_NPC
+	release
+	end
+
+InsideOfTruck_EventScript_Panpour::
+	lock
+	faceplayer
+	msgbox InsideOfTruck_Text_Panpour, MSGBOX_NPC
+	release
+	end
+
+InsideOfTruck_EventScript_Pansage::
+	lock
+	faceplayer
+	msgbox InsideOfTruck_Text_Pansage, MSGBOX_NPC
+	release
+	end
+
+InsideOfTruck_Text_Pansear:
+	.string "PANSEAR doesn't seem to understand\n"
+	.string "that this is no time for monkey business.$"
+
+InsideOfTruck_Text_Panpour:
+	.string "PANPOUR is monkeying around like\n"
+	.string "there's no tomorrow.$"
+
+InsideOfTruck_Text_Pansage:
+	.string "PANSAGE seems to think this truck is\n"
+	.string "more fun than a barrel full of monkeys.$"

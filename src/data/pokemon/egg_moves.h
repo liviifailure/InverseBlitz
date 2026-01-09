@@ -4204,11 +4204,6 @@ static const u16 sSizzlipedeEggMoveLearnset[] = {
 
 #if P_FAMILY_CLOBBOPUS
 static const u16 sClobbopusEggMoveLearnset[] = {
-    MOVE_PAIN_SPLIT,
-    MOVE_SOAK,
-    MOVE_SUCKER_PUNCH,
-    MOVE_CIRCLE_THROW,
-    MOVE_SEISMIC_TOSS,
     MOVE_POWER_UP_PUNCH,
     MOVE_UNAVAILABLE,
 };

@@ -902,6 +902,8 @@ void ItemUseOutOfBattle_AbilityPatch(u8 taskId)
 
 void ItemUseOutOfBattle_Mint(u8 taskId)
 {
+    if (gSpecialVar_ItemId != ITEM_SERIOUS_MINT)
+        FlagSet(FLAG_FRESH_BREATH);
     gItemUseCB = ItemUseCB_Mint;
     SetUpItemUseCallback(taskId);
 }

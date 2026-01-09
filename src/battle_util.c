@@ -7176,7 +7176,7 @@ static inline u32 CalcMoveBasePower(struct DamageContext *ctx)
         break;
     case EFFECT_RAGE_FIST:
         basePower += 50 * GetBattlerPartyState(battlerAtk)->timesGotHit;
-        basePower = (basePower > 150) ? 150 : basePower;
+        basePower = (basePower > 100) ? 100 : basePower;
         break;
     case EFFECT_FICKLE_BEAM:
         if (gBattleStruct->fickleBeamBoosted)
@@ -9280,6 +9280,7 @@ bool32 TryBattleFormChange(u32 battler, enum FormChanges method)
             TryToSetBattleFormChangeMoves(&party[monId], method);
             u32 changedSpecies = GetBattlerPartyState(battler)->changedSpecies;
             SetMonData(&party[monId], MON_DATA_SPECIES, &changedSpecies);
+            gBattleMons[battler].species = changedSpecies;
             RecalcBattlerStats(battler, &party[monId], method == FORM_CHANGE_BATTLE_GIGANTAMAX);
             // Battler data is not updated with regular form's ability, not doing so could cause wrong ability activation.
             if (method == FORM_CHANGE_FAINT)

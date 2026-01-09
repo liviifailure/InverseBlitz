@@ -5,7 +5,7 @@ FallarborTown_MoveRelearnersHouse_EventScript_MoveRelearner::
 	lockall
 	applymovement LOCALID_MOVE_RELEARNER, Common_Movement_FacePlayer
 	waitmovement 0
-	goto_if_ge VAR_BADGE_COUNT, 4 FallarborTown_MoveRelearnersHouse_EventScript_MoveRelearnerStart
+	goto_if_ge VAR_BADGE_COUNT, 4, FallarborTown_MoveRelearnersHouse_EventScript_MoveRelearnerStart
 	msgbox FallarborTown_MoveRelearnersHouse_Text_ComeBackLater, MSGBOX_DEFAULT
 	releaseall
 	end

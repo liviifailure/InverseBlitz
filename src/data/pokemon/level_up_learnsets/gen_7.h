@@ -20046,9 +20046,9 @@ static const struct LevelUpMove sCentiskorchLevelUpLearnset[] = {
 
 #if P_FAMILY_CLOBBOPUS
 static const struct LevelUpMove sClobbopusLevelUpLearnset[] = {
+    LEVEL_UP_MOVE( 1, MOVE_FEINT),
     LEVEL_UP_MOVE( 1, MOVE_ROCK_SMASH),
     LEVEL_UP_MOVE( 1, MOVE_LEER),
-    LEVEL_UP_MOVE( 5, MOVE_FEINT),
     LEVEL_UP_MOVE(10, MOVE_BIND),
     LEVEL_UP_MOVE(15, MOVE_DETECT),
     LEVEL_UP_MOVE(20, MOVE_BRICK_BREAK),

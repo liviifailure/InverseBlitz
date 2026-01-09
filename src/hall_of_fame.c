@@ -34,6 +34,8 @@
 #include "data.h"
 #include "confetti_util.h"
 #include "constants/rgb.h"
+#include "constants/flags.h"
+#include "constants/maps.h"
 
 #define HALL_OF_FAME_MAX_TEAMS 30
 #define TAG_CONFETTI 1001
@@ -730,10 +732,20 @@ static void Task_Hof_WaitAndPrintPlayerInfo(u8 taskId)
     }
     else
     {
+        const u8 *text;
+
         FillBgTilemapBufferRect_Palette0(0, 0, 0, 0, 0x20, 0x20);
         HallOfFame_PrintPlayerInfo(1, 2);
         DrawDialogueFrame(0, FALSE);
-        AddTextPrinterParameterized2(0, FONT_NORMAL, gText_LeagueChamp, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+
+        if (FlagGet(FLAG_NOTHING_TO_SEE_HERE))
+            text = gText_LeagueChampNTS;
+        else if (FlagGet(FLAG_FRESH_BREATH))
+            text = gText_LeagueChampFB;
+        else
+            text = gText_LeagueChamp;
+
+        AddTextPrinterParameterized2(0, FONT_NORMAL, text, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
         CopyWindowToVram(0, COPYWIN_FULL);
         gTasks[taskId].func = Task_Hof_ExitOnKeyPressed;
     }
@@ -781,7 +793,9 @@ static void Task_Hof_HandleExit(u8 taskId)
         ResetBgsAndClearDma3BusyFlags(0);
         DestroyTask(taskId);
         FreeAllHoFMem();
-        StartCredits();
+        SetWarpDestination(MAP_GROUP(MAP_LILYCOVE_CITY_LILYCOVE_MUSEUM_1F), MAP_NUM(MAP_LILYCOVE_CITY_LILYCOVE_MUSEUM_1F), -1, 11, 8);
+        WarpIntoMap();
+        SetMainCallback2(CB2_LoadMap);
     }
 }
 
@@ -1112,9 +1126,19 @@ static void Task_HofPC_ExitOnButtonPress(u8 taskId)
 
 static void HallOfFame_PrintWelcomeText(u8 unusedPossiblyWindowId, u8 unused2)
 {
+    const u8 *text;
+
     FillWindowPixelBuffer(0, PIXEL_FILL(0));
     PutWindowTilemap(0);
-    AddTextPrinterParameterized3(0, FONT_NORMAL, GetStringCenterAlignXOffset(FONT_NORMAL, gText_WelcomeToHOF, 0xD0), 1, sMonInfoTextColors, 0, gText_WelcomeToHOF);
+
+    if (FlagGet(FLAG_NOTHING_TO_SEE_HERE))
+        text = gText_WelcomeToNTS;
+    else if (FlagGet(FLAG_FRESH_BREATH))
+        text = gText_WelcomeToFB;
+    else
+        text = gText_WelcomeToHOF;
+
+    AddTextPrinterParameterized3(0, FONT_NORMAL, GetStringCenterAlignXOffset(FONT_NORMAL, text, 0xD0), 1, sMonInfoTextColors, 0, text);
     CopyWindowToVram(0, COPYWIN_FULL);
 }
 

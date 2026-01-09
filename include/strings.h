@@ -1530,12 +1530,16 @@ extern const u8 gText_PkmnSentToPCAfterCatch[];
 
 // hall of fame
 extern const u8 gText_LeagueChamp[];
+extern const u8 gText_LeagueChampNTS[];
+extern const u8 gText_LeagueChampFB[];
 extern const u8 gText_HOFNumber[];
 extern const u8 gText_PickNextCancel[];
 extern const u8 gText_PickCancel[];
 extern const u8 gText_AButtonExit[];
 extern const u8 gText_HOFCorrupted[];
 extern const u8 gText_WelcomeToHOF[];
+extern const u8 gText_WelcomeToNTS[];
+extern const u8 gText_WelcomeToFB[];
 extern const u8 gText_Number[];
 extern const u8 gText_Level[];
 extern const u8 gText_IDNumber[];

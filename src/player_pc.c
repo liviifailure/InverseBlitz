@@ -3,6 +3,7 @@
 #include "bg.h"
 #include "decoration.h"
 #include "event_scripts.h"
+#include "event_data.h"
 #include "event_object_movement.h"
 #include "field_screen_effect.h"
 #include "field_weather.h"
@@ -11,6 +12,7 @@
 #include "item_icon.h"
 #include "item_menu.h"
 #include "constants/items.h"
+#include "constants/flags.h"
 #include "list_menu.h"
 #include "mail.h"
 #include "main.h"
@@ -289,7 +291,6 @@ static const u16 sNewGamePCItems[][2] =
 	{ ITEM_CAMERUPTITE, 1 },
 	{ ITEM_CHANDELURITE, 1 },
     { ITEM_CHARIZARDITE_X, 1 },
-    { ITEM_CHARIZARDITE_Y, 1 },
 	{ ITEM_CHESNAUGHTITE, 1 },
     { ITEM_CHIMECHITE, 1 },
     { ITEM_CLEFABLITE, 1 },
@@ -314,7 +315,6 @@ static const u16 sNewGamePCItems[][2] =
     { ITEM_MEOWSTICITE, 1 },
 	{ ITEM_METAGROSSITE, 1 },
     { ITEM_RAICHUNITE_X, 1 },
-    { ITEM_RAICHUNITE_Y, 1 },
 	{ ITEM_SABLENITE, 1 },
 	{ ITEM_SALAMENCITE, 1 },
 	{ ITEM_SCEPTILITE, 1 },
@@ -1554,6 +1554,7 @@ static void ItemStorage_DoItemWithdraw(u8 taskId)
     if (AddBagItem(gSaveBlock1Ptr->pcItems[pos].itemId, tQuantity) == TRUE)
     {
         // Item withdrawn
+        FlagSet(FLAG_NOTHING_TO_SEE_HERE);
         u8 *end = CopyItemNameHandlePlural(gSaveBlock1Ptr->pcItems[pos].itemId, gStringVar1, tQuantity);
         WrapFontIdToFit(gStringVar1, end, FONT_NORMAL, WindowWidthPx(ITEMPC_WIN_MESSAGE) - 6);
         ConvertIntToDecimalStringN(gStringVar2, tQuantity, STR_CONV_MODE_LEFT_ALIGN, 3);
