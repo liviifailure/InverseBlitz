@@ -116,38 +116,66 @@ SlateportCity_Movement_ScottExit:
 SlateportCity_EventScript_EnergyGuru::
 	lock
 	faceplayer
-	message SlateportCity_Text_EnergyGuruSellWhatYouNeed
-	waitmessage
-	pokemart SlateportCity_Pokemart_EnergyGuru
-	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
-	release
+	callnative CheckPartyForEnergyGuruMon
+	goto_if_eq VAR_RESULT, FALSE, SlateportCity_EventScript_EnergyGuru_NoMon
+	msgbox SlateportCity_Text_EnergyGuru_HaveMon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, SlateportCity_EventScript_EnergyGuru_Decline
+	msgbox SlateportCity_Text_EnergyGuru_ChooseMon, MSGBOX_DEFAULT
+	special ChoosePartyMon
+	waitstate
+	goto_if_ge VAR_0x8004, PARTY_SIZE, SlateportCity_EventScript_EnergyGuru_Decline
+	callnative CheckSelectedMonForEnergyGuru
+	goto_if_eq VAR_RESULT, FALSE, SlateportCity_EventScript_EnergyGuru_InvalidMon
+	callnative TriggerEnergyGuruEvolution
+	waitstate
+	goto SlateportCity_EventScript_EnergyGuru_Decline
 	end
 
-	.align 2
-SlateportCity_Pokemart_EnergyGuru:
-	.2byte ITEM_PROTEIN
-	.2byte ITEM_IRON
-	.2byte ITEM_CARBOS
-	.2byte ITEM_ZINC
-	.2byte ITEM_CALCIUM
-	.2byte ITEM_HP_UP
-	pokemartlistend
+SlateportCity_EventScript_EnergyGuru_NoMon::
+	msgbox SlateportCity_Text_EnergyGuru_Explain, MSGBOX_DEFAULT
+	goto SlateportCity_EventScript_EnergyGuru_Decline
+	end
+
+SlateportCity_EventScript_EnergyGuru_InvalidMon::
+	msgbox SlateportCity_Text_EnergyGuru_InvalidMon, MSGBOX_DEFAULT
+	goto SlateportCity_EventScript_EnergyGuru_Decline
+	end
+
+SlateportCity_EventScript_EnergyGuru_Decline::
+	msgbox SlateportCity_Text_EnergyGuru_Hooplah, MSGBOX_DEFAULT
+	release
+	end
 
 SlateportCity_EventScript_EffortRibbonWoman::
 	lock
 	faceplayer
-	bufferleadmonspeciesname STR_VAR_1
-	msgbox SlateportCity_Text_OhYourPokemon, MSGBOX_DEFAULT
-	specialvar VAR_RESULT, LeadMonHasEffortRibbon
-	call_if_eq VAR_RESULT, TRUE, SlateportCity_EventScript_MonHasEffortRibbon
-	specialvar VAR_RESULT, Special_AreLeadMonEVsMaxedOut
-	call_if_eq VAR_RESULT, FALSE, SlateportCity_EventScript_MonEVsNotMaxed
-	msgbox SlateportCity_Text_PleaseGiveItThisEffortRibbon, MSGBOX_DEFAULT
-	playfanfare MUS_OBTAIN_ITEM
-	message SlateportCity_Text_ReceivedEffortRibbon
-	waitfanfare
-	msgbox SlateportCity_Text_PutEffortRibbonOnMon, MSGBOX_DEFAULT
-	special GiveLeadMonEffortRibbon
+	callnative CheckPartyForEffortRibbonMon
+	goto_if_eq VAR_RESULT, FALSE, SlateportCity_EventScript_EffortRibbonWoman_NoMon
+	msgbox SlateportCity_Text_EffortRibbonWoman_HaveMon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, SlateportCity_EventScript_EffortRibbonWoman_Decline
+	msgbox SlateportCity_Text_EffortRibbonWoman_ChooseMon, MSGBOX_DEFAULT
+	special ChoosePartyMon
+	waitstate
+	goto_if_ge VAR_0x8004, PARTY_SIZE, SlateportCity_EventScript_EffortRibbonWoman_Decline
+	callnative CheckSelectedMonForEffortRibbon
+	goto_if_eq VAR_RESULT, FALSE, SlateportCity_EventScript_EffortRibbonWoman_InvalidMon
+	callnative TriggerEffortRibbonEvolution
+	waitstate
+	goto SlateportCity_EventScript_EffortRibbonWoman_Decline
+	end
+
+SlateportCity_EventScript_EffortRibbonWoman_NoMon::
+	msgbox SlateportCity_Text_EffortRibbonWoman_Explain, MSGBOX_DEFAULT
+	goto SlateportCity_EventScript_EffortRibbonWoman_Decline
+	end
+
+SlateportCity_EventScript_EffortRibbonWoman_InvalidMon::
+	msgbox SlateportCity_Text_EffortRibbonWoman_InvalidMon, MSGBOX_DEFAULT
+	goto SlateportCity_EventScript_EffortRibbonWoman_Decline
+	end
+
+SlateportCity_EventScript_EffortRibbonWoman_Decline::
+	msgbox SlateportCity_Text_EffortRibbonWoman_Decline, MSGBOX_DEFAULT
 	release
 	end
 
@@ -554,7 +582,6 @@ SlateportCity_PokemartDecor_Badge2::
 	
 	.align 2
 SlateportCity_Pokemart_Badge2Items:
-	.2byte ITEM_WHIPPED_DREAM
 	.2byte ITEM_ABILITY_CAPSULE
 	.2byte ITEM_ABILITY_PATCH
 	.2byte ITEM_SERIOUS_MINT
@@ -568,7 +595,6 @@ SlateportCity_PokemartDecor_Badge3::
 
 	.align 2
 SlateportCity_Pokemart_Badge3Items:
-	.2byte ITEM_WHIPPED_DREAM
 	.2byte ITEM_ABILITY_CAPSULE
 	.2byte ITEM_ABILITY_PATCH
 	.2byte ITEM_SERIOUS_MINT
@@ -596,7 +622,6 @@ SlateportCity_Pokemart_Badge4Items:
 	.2byte ITEM_KINGS_ROCK
 	.2byte ITEM_METAL_COAT
 	.2byte ITEM_SOOTHE_BELL
-	.2byte ITEM_WHIPPED_DREAM
 	.2byte ITEM_ABILITY_CAPSULE
 	.2byte ITEM_ABILITY_PATCH
 	.2byte ITEM_SERIOUS_MINT
@@ -624,7 +649,6 @@ SlateportCity_Pokemart_Badge5Items:
 	.2byte ITEM_KINGS_ROCK
 	.2byte ITEM_METAL_COAT
 	.2byte ITEM_SOOTHE_BELL
-	.2byte ITEM_WHIPPED_DREAM
 	.2byte ITEM_ABILITY_CAPSULE
 	.2byte ITEM_ABILITY_PATCH
 	.2byte ITEM_SERIOUS_MINT
@@ -653,7 +677,6 @@ SlateportCity_Pokemart_Badge6Items:
 	.2byte ITEM_KINGS_ROCK
 	.2byte ITEM_METAL_COAT
 	.2byte ITEM_SOOTHE_BELL
-	.2byte ITEM_WHIPPED_DREAM
 	.2byte ITEM_ABILITY_CAPSULE
 	.2byte ITEM_ABILITY_PATCH
 	.2byte ITEM_SERIOUS_MINT
@@ -867,6 +890,7 @@ SlateportCity_Pokemart_StageOneMegas:
 
 	.align 2
 SlateportCity_Pokemart_StageTwoMegas:
+	.2byte ITEM_ABOMASITE
 	.2byte ITEM_BANETTITE
 	.2byte ITEM_CAMERUPTITE
 	.2byte ITEM_CHIMECHITE
@@ -875,13 +899,16 @@ SlateportCity_Pokemart_StageTwoMegas:
 	.2byte ITEM_EXCADRITE
 	.2byte ITEM_FROSLASSITE
 	.2byte ITEM_GLALITITE
+	.2byte ITEM_GOLURKITE
 	.2byte ITEM_HOUNDOOMINITE
 	.2byte ITEM_LOPUNNITE
 	.2byte ITEM_LUCARIONITE
 	.2byte ITEM_MALAMARITE
 	.2byte ITEM_MANECTITE
 	.2byte ITEM_MAWILITE
+	.2byte ITEM_MEDICHAMITE
 	.2byte ITEM_MEOWSTICITE
+	.2byte ITEM_PYROARITE
 	.2byte ITEM_SABLENITE
 	.2byte ITEM_SCIZORITE
 	.2byte ITEM_SHARPEDONITE
@@ -890,6 +917,7 @@ SlateportCity_Pokemart_StageTwoMegas:
 
 	.align 2
 SlateportCity_Pokemart_StageThreeMegas:
+	.2byte ITEM_ABOMASITE
 	.2byte ITEM_AGGRONITE
 	.2byte ITEM_AMPHAROSITE
 	.2byte ITEM_BANETTITE
@@ -912,6 +940,7 @@ SlateportCity_Pokemart_StageThreeMegas:
 	.2byte ITEM_GARDEVOIRITE
 	.2byte ITEM_GENGARITE
 	.2byte ITEM_GLALITITE
+	.2byte ITEM_GOLURKITE
 	.2byte ITEM_GRENINJITE
 	.2byte ITEM_HOUNDOOMINITE
 	.2byte ITEM_LOPUNNITE
@@ -919,8 +948,10 @@ SlateportCity_Pokemart_StageThreeMegas:
 	.2byte ITEM_MALAMARITE
 	.2byte ITEM_MANECTITE
 	.2byte ITEM_MAWILITE
+	.2byte ITEM_MEDICHAMITE
 	.2byte ITEM_MEOWSTICITE
 	.2byte ITEM_METAGROSSITE
+	.2byte ITEM_PYROARITE
 	.2byte ITEM_RAICHUNITE_X
 	.2byte ITEM_SABLENITE
 	.2byte ITEM_SALAMENCITE
@@ -1330,9 +1361,47 @@ SlateportCity_Text_CookComeAgain:
 	.string "Oh? Changed your mind?\n"
 	.string "Come again!$"
 
-SlateportCity_Text_EnergyGuruSellWhatYouNeed:
-	.string "I'm the ENERGY GURU! I'll go for it and\n"
-	.string "sell you what you need!$"
+SlateportCity_Text_EnergyGuru_Explain:
+	.string "I'm the ENERGY GURU! I can help POKéMON\n"
+	.string "that evolve at high levels reach their\l"
+	.string "potential early!$"
+
+SlateportCity_Text_EnergyGuru_HaveMon:
+	.string "Oh! Would you like me to help your\n"
+	.string "POKéMON evolve?$"
+
+SlateportCity_Text_EnergyGuru_ChooseMon:
+	.string "Which POKéMON needs my help?$"
+
+SlateportCity_Text_EnergyGuru_InvalidMon:
+	.string "Hrm... No, that POKéMON doesn't meet\n"
+	.string "my criteria.$"
+
+SlateportCity_Text_EnergyGuru_Hooplah:
+	.string "Come back if you have a base form\n"
+	.string "POKéMON that evolves to a middle\l"
+	.string "stage after level 30!$"
+
+SlateportCity_Text_EffortRibbonWoman_Explain:
+	.string "I'm the ENERGY ORACLE! I can help POKéMON\n"
+	.string "that evolve late reach their final form\l"
+	.string "early if they haven't evolved before!$"
+
+SlateportCity_Text_EffortRibbonWoman_HaveMon:
+	.string "Oh! Would you like me to help your\n"
+	.string "POKéMON evolve?$"
+
+SlateportCity_Text_EffortRibbonWoman_ChooseMon:
+	.string "Which POKéMON needs my help?$"
+
+SlateportCity_Text_EffortRibbonWoman_InvalidMon:
+	.string "Hrm... No, that POKéMON doesn't meet\n"
+	.string "my criteria.$"
+
+SlateportCity_Text_EffortRibbonWoman_Decline:
+	.string "Come back if you have a base form\n"
+	.string "POKéMON that evolves to a final\l"
+	.string "stage after level 36!$"
 
 SlateportCity_Text_OhYourPokemon:
 	.string "Oh?\n"

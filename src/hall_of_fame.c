@@ -738,10 +738,11 @@ static void Task_Hof_WaitAndPrintPlayerInfo(u8 taskId)
         HallOfFame_PrintPlayerInfo(1, 2);
         DrawDialogueFrame(0, FALSE);
 
-        if (FlagGet(FLAG_NOTHING_TO_SEE_HERE))
-            text = gText_LeagueChampNTS;
-        else if (FlagGet(FLAG_FRESH_BREATH))
+
+        if (FlagGet(FLAG_FRESH_BREATH))
             text = gText_LeagueChampFB;
+        else if (FlagGet(FLAG_NOTHING_TO_SEE_HERE))
+            text = gText_LeagueChampNTS;
         else
             text = gText_LeagueChamp;
 
@@ -793,7 +794,7 @@ static void Task_Hof_HandleExit(u8 taskId)
         ResetBgsAndClearDma3BusyFlags(0);
         DestroyTask(taskId);
         FreeAllHoFMem();
-        SetWarpDestination(MAP_GROUP(MAP_LILYCOVE_CITY_LILYCOVE_MUSEUM_1F), MAP_NUM(MAP_LILYCOVE_CITY_LILYCOVE_MUSEUM_1F), -1, 11, 8);
+        SetWarpDestination(MAP_GROUP(MAP_LILYCOVE_CITY_LILYCOVE_MUSEUM_1F), MAP_NUM(MAP_LILYCOVE_CITY_LILYCOVE_MUSEUM_1F), -1, 10, 12);
         WarpIntoMap();
         SetMainCallback2(CB2_LoadMap);
     }
@@ -1131,10 +1132,10 @@ static void HallOfFame_PrintWelcomeText(u8 unusedPossiblyWindowId, u8 unused2)
     FillWindowPixelBuffer(0, PIXEL_FILL(0));
     PutWindowTilemap(0);
 
-    if (FlagGet(FLAG_NOTHING_TO_SEE_HERE))
-        text = gText_WelcomeToNTS;
-    else if (FlagGet(FLAG_FRESH_BREATH))
+    if (FlagGet(FLAG_FRESH_BREATH))
         text = gText_WelcomeToFB;
+    else if (FlagGet(FLAG_NOTHING_TO_SEE_HERE))
+        text = gText_WelcomeToNTS;
     else
         text = gText_WelcomeToHOF;
 

@@ -756,3 +756,10 @@ LilycoveCity_Text_HoneymoonVowToSeeRarePokemon:
 	.string "POKéMON as soon as we arrived.\p"
 	.string "I mean, we are totally happy!$"
 
+LilycoveCity_EventScript_MauvilleMan::
+	msgbox LilycoveCity_Text_MauvilleMan, MSGBOX_NPC
+	end
+
+LilycoveCity_Text_MauvilleMan:
+	.string "Get lost kid. This place isn't for\n"
+	.string "amateur racers like you.$"

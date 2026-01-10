@@ -8,6 +8,7 @@
 #include "script_pokemon_util.h"
 #include "tv.h"
 #include "constants/heal_locations.h"
+#include "constants/maps.h"
 
 int GameClear(void)
 {
@@ -35,10 +36,11 @@ int GameClear(void)
 
     SetContinueGameWarpStatus();
 
-    if (gSaveBlock2Ptr->playerGender == MALE)
-        SetContinueGameWarpToHealLocation(HEAL_LOCATION_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F);
-    else
-        SetContinueGameWarpToHealLocation(HEAL_LOCATION_LITTLEROOT_TOWN_MAYS_HOUSE_2F);
+    gSaveBlock1Ptr->continueGameWarp.mapGroup = MAP_GROUP(MAP_LILYCOVE_CITY_LILYCOVE_MUSEUM_1F);
+    gSaveBlock1Ptr->continueGameWarp.mapNum = MAP_NUM(MAP_LILYCOVE_CITY_LILYCOVE_MUSEUM_1F);
+    gSaveBlock1Ptr->continueGameWarp.warpId = WARP_ID_NONE;
+    gSaveBlock1Ptr->continueGameWarp.x = 11;
+    gSaveBlock1Ptr->continueGameWarp.y = 8;
 
     ribbonGet = FALSE;
 

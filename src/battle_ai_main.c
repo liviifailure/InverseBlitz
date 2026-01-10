@@ -443,12 +443,16 @@ static void CopyBattlerDataToAIParty(u32 bPosition, u32 side)
     aiMon->switchInCount++;
 }
 
+void ResetAiHealedMons(void);
+
 void Ai_InitPartyStruct(void)
 {
     u32 i;
     bool32 isOmniscient = (gAiThinkingStruct->aiFlags[B_POSITION_OPPONENT_LEFT] & AI_FLAG_OMNISCIENT) || (gAiThinkingStruct->aiFlags[B_POSITION_OPPONENT_RIGHT] & AI_FLAG_OMNISCIENT);
     bool32 hasPartyKnowledge = (gAiThinkingStruct->aiFlags[B_POSITION_OPPONENT_LEFT] & AI_FLAG_KNOW_OPPONENT_PARTY) || (gAiThinkingStruct->aiFlags[B_POSITION_OPPONENT_RIGHT] & AI_FLAG_KNOW_OPPONENT_PARTY);
     struct Pokemon *mon;
+
+    ResetAiHealedMons();
 
     gAiPartyData->count[B_SIDE_PLAYER] = CalculatePlayerPartyCount();
     gAiPartyData->count[B_SIDE_OPPONENT] = CalculateEnemyPartyCount();

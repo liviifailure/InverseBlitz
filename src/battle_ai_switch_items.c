@@ -32,6 +32,13 @@ static bool32 CanAbilityTrapOpponent(enum Ability ability, u32 opponent);
 static u32 GetHPHealAmount(u8 itemEffectParam, struct Pokemon *mon);
 static u32 GetBattleMonTypeMatchup(struct BattlePokemon opposingBattleMon, struct BattlePokemon battleMon);
 
+static u8 sAiHealedMons;
+
+void ResetAiHealedMons(void)
+{
+    sAiHealedMons = 0;
+}
+
 static void InitializeSwitchinCandidate(struct Pokemon *mon)
 {
     PokemonToBattleMon(mon, &gAiLogicData->switchinCandidate.battleMon);
@@ -2569,6 +2576,13 @@ static bool32 ShouldUseItem(u32 battler)
         }
         if (shouldUse)
         {
+            // Mark as healed if it was an HP healing item
+            if (GetItemBattleUsage(item) == EFFECT_ITEM_HEAL_AND_CURE_STATUS
+             || GetItemBattleUsage(item) == EFFECT_ITEM_RESTORE_HP)
+            {
+                sAiHealedMons |= (1 << gBattlerPartyIndexes[battler]);
+            }
+
             // Set selected party ID to current battler if none chosen.
             if (gBattleStruct->itemPartyIndex[battler] == PARTY_SIZE)
                 gBattleStruct->itemPartyIndex[battler] = gBattlerPartyIndexes[battler];
@@ -2588,6 +2602,9 @@ static bool32 AI_ShouldHeal(u32 battler, u32 healAmount)
     u8 opponent;
     u32 maxDamage = 0;
     u32 dmg = 0;
+
+    if (sAiHealedMons & (1 << gBattlerPartyIndexes[battler]))
+        return FALSE;
 
     if (gBattleMons[battler].hp < gBattleMons[battler].maxHP / 4
      || gBattleMons[battler].hp == 0

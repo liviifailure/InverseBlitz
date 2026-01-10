@@ -8982,7 +8982,7 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .levelUpLearnset = sFeebasLevelUpLearnset,
         .teachableLearnset = sFeebasTeachableLearnset,
         .eggMoveLearnset = sFeebasEggMoveLearnset,
-        .evolutions = EVOLUTION({EVO_ITEM, ITEM_SOOTHE_BELL, SPECIES_MILOTIC}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 40, SPECIES_MILOTIC}),
     },
 
     [SPECIES_MILOTIC] =

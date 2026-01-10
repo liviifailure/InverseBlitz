@@ -1785,20 +1785,7 @@ static const u16 sAronEggMoveLearnset[] = {
 
 #if P_FAMILY_MEDITITE
 static const u16 sMedititeEggMoveLearnset[] = {
-    MOVE_FIRE_PUNCH,
-    MOVE_THUNDER_PUNCH,
-    MOVE_ICE_PUNCH,
-    MOVE_FORESIGHT,
-    MOVE_FAKE_OUT,
-    MOVE_BATON_PASS,
-    MOVE_DYNAMIC_PUNCH,
-    MOVE_POWER_SWAP,
-    MOVE_GUARD_SWAP,
-    MOVE_PSYCHO_CUT,
     MOVE_BULLET_PUNCH,
-    MOVE_DRAIN_PUNCH,
-    MOVE_SECRET_POWER,
-    MOVE_QUICK_GUARD,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_MEDITITE
@@ -2514,39 +2501,14 @@ static const u16 sHippopotasEggMoveLearnset[] = {
 
 #if P_FAMILY_SKORUPI
 static const u16 sSkorupiEggMoveLearnset[] = {
-    MOVE_FEINT_ATTACK,
     MOVE_SCREECH,
-    MOVE_SAND_ATTACK,
-    MOVE_SLASH,
-    MOVE_CONFUSE_RAY,
-    MOVE_WHIRLWIND,
-    MOVE_AGILITY,
-    MOVE_PURSUIT,
-    MOVE_NIGHT_SLASH,
-    MOVE_IRON_TAIL,
-    MOVE_TWINEEDLE,
-    MOVE_POISON_TAIL,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_SKORUPI
 
 #if P_FAMILY_CROAGUNK
 static const u16 sCroagunkEggMoveLearnset[] = {
-    MOVE_ME_FIRST,
-    MOVE_FEINT,
-    MOVE_DYNAMIC_PUNCH,
-    MOVE_HEADBUTT,
-    MOVE_VACUUM_WAVE,
-    MOVE_MEDITATE,
-    MOVE_FAKE_OUT,
-    MOVE_WAKE_UP_SLAP,
-    MOVE_SMELLING_SALTS,
-    MOVE_CROSS_CHOP,
-    MOVE_BULLET_PUNCH,
-    MOVE_COUNTER,
     MOVE_DRAIN_PUNCH,
-    MOVE_ACUPRESSURE,
-    MOVE_QUICK_GUARD,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_CROAGUNK
@@ -2661,18 +2623,6 @@ static const u16 sPatratEggMoveLearnset[] = {
 
 #if P_FAMILY_LILLIPUP
 static const u16 sLillipupEggMoveLearnset[] = {
-    MOVE_HOWL,
-    MOVE_SAND_ATTACK,
-    MOVE_MUD_SLAP,
-    MOVE_LICK,
-    MOVE_CHARM,
-    MOVE_ENDURE,
-    MOVE_YAWN,
-    MOVE_PURSUIT,
-    MOVE_FIRE_FANG,
-    MOVE_THUNDER_FANG,
-    MOVE_ICE_FANG,
-    MOVE_AFTER_YOU,
     MOVE_PSYCHIC_FANGS,
     MOVE_UNAVAILABLE,
 };
@@ -2767,17 +2717,7 @@ static const u16 sPidoveEggMoveLearnset[] = {
 
 #if P_FAMILY_BLITZLE
 static const u16 sBlitzleEggMoveLearnset[] = {
-    MOVE_ME_FIRST,
-    MOVE_TAKE_DOWN,
-    MOVE_SAND_ATTACK,
     MOVE_DOUBLE_KICK,
-    MOVE_SCREECH,
-    MOVE_RAGE,
-    MOVE_ENDURE,
-    MOVE_DOUBLE_EDGE,
-    MOVE_SHOCK_WAVE,
-    MOVE_SNATCH,
-    MOVE_FEINT,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_BLITZLE
@@ -3050,16 +2990,6 @@ static const u16 sYamaskGalarEggMoveLearnset[] = {
 
 #if P_FAMILY_TIRTOUGA
 static const u16 sTirtougaEggMoveLearnset[] = {
-    MOVE_WATER_PULSE,
-    MOVE_KNOCK_OFF,
-    MOVE_ROCK_THROW,
-    MOVE_SLAM,
-    MOVE_IRON_DEFENSE,
-    MOVE_FLAIL,
-    MOVE_WHIRLPOOL,
-    MOVE_BODY_SLAM,
-    MOVE_BIDE,
-    MOVE_GUARD_SWAP,
     MOVE_LIQUIDATION,
     MOVE_UNAVAILABLE,
 };
@@ -3252,16 +3182,7 @@ static const u16 sFerroseedEggMoveLearnset[] = {
 
 #if P_FAMILY_ELGYEM
 static const u16 sElgyemEggMoveLearnset[] = {
-    MOVE_TELEPORT,
-    MOVE_DISABLE,
-    MOVE_ASTONISH,
-    MOVE_POWER_SWAP,
-    MOVE_GUARD_SWAP,
-    MOVE_BARRIER,
-    MOVE_NASTY_PLOT,
     MOVE_SKILL_SWAP,
-    MOVE_COSMIC_POWER,
-    MOVE_ALLY_SWITCH,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_ELGYEM
@@ -3475,13 +3396,7 @@ static const u16 sDeinoEggMoveLearnset[] = {
 
 #if P_FAMILY_LARVESTA
 static const u16 sLarvestaEggMoveLearnset[] = {
-    MOVE_STRING_SHOT,
-    MOVE_HARDEN,
-    MOVE_FORESIGHT,
-    MOVE_ENDURE,
-    MOVE_ZEN_HEADBUTT,
     MOVE_MORNING_SUN,
-    MOVE_MAGNET_RISE,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_LARVESTA
@@ -3530,10 +3445,6 @@ static const u16 sScatterbugEggMoveLearnset[] = {
 
 #if P_FAMILY_LITLEO
 static const u16 sLitleoEggMoveLearnset[] = {
-    MOVE_ENTRAINMENT,
-    MOVE_YAWN,
-    MOVE_SNATCH,
-    MOVE_FIRE_SPIN,
     MOVE_FLARE_BLITZ,
     MOVE_UNAVAILABLE,
 };
@@ -3587,21 +3498,13 @@ static const u16 sHonedgeEggMoveLearnset[] = {
 
 #if P_FAMILY_SPRITZEE
 static const u16 sSpritzeeEggMoveLearnset[] = {
-    MOVE_DISABLE,
     MOVE_WISH,
-    MOVE_CAPTIVATE,
-    MOVE_REFRESH,
-    MOVE_NASTY_PLOT,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_SPRITZEE
 
 #if P_FAMILY_SWIRLIX
 static const u16 sSwirlixEggMoveLearnset[] = {
-    MOVE_AFTER_YOU,
-    MOVE_YAWN,
-    MOVE_BELLY_DRUM,
-    MOVE_COPYCAT,
     MOVE_STICKY_WEB,
     MOVE_UNAVAILABLE,
 };
@@ -3634,10 +3537,6 @@ static const u16 sSkrelpEggMoveLearnset[] = {
 #if P_FAMILY_CLAUNCHER
 static const u16 sClauncherEggMoveLearnset[] = {
     MOVE_AQUA_JET,
-    MOVE_ENTRAINMENT,
-    MOVE_ENDURE,
-    MOVE_CRABHAMMER,
-    MOVE_HELPING_HAND,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_CLAUNCHER
@@ -3658,10 +3557,6 @@ static const u16 sTyruntEggMoveLearnset[] = {
 
 #if P_FAMILY_AMAURA
 static const u16 sAmauraEggMoveLearnset[] = {
-    MOVE_HAZE,
-    MOVE_BARRIER,
-    MOVE_MIRROR_COAT,
-    MOVE_MAGNET_RISE,
     MOVE_DISCHARGE,
     MOVE_UNAVAILABLE,
 };
@@ -3892,12 +3787,7 @@ static const u16 sStuffulEggMoveLearnset[] = {
 
 #if P_FAMILY_BOUNSWEET
 static const u16 sBounsweetEggMoveLearnset[] = {
-    MOVE_GRASS_WHISTLE,
-    MOVE_SYNTHESIS,
     MOVE_PLAY_ROUGH,
-    MOVE_FEINT,
-    MOVE_CHARM,
-    MOVE_ACUPRESSURE,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_BOUNSWEET
@@ -4083,12 +3973,6 @@ static const u16 sSkwovetEggMoveLearnset[] = {
 
 #if P_FAMILY_ROOKIDEE
 static const u16 sRookideeEggMoveLearnset[] = {
-    MOVE_SKY_ATTACK,
-    MOVE_SAND_ATTACK,
-    MOVE_TAILWIND,
-    MOVE_DEFOG,
-    MOVE_ROCK_SMASH,
-    MOVE_SPITE,
     MOVE_ROOST,
     MOVE_UNAVAILABLE,
 };
@@ -4294,14 +4178,7 @@ static const u16 sMorpekoEggMoveLearnset[] = {
 
 #if P_FAMILY_CUFANT
 static const u16 sCufantEggMoveLearnset[] = {
-    MOVE_DOUBLE_EDGE,
-    MOVE_BELCH,
     MOVE_CURSE,
-    MOVE_SLAM,
-    MOVE_FISSURE,
-    MOVE_SWAGGER,
-    MOVE_WHIRLWIND,
-    MOVE_DEFENSE_CURL,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_CUFANT
@@ -4579,10 +4456,6 @@ static const u16 sFinizenEggMoveLearnset[] = {
 
 #if P_FAMILY_VAROOM
 static const u16 sVaroomEggMoveLearnset[] = {
-    MOVE_HAZE,
-    MOVE_PARTING_SHOT,
-    MOVE_SELF_DESTRUCT,
-    MOVE_TORMENT,
     MOVE_TOXIC,
     MOVE_UNAVAILABLE,
 };

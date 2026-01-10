@@ -722,6 +722,10 @@ Common_ShowEasyChatScreen::
 	fadescreen FADE_FROM_BLACK
 	return
 
+Common_EventScript_GotTwoBadges::
+	clearflag FLAG_TWO_BADGES
+	return
+
 Common_EventScript_ReadyPetalburgGymForBattle::
 	setflag FLAG_HIDE_PETALBURG_BOY //Remove boy blocking Petalburg gym's entrance
 	clearflag FLAG_FOUR_BADGES //Move Tutors appear
@@ -1150,6 +1154,7 @@ EventScript_WarpHomeRustboro::
 	setvar VAR_BRINEY_LOCATION, 1
 	setvar VAR_DEVON_CORP_3F_STATE, 1
     setvar VAR_RUSTBORO_LOCKED, 1
+    call_if_eq VAR_BADGE_COUNT, 2, Common_EventScript_GotTwoBadges
     call_if_eq VAR_BADGE_COUNT, 4, Common_EventScript_ReadyPetalburgGymForBattle
 	setflag FLAG_HIDE_MAP_NAME_POPUP
 	warp MAP_RUSTBORO_CITY, 27, 20
@@ -1163,6 +1168,7 @@ EventScript_WarpHomeDewford::
 	@ call_if_eq VAR_BADGE_COUNT, 3, EventScript_FlygonLearnedFly
     setvar VAR_DEWFORD_LOCKED, 1
     setvar VAR_DEWFORD_TOWN_STATE, 2
+    call_if_eq VAR_BADGE_COUNT, 2, Common_EventScript_GotTwoBadges
     call_if_eq VAR_BADGE_COUNT, 4, Common_EventScript_ReadyPetalburgGymForBattle
 	setflag FLAG_HIDE_MAP_NAME_POPUP
 	warp MAP_DEWFORD_TOWN, 8, 17
@@ -1178,6 +1184,7 @@ EventScript_WarpHomeMauville::
 	clearflag FLAG_HIDE_VERDANTURF_TOWN_SCOTT
 	setvar VAR_MAUVILLE_CITY_STATE, 2
     setvar VAR_MAUVILLE_LOCKED, 1
+    call_if_eq VAR_BADGE_COUNT, 2, Common_EventScript_GotTwoBadges
     call_if_eq VAR_BADGE_COUNT, 4, Common_EventScript_ReadyPetalburgGymForBattle
 	setflag FLAG_HIDE_MAP_NAME_POPUP
 	warp MAP_MAUVILLE_CITY, 8, 6
@@ -1192,6 +1199,7 @@ EventScript_WarpHomeLavaridge::
 	setflag FLAG_HIDE_VERDANTURF_TOWN_WANDAS_HOUSE_WALLY
 	setvar VAR_LAVARIDGE_TOWN_STATE, 1
     setvar VAR_LAVARIDGE_LOCKED, 1
+    call_if_eq VAR_BADGE_COUNT, 2, Common_EventScript_GotTwoBadges
    	call_if_eq VAR_BADGE_COUNT, 4, Common_EventScript_ReadyPetalburgGymForBattle
 	setflag FLAG_HIDE_MAP_NAME_POPUP
 	warp MAP_LAVARIDGE_TOWN, 5, 15

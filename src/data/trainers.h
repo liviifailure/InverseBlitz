@@ -39926,7 +39926,7 @@ F_TRAINER_FEMALE |
             .moves = {
 #line 15411
                 MOVE_BULK_UP,
-                MOVE_DOUBLE_KICK,
+                MOVE_SKY_UPPERCUT,
                 MOVE_BLAZE_KICK,
                 MOVE_FOCUS_ENERGY,
             },

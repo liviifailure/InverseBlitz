@@ -7009,7 +7009,7 @@ const struct Item gItemsInfo[] =
     [ITEM_GOLURKITE] =
     {
         .name = ITEM_NAME("Golurkite"),
-        .price = 0,
+        .price = 10000,
         .holdEffect = HOLD_EFFECT_MEGA_STONE,
         .description = COMPOUND_STRING(
             "This stone enables\n"
@@ -7020,8 +7020,8 @@ const struct Item gItemsInfo[] =
         .type = ITEM_USE_BAG_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
         .flingPower = 80,
-        .iconPic = gItemIcon_QuestionMark, // gItemIcon_Golurkite,
-        .iconPalette = gItemIconPalette_QuestionMark, // gItemIconPalette_Golurkite,
+        .iconPic = gItemIcon_Audinite, // gItemIcon_Golurkite,
+        .iconPalette = gItemIconPalette_Audinite, // gItemIconPalette_Golurkite,
     },
 
     [ITEM_MEOWSTICITE] =
