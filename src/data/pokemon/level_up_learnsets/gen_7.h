@@ -19446,8 +19446,8 @@ static const struct LevelUpMove sGreedentLevelUpLearnset[] = {
 
 #if P_FAMILY_ROOKIDEE
 static const struct LevelUpMove sRookideeLevelUpLearnset[] = {
-    LEVEL_UP_MOVE( 1, MOVE_PECK),
     LEVEL_UP_MOVE( 1, MOVE_LEER),
+    LEVEL_UP_MOVE( 1, MOVE_PECK),
     LEVEL_UP_MOVE( 4, MOVE_POWER_TRIP),
     LEVEL_UP_MOVE( 8, MOVE_HONE_CLAWS),
     LEVEL_UP_MOVE(12, MOVE_FURY_ATTACK),

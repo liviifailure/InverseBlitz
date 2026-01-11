@@ -115,6 +115,7 @@ LittlerootTown_ProfessorBirchsLab_EventScript_GiveStarterEvent::
 	clearflag FLAG_HIDE_PETALBURG_GYM_GREETER
 	setflag FLAG_NUZLOCKE
 	setflag FLAG_FOUR_BADGES
+	setflag FLAG_TWO_BADGES
 	setflag FLAG_RECEIVED_RUNNING_SHOES
 	setvar VAR_BADGE_COUNT, 0
     setvar VAR_GYM_LOCKED, 1

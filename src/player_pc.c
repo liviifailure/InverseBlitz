@@ -305,7 +305,6 @@ static const u16 sNewGamePCItems[][2] =
 	{ ITEM_GARDEVOIRITE, 1 },
 	{ ITEM_GENGARITE, 1 },
 	{ ITEM_GLALITITE, 1 },
-    { ITEM_GOLURKITE, 1 },
 	{ ITEM_GRENINJITE, 1 },
 	{ ITEM_HOUNDOOMINITE, 1 },
 	{ ITEM_LOPUNNITE, 1 },

@@ -1530,13 +1530,14 @@ static u32 GetBestMonDmg(struct Pokemon *party, int firstId, int lastId, u8 inva
 static u32 GetFirstNonInvalidMon(u32 firstId, u32 lastId, u32 invalidMons)
 {
     u32 chosenMonId = PARTY_SIZE;
-    for (u32 i = (lastId-1); i > firstId; i--)
+    u8 count = 0;
+    for (u32 i = (lastId-1); i >= firstId && i < lastId; i--)
     {
         if (!((1 << i) & invalidMons))
         {
-            // first non invalid mon found
-            chosenMonId = i;
-            break;
+            count++;
+            if (Random() % count == 0)
+                chosenMonId = i;
         }
     }
     return chosenMonId;
@@ -1977,10 +1978,12 @@ static int GetRandomSwitchinWithBatonPass(int aliveCount, int bits, int firstId,
     // GetBestMonBatonPass randomly chooses between all mons that met Baton Pass check
     if ((aliveCount == 2 || (aliveCount > 2 && Random() % 3 == 0)) && bits)
     {
+        int i;
         do
         {
-            return (Random() % (lastId - firstId)) + firstId;
-        } while (!(bits & (1 << (currentMonId))));
+            i = (Random() % (lastId - firstId)) + firstId;
+        } while (!(bits & (1 << i)));
+        return i;
     }
 
     // Catch any other cases (such as only one mon alive and it has Baton Pass)
@@ -2129,7 +2132,9 @@ static inline bool32 CanSwitchinWin1v1(u32 hitsToKOAI, u32 hitsToKOPlayer, bool3
 static u32 GetBestMonIntegrated(struct Pokemon *party, int firstId, int lastId, u32 battler, u32 opposingBattler, u32 battlerIn1, u32 battlerIn2, enum SwitchType switchType)
 {
     int revengeKillerId = PARTY_SIZE, slowRevengeKillerId = PARTY_SIZE, fastThreatenId = PARTY_SIZE, slowThreatenId = PARTY_SIZE, damageMonId = PARTY_SIZE, generic1v1MonId = PARTY_SIZE;
+    int revengeKillerCount = 0, slowRevengeKillerCount = 0, fastThreatenCount = 0, slowThreatenCount = 0, damageMonCount = 0, generic1v1MonCount = 0;
     int batonPassId = PARTY_SIZE, typeMatchupId = PARTY_SIZE, typeMatchupEffectiveId = PARTY_SIZE, defensiveMonId = PARTY_SIZE, aceMonId = PARTY_SIZE, trapperId = PARTY_SIZE;
+    int typeMatchupCount = 0, typeMatchupEffectiveCount = 0, defensiveMonCount = 0, trapperCount = 0;
     int i, j, aliveCount = 0, bits = 0, aceMonCount = 0;
     s32 defensiveMonHitKOThreshold = 3; // 3HKO threshold that candidate defensive mons must exceed
     s32 playerMonHP = gBattleMons[opposingBattler].hp, maxDamageDealt = 0, damageDealt = 0, monMaxDamage = 0;
@@ -2206,6 +2211,16 @@ static u32 GetBestMonIntegrated(struct Pokemon *party, int firstId, int lastId, 
                 {
                     bestResist = typeMatchup;
                     typeMatchupId = i;
+                    typeMatchupCount = 1;
+                }
+            }
+            else if (typeMatchup == bestResist && canSwitchinWin1v1)
+            {
+                if (typeMatchupId != i)
+                {
+                    typeMatchupCount++;
+                    if (Random() % typeMatchupCount == 0)
+                        typeMatchupId = i;
                 }
             }
 
@@ -2214,11 +2229,33 @@ static u32 GetBestMonIntegrated(struct Pokemon *party, int firstId, int lastId, 
             {
                 maxHitsToKO = hitsToKOAI;
                 if (maxHitsToKO > defensiveMonHitKOThreshold)
+                {
                     defensiveMonId = i;
+                    defensiveMonCount = 1;
+                }
+            }
+            else if (hitsToKOAI == maxHitsToKO && (canSwitchinWin1v1 || gAiThinkingStruct->aiFlags[battler] & AI_FLAG_STALL))
+            {
+                if (maxHitsToKO > defensiveMonHitKOThreshold)
+                {
+                    if (defensiveMonId != i)
+                    {
+                        defensiveMonCount++;
+                        if (Random() % defensiveMonCount == 0)
+                            defensiveMonId = i;
+                    }
+                }
             }
 
             if (canSwitchinWin1v1)
-                generic1v1MonId = i;
+            {
+                if (generic1v1MonId != i)
+                {
+                    generic1v1MonCount++;
+                    if (Random() % generic1v1MonCount == 0)
+                        generic1v1MonId = i;
+                }
+            }
 
             // Check for mon with resistance and super effective move for best type matchup mon with effective move
             if (aiMove != MOVE_NONE && !IsBattleMoveStatus(aiMove))
@@ -2231,6 +2268,22 @@ static u32 GetBestMonIntegrated(struct Pokemon *party, int firstId, int lastId, 
                         {
                             bestResistEffective = typeMatchup;
                             typeMatchupEffectiveId = i;
+                            typeMatchupEffectiveCount = 1;
+                        }
+                    }
+                }
+                else if (typeMatchup == bestResistEffective)
+                {
+                    if (effectiveness >= UQ_4_12(2.0))
+                    {
+                        if (canSwitchinWin1v1)
+                        {
+                            if (typeMatchupEffectiveId != i)
+                            {
+                                typeMatchupEffectiveCount++;
+                                if (Random() % typeMatchupEffectiveCount == 0)
+                                    typeMatchupEffectiveId = i;
+                            }
                         }
                     }
                 }
@@ -2250,6 +2303,19 @@ static u32 GetBestMonIntegrated(struct Pokemon *party, int firstId, int lastId, 
                     {
                         maxDamageDealt = damageDealt;
                         damageMonId = i;
+                        damageMonCount = 1;
+                    }
+                }
+                else if (damageDealt == maxDamageDealt)
+                {
+                    if ((isFreeSwitch && hitsToKOAI > 1) || hitsToKOAI > 2)
+                    {
+                        if (damageMonId != i)
+                        {
+                            damageMonCount++;
+                            if (Random() % damageMonCount == 0)
+                                damageMonId = i;
+                        }
                     }
                 }
 
@@ -2260,9 +2326,23 @@ static u32 GetBestMonIntegrated(struct Pokemon *party, int firstId, int lastId, 
                     if (canSwitchinWin1v1)
                     {
                         if (isSwitchinFirst)
-                            revengeKillerId = i;
+                        {
+                            if (revengeKillerId != i)
+                            {
+                                revengeKillerCount++;
+                                if (Random() % revengeKillerCount == 0)
+                                    revengeKillerId = i;
+                            }
+                        }
                         else
-                            slowRevengeKillerId = i;
+                        {
+                            if (slowRevengeKillerId != i)
+                            {
+                                slowRevengeKillerCount++;
+                                if (Random() % slowRevengeKillerCount == 0)
+                                    slowRevengeKillerId = i;
+                            }
+                        }
                     }
                 }
 
@@ -2272,9 +2352,23 @@ static u32 GetBestMonIntegrated(struct Pokemon *party, int firstId, int lastId, 
                     if (canSwitchinWin1v1)
                     {
                         if (isSwitchinFirst)
-                            fastThreatenId = i;
+                        {
+                            if (fastThreatenId != i)
+                            {
+                                fastThreatenCount++;
+                                if (Random() % fastThreatenCount == 0)
+                                    fastThreatenId = i;
+                            }
+                        }
                         else
-                            slowThreatenId = i;
+                        {
+                            if (slowThreatenId != i)
+                            {
+                                slowThreatenCount++;
+                                if (Random() % slowThreatenCount == 0)
+                                    slowThreatenId = i;
+                            }
+                        }
                     }
                 }
 
@@ -2283,7 +2377,14 @@ static u32 GetBestMonIntegrated(struct Pokemon *party, int firstId, int lastId, 
                     || (CanAbilityTrapOpponent(gAiLogicData->abilities[opposingBattler], opposingBattler) && gAiLogicData->switchinCandidate.battleMon.ability == ABILITY_TRACE))
                     && CountUsablePartyMons(opposingBattler) > 0
                     && canSwitchinWin1v1)
-                    trapperId = i;
+                {
+                    if (trapperId != i)
+                    {
+                        trapperCount++;
+                        if (Random() % trapperCount == 0)
+                            trapperId = i;
+                    }
+                }
             }
         }
         if (monMaxDamage == 0)
