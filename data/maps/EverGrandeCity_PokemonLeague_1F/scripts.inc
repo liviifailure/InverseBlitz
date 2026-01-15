@@ -38,6 +38,7 @@ EverGrandeCity_PokemonLeague_1F_EventScript_Clerk::
 	.align 2
 EverGrandeCity_PokemonLeague_1F_Pokemart:
 	.2byte ITEM_ABOMASITE
+	.2byte ITEM_ABSOLITE
 	.2byte ITEM_AGGRONITE
 	.2byte ITEM_AMPHAROSITE
 	.2byte ITEM_BANETTITE
@@ -53,6 +54,7 @@ EverGrandeCity_PokemonLeague_1F_Pokemart:
 	.2byte ITEM_DRAGALGITE
 	.2byte ITEM_EELEKTROSSITE
 	.2byte ITEM_EXCADRITE
+	.2byte ITEM_FALINKSITE
 	.2byte ITEM_FERALIGITE
 	.2byte ITEM_FROSLASSITE
 	.2byte ITEM_GALLADITE
@@ -61,6 +63,7 @@ EverGrandeCity_PokemonLeague_1F_Pokemart:
 	.2byte ITEM_GENGARITE
 	.2byte ITEM_GLALITITE
 	.2byte ITEM_GRENINJITE
+	.2byte ITEM_HAWLUCHANITE
 	.2byte ITEM_HOUNDOOMINITE
 	.2byte ITEM_LOPUNNITE
 	.2byte ITEM_LUCARIONITE

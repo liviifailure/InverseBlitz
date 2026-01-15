@@ -2102,8 +2102,13 @@ static enum MoveCanceler CancelerAsleepOrFrozen(struct BattleContext *ctx)
     return MOVE_STEP_SUCCESS;
 }
 
+static const u8 sJumpToCalledMove[] = {
+    0x63, 0x00
+};
+
 static enum MoveCanceler CancelerObedience(struct BattleContext *ctx)
 {
+
     if (!gBattleMons[ctx->battlerAtk].volatiles.multipleTurns)
     {
         enum Obedience obedienceResult = GetAttackerObedienceForAction();
@@ -2130,7 +2135,7 @@ static enum MoveCanceler CancelerObedience(struct BattleContext *ctx)
             dmgCtx.updateFlags = TRUE;
             dmgCtx.isSelfInflicted = TRUE;
             dmgCtx.fixedBasePower = 40;
-            gBattleStruct->moveDamage[ctx->battlerAtk] = CalculateMoveDamage(&dmgCtx);
+            gBattleStruct->passiveHpUpdate[ctx->battlerAtk] = CalculateMoveDamage(&dmgCtx);
             gBattlescriptCurrInstr = BattleScript_IgnoresAndHitsItself;
             gHitMarker |= HITMARKER_UNABLE_TO_USE_MOVE;
             gHitMarker |= HITMARKER_OBEYS;
@@ -2148,7 +2153,8 @@ static enum MoveCanceler CancelerObedience(struct BattleContext *ctx)
             return MOVE_STEP_FAILURE;
         case DISOBEYS_RANDOM_MOVE:
             gCurrentMove = gCalledMove = gBattleMons[ctx->battlerAtk].moves[gCurrMovePos];
-            BattleScriptCall(BattleScript_IgnoresAndUsesRandomMove);
+            BattleScriptPush(sJumpToCalledMove);
+            gBattlescriptCurrInstr = BattleScript_IgnoresAndUsesRandomMove;
             gBattlerTarget = GetBattleMoveTarget(gCalledMove, NO_TARGET_OVERRIDE);
             gHitMarker |= HITMARKER_OBEYS;
             return MOVE_STEP_BREAK;
@@ -6467,8 +6473,66 @@ u32 GetBattleMoveTarget(u16 move, u8 setTarget)
     return targetBattler;
 }
 
+
 u8 GetAttackerObedienceForAction()
 {
+    if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
+        return OBEYS;
+    if (BattlerHasAi(gBattlerAttacker))
+        return OBEYS;
+
+    if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && GetBattlerPosition(gBattlerAttacker) == B_POSITION_PLAYER_RIGHT)
+        return OBEYS;
+    if (IsOnPlayerSide(gBattlerAttacker) && VarGet(VAR_BADGE_COUNT) < 2)
+    {
+        u16 species = gBattleMons[gBattlerAttacker].species;
+        u32 bst = gSpeciesInfo[species].baseHP +
+                  gSpeciesInfo[species].baseAttack +
+                  gSpeciesInfo[species].baseDefense +
+                  gSpeciesInfo[species].baseSpAttack +
+                  gSpeciesInfo[species].baseSpDefense +
+                  gSpeciesInfo[species].baseSpeed;
+
+        if (bst > 429)
+        {
+            if ((Random() % 100) < 50)
+            {
+                u8 r = Random() % 4;
+                switch (r)
+                {
+                case 0:
+                    return DISOBEYS_LOAFS;
+                case 1:
+                    return DISOBEYS_HITS_SELF;
+                case 2:
+                    if (CanBeSlept(gBattlerAttacker, gBattlerAttacker, GetBattlerAbility(gBattlerAttacker), NOT_BLOCKED_BY_SLEEP_CLAUSE))
+                    {
+                        int i;
+                        for (i = 0; i < gBattlersCount; i++)
+                            if (gBattleMons[i].volatiles.uproarTurns)
+                                break;
+                        if (i == gBattlersCount)
+                            return DISOBEYS_FALL_ASLEEP;
+                    }
+                    return DISOBEYS_LOAFS;
+                case 3:
+                    {
+                        u32 calc = CheckMoveLimitations(gBattlerAttacker, 1u << gCurrMovePos, MOVE_LIMITATIONS_ALL);
+                        if (calc == ALL_MOVES_MASK) // all moves cannot be used
+                            return DISOBEYS_LOAFS;
+                        else // use a random move
+                        {
+                            do
+                                gCurrMovePos = gChosenMovePos = MOD(Random(), MAX_MON_MOVES);
+                            while ((1u << gCurrMovePos) & calc);
+                            return DISOBEYS_RANDOM_MOVE;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     return OBEYS;
 }
 

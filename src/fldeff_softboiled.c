@@ -115,6 +115,8 @@ static void Task_SoftboiledRestoreHealth(u8 taskId)
                 FlagSet(FLAG_SKIDDO_USED_MILK_DRINK);
             else if (userSpecies == SPECIES_SMEARGLE)
                 FlagSet(FLAG_SMEARGLE_USED_MILK_DRINK);
+            else if (userSpecies == SPECIES_MILTANK)
+                FlagSet(FLAG_MILTANK_USED_MILK_DRINK);
 
             gSpecialVar_ItemId = ITEM_RARE_CANDY; // Simulate using a Rare Candy
             gIsFromFieldMove = TRUE;

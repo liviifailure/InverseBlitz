@@ -891,14 +891,17 @@ SlateportCity_Pokemart_StageOneMegas:
 	.align 2
 SlateportCity_Pokemart_StageTwoMegas:
 	.2byte ITEM_ABOMASITE
+	.2byte ITEM_ABSOLITE
 	.2byte ITEM_BANETTITE
 	.2byte ITEM_CAMERUPTITE
 	.2byte ITEM_CHIMECHITE
 	.2byte ITEM_DRAGALGITE
 	.2byte ITEM_EELEKTROSSITE
 	.2byte ITEM_EXCADRITE
+	.2byte ITEM_FALINKSITE
 	.2byte ITEM_FROSLASSITE
 	.2byte ITEM_GLALITITE
+	.2byte ITEM_HAWLUCHANITE
 	.2byte ITEM_HOUNDOOMINITE
 	.2byte ITEM_LOPUNNITE
 	.2byte ITEM_LUCARIONITE
@@ -917,6 +920,7 @@ SlateportCity_Pokemart_StageTwoMegas:
 	.align 2
 SlateportCity_Pokemart_StageThreeMegas:
 	.2byte ITEM_ABOMASITE
+	.2byte ITEM_ABSOLITE
 	.2byte ITEM_AGGRONITE
 	.2byte ITEM_AMPHAROSITE
 	.2byte ITEM_BANETTITE
@@ -932,6 +936,7 @@ SlateportCity_Pokemart_StageThreeMegas:
 	.2byte ITEM_DRAGALGITE
 	.2byte ITEM_EELEKTROSSITE
 	.2byte ITEM_EXCADRITE
+	.2byte ITEM_FALINKSITE
 	.2byte ITEM_FERALIGITE
 	.2byte ITEM_FROSLASSITE
 	.2byte ITEM_GALLADITE
@@ -940,6 +945,7 @@ SlateportCity_Pokemart_StageThreeMegas:
 	.2byte ITEM_GENGARITE
 	.2byte ITEM_GLALITITE
 	.2byte ITEM_GRENINJITE
+	.2byte ITEM_HAWLUCHANITE
 	.2byte ITEM_HOUNDOOMINITE
 	.2byte ITEM_LOPUNNITE
 	.2byte ITEM_LUCARIONITE

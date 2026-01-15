@@ -5,7 +5,8 @@ DewfordTown_PokemonCenter_1F_MapScripts::
 
 DewfordTown_PokemonCenter_1F_OnTransition:
 	setrespawn HEAL_LOCATION_DEWFORD_TOWN
-	call Common_EventScript_UpdateBrineyLocation
+	setvar VAR_BRINEY_LOCATION, 2
+	call EventScript_MoveMrBrineyToDewford
 	end
 
 DewfordTown_PokemonCenter_1F_EventScript_Nurse::
@@ -34,4 +35,3 @@ DewfordTown_PokemonCenter_1F_Text_FaintedMonCanUseHM:
 	.string "Even if a POKéMON faints and can't\n"
 	.string "battle, it can still use a move learned\l"
 	.string "from a HIDDEN MACHINE (HM).$"
-

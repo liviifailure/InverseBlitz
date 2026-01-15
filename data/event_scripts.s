@@ -1174,6 +1174,8 @@ EventScript_WarpHomeDewford::
 	warp MAP_DEWFORD_TOWN, 8, 17
 	waitstate
 	releaseall
+	setvar VAR_BRINEY_LOCATION, 2
+	call EventScript_MoveMrBrineyToDewford
 	end
 
 EventScript_WarpHomeMauville::

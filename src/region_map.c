@@ -51,6 +51,7 @@ enum {
     TAG_CURSOR,
     TAG_PLAYER_ICON,
     TAG_FLY_ICON,
+    TAG_FLY_ICON_GREEN,
 };
 
 // Window IDs for the fly map
@@ -1831,10 +1832,38 @@ static void DrawFlyDestTextWindow(void)
     }
 }
 
+static bool32 IsGymDefeated(mapsec_u16_t mapSecId)
+{
+    switch (mapSecId)
+    {
+    case MAPSEC_RUSTBORO_CITY:
+        return VarGet(VAR_RUSTBORO_LOCKED);
+    case MAPSEC_DEWFORD_TOWN:
+        return VarGet(VAR_DEWFORD_LOCKED);
+    case MAPSEC_MAUVILLE_CITY:
+        return VarGet(VAR_MAUVILLE_LOCKED);
+    case MAPSEC_LAVARIDGE_TOWN:
+        return VarGet(VAR_LAVARIDGE_LOCKED);
+    case MAPSEC_PETALBURG_CITY:
+        return VarGet(VAR_PETALBURG_LOCKED);
+    case MAPSEC_FORTREE_CITY:
+        return VarGet(VAR_FORTREE_LOCKED);
+    case MAPSEC_MOSSDEEP_CITY:
+        return VarGet(VAR_MOSSDEEP_LOCKED);
+    case MAPSEC_SOOTOPOLIS_CITY:
+        return VarGet(VAR_SOOTOPOLIS_LOCKED);
+    default:
+        return FALSE;
+    }
+}
 
 static void LoadFlyDestIcons(void)
 {
     struct SpriteSheet sheet;
+    u16 greenPal[16];
+    u16 i;
+    u16 color, r, g, b;
+    struct SpritePalette greenPalette = {greenPal, TAG_FLY_ICON_GREEN};
 
     DecompressDataWithHeaderWram(sFlyTargetIcons_Gfx, sFlyMap->tileBuffer);
     sheet.data = sFlyMap->tileBuffer;
@@ -1842,6 +1871,18 @@ static void LoadFlyDestIcons(void)
     sheet.tag = TAG_FLY_ICON;
     LoadSpriteSheet(&sheet);
     LoadSpritePalette(&sFlyTargetIconsSpritePalette);
+
+    CpuCopy16(sFlyTargetIcons_Pal, greenPal, sizeof(greenPal));
+    for (i = 0; i < 16; i++)
+    {
+        color = greenPal[i];
+        r = (color >> 0) & 0x1F;
+        g = (color >> 5) & 0x1F;
+        b = (color >> 10) & 0x1F;
+        greenPal[i] = (g << 10) | (r << 5) | g;
+    }
+    LoadSpritePalette(&greenPalette);
+
     CreateFlyDestIcons();
     TryCreateRedOutlineFlyDestIcons();
 }
@@ -1881,7 +1922,13 @@ static void CreateFlyDestIcons(void)
             gSprites[spriteId].oam.shape = shape;
 
             if (FlagGet(canFlyFlag))
+            {
                 gSprites[spriteId].callback = SpriteCB_FlyDestIcon;
+                if (IsGymDefeated(mapSecId))
+                {
+                    gSprites[spriteId].oam.paletteNum = IndexOfSpritePaletteTag(TAG_FLY_ICON_GREEN);
+                }
+            }
             else
                 shape += 3;
 

@@ -6783,8 +6783,8 @@ const struct Item gItemsInfo[] =
         .type = ITEM_USE_BAG_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
         .flingPower = 80,
-        .iconPic = gItemIcon_QuestionMark, // gItemIcon_Hawluchanite,
-        .iconPalette = gItemIconPalette_QuestionMark, // gItemIconPalette_Hawluchanite,
+        .iconPic = gItemIcon_Audinite, // gItemIcon_Hawluchanite,
+        .iconPalette = gItemIconPalette_Audinite, // gItemIconPalette_Hawluchanite,
     },
 
     [ITEM_ZYGARDITE] =
@@ -6837,8 +6837,8 @@ const struct Item gItemsInfo[] =
         .type = ITEM_USE_BAG_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
         .flingPower = 80,
-        .iconPic = gItemIcon_QuestionMark, // gItemIcon_Falinksite,
-        .iconPalette = gItemIconPalette_QuestionMark, // gItemIconPalette_Falinksite,
+        .iconPic = gItemIcon_Audinite, // gItemIcon_Falinksite,
+        .iconPalette = gItemIconPalette_Audinite, // gItemIconPalette_Falinksite,
     },
 
     [ITEM_HEATRANITE] =

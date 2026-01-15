@@ -84,6 +84,12 @@
 
 extern const u8 gText_SketchWhichMove[]; // Declared to resolve "undeclared" error
 
+static const u8 sText_Clear[] = _("CLEAR");
+static const u8 sText_ItemsTaken[] = _("Items were taken from the party.{PAUSE_UNTIL_PRESS}");
+static const u8 sText_ItemsTakenBagFull[] = _("Items taken. The BAG is full.{PAUSE_UNTIL_PRESS}");
+static const u8 sText_BagFull[] = _("The BAG is full.{PAUSE_UNTIL_PRESS}");
+static const u8 sText_NoItemsHeld[] = _("No items to take.{PAUSE_UNTIL_PRESS}");
+
 enum {
     MENU_SUMMARY,
     MENU_SWITCH,
@@ -120,6 +126,7 @@ enum {
     MENU_CATALOG_MOWER,
     MENU_CHANGE_FORM,
     MENU_CHANGE_ABILITY,
+    MENU_CLEAR,
     MENU_FIELD_MOVES
 };
 
@@ -501,6 +508,8 @@ static void CursorCb_CatalogFan(u8);
 static void CursorCb_CatalogMower(u8);
 static void CursorCb_ChangeForm(u8);
 static void CursorCb_ChangeAbility(u8);
+static void CursorCb_Clear(u8 taskId);
+static void Task_UpdateHeldItemSpritesAndReturn(u8 taskId);
 bool32 SetUpFieldMove_Surf(void);
 bool32 SetUpFieldMove_Fly(void);
 bool32 SetUpFieldMove_Waterfall(void);
@@ -2636,6 +2645,7 @@ static void LoadPartyBoxPalette(struct PartyMenuBox *menuBox, u8 palFlags)
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_PONYTA
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_SHUPPET
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_TYRUNT
+         || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_ARCHEN
          //|| GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_PONYTA_GALAR
         )) || (VarGet(VAR_BADGE_COUNT) >= 2 && (
             GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_LITWICK
@@ -2649,6 +2659,7 @@ static void LoadPartyBoxPalette(struct PartyMenuBox *menuBox, u8 palFlags)
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_ARON
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_AXEW
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_GOOMY
+         || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_GOTHITA
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_HONEDGE
          //|| GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_DEINO
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_TYNAMO
@@ -2977,6 +2988,8 @@ static u8 DisplaySelectionWindow(u8 windowType)
         break;
     case SELECTWINDOW_ITEM:
         window = sItemGiveTakeWindowTemplate;
+        window.height = sPartyMenuInternal->numActions * 2;
+        window.tilemapTop = 19 - window.height;
         break;
     case SELECTWINDOW_MAIL:
         window = sMailReadTakeWindowTemplate;
@@ -3011,6 +3024,8 @@ static u8 DisplaySelectionWindow(u8 windowType)
 
         if (sPartyMenuInternal->actions[i] >= MENU_FIELD_MOVES)
             text = GetMoveName(FieldMove_GetMoveId(sPartyMenuInternal->actions[i] - MENU_FIELD_MOVES));
+        else if (sPartyMenuInternal->actions[i] == MENU_CLEAR)
+            text = sText_Clear;
         else
             text = sCursorOptions[sPartyMenuInternal->actions[i]].text;
 
@@ -3042,6 +3057,15 @@ static void SetPartyMonSelectionActions(struct Pokemon *mons, u8 slotId, u8 acti
     if (action == ACTIONS_NONE)
     {
         SetPartyMonFieldSelectionActions(mons, slotId);
+    }
+    else if (action == ACTIONS_ITEM)
+    {
+        sPartyMenuInternal->numActions = 0;
+        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_GIVE);
+        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_TAKE_ITEM);
+        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_MOVE_ITEM);
+        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_CLEAR);
+        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_CANCEL1);
     }
     else if (action == ACTIONS_MOVES_SUB && P_PARTY_MOVE_RELEARNER)
     {
@@ -3113,7 +3137,8 @@ static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
             used = FlagGet(FLAG_SKIDDO_USED_MILK_DRINK);
         else if (species == SPECIES_SMEARGLE)
             used = FlagGet(FLAG_SMEARGLE_USED_MILK_DRINK);
-            
+        else if (species == SPECIES_MILTANK)
+            used = FlagGet(FLAG_MILTANK_USED_MILK_DRINK);    
         if (!used)
             AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_FIELD_MOVES + FIELD_MOVE_MILK_DRINK);
     }
@@ -3284,6 +3309,8 @@ static void Task_HandleSelectionMenuInput(u8 taskId)
             PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[2]);
             if (sPartyMenuInternal->actions[sPartyMenuInternal->numActions - 1] >= MENU_FIELD_MOVES)
                 CursorCb_FieldMove(taskId);
+            else if (sPartyMenuInternal->actions[sPartyMenuInternal->numActions - 1] == MENU_CLEAR)
+                CursorCb_Clear(taskId);
             else
                 sCursorOptions[sPartyMenuInternal->actions[sPartyMenuInternal->numActions - 1]].func(taskId);
             break;
@@ -3291,6 +3318,8 @@ static void Task_HandleSelectionMenuInput(u8 taskId)
             PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[2]);
             if (sPartyMenuInternal->actions[input] >= MENU_FIELD_MOVES)
                 CursorCb_FieldMove(taskId);
+            else if (sPartyMenuInternal->actions[input] == MENU_CLEAR)
+                CursorCb_Clear(taskId);
             else
                 sCursorOptions[sPartyMenuInternal->actions[input]].func(taskId);
             break;
@@ -8749,4 +8778,69 @@ static void FieldCallback_RockClimb(void)
 {
     gFieldEffectArguments[0] = GetCursorSelectionMonId();
     FieldEffectStart(FLDEFF_USE_ROCK_CLIMB);
+}
+
+static void Task_UpdateHeldItemSpritesAndReturn(u8 taskId)
+{
+    if (IsPartyMenuTextPrinterActive() != TRUE)
+    {
+        u8 i;
+        for (i = 0; i < gPlayerPartyCount; i++)
+        {
+            UpdatePartyMonHeldItemSprite(&gPlayerParty[i], &sPartyMenuBoxes[i]);
+        }
+        Task_ReturnToChooseMonAfterText(taskId);
+    }
+}
+
+static void CursorCb_Clear(u8 taskId)
+{
+    u8 i;
+    u16 item;
+    bool8 bagFull = FALSE;
+    bool8 itemTaken = FALSE;
+
+    PlaySE(SE_SELECT);
+    
+    for (i = 0; i < gPlayerPartyCount; i++)
+    {
+        item = GetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM);
+        if (item != ITEM_NONE)
+        {
+            if (AddBagItem(item, 1) == TRUE)
+            {
+                u16 none = ITEM_NONE;
+                SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &none);
+                TryItemHoldFormChange(&gPlayerParty[i], i);
+                itemTaken = TRUE;
+            }
+            else
+            {
+                bagFull = TRUE;
+            }
+        }
+    }
+
+    PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
+    PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
+
+    if (itemTaken)
+    {
+        PlaySE(SE_USE_ITEM);
+        if (bagFull)
+            DisplayPartyMenuMessage(sText_ItemsTakenBagFull, TRUE);
+        else
+            DisplayPartyMenuMessage(sText_ItemsTaken, TRUE);
+    }
+    else if (bagFull)
+    {
+        DisplayPartyMenuMessage(sText_BagFull, TRUE);
+    }
+    else
+    {
+        DisplayPartyMenuMessage(sText_NoItemsHeld, TRUE);
+    }
+    
+    ScheduleBgCopyTilemapToVram(2);
+    gTasks[taskId].func = Task_UpdateHeldItemSpritesAndReturn;
 }
