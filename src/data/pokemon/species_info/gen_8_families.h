@@ -5284,9 +5284,9 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .backPicSize = MON_COORDS_SIZE(64, 64),
         .backPicYOffset = 3,
         //.backAnimId = BACK_ANIM_NONE,
-        .palette = gMonPalette_FalinksMega,
-        .shinyPalette = gMonShinyPalette_FalinksMega,
-        .iconSprite = gMonIcon_FalinksMega,
+        //.palette = gMonPalette_CircledQuestionMark,
+        //.shinyPalette = gMonShinyPalette_CircledQuestionMark,
+        .iconSprite = gMonIcon_QuestionMark,
         .iconPalIndex = 0,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         FOOTPRINT(Falinks)
