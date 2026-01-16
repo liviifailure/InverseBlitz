@@ -854,42 +854,22 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
             "Pokémon forms a gigantic set of jaws\n"
             "with a bite 10 times as powerful\n"
             "as Mega Feraligatr's actual jaws."),
-        //.frontPic = gMonFrontPic_CircledQuestionMark,
-        //.frontPicSize = MON_COORDS_SIZE(40, 40),
-        //.frontPicYOffset = 12,
-        //.frontAnimFrames = sAnims_TwoFramePlaceHolder,
+        .frontPic = gMonFrontPic_FeraligatrMega,
+        .frontPicSize = MON_COORDS_SIZE(64, 64),
+        .frontPicYOffset = 0,
+        .frontAnimFrames = sAnims_TwoFramePlaceHolder,
         //.frontAnimId = ANIM_V_SQUISH_AND_BOUNCE,
-        //.backPic = gMonBackPic_CircledQuestionMark,
-        //.backPicSize = MON_COORDS_SIZE(40, 40),
-        //.backPicYOffset = 12,
+        .backPic = gMonBackPic_FeraligatrMega,
+        .backPicSize = MON_COORDS_SIZE(64, 64),
+        .backPicYOffset = 4,
         //.backAnimId = BACK_ANIM_NONE,
-        //.palette = gMonPalette_CircledQuestionMark,
-        //.shinyPalette = gMonShinyPalette_CircledQuestionMark,
+        .palette = gMonPalette_FeraligatrMega,
+        .shinyPalette = gMonShinyPalette_FeraligatrMega,
         .iconSprite = gMonIcon_FeraligatrMega,
         .iconPalIndex = 0,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
-        FOOTPRINT(QuestionMark)
-        SHADOW(-1, 0, SHADOW_SIZE_M)
-    #if OW_BATTLE_ONLY_FORMS
-        .overworldData = {
-            .tileTag = TAG_NONE,
-            .paletteTag = OBJ_EVENT_PAL_TAG_SUBSTITUTE,
-            .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_NONE,
-            .size = 512,
-            .width = 32,
-            .height = 32,
-            .paletteSlot = PALSLOT_NPC_1,
-            .shadowSize = SHADOW_SIZE_M,
-            .inanimate = FALSE,
-            .compressed = COMP,
-            .tracks = TRACKS_FOOT,
-            .oam = &gObjectEventBaseOam_32x32,
-            .subspriteTables = sOamTables_32x32,
-            .anims = sAnimTable_Following,
-            .images = sPicTable_Substitute,
-            .affineAnims = gDummySpriteAffineAnimTable,
-        },
-    #endif //OW_BATTLE_ONLY_FORMS
+        FOOTPRINT(Feraligatr)
+        SHADOW(2, 13, SHADOW_SIZE_L)
         .isMegaEvolution = TRUE,
         .levelUpLearnset = sFeraligatrLevelUpLearnset,
         .teachableLearnset = sFeraligatrTeachableLearnset,
@@ -7308,23 +7288,22 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
             "its pincers have taken a more\n"
             "diabolical form, ripping anything\n"
             "they pierce to shreds."),
-        .frontPic = gMonFrontPic_CircledQuestionMark,
-        .frontPicSize = MON_COORDS_SIZE(40, 40),
-        .frontPicYOffset = 12,
+        .frontPic = gMonFrontPic_SkarmoryMega,
+        .frontPicSize = MON_COORDS_SIZE(64, 64),
+        .frontPicYOffset = 0,
         .frontAnimFrames = sAnims_TwoFramePlaceHolder,
         //.frontAnimId = ANIM_V_SQUISH_AND_BOUNCE,
-        .enemyMonElevation = 6,
         .backPic = gMonBackPic_SkarmoryMega,
         .backPicSize = MON_COORDS_SIZE(64, 64),
         .backPicYOffset = 1,
         //.backAnimId = BACK_ANIM_NONE,
-        //.palette = gMonPalette_CircledQuestionMark,
-        //.shinyPalette = gMonShinyPalette_CircledQuestionMark,
+        .palette = gMonPalette_SkarmoryMega,
+        .shinyPalette = gMonShinyPalette_SkarmoryMega,
         .iconSprite = gMonIcon_SkarmoryMega,
         .iconPalIndex = 0,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         FOOTPRINT(Skarmory)
-        SHADOW(2, 16, SHADOW_SIZE_M)
+        SHADOW(2, 9, SHADOW_SIZE_M)
         .isMegaEvolution = TRUE,
         .levelUpLearnset = sSkarmoryLevelUpLearnset,
         .teachableLearnset = sSkarmoryTeachableLearnset,
