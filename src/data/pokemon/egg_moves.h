@@ -3537,10 +3537,6 @@ static const u16 sKlefkiEggMoveLearnset[] = {
 #if P_FAMILY_PHANTUMP
 static const u16 sPhantumpEggMoveLearnset[] = {
     MOVE_GRUDGE,
-    MOVE_BESTOW,
-    MOVE_IMPRISON,
-    MOVE_VENOM_DRENCH,
-    MOVE_POWER_UP_PUNCH,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_PHANTUMP

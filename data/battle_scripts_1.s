@@ -7385,6 +7385,12 @@ BattleScript_FriskActivates::
 	restoretarget
 	end3
 
+BattleScript_FriskItemSteal::
+	playanimation BS_EFFECT_BATTLER, B_ANIM_ITEM_STEAL
+	printstring STRINGID_PKMNSTOLEITEM
+	waitmessage B_WAIT_TIME_LONG
+	end3
+
 BattleScript_ImposterActivates::
 	call BattleScript_AbilityPopUp
 	transformdataexecution

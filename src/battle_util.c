@@ -85,6 +85,7 @@ ARM_FUNC NOINLINE static uq4_12_t PercentToUQ4_12_Floored(u32 percent);
 extern const u8 *const gBattlescriptsForRunningByItem[];
 extern const u8 *const gBattlescriptsForUsingItem[];
 extern const u8 *const gBattlescriptsForSafariActions[];
+extern const u8 BattleScript_MagicianActivates[];
 
 static const u8 sPkblToEscapeFactor[][3] = {
     {
@@ -2123,6 +2124,7 @@ static enum MoveCanceler CancelerObedience(struct BattleContext *ctx)
             gBattleCommunication[MULTISTRING_CHOOSER] = MOD(Random(), NUM_LOAF_STRINGS);
             gBattlescriptCurrInstr = BattleScript_MoveUsedLoafingAround;
             gBattleStruct->moveResultFlags[ctx->battlerDef] |= MOVE_RESULT_MISSED;
+            gHitMarker |= HITMARKER_UNABLE_TO_USE_MOVE;
             return MOVE_STEP_FAILURE;
         case DISOBEYS_HITS_SELF:
             gBattlerTarget = ctx->battlerAtk;
@@ -2145,11 +2147,13 @@ static enum MoveCanceler CancelerObedience(struct BattleContext *ctx)
                 gBattleStruct->battlerState[ctx->battlerAtk].sleepClauseEffectExempt = TRUE;
             gBattlescriptCurrInstr = BattleScript_IgnoresAndFallsAsleep;
             gBattleStruct->moveResultFlags[ctx->battlerDef] |= MOVE_RESULT_MISSED;
+            gHitMarker |= HITMARKER_UNABLE_TO_USE_MOVE;
             return MOVE_STEP_FAILURE;
             break;
         case DISOBEYS_WHILE_ASLEEP:
             gBattlescriptCurrInstr = BattleScript_IgnoresWhileAsleep;
             gBattleStruct->moveResultFlags[ctx->battlerDef] |= MOVE_RESULT_MISSED;
+            gHitMarker |= HITMARKER_UNABLE_TO_USE_MOVE;
             return MOVE_STEP_FAILURE;
         case DISOBEYS_RANDOM_MOVE:
             gCurrentMove = gCalledMove = gBattleMons[ctx->battlerAtk].moves[gCurrMovePos];
@@ -4209,9 +4213,71 @@ u32 AbilityBattleEffects(enum AbilityEffect caseID, u32 battler, enum Ability ab
         case ABILITY_FRISK:
             if (!gSpecialStatuses[battler].switchInAbilityDone)
             {
-                gSpecialStatuses[battler].switchInAbilityDone = TRUE;
-                BattleScriptPushCursorAndCallback(BattleScript_FriskActivates); // Try activate
-                effect++;
+                bool32 stoleItem = FALSE;
+                u8 validTargets[2];
+                u8 numValidTargets = 0;
+                u32 i;
+                u32 target = 0;
+
+                // Try to steal if no item
+                if (gBattleMons[battler].item == ITEM_NONE)
+                {
+                    u32 opposingSide = BATTLE_OPPOSITE(GetBattlerSide(battler));
+                    for (i = 0; i < gBattlersCount; i++)
+                    {
+                        if (GetBattlerSide(i) == opposingSide && IsBattlerAlive(i) && gBattleMons[i].item != ITEM_NONE)
+                        {
+                            if (CanStealItem(battler, i, gBattleMons[i].item))
+                            {
+                                validTargets[numValidTargets++] = i;
+                            }
+                        }
+                    }
+
+                    if (numValidTargets > 0)
+                    {
+                        target = validTargets[Random() % numValidTargets];
+                        gLastUsedItem = gBattleMons[target].item;
+                        gBattleMons[battler].item = gLastUsedItem;
+                        gBattleMons[target].item = ITEM_NONE;
+
+                        // Update party data
+                        {
+                            struct Pokemon *party = GetBattlerParty(battler);
+                            SetMonData(&party[gBattlerPartyIndexes[battler]], MON_DATA_HELD_ITEM, &gLastUsedItem);
+                            party = GetBattlerParty(target);
+                            u16 itemNone = ITEM_NONE;
+                            SetMonData(&party[gBattlerPartyIndexes[target]], MON_DATA_HELD_ITEM, &itemNone);
+                        }
+
+                        // Update client side
+                        BtlController_EmitSetMonData(battler, B_COMM_TO_CONTROLLER, REQUEST_HELDITEM_BATTLE, 0, sizeof(gLastUsedItem), &gLastUsedItem);
+                        MarkBattlerForControllerExec(battler);
+                        BtlController_EmitSetMonData(target, B_COMM_TO_CONTROLLER, REQUEST_HELDITEM_BATTLE, 0, sizeof(gBattleMons[target].item), &gBattleMons[target].item);
+                        MarkBattlerForControllerExec(target);
+
+                        TrySaveExchangedItem(target, gLastUsedItem);
+                        stoleItem = TRUE;
+                        
+                        PREPARE_MON_NICK_WITH_PREFIX_BUFFER(gBattleTextBuff1, battler, gBattlerPartyIndexes[battler])
+                        PREPARE_MON_NICK_WITH_PREFIX_BUFFER(gBattleTextBuff2, target, gBattlerPartyIndexes[target])
+                        PREPARE_ITEM_BUFFER(gBattleTextBuff3, gLastUsedItem)
+
+                        gBattlerAttacker = battler;
+                        gBattlerTarget = target;
+                        gBattleScripting.battler = battler;
+                        gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                        BattleScriptPushCursorAndCallback(BattleScript_FriskItemSteal);
+                        effect++;
+                    }
+                }
+
+                if (!stoleItem)
+                {
+                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    BattleScriptPushCursorAndCallback(BattleScript_FriskActivates); // Try activate
+                    effect++;
+                }
             }
             return effect; // Note: It returns effect as to not record the ability if Frisk does not activate.
         case ABILITY_FOREWARN:

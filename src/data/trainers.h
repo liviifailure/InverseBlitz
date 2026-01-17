@@ -27402,6 +27402,8 @@ F_TRAINER_FEMALE |
 #line 10418
             .species = SPECIES_SKRELP,
             .gender = TRAINER_MON_RANDOM_GENDER,
+#line 10418
+            .heldItem = ITEM_CHARCOAL,
 #line 10420
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 #line 10422

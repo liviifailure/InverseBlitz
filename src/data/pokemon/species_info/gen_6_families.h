@@ -4155,7 +4155,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .levelUpLearnset = sSkrelpLevelUpLearnset,
         .teachableLearnset = sSkrelpTeachableLearnset,
         .eggMoveLearnset = sSkrelpEggMoveLearnset,
-        .evolutions = EVOLUTION({EVO_LEVEL, 28, SPECIES_DRAGALGE}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 48, SPECIES_DRAGALGE}),
     },
 
     [SPECIES_DRAGALGE] =
