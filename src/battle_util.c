@@ -4259,15 +4259,16 @@ u32 AbilityBattleEffects(enum AbilityEffect caseID, u32 battler, enum Ability ab
                         TrySaveExchangedItem(target, gLastUsedItem);
                         stoleItem = TRUE;
                         
+                        gBattlerAttacker = battler;
+                        gBattlerTarget = target;
                         PREPARE_MON_NICK_WITH_PREFIX_BUFFER(gBattleTextBuff1, battler, gBattlerPartyIndexes[battler])
                         PREPARE_MON_NICK_WITH_PREFIX_BUFFER(gBattleTextBuff2, target, gBattlerPartyIndexes[target])
                         PREPARE_ITEM_BUFFER(gBattleTextBuff3, gLastUsedItem)
 
-                        gBattlerAttacker = battler;
-                        gBattlerTarget = target;
                         gBattleScripting.battler = battler;
                         gSpecialStatuses[battler].switchInAbilityDone = TRUE;
-                        BattleScriptPushCursorAndCallback(BattleScript_FriskItemSteal);
+                        BattleScriptCall(BattleScript_FriskItemSteal);
+                        BattleScriptPushCursorAndCallback(BattleScript_AbilityPopUp);
                         effect++;
                     }
                 }
