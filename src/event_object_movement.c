@@ -509,6 +509,8 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_EnemyZigzagoon,        OBJ_EVENT_PAL_TAG_ZIGZAGOON},
     {gObjectEventPal_May,                   OBJ_EVENT_PAL_TAG_MAY},
     {gObjectEventPal_MayReflection,         OBJ_EVENT_PAL_TAG_MAY_REFLECTION},
+    {gObjectEventPal_BrendanBlue,           OBJ_EVENT_PAL_TAG_BRENDAN_BLUE},
+    {gObjectEventPal_MayBlue,               OBJ_EVENT_PAL_TAG_MAY_BLUE},
     {gObjectEventPal_MovingBox,             OBJ_EVENT_PAL_TAG_MOVING_BOX},
     {gObjectEventPal_CableCar,              OBJ_EVENT_PAL_TAG_CABLE_CAR},
     {gObjectEventPal_SSTidal,               OBJ_EVENT_PAL_TAG_SSTIDAL},
@@ -520,6 +522,8 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Poochyena,             OBJ_EVENT_PAL_TAG_POOCHYENA},
     {gObjectEventPal_FlygonBike,            OBJ_EVENT_PAL_TAG_FLYGON_BIKE},
     {gObjectEventPal_FlygonBike_May,        OBJ_EVENT_PAL_TAG_FLYGON_BIKE_MAY},
+    {gObjectEventPal_FlygonBikeBlue,        OBJ_EVENT_PAL_TAG_FLYGON_BIKE_BLUE},
+    {gObjectEventPal_FlygonBike_MayBlue,    OBJ_EVENT_PAL_TAG_FLYGON_BIKE_MAY_BLUE},
     {gObjectEventPal_Viola,                 OBJ_EVENT_PAL_TAG_VIOLA},
     {gObjectEventPal_RedLeaf,               OBJ_EVENT_PAL_TAG_RED_LEAF},
     {gObjectEventPal_Deoxys,                OBJ_EVENT_PAL_TAG_DEOXYS},
@@ -3174,14 +3178,34 @@ u8 LoadObjectEventPalette(u16 paletteTag)
 u8 LoadPlayerObjectEventPalette(u8 gender)
 {
     u16 paletteTag;
+    u8 paletteChoice = VarGet(VAR_PLAYER_PALETTE_CHOICE);
+    
     switch (gender)
     {
         default:
         case MALE:
-            paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN;
+            paletteTag = (paletteChoice == 1) ? OBJ_EVENT_PAL_TAG_BRENDAN_BLUE : OBJ_EVENT_PAL_TAG_BRENDAN;
             break;
         case FEMALE:
-            paletteTag = OBJ_EVENT_PAL_TAG_MAY;
+            paletteTag = (paletteChoice == 1) ? OBJ_EVENT_PAL_TAG_MAY_BLUE : OBJ_EVENT_PAL_TAG_MAY;
+            break;
+    }
+    return LoadObjectEventPalette(paletteTag);
+}
+
+u8 LoadPlayerBikePalette(u8 gender)
+{
+    u16 paletteTag;
+    u8 paletteChoice = VarGet(VAR_PLAYER_PALETTE_CHOICE);
+    
+    switch (gender)
+    {
+        default:
+        case MALE:
+            paletteTag = (paletteChoice == 1) ? OBJ_EVENT_PAL_TAG_FLYGON_BIKE_BLUE : OBJ_EVENT_PAL_TAG_FLYGON_BIKE;
+            break;
+        case FEMALE:
+            paletteTag = (paletteChoice == 1) ? OBJ_EVENT_PAL_TAG_FLYGON_BIKE_MAY_BLUE : OBJ_EVENT_PAL_TAG_FLYGON_BIKE_MAY;
             break;
     }
     return LoadObjectEventPalette(paletteTag);

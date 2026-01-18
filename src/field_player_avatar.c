@@ -1211,6 +1211,11 @@ static void PlayerAvatarTransition_Normal(struct ObjectEvent *objEvent)
     DestroyAcroBikeSurfBlob(objEvent);
     RestorePlayerSpriteCallback(objEvent);
     ObjectEventSetGraphicsId(objEvent, GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_NORMAL));
+    // Only reload palette if blue is selected
+    if (VarGet(VAR_PLAYER_PALETTE_CHOICE) == 1)
+    {
+        gSprites[objEvent->spriteId].oam.paletteNum = LoadPlayerObjectEventPalette(gSaveBlock2Ptr->playerGender);
+    }
     ObjectEventTurn(objEvent, objEvent->movementDirection);
     SetPlayerAvatarStateMask(PLAYER_AVATAR_FLAG_ON_FOOT);
 }
@@ -1226,8 +1231,15 @@ static void PlayerAvatarTransition_MachBike(struct ObjectEvent *objEvent)
 static void PlayerAvatarTransition_AcroBike(struct ObjectEvent *objEvent)
 {
     u8 spriteId;
+    u8 paletteSlot;
 
     ObjectEventSetGraphicsId(objEvent, GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_ACRO_BIKE));
+    // Only reload palette if blue is selected
+    if (VarGet(VAR_PLAYER_PALETTE_CHOICE) == 1)
+    {
+        paletteSlot = LoadPlayerBikePalette(gSaveBlock2Ptr->playerGender);
+        gSprites[objEvent->spriteId].oam.paletteNum = paletteSlot;
+    }
     gSprites[objEvent->spriteId].callback = SpriteCB_AcroBike;
     ObjectEventTurn(objEvent, objEvent->movementDirection);
     SetPlayerAvatarStateMask(PLAYER_AVATAR_FLAG_ACRO_BIKE);
@@ -1830,7 +1842,14 @@ void SetPlayerAvatarFishing(u8 direction)
 
 void PlayerUseAcroBikeOnBumpySlope(u8 direction)
 {
+    u8 paletteSlot;
     ObjectEventSetGraphicsId(&gObjectEvents[gPlayerAvatar.objectEventId], GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_ACRO_BIKE));
+    // Only reload palette if blue is selected
+    if (VarGet(VAR_PLAYER_PALETTE_CHOICE) == 1)
+    {
+        paletteSlot = LoadPlayerBikePalette(gSaveBlock2Ptr->playerGender);
+        gSprites[gPlayerAvatar.spriteId].oam.paletteNum = paletteSlot;
+    }
     StartSpriteAnim(&gSprites[gPlayerAvatar.spriteId], GetAcroWheelieDirectionAnimNum(direction));
     SeekSpriteAnim(&gSprites[gPlayerAvatar.spriteId], 1);
 }

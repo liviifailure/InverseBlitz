@@ -70,6 +70,12 @@ static const struct MenuAction MultichoiceList_Bike[] =
     {COMPOUND_STRING("ACRO")},
 };
 
+static const struct MenuAction MultichoiceList_PaletteChoice[] =
+{
+    {COMPOUND_STRING("Default")},
+    {COMPOUND_STRING("Blue")},
+};
+
 static const struct MenuAction MultichoiceList_StatusInfo[] =
 {
     {COMPOUND_STRING("PSN")},
@@ -810,7 +816,7 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_BASE_PC_WITH_REGISTRY]      = MULTICHOICE(MultichoiceList_BasePCWithRegistry),
     [MULTI_REGISTER_MENU]              = MULTICHOICE(MultichoiceList_RegisterMenu),
     [MULTI_SSTIDAL_LILYCOVE]           = MULTICHOICE(MultichoiceList_Exit),
-    [MULTI_UNUSED_9]                   = MULTICHOICE(MultichoiceList_Exit),
+    [MULTI_PALETTE_CHOICE]             = MULTICHOICE(MultichoiceList_PaletteChoice),
     [MULTI_UNUSED_10]                  = MULTICHOICE(MultichoiceList_Exit),
     [MULTI_FRONTIER_PASS_INFO]         = MULTICHOICE(MultichoiceList_FrontierPassInfo),
     [MULTI_BIKE]                       = MULTICHOICE(MultichoiceList_Bike),

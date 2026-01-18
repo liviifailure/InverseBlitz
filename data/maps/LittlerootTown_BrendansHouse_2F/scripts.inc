@@ -254,7 +254,37 @@ LittlerootTown_BrendansHouse_2F_EventScript_CheckPlayersPC::
 	setvar VAR_0x8004, PC_LOCATION_BRENDANS_HOUSE
 	special DoPCTurnOnEffect
 	playse SE_PC_ON
-	msgbox gText_PlayerHouseBootPC, MSGBOX_DEFAULT
+	msgbox LittlerootTown_BrendansHouse_2F_Text_PaletteChoice, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, LittlerootTown_BrendansHouse_2F_EventScript_DefaultPalette
+	call LittlerootTown_BrendansHouse_2F_EventScript_ShowPaletteMenu
+	goto LittlerootTown_BrendansHouse_2F_EventScript_PCTurnOn
+
+LittlerootTown_BrendansHouse_2F_EventScript_DefaultPalette::
+	setvar VAR_PLAYER_PALETTE_CHOICE, 0
+	goto LittlerootTown_BrendansHouse_2F_EventScript_PCTurnOn
+
+LittlerootTown_BrendansHouse_2F_EventScript_ShowPaletteMenu::
+	message LittlerootTown_BrendansHouse_2F_Text_SelectPalette
+	waitmessage
+	multichoice 0, 0, MULTI_PALETTE_CHOICE, FALSE
+	switch VAR_RESULT
+	case 0, LittlerootTown_BrendansHouse_2F_EventScript_SelectDefaultPalette
+	case 1, LittlerootTown_BrendansHouse_2F_EventScript_SelectBluePalette
+	case MULTI_B_PRESSED, LittlerootTown_BrendansHouse_2F_EventScript_DefaultPalette
+	return
+
+LittlerootTown_BrendansHouse_2F_EventScript_SelectDefaultPalette::
+	setvar VAR_PLAYER_PALETTE_CHOICE, 0
+	msgbox LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedDefault, MSGBOX_DEFAULT
+	return
+
+LittlerootTown_BrendansHouse_2F_EventScript_SelectBluePalette::
+	setvar VAR_PLAYER_PALETTE_CHOICE, 1
+	msgbox LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedBlue, MSGBOX_DEFAULT
+	return
+
+LittlerootTown_BrendansHouse_2F_EventScript_PCTurnOn::
+	@ msgbox gText_PlayerHouseBootPC, MSGBOX_DEFAULT
 	playse SE_PC_OFF
 	special DoPCTurnOffEffect
 	//special BedroomPC
@@ -335,6 +365,19 @@ PlayersHouse_2F_Text_DustyFossil:
 
 PlayersHouse_2F_Text_AncientPokemon:
 	.string "{PLAYER} received an ancient POKéMON!$"
+
+LittlerootTown_BrendansHouse_2F_Text_PaletteChoice:
+	.string "Would you like to customize your\n"
+	.string "player palette?$"
+
+LittlerootTown_BrendansHouse_2F_Text_SelectPalette:
+	.string "Select a palette:$"
+
+LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedDefault:
+	.string "Palette set to Default.$"
+
+LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedBlue:
+	.string "Palette set to Blue.$"
 
 PlayersHouse_1F_Text_ReceivedEgg:
 	.string "{PLAYER} received an egg!$"
