@@ -305,12 +305,7 @@ LittlerootTown_MaysHouse_2F_EventScript_CheckPlayersPC::
 	setvar VAR_0x8004, PC_LOCATION_MAYS_HOUSE
 	special DoPCTurnOnEffect
 	playse SE_PC_ON
-	msgbox gText_PlayerHouseBootPC, MSGBOX_DEFAULT
-	playse SE_PC_OFF
-	special DoPCTurnOffEffect
-	//special BedroomPC
-	//waitstate
-	releaseall
+	goto PlayersHouse_2F_EventScript_PaletteCustomization
 	end
 
 LittlerootTown_MaysHouse_2F_EventScript_TurnOffPlayerPC::

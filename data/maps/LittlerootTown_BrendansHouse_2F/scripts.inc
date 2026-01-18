@@ -254,41 +254,71 @@ LittlerootTown_BrendansHouse_2F_EventScript_CheckPlayersPC::
 	setvar VAR_0x8004, PC_LOCATION_BRENDANS_HOUSE
 	special DoPCTurnOnEffect
 	playse SE_PC_ON
+	goto PlayersHouse_2F_EventScript_PaletteCustomization
+
+PlayersHouse_2F_EventScript_PaletteCustomization::
 	msgbox LittlerootTown_BrendansHouse_2F_Text_PaletteChoice, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, LittlerootTown_BrendansHouse_2F_EventScript_DefaultPalette
-	call LittlerootTown_BrendansHouse_2F_EventScript_ShowPaletteMenu
-	goto LittlerootTown_BrendansHouse_2F_EventScript_PCTurnOn
+	goto_if_eq VAR_RESULT, NO, PlayersHouse_2F_EventScript_PCTurnOn
+	call PlayersHouse_2F_EventScript_ShowPaletteMenu
+	goto PlayersHouse_2F_EventScript_PCTurnOn
 
-LittlerootTown_BrendansHouse_2F_EventScript_DefaultPalette::
+PlayersHouse_2F_EventScript_DefaultPalette::
 	setvar VAR_PLAYER_PALETTE_CHOICE, 0
-	goto LittlerootTown_BrendansHouse_2F_EventScript_PCTurnOn
+	goto PlayersHouse_2F_EventScript_PCTurnOn
 
-LittlerootTown_BrendansHouse_2F_EventScript_ShowPaletteMenu::
+PlayersHouse_2F_EventScript_ShowPaletteMenu::
 	message LittlerootTown_BrendansHouse_2F_Text_SelectPalette
 	waitmessage
 	multichoice 0, 0, MULTI_PALETTE_CHOICE, FALSE
 	switch VAR_RESULT
-	case 0, LittlerootTown_BrendansHouse_2F_EventScript_SelectDefaultPalette
-	case 1, LittlerootTown_BrendansHouse_2F_EventScript_SelectBluePalette
-	case MULTI_B_PRESSED, LittlerootTown_BrendansHouse_2F_EventScript_DefaultPalette
+	case 0, PlayersHouse_2F_EventScript_SelectDefaultPalette
+	case 1, PlayersHouse_2F_EventScript_SelectBluePalette
+	case 2, PlayersHouse_2F_EventScript_SelectYellowPalette
+	case 3, PlayersHouse_2F_EventScript_SelectOrangePalette
+	case 4, PlayersHouse_2F_EventScript_SelectCyanPalette
+	case 5, PlayersHouse_2F_EventScript_SelectSilverPalette
+	case 6, PlayersHouse_2F_EventScript_SelectPinkPalette
 	return
 
-LittlerootTown_BrendansHouse_2F_EventScript_SelectDefaultPalette::
+PlayersHouse_2F_EventScript_SelectDefaultPalette::
 	setvar VAR_PLAYER_PALETTE_CHOICE, 0
 	msgbox LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedDefault, MSGBOX_DEFAULT
 	return
 
-LittlerootTown_BrendansHouse_2F_EventScript_SelectBluePalette::
+PlayersHouse_2F_EventScript_SelectBluePalette::
 	setvar VAR_PLAYER_PALETTE_CHOICE, 1
 	msgbox LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedBlue, MSGBOX_DEFAULT
 	return
 
-LittlerootTown_BrendansHouse_2F_EventScript_PCTurnOn::
-	@ msgbox gText_PlayerHouseBootPC, MSGBOX_DEFAULT
+PlayersHouse_2F_EventScript_SelectYellowPalette::
+	setvar VAR_PLAYER_PALETTE_CHOICE, 2
+	msgbox LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedYellow, MSGBOX_DEFAULT
+	return
+
+PlayersHouse_2F_EventScript_SelectOrangePalette::
+	setvar VAR_PLAYER_PALETTE_CHOICE, 3
+	msgbox LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedOrange, MSGBOX_DEFAULT
+	return
+
+PlayersHouse_2F_EventScript_SelectCyanPalette::
+	setvar VAR_PLAYER_PALETTE_CHOICE, 4
+	msgbox LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedCyan, MSGBOX_DEFAULT
+	return
+
+PlayersHouse_2F_EventScript_SelectSilverPalette::
+	setvar VAR_PLAYER_PALETTE_CHOICE, 5
+	msgbox LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedSilver, MSGBOX_DEFAULT
+	return
+
+PlayersHouse_2F_EventScript_SelectPinkPalette::
+	setvar VAR_PLAYER_PALETTE_CHOICE, 6
+	msgbox LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedPink, MSGBOX_DEFAULT
+	return
+
+PlayersHouse_2F_EventScript_PCTurnOn::
+	callnative UpdatePlayerPalette
 	playse SE_PC_OFF
 	special DoPCTurnOffEffect
-	//special BedroomPC
-	//waitstate
 	releaseall
 	end
 
@@ -377,7 +407,22 @@ LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedDefault:
 	.string "Palette set to Default.$"
 
 LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedBlue:
-	.string "Palette set to Blue.$"
+	.string "Palette set to Purple.$"
+
+LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedYellow:
+	.string "Palette set to Yellow.$"
+
+LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedOrange:
+	.string "Palette set to Orange.$"
+
+LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedCyan:
+	.string "Palette set to Cyan.$"
+
+LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedSilver:
+	.string "Palette set to Silver.$"
+
+LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedPink:
+	.string "Palette set to Pink.$"
 
 PlayersHouse_1F_Text_ReceivedEgg:
 	.string "{PLAYER} received an egg!$"

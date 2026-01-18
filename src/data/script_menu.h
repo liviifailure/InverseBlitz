@@ -72,8 +72,13 @@ static const struct MenuAction MultichoiceList_Bike[] =
 
 static const struct MenuAction MultichoiceList_PaletteChoice[] =
 {
-    {COMPOUND_STRING("Default")},
-    {COMPOUND_STRING("Blue")},
+    {COMPOUND_STRING("Green")},
+    {COMPOUND_STRING("Purple")},
+    {COMPOUND_STRING("Yellow")},
+    {COMPOUND_STRING("Orange")},
+    {COMPOUND_STRING("Cyan")},
+    {COMPOUND_STRING("Silver")},
+    {COMPOUND_STRING("Pink")},
 };
 
 static const struct MenuAction MultichoiceList_StatusInfo[] =
@@ -803,6 +808,7 @@ struct MultichoiceListStruct
 {
     const struct MenuAction *list;
     u8 count;
+    u8 maxBeforeScroll;  // Max items to show before scrolling; 0 = no scrolling
 };
 
 static const struct MultichoiceListStruct sMultichoiceLists[] =

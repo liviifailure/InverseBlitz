@@ -1211,8 +1211,8 @@ static void PlayerAvatarTransition_Normal(struct ObjectEvent *objEvent)
     DestroyAcroBikeSurfBlob(objEvent);
     RestorePlayerSpriteCallback(objEvent);
     ObjectEventSetGraphicsId(objEvent, GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_NORMAL));
-    // Only reload palette if blue is selected
-    if (VarGet(VAR_PLAYER_PALETTE_CHOICE) == 1)
+    // Only reload palette if non-default is selected
+    if (VarGet(VAR_PLAYER_PALETTE_CHOICE) != 0)
     {
         gSprites[objEvent->spriteId].oam.paletteNum = LoadPlayerObjectEventPalette(gSaveBlock2Ptr->playerGender);
     }
@@ -1234,8 +1234,8 @@ static void PlayerAvatarTransition_AcroBike(struct ObjectEvent *objEvent)
     u8 paletteSlot;
 
     ObjectEventSetGraphicsId(objEvent, GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_ACRO_BIKE));
-    // Only reload palette if blue is selected
-    if (VarGet(VAR_PLAYER_PALETTE_CHOICE) == 1)
+    // Only reload palette if non-default is selected
+    if (VarGet(VAR_PLAYER_PALETTE_CHOICE) != 0)
     {
         paletteSlot = LoadPlayerBikePalette(gSaveBlock2Ptr->playerGender);
         gSprites[objEvent->spriteId].oam.paletteNum = paletteSlot;
@@ -1844,8 +1844,8 @@ void PlayerUseAcroBikeOnBumpySlope(u8 direction)
 {
     u8 paletteSlot;
     ObjectEventSetGraphicsId(&gObjectEvents[gPlayerAvatar.objectEventId], GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_ACRO_BIKE));
-    // Only reload palette if blue is selected
-    if (VarGet(VAR_PLAYER_PALETTE_CHOICE) == 1)
+    // Only reload palette if non-default is selected
+    if (VarGet(VAR_PLAYER_PALETTE_CHOICE) != 0)
     {
         paletteSlot = LoadPlayerBikePalette(gSaveBlock2Ptr->playerGender);
         gSprites[gPlayerAvatar.spriteId].oam.paletteNum = paletteSlot;
