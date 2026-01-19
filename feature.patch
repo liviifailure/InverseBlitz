@@ -3420,7 +3420,7 @@ index fd87b8bd5796..7b7521f9f1c0 100755
          },
      #endif //OW_BATTLE_ONLY_FORMS
          .isMegaEvolution = TRUE,
-+        .isSubLegendary = TRUE,
++
          .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
          .levelUpLearnset = sHeatranLevelUpLearnset,
          .teachableLearnset = sHeatranTeachableLearnset,
@@ -3907,7 +3907,7 @@ index e5361e0206d7..c0a385368345 100644
 -        },
 -    #endif //OW_BATTLE_ONLY_FORMS
          .isMegaEvolution = TRUE,
-         .isSubLegendary = TRUE,
+ 
          .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
 @@ -7639,28 +7559,8 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
          .iconSprite = gMonIcon_QuestionMark,
