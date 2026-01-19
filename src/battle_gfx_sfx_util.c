@@ -13,6 +13,7 @@
 #include "random.h"
 #include "util.h"
 #include "pokemon.h"
+#include "link.h"
 #include "constants/moves.h"
 #include "task.h"
 #include "sprite.h"
@@ -29,6 +30,8 @@
 #include "constants/battle_palace.h"
 #include "constants/battle_move_effects.h"
 #include "constants/event_objects.h" // only for SHADOW_SIZE constants
+
+const u16 *GetPlayerObjectEventPaletteData(u8 gender);
 
 // this file's functions
 static u8 GetBattlePalaceMoveGroup(u8 battler, u16 move);
@@ -691,17 +694,65 @@ void BattleGfxSfxDummy2(u16 species)
 void DecompressTrainerFrontPic(u16 frontPicId, u8 battler)
 {
     u8 position = GetBattlerPosition(battler);
+    struct SpritePalette palette = gTrainerSprites[frontPicId].palette;
+
+    if (!(gBattleTypeFlags & BATTLE_TYPE_RECORDED))
+    {
+        if (!(gBattleTypeFlags & BATTLE_TYPE_LINK))
+        {
+            if (position == B_POSITION_PLAYER_LEFT)
+            {
+                 const u16 *customPalette = GetPlayerObjectEventPaletteData(gSaveBlock2Ptr->playerGender);
+                 if (customPalette != NULL)
+                     palette.data = customPalette;
+            }
+        }
+        else
+        {
+            if (battler == gLinkPlayers[GetMultiplayerId()].id)
+            {
+                 const u16 *customPalette = GetPlayerObjectEventPaletteData(gSaveBlock2Ptr->playerGender);
+                 if (customPalette != NULL)
+                     palette.data = customPalette;
+            }
+        }
+    }
+
     DecompressPicFromTable(&gTrainerSprites[frontPicId].frontPic,
                            gMonSpritesGfxPtr->spritesGfx[position]);
-    LoadSpritePalette(&gTrainerSprites[frontPicId].palette);
+    LoadSpritePalette(&palette);
 }
 
 void DecompressTrainerBackPic(u16 backPicId, u8 battler)
 {
     u8 position = GetBattlerPosition(battler);
+    const u16 *palette = gTrainerBacksprites[backPicId].palette.data;
+
+    if (!(gBattleTypeFlags & BATTLE_TYPE_RECORDED))
+    {
+        if (!(gBattleTypeFlags & BATTLE_TYPE_LINK))
+        {
+            if (position == B_POSITION_PLAYER_LEFT)
+            {
+                 const u16 *customPalette = GetPlayerObjectEventPaletteData(gSaveBlock2Ptr->playerGender);
+                 if (customPalette != NULL)
+                     palette = customPalette;
+            }
+        }
+        else
+        {
+            if (battler == gLinkPlayers[GetMultiplayerId()].id)
+            {
+                 const u16 *customPalette = GetPlayerObjectEventPaletteData(gSaveBlock2Ptr->playerGender);
+                 if (customPalette != NULL)
+                     palette = customPalette;
+            }
+        }
+    }
+
     CopyTrainerBackspriteFramesToDest(backPicId, gMonSpritesGfxPtr->spritesGfx[position]);
     // Aiming for palette slots 8 and 9 for Player and PlayerPartner to prevent Trainer Slides causing mons to change colour
-    LoadPalette(gTrainerBacksprites[backPicId].palette.data,
+    LoadPalette(palette,
                           OBJ_PLTT_ID(8 + battler/2), PLTT_SIZE_4BPP);
 }
 

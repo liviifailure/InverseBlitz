@@ -1240,16 +1240,16 @@
 #define FLAG_HIDE_TRUCK_EXEGGUTOR                                   0x49B
 #define FLAG_HIDE_TRUCK_MIMIKYU                                     0x49C 
 #define FLAG_HIDE_TRUCK_DARKRAI                                     0x49D
-#define FLAG_HIDE_TRUCK_COFAGRIGUS                                  0x49E // Unused Flag
-#define FLAG_HIDE_TRUCK_CUBCHOO                                           0x49F // Unused Flag
-#define FLAG_HIDE_TRUCK_TV                                          0x4A0 // Unused Flag
-#define FLAG_HIDE_TRUCK_SKITTY                                           0x4A1 // Unused Flag
-#define FLAG_HIDE_TRUCK_PANSEAR                                          0x4A2 // Unused Flag
+#define FLAG_HIDE_TRUCK_COFAGRIGUS                                  0x49E
+#define FLAG_HIDE_TRUCK_CUBCHOO                                     0x49F
+#define FLAG_HIDE_TRUCK_TV                                          0x4A0 
+#define FLAG_HIDE_TRUCK_SKITTY                                      0x4A1
+#define FLAG_HIDE_TRUCK_PANSEAR                                     0x4A2
 #define FLAG_NOTHING_TO_SEE_HERE                                    0x4A3 // Unused Flag
 #define FLAG_FRESH_BREATH                                           0x4A4 // Unused Flag
 #define FLAG_TWO_BADGES                                             0x4A5 // Unused Flag
-#define FLAG_UNUSED_0x4A6                                           0x4A6 // Unused Flag
-#define FLAG_UNUSED_0x4A7                                           0x4A7 // Unused Flag
+#define FLAG_HIDE_TRUCK_KECLEON                                     0x4A6
+#define FLAG_HIDE_TRUCK_VIGOROTH                                    0x4A7
 #define FLAG_UNUSED_0x4A8                                           0x4A8 // Unused Flag
 #define FLAG_UNUSED_0x4A9                                           0x4A9 // Unused Flag
 #define FLAG_UNUSED_0x4AA                                           0x4AA // Unused Flag

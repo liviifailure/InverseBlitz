@@ -7387,7 +7387,7 @@ BattleScript_FriskActivates::
 
 BattleScript_FriskItemSteal::
 	playanimation BS_EFFECT_BATTLER, B_ANIM_ITEM_STEAL
-	printstring STRINGID_PKMNSTOLEITEM
+	printstring STRINGID_PKMNFRISKEDITEM
 	waitmessage B_WAIT_TIME_LONG
 	end3
 

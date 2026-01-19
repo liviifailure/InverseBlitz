@@ -40,6 +40,8 @@
 #define HALL_OF_FAME_MAX_TEAMS 30
 #define TAG_CONFETTI 1001
 
+const u16 *GetPlayerObjectEventPaletteData(u8 gender);
+
 STATIC_ASSERT(sizeof(struct HallofFameTeam) * HALL_OF_FAME_MAX_TEAMS <= SECTOR_DATA_SIZE * NUM_HOF_SECTORS, HallOfFameFreeSpace);
 
 struct HofGfx
@@ -713,6 +715,12 @@ static void Task_Hof_DisplayPlayer(u8 taskId)
     ShowBg(1);
     ShowBg(3);
     gTasks[taskId].tPlayerSpriteID = CreateTrainerPicSprite(PlayerGenderToFrontTrainerPicId_Debug(gSaveBlock2Ptr->playerGender, TRUE), TRUE, 120, 72, 6, TAG_NONE);
+    {
+        const u16 *palette = GetPlayerObjectEventPaletteData(gSaveBlock2Ptr->playerGender);
+        if (palette != NULL)
+            LoadPalette(palette, OBJ_PLTT_ID(gSprites[gTasks[taskId].tPlayerSpriteID].oam.paletteNum), PLTT_SIZE_4BPP);
+    }
+
     AddWindow(&sHof_WindowTemplate);
     LoadWindowGfx(1, gSaveBlock2Ptr->optionsWindowFrameType, 0x21D, BG_PLTT_ID(13));
     LoadPalette(GetTextWindowPalette(1), BG_PLTT_ID(14), PLTT_SIZE_4BPP);

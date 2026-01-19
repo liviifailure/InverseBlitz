@@ -40,6 +40,10 @@
 #include "constants/rgb.h"
 #include "constants/songs.h"
 
+void UpdatePlayerPalette(void);
+const u16 *GetPlayerObjectEventPaletteData(u8 gender);
+
+
 #define subsprite_table(ptr) {.subsprites = ptr, .subspriteCount = (sizeof ptr) / (sizeof(struct Subsprite))}
 
 EWRAM_DATA s32 gFieldEffectArguments[8] = {0};
@@ -917,6 +921,7 @@ u8 CreateTrainerSprite(u8 trainerSpriteID, s16 x, s16 y, u8 subpriority, u8 *buf
 {
     struct SpriteTemplate spriteTemplate;
     bool32 alloced = FALSE;
+    const u16 *customPalette = NULL;
 
     // Allocate memory for buffer
     if (buffer == NULL)
@@ -925,7 +930,20 @@ u8 CreateTrainerSprite(u8 trainerSpriteID, s16 x, s16 y, u8 subpriority, u8 *buf
         alloced = TRUE;
     }
 
-    LoadSpritePalette(&gTrainerSprites[trainerSpriteID].palette);
+    if (trainerSpriteID == PlayerGenderToFrontTrainerPicId(gSaveBlock2Ptr->playerGender))
+        customPalette = GetPlayerObjectEventPaletteData(gSaveBlock2Ptr->playerGender);
+
+    if (customPalette != NULL)
+    {
+        struct SpritePalette palette = gTrainerSprites[trainerSpriteID].palette;
+        palette.data = customPalette;
+        LoadSpritePalette(&palette);
+    }
+    else
+    {
+        LoadSpritePalette(&gTrainerSprites[trainerSpriteID].palette);
+    }
+
     LoadCompressedSpriteSheetOverrideBuffer(&gTrainerSprites[trainerSpriteID].frontPic, buffer);
     if (alloced)
         Free(buffer);
@@ -3283,6 +3301,7 @@ static void (*const sSurfFieldEffectFuncs[])(struct Task *) = {
 
 static void Task_SurfFieldEffect(u8 taskId)
 {
+    UpdatePlayerPalette();
     sSurfFieldEffectFuncs[gTasks[taskId].tState](&gTasks[taskId]);
 }
 
@@ -3329,7 +3348,9 @@ static void SurfFieldEffect_JumpOnSurfBlob(struct Task *task)
     if (!FieldEffectActiveListContains(FLDEFF_FIELD_MOVE_SHOW_MON))
     {
         objectEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
+        UpdatePlayerPalette();
         ObjectEventSetGraphicsId(objectEvent, GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_SURFING));
+        UpdatePlayerPalette();
         ObjectEventClearHeldMovementIfFinished(objectEvent);
         ObjectEventSetHeldMovement(objectEvent, GetJumpSpecialMovementAction(objectEvent->movementDirection));
         FollowerNPC_FollowerToWater();
@@ -3777,6 +3798,7 @@ static void (*const sFlyInFieldEffectFuncs[])(struct Task *) = {
 
 static void Task_FlyIn(u8 taskId)
 {
+    UpdatePlayerPalette();
     sFlyInFieldEffectFuncs[gTasks[taskId].tState](&gTasks[taskId]);
 }
 
@@ -3906,6 +3928,7 @@ static void FlyInFieldEffect_End(struct Task *task)
             SetSurfBlob_BobState(objectEvent->fieldEffectSpriteId, BOB_PLAYER_AND_MON);
         }
         ObjectEventSetGraphicsId(objectEvent, GetPlayerAvatarGraphicsIdByStateId(state));
+        UpdatePlayerPalette();
         ObjectEventTurn(objectEvent, DIR_SOUTH);
         gPlayerAvatar.flags = task->tAvatarFlags;
         gPlayerAvatar.preventStep = FALSE;

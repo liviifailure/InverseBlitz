@@ -19,7 +19,7 @@ ProfBirch_EventScript_MoveToLab::
 	return
 
 ProfBirch_EventScript_MoveToRoute101::
-	clearflag FLAG_HIDE_ROUTE_101_BIRCH
+	@ clearflag FLAG_HIDE_ROUTE_101_BIRCH
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_BIRCHS_LAB_BIRCH
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_BIRCHS_LAB_UNKNOWN_0x380
 	setflag FLAG_HIDE_ROUTE_103_BIRCH

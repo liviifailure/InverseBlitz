@@ -2511,17 +2511,7 @@ static const u16 sSnoverEggMoveLearnset[] = {
 
 #if P_FAMILY_SNIVY
 static const u16 sSnivyEggMoveLearnset[] = {
-    MOVE_CAPTIVATE,
-    MOVE_NATURAL_GIFT,
     MOVE_GLARE,
-    MOVE_IRON_TAIL,
-    MOVE_MAGICAL_LEAF,
-    MOVE_SWEET_SCENT,
-    MOVE_MIRROR_COAT,
-    MOVE_PURSUIT,
-    MOVE_MEAN_LOOK,
-    MOVE_TWISTER,
-    MOVE_GRASSY_TERRAIN,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_SNIVY

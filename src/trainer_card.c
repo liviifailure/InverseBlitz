@@ -27,12 +27,15 @@
 #include "trainer_pokemon_sprites.h"
 #include "contest_util.h"
 #include "decompress.h"
+#include "event_object_movement.h"
 #include "constants/songs.h"
 #include "constants/game_stat.h"
 #include "constants/battle_frontier.h"
 #include "constants/rgb.h"
 #include "constants/trainers.h"
 #include "constants/union_room.h"
+
+const u16 *GetPlayerObjectEventPaletteData(u8 gender);
 
 enum {
     WIN_MSG,
@@ -1899,5 +1902,15 @@ static void CreateTrainerCardTrainerPic(void)
                     sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][1],
                     8,
                     WIN_TRAINER_PIC);
+    }
+    
+    // Load player's chosen palette if viewing player's own card
+    if (!sData->isLink)
+    {
+        const u16 *palette = GetPlayerObjectEventPaletteData(sData->trainerCard.gender);
+        if (palette != NULL)
+        {
+            LoadPalette(palette, BG_PLTT_ID(8), PLTT_SIZE_4BPP);
+        }
     }
 }

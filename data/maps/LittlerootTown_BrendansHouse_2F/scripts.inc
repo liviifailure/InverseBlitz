@@ -278,6 +278,10 @@ PlayersHouse_2F_EventScript_ShowPaletteMenu::
 	case 4, PlayersHouse_2F_EventScript_SelectCyanPalette
 	case 5, PlayersHouse_2F_EventScript_SelectSilverPalette
 	case 6, PlayersHouse_2F_EventScript_SelectPinkPalette
+	case 7, PlayersHouse_2F_EventScript_SelectGoldPalette
+	case 8, PlayersHouse_2F_EventScript_SelectPeriwinklePalette
+	case 9, PlayersHouse_2F_EventScript_SelectForestPalette
+	case 10, PlayersHouse_2F_EventScript_SelectSkyBluePalette
 	return
 
 PlayersHouse_2F_EventScript_SelectDefaultPalette::
@@ -305,14 +309,34 @@ PlayersHouse_2F_EventScript_SelectCyanPalette::
 	msgbox LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedCyan, MSGBOX_DEFAULT
 	return
 
-PlayersHouse_2F_EventScript_SelectSilverPalette::
+PlayersHouse_2F_EventScript_SelectPinkPalette::
 	setvar VAR_PLAYER_PALETTE_CHOICE, 5
+	msgbox LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedPink, MSGBOX_DEFAULT
+	return
+
+PlayersHouse_2F_EventScript_SelectSilverPalette::
+	setvar VAR_PLAYER_PALETTE_CHOICE, 6
 	msgbox LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedSilver, MSGBOX_DEFAULT
 	return
 
-PlayersHouse_2F_EventScript_SelectPinkPalette::
-	setvar VAR_PLAYER_PALETTE_CHOICE, 6
-	msgbox LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedPink, MSGBOX_DEFAULT
+PlayersHouse_2F_EventScript_SelectGoldPalette::
+	setvar VAR_PLAYER_PALETTE_CHOICE, 7
+	msgbox LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedGold, MSGBOX_DEFAULT
+	return
+
+PlayersHouse_2F_EventScript_SelectPeriwinklePalette::
+	setvar VAR_PLAYER_PALETTE_CHOICE, 8
+	msgbox LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedPeriwinkle, MSGBOX_DEFAULT
+	return
+
+PlayersHouse_2F_EventScript_SelectForestPalette::
+	setvar VAR_PLAYER_PALETTE_CHOICE, 9
+	msgbox LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedForest, MSGBOX_DEFAULT
+	return
+
+PlayersHouse_2F_EventScript_SelectSkyBluePalette::
+	setvar VAR_PLAYER_PALETTE_CHOICE, 10
+	msgbox LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedSkyBlue, MSGBOX_DEFAULT
 	return
 
 PlayersHouse_2F_EventScript_PCTurnOn::
@@ -423,6 +447,18 @@ LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedSilver:
 
 LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedPink:
 	.string "Palette set to Pink.$"
+
+LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedGold:
+	.string "Palette set to Gold.$"
+
+LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedPeriwinkle:
+	.string "Palette set to Blue.$"
+
+LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedForest:
+	.string "Palette set to Forest.$"
+
+LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedSkyBlue:
+	.string "Palette set to Sky.$"
 
 PlayersHouse_1F_Text_ReceivedEgg:
 	.string "{PLAYER} received an egg!$"

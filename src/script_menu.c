@@ -732,7 +732,26 @@ bool8 ScriptMenu_Multichoice(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPre
     else
     {
         gSpecialVar_Result = 0xFF;
-        DrawMultichoiceMenu(left, top, multichoiceId, ignoreBPress, 0);
+        if (multichoiceId == MULTI_PALETTE_CHOICE)
+        {
+            const struct MenuAction *actions = sMultichoiceLists[multichoiceId].list;
+            u8 count = sMultichoiceLists[multichoiceId].count;
+            struct ListMenuItem *items = Alloc(sizeof(struct ListMenuItem) * count);
+            u8 i;
+
+            for (i = 0; i < count; i++)
+            {
+                u8 *name = Alloc(StringLength(actions[i].text) + 1);
+                StringCopy(name, actions[i].text);
+                items[i].name = name;
+                items[i].id = i;
+            }
+            DrawMultichoiceMenuDynamic(left, top, count, items, ignoreBPress, 0, 6, DYN_MULTICHOICE_CB_NONE);
+        }
+        else
+        {
+            DrawMultichoiceMenu(left, top, multichoiceId, ignoreBPress, 0);
+        }
         return TRUE;
     }
 }
@@ -968,7 +987,6 @@ for (i = 0; i < argc; ++i) {
         DrawStdFrameWithCustomTileAndPalette(sGiftMonMenuData.bottomWindowId, TRUE, 0x214, 14);
     }
 
-    LoadPalette(gStandardMenuPalette, BG_PLTT_ID(15), PLTT_SIZE_4BPP);
     windowHeight = (argc < maxBeforeScroll) ? argc * 2 : maxBeforeScroll * 2;
     newWidth = ConvertPixelWidthToTileWidth(width);
     left = ScriptMenu_AdjustLeftCoordFromWidth(left, newWidth);

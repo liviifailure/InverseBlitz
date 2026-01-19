@@ -39,6 +39,8 @@
 #include "constants/songs.h"
 #include "constants/trainer_types.h"
 
+void UpdatePlayerPalette(void);
+
 #define NUM_FORCED_MOVEMENTS 18
 #define NUM_ACRO_BIKE_COLLISIONS 5
 
@@ -996,7 +998,6 @@ static bool8 CanStartSurfing(s16 x, s16 y, u8 direction)
 static void CreateStartSurfingTask(u8 direction)
 {
     u8 taskId;
-
     RestorePlayerSpriteCallback(&gObjectEvents[gPlayerAvatar.objectEventId]);
     ScriptContext_Enable();
     Overworld_ClearSavedMusic();
@@ -1036,6 +1037,7 @@ static void Task_StartSurfingInit(u8 taskId)
     }
     SetPlayerAvatarStateMask(8);
     ObjectEventSetGraphicsId(playerObjEvent, GetPlayerAvatarGraphicsIdByStateId(3));
+    UpdatePlayerPalette();
     ObjectEventClearHeldMovementIfFinished(playerObjEvent);
     ObjectEventSetHeldMovement(playerObjEvent, GetJumpSpecialMovementAction((u8)gTasks[taskId].data[0]));
     gTasks[taskId].func = Task_WaitStartSurfing;
@@ -1223,6 +1225,7 @@ static void PlayerAvatarTransition_Normal(struct ObjectEvent *objEvent)
 static void PlayerAvatarTransition_MachBike(struct ObjectEvent *objEvent)
 {
     ObjectEventSetGraphicsId(objEvent, GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_MACH_BIKE));
+    UpdatePlayerPalette();
     ObjectEventTurn(objEvent, objEvent->movementDirection);
     SetPlayerAvatarStateMask(PLAYER_AVATAR_FLAG_MACH_BIKE);
     BikeClearState(0, 0);
@@ -1259,6 +1262,7 @@ static void PlayerAvatarTransition_Surfing(struct ObjectEvent *objEvent)
     u8 spriteId;
 
     ObjectEventSetGraphicsId(objEvent, GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_SURFING));
+    UpdatePlayerPalette();
     ObjectEventTurn(objEvent, objEvent->movementDirection);
     SetPlayerAvatarStateMask(PLAYER_AVATAR_FLAG_SURFING);
     gFieldEffectArguments[0] = objEvent->currentCoords.x;
@@ -1272,6 +1276,7 @@ static void PlayerAvatarTransition_Surfing(struct ObjectEvent *objEvent)
 static void PlayerAvatarTransition_Underwater(struct ObjectEvent *objEvent)
 {
     ObjectEventSetGraphicsId(objEvent, GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_UNDERWATER));
+    UpdatePlayerPalette();
     ObjectEventTurn(objEvent, objEvent->movementDirection);
     SetPlayerAvatarStateMask(PLAYER_AVATAR_FLAG_UNDERWATER);
     objEvent->fieldEffectSpriteId = StartUnderwaterSurfBlobBobbing(objEvent->spriteId);
@@ -2100,6 +2105,7 @@ static void Task_WaitStopSurfing(u8 taskId)
     if (ObjectEventClearHeldMovementIfFinished(playerObjEvent))
     {
         ObjectEventSetGraphicsId(playerObjEvent, GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_NORMAL));
+        UpdatePlayerPalette();
         ObjectEventSetHeldMovement(playerObjEvent, GetFaceDirectionMovementAction(playerObjEvent->facingDirection));
         gPlayerAvatar.preventStep = FALSE;
         UnlockPlayerFieldControls();

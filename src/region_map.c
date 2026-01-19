@@ -28,6 +28,8 @@
 #include "constants/rgb.h"
 #include "constants/weather.h"
 
+const u16 *GetPlayerObjectEventPaletteData(u8 gender);
+
 /*
  *  This file handles region maps generally, and the map used when selecting a fly destination.
  *  Specific features of other region map uses are handled elsewhere
@@ -1476,6 +1478,13 @@ void CreateRegionMapPlayerIcon(u16 tileTag, u16 paletteTag)
         sheet.data = sRegionMapPlayerIcon_MayGfx;
         palette.data = sRegionMapPlayerIcon_MayPal;
     }
+
+    {
+        const u16 *customPalette = GetPlayerObjectEventPaletteData(gSaveBlock2Ptr->playerGender);
+        if (customPalette != NULL)
+            palette.data = customPalette;
+    }
+
     LoadSpriteSheet(&sheet);
     LoadSpritePalette(&palette);
     spriteId = CreateSprite(&template, 0, 0, 1);
@@ -2013,6 +2022,21 @@ static void CB_HandleFlyMapInput(void)
 {
     if (sFlyMap->state == 0)
     {
+        if (sRegionMap->cursorMovementFrameCounter == 0 && JOY_NEW(SELECT_BUTTON))
+        {
+            m4aSongNumStart(SE_SELECT);
+            sRegionMap->cursorPosX = gRegionMapEntries[MAPSEC_SLATEPORT_CITY].x + MAPCURSOR_X_MIN;
+            sRegionMap->cursorPosY = gRegionMapEntries[MAPSEC_SLATEPORT_CITY].y + MAPCURSOR_Y_MIN;
+            sRegionMap->cursorSprite->x = sRegionMap->cursorPosX * 8 + 4;
+            sRegionMap->cursorSprite->y = sRegionMap->cursorPosY * 8 + 4;
+            sRegionMap->mapSecId = MAPSEC_SLATEPORT_CITY;
+            sRegionMap->mapSecType = GetMapsecType(MAPSEC_SLATEPORT_CITY);
+            GetMapName(sRegionMap->mapSecName, MAPSEC_SLATEPORT_CITY, MAP_NAME_LENGTH);
+            GetPositionOfCursorWithinMapSec();
+            DrawFlyDestTextWindow();
+            return;
+        }
+
         switch (DoRegionMapInputCallback())
         {
         case MAP_INPUT_NONE:

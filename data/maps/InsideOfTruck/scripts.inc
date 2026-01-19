@@ -33,6 +33,8 @@
 #define LOCALID_PANSEAR 34
 #define LOCALID_PANPOUR 35
 #define LOCALID_PANSAGE 36
+#define LOCALID_KECLEON 37
+#define LOCALID_VIGOROTH 38
 
 InsideOfTruck_MapScripts::
 	map_script MAP_SCRIPT_ON_LOAD, InsideOfTruck_OnLoad
@@ -58,8 +60,10 @@ InsideOfTruck_OnLoad:
 	setflag FLAG_HIDE_TRUCK_CUBCHOO
 	setflag FLAG_HIDE_TRUCK_SKITTY
 	setflag FLAG_HIDE_TRUCK_PANSEAR
+	setflag FLAG_HIDE_TRUCK_KECLEON
+	setflag FLAG_HIDE_TRUCK_VIGOROTH
 	@ Randomly select a scenario and un-hide the corresponding NPCs
-	random 11 @ Number of scenarios
+	random 13 @ Number of scenarios
 	switch VAR_RESULT
 	case 0, InsideOfTruck_EventScript_SetupKommoo
 	case 1, InsideOfTruck_EventScript_SetupShuppets
@@ -73,6 +77,8 @@ InsideOfTruck_OnLoad:
 	@ case 9, InsideOfTruck_EventScript_SetupCubchooTV
 	case 9, InsideOfTruck_EventScript_SetupSkitty
 	case 10, InsideOfTruck_EventScript_SetupMonkeys
+	case 11, InsideOfTruck_EventScript_SetupKecleon
+	case 12, InsideOfTruck_EventScript_SetupVigoroth
 	end
 
 InsideOfTruck_EventScript_SetupKommoo::
@@ -125,6 +131,14 @@ InsideOfTruck_EventScript_SetupSkitty::
 
 InsideOfTruck_EventScript_SetupMonkeys::
 	clearflag FLAG_HIDE_TRUCK_PANSEAR
+	return
+
+InsideOfTruck_EventScript_SetupKecleon::
+	clearflag FLAG_HIDE_TRUCK_KECLEON
+	return
+
+InsideOfTruck_EventScript_SetupVigoroth::
+	clearflag FLAG_HIDE_TRUCK_VIGOROTH
 	return
 
 InsideOfTruck_EventScript_KommooCry::
@@ -416,3 +430,51 @@ InsideOfTruck_Text_Panpour:
 InsideOfTruck_Text_Pansage:
 	.string "PANSAGE seems to think this truck is\n"
 	.string "more fun than a barrel full of monkeys.$"
+
+InsideOfTruck_EventScript_Kecleon::
+	lock
+	playse SE_SUCCESS
+	applymovement LOCALID_KECLEON, Common_Movement_FacePlayer
+	waitmovement 0
+	applymovement LOCALID_KECLEON, InsideOfTruck_Movement_KecleonShow
+	waitmovement 0
+	msgbox InsideOfTruck_Text_Kecleon, MSGBOX_DEFAULT
+	release
+	end
+
+InsideOfTruck_Movement_KecleonShow:
+	set_visible
+	delay_4
+	set_invisible
+	delay_4
+	set_visible
+	delay_4
+	set_invisible
+	delay_4
+	set_visible
+	delay_4
+	set_invisible
+	delay_4
+	set_visible
+	step_end
+
+InsideOfTruck_Text_Kecleon:
+	.string "KECLEON is frozen in surprise.\p"
+	.string "…Actually, its surprise doesn't look\n"
+	.string "very genuine.\p"
+	.string "It seems like it was expecting you to\n"
+	.string "end up here all along.$"
+
+InsideOfTruck_EventScript_Vigoroth::
+	lock
+	faceplayer
+	msgbox InsideOfTruck_Text_Vigoroth, MSGBOX_NPC
+	release
+	end
+
+InsideOfTruck_Text_Vigoroth:
+	.string "VIGOROTH looks surprisingly content\n"
+	.string "for being trapped in the back of a\l"
+	.string "moving truck for all eternity.\p"
+	.string "…I guess you'll have to learn from\n"
+	.string "its positive attitude.$"

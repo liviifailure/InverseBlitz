@@ -521,6 +521,8 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_MaySilver,             OBJ_EVENT_PAL_TAG_MAY_SILVER},
     {gObjectEventPal_BrendanPink,           OBJ_EVENT_PAL_TAG_BRENDAN_PINK},
     {gObjectEventPal_MayPink,               OBJ_EVENT_PAL_TAG_MAY_PINK},
+    {gObjectEventPal_BrendanGold,           OBJ_EVENT_PAL_TAG_BRENDAN_GOLD},
+    {gObjectEventPal_MayGold,               OBJ_EVENT_PAL_TAG_MAY_GOLD},
     {gObjectEventPal_MovingBox,             OBJ_EVENT_PAL_TAG_MOVING_BOX},
     {gObjectEventPal_CableCar,              OBJ_EVENT_PAL_TAG_CABLE_CAR},
     {gObjectEventPal_SSTidal,               OBJ_EVENT_PAL_TAG_SSTIDAL},
@@ -544,6 +546,20 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_FlygonBike_MaySilver,  OBJ_EVENT_PAL_TAG_FLYGON_BIKE_MAY_SILVER},
     {gObjectEventPal_FlygonBikePink,        OBJ_EVENT_PAL_TAG_FLYGON_BIKE_PINK},
     {gObjectEventPal_FlygonBike_MayPink,    OBJ_EVENT_PAL_TAG_FLYGON_BIKE_MAY_PINK},
+    {gObjectEventPal_FlygonBikeGold,        OBJ_EVENT_PAL_TAG_FLYGON_BIKE_GOLD},
+    {gObjectEventPal_FlygonBike_MayGold,    OBJ_EVENT_PAL_TAG_FLYGON_BIKE_MAY_GOLD},
+    {gObjectEventPal_BrendanPeriwinkle,     OBJ_EVENT_PAL_TAG_BRENDAN_PERIWINKLE},
+    {gObjectEventPal_MayPeriwinkle,         OBJ_EVENT_PAL_TAG_MAY_PERIWINKLE},
+    {gObjectEventPal_FlygonBikePeriwinkle,  OBJ_EVENT_PAL_TAG_FLYGON_BIKE_PERIWINKLE},
+    {gObjectEventPal_FlygonBike_MayPeriwinkle, OBJ_EVENT_PAL_TAG_FLYGON_BIKE_MAY_PERIWINKLE},
+    {gObjectEventPal_BrendanForest,         OBJ_EVENT_PAL_TAG_BRENDAN_FOREST},
+    {gObjectEventPal_MayForest,             OBJ_EVENT_PAL_TAG_MAY_FOREST},
+    {gObjectEventPal_FlygonBikeForest,      OBJ_EVENT_PAL_TAG_FLYGON_BIKE_FOREST},
+    {gObjectEventPal_FlygonBike_MayForest,  OBJ_EVENT_PAL_TAG_FLYGON_BIKE_MAY_FOREST},
+    {gObjectEventPal_BrendanSkyBlue,        OBJ_EVENT_PAL_TAG_BRENDAN_SKYBLUE},
+    {gObjectEventPal_MaySkyBlue,            OBJ_EVENT_PAL_TAG_MAY_SKYBLUE},
+    {gObjectEventPal_FlygonBikeSkyBlue,     OBJ_EVENT_PAL_TAG_FLYGON_BIKE_SKYBLUE},
+    {gObjectEventPal_FlygonBike_MaySkyBlue, OBJ_EVENT_PAL_TAG_FLYGON_BIKE_MAY_SKYBLUE},
     {gObjectEventPal_Viola,                 OBJ_EVENT_PAL_TAG_VIOLA},
     {gObjectEventPal_RedLeaf,               OBJ_EVENT_PAL_TAG_RED_LEAF},
     {gObjectEventPal_Deoxys,                OBJ_EVENT_PAL_TAG_DEOXYS},
@@ -3195,11 +3211,10 @@ u8 LoadObjectEventPalette(u16 paletteTag)
     return LoadSpritePaletteIfTagExists(&sObjectEventSpritePalettes[i]);
 }
 
-u8 LoadPlayerObjectEventPalette(u8 gender)
+static u16 GetPlayerPaletteTag(u8 gender)
 {
     u16 paletteTag;
     u8 paletteChoice = VarGet(VAR_PLAYER_PALETTE_CHOICE);
-    
     switch (gender)
     {
         default:
@@ -3223,6 +3238,18 @@ u8 LoadPlayerObjectEventPalette(u8 gender)
                     break;
                 case 6:
                     paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN_PINK;
+                    break;
+                case 7:
+                    paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN_GOLD;
+                    break;
+                case 8:
+                    paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN_PERIWINKLE;
+                    break;
+                case 9:
+                    paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN_FOREST;
+                    break;
+                case 10:
+                    paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN_SKYBLUE;
                     break;
                 default:
                     paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN;
@@ -3250,12 +3277,41 @@ u8 LoadPlayerObjectEventPalette(u8 gender)
                 case 6:
                     paletteTag = OBJ_EVENT_PAL_TAG_MAY_PINK;
                     break;
+                case 7:
+                    paletteTag = OBJ_EVENT_PAL_TAG_MAY_GOLD;
+                    break;
+                case 8:
+                    paletteTag = OBJ_EVENT_PAL_TAG_MAY_PERIWINKLE;
+                    break;
+                case 9:
+                    paletteTag = OBJ_EVENT_PAL_TAG_MAY_FOREST;
+                    break;
+                case 10:
+                    paletteTag = OBJ_EVENT_PAL_TAG_MAY_SKYBLUE;
+                    break;
                 default:
                     paletteTag = OBJ_EVENT_PAL_TAG_MAY;
                     break;
             }
             break;
     }
+    return paletteTag;
+}
+
+const u16 *GetPlayerObjectEventPaletteData(u8 gender)
+{
+    u16 paletteTag = GetPlayerPaletteTag(gender);
+    u8 paletteIndex = FindObjectEventPaletteIndexByTag(paletteTag);
+    if (paletteIndex != 0xFF)
+    {
+        return sObjectEventSpritePalettes[paletteIndex].data;
+    }
+    return NULL;
+}
+
+u8 LoadPlayerObjectEventPalette(u8 gender)
+{
+    u16 paletteTag = GetPlayerPaletteTag(gender);
     return LoadObjectEventPalette(paletteTag);
 }
 
@@ -3288,6 +3344,18 @@ u8 LoadPlayerBikePalette(u8 gender)
                 case 6:
                     paletteTag = OBJ_EVENT_PAL_TAG_FLYGON_BIKE_PINK;
                     break;
+                case 7:
+                    paletteTag = OBJ_EVENT_PAL_TAG_FLYGON_BIKE_GOLD;
+                    break;
+                case 8:
+                    paletteTag = OBJ_EVENT_PAL_TAG_FLYGON_BIKE_PERIWINKLE;
+                    break;
+                case 9:
+                    paletteTag = OBJ_EVENT_PAL_TAG_FLYGON_BIKE_FOREST;
+                    break;
+                case 10:
+                    paletteTag = OBJ_EVENT_PAL_TAG_FLYGON_BIKE_SKYBLUE;
+                    break;
                 default:
                     paletteTag = OBJ_EVENT_PAL_TAG_FLYGON_BIKE;
                     break;
@@ -3313,6 +3381,18 @@ u8 LoadPlayerBikePalette(u8 gender)
                     break;
                 case 6:
                     paletteTag = OBJ_EVENT_PAL_TAG_FLYGON_BIKE_MAY_PINK;
+                    break;
+                case 7:
+                    paletteTag = OBJ_EVENT_PAL_TAG_FLYGON_BIKE_MAY_GOLD;
+                    break;
+                case 8:
+                    paletteTag = OBJ_EVENT_PAL_TAG_FLYGON_BIKE_MAY_PERIWINKLE;
+                    break;
+                case 9:
+                    paletteTag = OBJ_EVENT_PAL_TAG_FLYGON_BIKE_MAY_FOREST;
+                    break;
+                case 10:
+                    paletteTag = OBJ_EVENT_PAL_TAG_FLYGON_BIKE_MAY_SKYBLUE;
                     break;
                 default:
                     paletteTag = OBJ_EVENT_PAL_TAG_FLYGON_BIKE_MAY;
@@ -11767,6 +11847,18 @@ void UpdatePlayerPalette(void)
                 case 6:
                     paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN_PINK;
                     break;
+                case 7:
+                    paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN_GOLD;
+                    break;
+                case 8:
+                    paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN_PERIWINKLE;
+                    break;
+                case 9:
+                    paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN_FOREST;
+                    break;
+                case 10:
+                    paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN_SKYBLUE;
+                    break;
                 default:
                     paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN;
                     break;
@@ -11792,6 +11884,18 @@ void UpdatePlayerPalette(void)
                     break;
                 case 6:
                     paletteTag = OBJ_EVENT_PAL_TAG_MAY_PINK;
+                    break;
+                case 7:
+                    paletteTag = OBJ_EVENT_PAL_TAG_MAY_GOLD;
+                    break;
+                case 8:
+                    paletteTag = OBJ_EVENT_PAL_TAG_MAY_PERIWINKLE;
+                    break;
+                case 9:
+                    paletteTag = OBJ_EVENT_PAL_TAG_MAY_FOREST;
+                    break;
+                case 10:
+                    paletteTag = OBJ_EVENT_PAL_TAG_MAY_SKYBLUE;
                     break;
                 default:
                     paletteTag = OBJ_EVENT_PAL_TAG_MAY;
