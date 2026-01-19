@@ -1230,7 +1230,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
             gOverworldPalette_Blipbug,
             gShinyOverworldPalette_Blipbug
         )
-        .tmIlliterate = TRUE,
+        .teachingType = TM_ILLITERATE,
         .levelUpLearnset = sBlipbugLevelUpLearnset,
         .teachableLearnset = sBlipbugTeachableLearnset,
         .eggMoveLearnset = sBlipbugEggMoveLearnset,
@@ -2461,14 +2461,16 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
             gOverworldPalette_Applin,
             gShinyOverworldPalette_Applin
         )
-        .tmIlliterate = TRUE,
+        .teachingType = TM_ILLITERATE,
         .levelUpLearnset = sApplinLevelUpLearnset,
         .teachableLearnset = sApplinTeachableLearnset,
         .eggMoveLearnset = sApplinEggMoveLearnset,
-        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_DIPPLIN, CONDITIONS({IF_IN_MAP, MAP_RUSTBORO_CITY_GYM})},
-                                {EVO_LEVEL, 0, SPECIES_FLAPPLE, CONDITIONS({IF_IN_MAP, MAP_FORTREE_CITY_GYM})},
-                                {EVO_LEVEL, 0, SPECIES_APPLETUN, CONDITIONS({IF_IN_MAP, MAP_LAVARIDGE_TOWN_GYM_1F})},
-                                {EVO_LEVEL, 0, SPECIES_APPLETUN, CONDITIONS({IF_IN_MAP, MAP_LAVARIDGE_TOWN_GYM_B1F})}),
+        .evolutions = EVOLUTION({EVO_ITEM, ITEM_TART_APPLE, SPECIES_FLAPPLE},
+                                {EVO_ITEM, ITEM_SWEET_APPLE, SPECIES_APPLETUN}
+                            #if P_GEN_9_CROSS_EVOS
+                                ,{EVO_ITEM, ITEM_SYRUPY_APPLE, SPECIES_DIPPLIN}
+                            #endif
+                            ),
     },
 
     [SPECIES_FLAPPLE] =
@@ -2779,7 +2781,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         )
         .levelUpLearnset = sDipplinLevelUpLearnset,
         .teachableLearnset = sDipplinTeachableLearnset,
-        .evolutions = EVOLUTION({EVO_LEVEL, 42, SPECIES_HYDRAPPLE}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_HYDRAPPLE, CONDITIONS({IF_KNOWS_MOVE, MOVE_DRAGON_CHEER})}),
     },
 
     [SPECIES_HYDRAPPLE] =
@@ -3123,7 +3125,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .abilities = { ABILITY_GULP_MISSILE, ABILITY_NONE, ABILITY_NONE },
         .bodyColor = BODY_COLOR_BLUE,
         .speciesName = _("Cramorant"),
-        .cryId = CRY_CRAMORANT,
+        .cryId = CRY_CRAMORANT_GULPING,
         .natDexNum = NATIONAL_DEX_CRAMORANT,
         .categoryName = _("Gulp"),
         .height = 8,
@@ -3180,7 +3182,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .abilities = { ABILITY_GULP_MISSILE, ABILITY_NONE, ABILITY_NONE },
         .bodyColor = BODY_COLOR_BLUE,
         .speciesName = _("Cramorant"),
-        .cryId = CRY_CRAMORANT,
+        .cryId = CRY_CRAMORANT_GULPING,
         .natDexNum = NATIONAL_DEX_CRAMORANT,
         .categoryName = _("Gulp"),
         .height = 8,
@@ -3362,7 +3364,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .expYield = 48,
         .evYield_SpAttack = 1,
         .genderRatio = PERCENT_FEMALE(50),
-        .eggCycles = 10,
+        .eggCycles = 25,
         .friendship = STANDARD_FRIENDSHIP,
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_NO_EGGS_DISCOVERED),
@@ -3916,7 +3918,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .levelUpLearnset = sClobbopusLevelUpLearnset,
         .teachableLearnset = sClobbopusTeachableLearnset,
         .eggMoveLearnset = sClobbopusEggMoveLearnset,
-        .evolutions = EVOLUTION({EVO_LEVEL, 38, SPECIES_GRAPPLOCT}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_GRAPPLOCT, CONDITIONS({IF_KNOWS_MOVE, MOVE_TAUNT})}),
     },
 
     [SPECIES_GRAPPLOCT] =
@@ -5265,7 +5267,11 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .abilities = { ABILITY_BATTLE_ARMOR, ABILITY_NONE, ABILITY_DEFIANT },
         .bodyColor = BODY_COLOR_YELLOW,
         .speciesName = _("Falinks"),
+    #if P_MODIFIED_MEGA_CRIES
+        .cryId = CRY_FALINKS_MEGA,
+    #else
         .cryId = CRY_FALINKS,
+    #endif // P_MODIFIED_MEGA_CRIES
         .natDexNum = NATIONAL_DEX_FALINKS,
         .categoryName = _("Formation"),
         .height = 16,
@@ -5284,9 +5290,9 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .backPicSize = MON_COORDS_SIZE(64, 64),
         .backPicYOffset = 3,
         //.backAnimId = BACK_ANIM_NONE,
-        //.palette = gMonPalette_CircledQuestionMark,
-        //.shinyPalette = gMonShinyPalette_CircledQuestionMark,
-        .iconSprite = gMonIcon_QuestionMark,
+        .palette = gMonPalette_FalinksMega,
+        .shinyPalette = gMonShinyPalette_FalinksMega,
+        .iconSprite = gMonIcon_FalinksMega,
         .iconPalIndex = 0,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         FOOTPRINT(Falinks)
@@ -6802,7 +6808,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .baseSpDefense = 115,
         .types = MON_TYPES(TYPE_FAIRY),
         .catchRate = 10,
-        .expYield = 335,
+        .expYield = (P_UPDATED_EXP_YIELDS >= GEN_9) ? 330 : 335,
         .evYield_Speed = 3,
         .genderRatio = MON_GENDERLESS,
         .eggCycles = 120,
@@ -6850,7 +6856,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
             gOverworldPalette_ZacianHero,
             gShinyOverworldPalette_ZacianHero
         )
-        .isLegendary = TRUE,
+        .isRestrictedLegendary = TRUE,
         .isFrontierBanned = TRUE,
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sZacianLevelUpLearnset,
@@ -6869,7 +6875,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .baseSpDefense = 115,
         .types = MON_TYPES(TYPE_FAIRY, TYPE_STEEL),
         .catchRate = 10,
-        .expYield = 360,
+        .expYield = (P_UPDATED_EXP_YIELDS >= GEN_9) ? 350 : 360,
         .evYield_Speed = 3,
         .genderRatio = MON_GENDERLESS,
         .eggCycles = 120,
@@ -6918,7 +6924,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
             gOverworldPalette_ZacianCrowned,
             gShinyOverworldPalette_ZacianCrowned
         )
-        .isLegendary = TRUE,
+        .isRestrictedLegendary = TRUE,
         .isFrontierBanned = TRUE,
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sZacianLevelUpLearnset,
@@ -6939,7 +6945,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .baseSpDefense = 115,
         .types = MON_TYPES(TYPE_FIGHTING),
         .catchRate = 10,
-        .expYield = 335,
+        .expYield = (P_UPDATED_EXP_YIELDS >= GEN_9) ? 330 : 335,
         .evYield_Speed = 3,
         .genderRatio = MON_GENDERLESS,
         .eggCycles = 120,
@@ -6988,7 +6994,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
             gOverworldPalette_ZamazentaHero,
             gShinyOverworldPalette_ZamazentaHero
         )
-        .isLegendary = TRUE,
+        .isRestrictedLegendary = TRUE,
         .isFrontierBanned = TRUE,
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sZamazentaLevelUpLearnset,
@@ -7007,7 +7013,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .baseSpDefense = P_UPDATED_STATS >= GEN_9 ? 140 : 145,
         .types = MON_TYPES(TYPE_FIGHTING, TYPE_STEEL),
         .catchRate = 10,
-        .expYield = 360,
+        .expYield = (P_UPDATED_EXP_YIELDS >= GEN_9) ? 350 : 360,
         .evYield_Speed = 3,
         .genderRatio = MON_GENDERLESS,
         .eggCycles = 120,
@@ -7056,7 +7062,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
             gOverworldPalette_ZamazentaCrowned,
             gShinyOverworldPalette_ZamazentaCrowned
         )
-        .isLegendary = TRUE,
+        .isRestrictedLegendary = TRUE,
         .isFrontierBanned = TRUE,
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sZamazentaLevelUpLearnset,
@@ -7127,7 +7133,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
             gOverworldPalette_Eternatus,
             gShinyOverworldPalette_Eternatus
         )
-        .isLegendary = TRUE,
+        .isRestrictedLegendary = TRUE,
         .isFrontierBanned = TRUE,
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sEternatusLevelUpLearnset,
@@ -7186,7 +7192,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(-3, 20, SHADOW_SIZE_XL_BATTLE_ONLY)
         FOOTPRINT(Eternatus)
-        .isLegendary = TRUE,
+        .isRestrictedLegendary = TRUE,
         .isFrontierBanned = TRUE,
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sEternatusLevelUpLearnset,
@@ -7254,12 +7260,14 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
             gOverworldPalette_Kubfu,
             gShinyOverworldPalette_Kubfu
         )
-        //.isLegendary = TRUE,
-        //.perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
+        .isSubLegendary = TRUE,
+        .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sKubfuLevelUpLearnset,
         .teachableLearnset = sKubfuTeachableLearnset,
-        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_URSHIFU_RAPID_STRIKE, CONDITIONS({IF_IN_MAP, MAP_METEOR_FALLS_B1F_2R})},
-                                {EVO_LEVEL, 0, SPECIES_URSHIFU_SINGLE_STRIKE, CONDITIONS({IF_IN_MAP, MAP_SKY_PILLAR_TOP})}),
+        .evolutions = EVOLUTION({EVO_SCRIPT_TRIGGER, 0, SPECIES_URSHIFU_SINGLE_STRIKE},
+                                {EVO_SCRIPT_TRIGGER, 1, SPECIES_URSHIFU_RAPID_STRIKE},
+                                {EVO_ITEM, ITEM_SCROLL_OF_DARKNESS, SPECIES_URSHIFU_SINGLE_STRIKE},
+                                {EVO_ITEM, ITEM_SCROLL_OF_WATERS,   SPECIES_URSHIFU_RAPID_STRIKE}),
     },
 
     [SPECIES_URSHIFU_SINGLE_STRIKE] =
@@ -7321,7 +7329,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
             gOverworldPalette_Urshifu,
             gShinyOverworldPalette_Urshifu
         )
-        .isLegendary = TRUE,
+        .isSubLegendary = TRUE,
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sUrshifuSingleStrikeLevelUpLearnset,
         .teachableLearnset = sUrshifuSingleStrikeTeachableLearnset,
@@ -7380,12 +7388,13 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(1, 13, SHADOW_SIZE_L)
         FOOTPRINT(Urshifu)
-        .isLegendary = TRUE,
+        .isSubLegendary = TRUE,
         .isGigantamax = TRUE,
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sUrshifuSingleStrikeLevelUpLearnset,
         .teachableLearnset = sUrshifuSingleStrikeTeachableLearnset,
         .formSpeciesIdTable = sUrshifuFormSpeciesIdTable,
+        .formChangeTable = sUrshifuSingleStrikeFormChangeTable,
     },
 #endif //P_GIGANTAMAX_FORMS
 
@@ -7448,7 +7457,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
             gOverworldPalette_Urshifu,
             gShinyOverworldPalette_Urshifu
         )
-        .isLegendary = TRUE,
+        .isSubLegendary = TRUE,
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sUrshifuRapidStrikeLevelUpLearnset,
         .teachableLearnset = sUrshifuRapidStrikeTeachableLearnset,
@@ -7507,12 +7516,13 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(2, 13, SHADOW_SIZE_M)
         FOOTPRINT(Urshifu)
-        .isLegendary = TRUE,
+        .isSubLegendary = TRUE,
         .isGigantamax = TRUE,
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sUrshifuRapidStrikeLevelUpLearnset,
         .teachableLearnset = sUrshifuRapidStrikeTeachableLearnset,
         .formSpeciesIdTable = sUrshifuFormSpeciesIdTable,
+        .formChangeTable = sUrshifuRapidStrikeFormChangeTable,
     },
 #endif //P_GIGANTAMAX_FORMS
 #endif //P_FAMILY_KUBFU
@@ -7585,6 +7595,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .teachableLearnset = sZarudeTeachableLearnset,
         .formSpeciesIdTable = sZarudeFormSpeciesIdTable,
     },
+
     [SPECIES_ZARUDE_DADA] =
     {
         .baseHP        = 105,
@@ -7705,7 +7716,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
             gOverworldPalette_Regieleki,
             gShinyOverworldPalette_Regieleki
         )
-        .isLegendary = TRUE,
+        .isSubLegendary = TRUE,
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sRegielekiLevelUpLearnset,
         .teachableLearnset = sRegielekiTeachableLearnset,
@@ -7773,7 +7784,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
             gOverworldPalette_Regidrago,
             gShinyOverworldPalette_Regidrago
         )
-        .isLegendary = TRUE,
+        .isSubLegendary = TRUE,
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sRegidragoLevelUpLearnset,
         .teachableLearnset = sRegidragoTeachableLearnset,
@@ -7839,7 +7850,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
             gOverworldPalette_Glastrier,
             gShinyOverworldPalette_Glastrier
         )
-        .isLegendary = TRUE,
+        .isSubLegendary = TRUE,
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sGlastrierLevelUpLearnset,
         .teachableLearnset = sGlastrierTeachableLearnset,
@@ -7906,7 +7917,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
             gOverworldPalette_Spectrier,
             gShinyOverworldPalette_Spectrier
         )
-        .isLegendary = TRUE,
+        .isSubLegendary = TRUE,
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sSpectrierLevelUpLearnset,
         .teachableLearnset = sSpectrierTeachableLearnset,
@@ -7973,7 +7984,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
             gOverworldPalette_Calyrex,
             gShinyOverworldPalette_Calyrex
         )
-        .isLegendary = TRUE,
+        .isRestrictedLegendary = TRUE,
         .isFrontierBanned = TRUE,
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sCalyrexLevelUpLearnset,
@@ -8041,7 +8052,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
             gOverworldPalette_CalyrexIce,
             gShinyOverworldPalette_CalyrexIce
         )
-        .isLegendary = TRUE,
+        .isRestrictedLegendary = TRUE,
         .cannotBeTraded = TRUE,
         .isFrontierBanned = TRUE,
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
@@ -8109,7 +8120,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
             gOverworldPalette_CalyrexShadow,
             gShinyOverworldPalette_CalyrexShadow
         )
-        .isLegendary = TRUE,
+        .isRestrictedLegendary = TRUE,
         .cannotBeTraded = TRUE,
         .isFrontierBanned = TRUE,
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
@@ -8181,7 +8192,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
             gOverworldPalette_EnamorusIncarnate,
             gShinyOverworldPalette_EnamorusIncarnate
         )
-        .isLegendary = TRUE,
+        .isSubLegendary = TRUE,
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sEnamorusLevelUpLearnset,
         .teachableLearnset = sEnamorusTeachableLearnset,
@@ -8248,7 +8259,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
             gOverworldPalette_EnamorusTherian,
             gShinyOverworldPalette_EnamorusTherian
         )
-        .isLegendary = TRUE,
+        .isSubLegendary = TRUE,
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sEnamorusLevelUpLearnset,
         .teachableLearnset = sEnamorusTeachableLearnset,
