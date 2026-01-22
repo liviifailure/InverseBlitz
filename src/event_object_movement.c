@@ -3234,10 +3234,10 @@ static u16 GetPlayerPaletteTag(u8 gender)
                     paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN_CYAN;
                     break;
                 case 5:
-                    paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN_SILVER;
+                    paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN_PINK;
                     break;
                 case 6:
-                    paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN_PINK;
+                    paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN_SILVER;
                     break;
                 case 7:
                     paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN_GOLD;
@@ -3272,10 +3272,10 @@ static u16 GetPlayerPaletteTag(u8 gender)
                     paletteTag = OBJ_EVENT_PAL_TAG_MAY_CYAN;
                     break;
                 case 5:
-                    paletteTag = OBJ_EVENT_PAL_TAG_MAY_SILVER;
+                    paletteTag = OBJ_EVENT_PAL_TAG_MAY_PINK;
                     break;
                 case 6:
-                    paletteTag = OBJ_EVENT_PAL_TAG_MAY_PINK;
+                    paletteTag = OBJ_EVENT_PAL_TAG_MAY_SILVER;
                     break;
                 case 7:
                     paletteTag = OBJ_EVENT_PAL_TAG_MAY_GOLD;
@@ -11842,10 +11842,10 @@ void UpdatePlayerPalette(void)
                     paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN_CYAN;
                     break;
                 case 5:
-                    paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN_SILVER;
+                    paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN_PINK;
                     break;
                 case 6:
-                    paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN_PINK;
+                    paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN_SILVER;
                     break;
                 case 7:
                     paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN_GOLD;
@@ -11880,10 +11880,10 @@ void UpdatePlayerPalette(void)
                     paletteTag = OBJ_EVENT_PAL_TAG_MAY_CYAN;
                     break;
                 case 5:
-                    paletteTag = OBJ_EVENT_PAL_TAG_MAY_SILVER;
+                    paletteTag = OBJ_EVENT_PAL_TAG_MAY_PINK;
                     break;
                 case 6:
-                    paletteTag = OBJ_EVENT_PAL_TAG_MAY_PINK;
+                    paletteTag = OBJ_EVENT_PAL_TAG_MAY_SILVER;
                     break;
                 case 7:
                     paletteTag = OBJ_EVENT_PAL_TAG_MAY_GOLD;

@@ -1,7 +1,7 @@
 #ifndef GUARD_TEXT_WINDOW_H
 #define GUARD_TEXT_WINDOW_H
 
-#define WINDOW_FRAMES_COUNT 23
+#define WINDOW_FRAMES_COUNT 35
 
 struct TilesPal
 {

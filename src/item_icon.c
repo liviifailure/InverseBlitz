@@ -108,7 +108,14 @@ u8 AddItemIconSprite(u16 tilesTag, u16 paletteTag, u16 itemId)
 
         spritePalette.data = GetItemIconPalette(itemId);
         spritePalette.tag = paletteTag;
-        LoadSpritePalette(&spritePalette);
+        if (LoadSpritePalette(&spritePalette) == 0xFF)
+        {
+            u32 palIndex = AllocSpritePalette(spritePalette.tag);
+            if (palIndex != 0xFF)
+                LoadSpritePaletteInSlot(&spritePalette, palIndex);
+            else
+                LoadSpritePaletteInSlot(&spritePalette, 15); // last resort
+        }
 
         spriteTemplate = Alloc(sizeof(*spriteTemplate));
         CpuCopy16(&gItemIconSpriteTemplate, spriteTemplate, sizeof(*spriteTemplate));
@@ -145,7 +152,14 @@ u8 AddCustomItemIconSprite(const struct SpriteTemplate *customSpriteTemplate, u1
 
         spritePalette.data = GetItemIconPalette(itemId);
         spritePalette.tag = paletteTag;
-        LoadSpritePalette(&spritePalette);
+        if (LoadSpritePalette(&spritePalette) == 0xFF)
+        {
+            u32 palIndex = AllocSpritePalette(spritePalette.tag);
+            if (palIndex != 0xFF)
+                LoadSpritePaletteInSlot(&spritePalette, palIndex);
+            else
+                LoadSpritePaletteInSlot(&spritePalette, 15); // last resort
+        }
 
         spriteTemplate = Alloc(sizeof(*spriteTemplate));
         CpuCopy16(customSpriteTemplate, spriteTemplate, sizeof(*spriteTemplate));

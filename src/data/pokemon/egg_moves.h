@@ -3491,7 +3491,7 @@ static const u16 sAmauraEggMoveLearnset[] = {
 
 #if P_FAMILY_HAWLUCHA
 static const u16 sHawluchaEggMoveLearnset[] = {
-    MOVE_BATON_PASS,
+    MOVE_AGILITY,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_HAWLUCHA
@@ -3752,13 +3752,7 @@ static const u16 sWimpodEggMoveLearnset[] = {
 
 #if P_FAMILY_SANDYGAST
 static const u16 sSandygastEggMoveLearnset[] = {
-    MOVE_AMNESIA,
-    MOVE_DESTINY_BOND,
     MOVE_ANCIENT_POWER,
-    MOVE_STOCKPILE,
-    MOVE_SWALLOW,
-    MOVE_SPIT_UP,
-    MOVE_CURSE,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_SANDYGAST
@@ -4041,7 +4035,6 @@ static const u16 sSnomEggMoveLearnset[] = {
 #if P_FAMILY_STONJOURNER
 static const u16 sStonjournerEggMoveLearnset[] = {
     MOVE_CURSE,
-    MOVE_ANCIENT_POWER,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_STONJOURNER

@@ -902,13 +902,84 @@ static u8 GetBikeCollision(u8 direction)
 static u8 GetBikeCollisionAt(struct ObjectEvent *objectEvent, s16 x, s16 y, u8 direction, u8 metatileBehavior)
 {
     u8 collision = CheckForObjectEventCollision(objectEvent, x, y, direction, metatileBehavior);
- 
+
+    // If the player is currently on surfable water, always block movement
+    // into a tile that contains any object (at any elevation). This prevents
+    // riding/standing on top of NPCs or map objects while on the water.
+    if (MetatileBehavior_IsSurfableWaterOrUnderwater(MapGridGetMetatileBehaviorAt(objectEvent->currentCoords.x, objectEvent->currentCoords.y)))
+    {
+        if (GetObjectEventIdByPosition(x, y, 0) != OBJECT_EVENTS_COUNT)
+            return COLLISION_OBJECT_EVENT;
+    }
+
+    // Handle elevation-mismatch transitions onto dark water similar to how surf starts.
+    if (collision == COLLISION_ELEVATION_MISMATCH && MetatileBehavior_IsDarkWater(metatileBehavior))
+    {
+        // Need >=5 badges to traverse dark water on bike.
+        if (VarGet(VAR_BADGE_COUNT) < 5)
+            return COLLISION_IMPASSABLE;
+
+        // If currently moving within surfable water, allow transition.
+        if (MetatileBehavior_IsSurfableWaterOrUnderwater(MapGridGetMetatileBehaviorAt(objectEvent->currentCoords.x, objectEvent->currentCoords.y)))
+            return COLLISION_NONE;
+
+        // Mirror CanStartSurfing checks: player must be facing surfable water and target spot must be empty.
+        // Mirror CanStartSurfing checks: player must be facing surfable water and target spot must be empty.
+        // Use elevation 0 when checking object presence to ensure no object exists at any elevation.
+        if (IsPlayerFacingSurfableFishableWater() && GetObjectEventIdByPosition(x, y, 0) == OBJECT_EVENTS_COUNT && MapGridGetElevationAt(x, y) == 1)
+            return COLLISION_NONE;
+
+        // Otherwise, do not allow biking off a higher tile (e.g. bridge) onto dark water below.
+        return COLLISION_IMPASSABLE;
+    }
+
     if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_ACRO_BIKE)
     {
         if (MetatileBehavior_IsDarkWater(metatileBehavior))
-            return COLLISION_IMPASSABLE; // This makes the water act like a wall, but won't show a message.
-        if (MetatileBehavior_IsSurfableWaterOrUnderwater(metatileBehavior))
+        {
+            // If the player doesn't have at least 5 badges, dark water is impassable.
+            if (VarGet(VAR_BADGE_COUNT) < 5)
+                return COLLISION_IMPASSABLE;
+
+            // If the player is currently on (or moving within) surfable water, allow biking into dark water,
+            // but respect object collisions (don't ride over NPCs).
+            if (MetatileBehavior_IsSurfableWaterOrUnderwater(MapGridGetMetatileBehaviorAt(objectEvent->currentCoords.x, objectEvent->currentCoords.y)))
+            {
+                // If any object exists at the destination tile (any elevation), treat it as a collision
+                // so the player can't ride over NPCs or map objects while on the water.
+                if (GetObjectEventIdByPosition(x, y, 0) != OBJECT_EVENTS_COUNT)
+                    return COLLISION_OBJECT_EVENT;
+                if (collision == COLLISION_OBJECT_EVENT)
+                    return collision;
+                return COLLISION_NONE;
+            }
+
+            // Otherwise, prevent biking onto dark water at a different elevation (e.g., off a bridge).
+            if (PlayerGetElevation() != MapGridGetElevationAt(x, y))
+                return COLLISION_IMPASSABLE;
+
             return COLLISION_NONE;
+        }
+
+        if (MetatileBehavior_IsSurfableWaterOrUnderwater(metatileBehavior))
+        {
+            if (GetObjectEventIdByPosition(x, y, 0) != OBJECT_EVENTS_COUNT)
+                return COLLISION_OBJECT_EVENT;
+            if (collision == COLLISION_OBJECT_EVENT)
+                return collision;
+            return COLLISION_NONE;
+        }
+    }
+    else
+    {
+        if (MetatileBehavior_IsSurfableWaterOrUnderwater(metatileBehavior))
+        {
+            if (GetObjectEventIdByPosition(x, y, 0) != OBJECT_EVENTS_COUNT)
+                return COLLISION_OBJECT_EVENT;
+            if (collision == COLLISION_OBJECT_EVENT)
+                return collision;
+            return COLLISION_NONE;
+        }
     }
     if (collision > COLLISION_OBJECT_EVENT)
         return collision;

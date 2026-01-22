@@ -276,8 +276,8 @@ PlayersHouse_2F_EventScript_ShowPaletteMenu::
 	case 2, PlayersHouse_2F_EventScript_SelectYellowPalette
 	case 3, PlayersHouse_2F_EventScript_SelectOrangePalette
 	case 4, PlayersHouse_2F_EventScript_SelectCyanPalette
-	case 5, PlayersHouse_2F_EventScript_SelectSilverPalette
-	case 6, PlayersHouse_2F_EventScript_SelectPinkPalette
+	case 5, PlayersHouse_2F_EventScript_SelectPinkPalette
+	case 6, PlayersHouse_2F_EventScript_SelectSilverPalette
 	case 7, PlayersHouse_2F_EventScript_SelectGoldPalette
 	case 8, PlayersHouse_2F_EventScript_SelectPeriwinklePalette
 	case 9, PlayersHouse_2F_EventScript_SelectForestPalette
@@ -442,11 +442,11 @@ LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedOrange:
 LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedCyan:
 	.string "Palette set to Cyan.$"
 
-LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedSilver:
-	.string "Palette set to Silver.$"
-
 LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedPink:
 	.string "Palette set to Pink.$"
+
+LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedSilver:
+	.string "Palette set to Silver.$"
 
 LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedGold:
 	.string "Palette set to Gold.$"

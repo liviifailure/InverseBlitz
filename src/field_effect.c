@@ -3348,7 +3348,6 @@ static void SurfFieldEffect_JumpOnSurfBlob(struct Task *task)
     if (!FieldEffectActiveListContains(FLDEFF_FIELD_MOVE_SHOW_MON))
     {
         objectEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
-        UpdatePlayerPalette();
         ObjectEventSetGraphicsId(objectEvent, GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_SURFING));
         UpdatePlayerPalette();
         ObjectEventClearHeldMovementIfFinished(objectEvent);

@@ -9,6 +9,9 @@
 #include "trig.h"
 #include "overworld.h"
 #include "event_data.h"
+#include "daycare.h"
+#include "pokemon_icon.h"
+#include "pokemon.h"
 #include "secret_base.h"
 #include "string_util.h"
 #include "international_string_util.h"
@@ -79,6 +82,7 @@ static EWRAM_DATA struct {
     struct RegionMap regionMap;
     u8 tileBuffer[0x1c0];
     u8 nameBuffer[0x26]; // never read
+    u8 daycareSpriteId;
     bool8 choseFlyLocation;
 } *sFlyMap = NULL;
 
@@ -640,6 +644,12 @@ void FreeRegionMapIconResources(void)
         DestroySprite(sRegionMap->playerIconSprite);
         FreeSpriteTilesByTag(sRegionMap->playerIconTileTag);
         FreeSpritePaletteByTag(sRegionMap->playerIconPaletteTag);
+    }
+    if (sFlyMap != NULL && sFlyMap->daycareSpriteId != 0xFF)
+    {
+        if (sFlyMap->daycareSpriteId < MAX_SPRITES)
+            FreeAndDestroyMonIconSprite(&gSprites[sFlyMap->daycareSpriteId]);
+        sFlyMap->daycareSpriteId = 0xFF;
     }
 }
 
@@ -1717,6 +1727,7 @@ void CB2_OpenFlyMap(void)
         CreateRegionMapCursor(TAG_CURSOR, TAG_CURSOR);
         CreateRegionMapPlayerIcon(TAG_PLAYER_ICON, TAG_PLAYER_ICON);
         sFlyMap->mapSecId = sFlyMap->regionMap.mapSecId;
+        sFlyMap->daycareSpriteId = 0xFF;
         StringFill(sFlyMap->nameBuffer, CHAR_SPACE, MAP_NAME_LENGTH);
         sDrawFlyDestTextWindow = TRUE;
         DrawFlyDestTextWindow();
@@ -1894,6 +1905,29 @@ static void LoadFlyDestIcons(void)
 
     CreateFlyDestIcons();
     TryCreateRedOutlineFlyDestIcons();
+    // If a Pokemon is in the Daycare (mod: capped to one), overlay its icon
+    if (sFlyMap != NULL && CountPokemonInDaycare(&gSaveBlock1Ptr->daycare) > 0)
+    {
+        u8 i;
+        for (i = 0; i < DAYCARE_MON_COUNT; i++)
+        {
+            u16 species = (u16)GetBoxMonData(&gSaveBlock1Ptr->daycare.mons[i].mon, MON_DATA_SPECIES);
+            if (species != SPECIES_NONE)
+            {
+                u32 personality = GetBoxMonData(&gSaveBlock1Ptr->daycare.mons[i].mon, MON_DATA_PERSONALITY);
+                u16 mapX, mapY, width, height;
+                s16 px, py;
+
+                GetMapSecDimensions(MAPSEC_MAUVILLE_CITY, &mapX, &mapY, &width, &height);
+                px = (mapX + MAPCURSOR_X_MIN) * 8 + 4 - 14; // one tile left of Mauville
+                py = (mapY + MAPCURSOR_Y_MIN) * 8 + 4 - 6; // one tile up
+
+                LoadMonIconPalettePersonality(species, personality);
+                sFlyMap->daycareSpriteId = CreateMonIcon(species, SpriteCallbackDummy, px, py, 10, personality);
+                break;
+            }
+        }
+    }
 }
 
 // Sprite data for SpriteCB_FlyDestIcon

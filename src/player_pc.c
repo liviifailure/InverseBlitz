@@ -287,6 +287,7 @@ static const u16 sNewGamePCItems[][2] =
     { ITEM_AGGRONITE, 1 },
     { ITEM_AMPHAROSITE, 1 },
     { ITEM_BANETTITE, 1 },
+    { ITEM_BEEDRILLITE, 1 },
     { ITEM_BLASTOISINITE, 1 },
 	{ ITEM_BLAZIKENITE, 1 },
 	{ ITEM_CAMERUPTITE, 1 },

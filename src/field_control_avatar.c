@@ -569,7 +569,8 @@ static const u8 *GetInteractedWaterScript(struct MapPosition *unused1, u8 metati
         // Show "nervous" message if on the bike and facing rough water without the Surf HM.
    
     if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_ACRO_BIKE)
-    && MetatileBehavior_IsDarkWater(metatileBehavior))
+    && MetatileBehavior_IsDarkWater(metatileBehavior)
+    && VarGet(VAR_BADGE_COUNT) < 4)
         {
             return EventScript_FlygonNervous;
         }

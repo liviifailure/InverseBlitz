@@ -107,7 +107,7 @@ static void CreateStartSurfingTask(u8);
 static void Task_StartSurfingInit(u8 taskId);
 static void Task_WaitStartSurfing(u8 taskId);
 static bool8 CanStopSurfing(s16, s16, u8);
-static bool8 CanStartSurfing(s16, s16, u8);
+bool8 CanStartSurfing(s16, s16, u8);
 static bool8 ShouldJumpLedge(s16, s16, u8);
 static bool8 TryPushBoulder(s16, s16, u8);
 static void CheckAcroBikeCollision(s16, s16, u8, u8 *);
@@ -912,11 +912,11 @@ u8 CheckForObjectEventCollision(struct ObjectEvent *objectEvent, s16 x, s16 y, u
 {
     u8 collision = GetCollisionAtCoords(objectEvent, x, y, direction);
 
-    if (collision == COLLISION_ELEVATION_MISMATCH && CanStopSurfing(x, y, direction))
-        return COLLISION_STOP_SURFING;
+    //if (collision == COLLISION_ELEVATION_MISMATCH && CanStopSurfing(x, y, direction))
+        //return COLLISION_STOP_SURFING;
 
-    if (collision == COLLISION_ELEVATION_MISMATCH && CanStartSurfing(x, y, direction))
-        return COLLISION_START_SURFING;
+    //if (collision == COLLISION_ELEVATION_MISMATCH && CanStartSurfing(x, y, direction))
+        //return COLLISION_START_SURFING;
 
     // Allow Acro Bike to hop over 1-tile objects.
     if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_ACRO_BIKE))
@@ -974,14 +974,14 @@ static u8 CheckForObjectEventStaticCollision(struct ObjectEvent *objectEvent, s1
     return collision;
 }
 
-static bool8 CanStartSurfing(s16 x, s16 y, u8 direction)
+bool8 CanStartSurfing(s16 x, s16 y, u8 direction)
 {
     if (CheckBagHasItem(ITEM_HM_SURF, 1) == FALSE) //We don't need a badge check since you need 5 badges to get the item in the first place
     {
         return FALSE;
     }
 
-    if ((gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_ON_FOOT)        //also remove to jump from bike, side effects unknown
+    if ((gPlayerAvatar.flags)        //also remove to jump from bike, side effects unknown
      && MapGridGetElevationAt(x, y) == 1
      && IsPlayerFacingSurfableFishableWater()
      && GetObjectEventIdByPosition(x, y, 1) == OBJECT_EVENTS_COUNT)
