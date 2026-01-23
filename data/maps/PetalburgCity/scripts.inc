@@ -109,6 +109,9 @@ PetalburgCity_EventScript_WalkDown::
 	giveitem ITEM_HM_SURF
 	waitfanfare
 	setflag FLAG_RECEIVED_HM_SURF
+	msgbox PetalburgCity_Text_FlygonLearnedSurf, MSGBOX_DEFAULT
+	playfanfare MUS_OBTAIN_ITEM
+	waitfanfare
 	closemessage
 	forcesave
 	clearflag FLAG_HIDE_MAP_NAME_POPUP
@@ -849,3 +852,7 @@ PetalburgCity_Text_ImLookingForTalentedTrainers:
 	.string "I knew you could do it.\p"
 	.string "Please take this as a gift from me.\p"
 	.string "-WALLY'S UNCLE$"
+
+PetalburgCity_Text_FlygonLearnedSurf:
+	.string "BIRCH'S FLYGON overcame its\n"
+	.string "fear of rough waters!$"
