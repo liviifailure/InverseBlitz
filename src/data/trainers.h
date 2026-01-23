@@ -39752,7 +39752,7 @@ F_TRAINER_FEMALE |
             .moves = {
 #line 15331
                 MOVE_SUBMISSION,
-                MOVE_STRENGTH,
+                MOVE_THUNDERPUNCH,
                 MOVE_DUAL_CHOP,
                 MOVE_BULK_UP,
             },
@@ -39886,7 +39886,7 @@ F_TRAINER_FEMALE |
             .moves = {
 #line 15391
                 MOVE_SUBMISSION,
-                MOVE_STRENGTH,
+                MOVE_THUNDERPUNCH,
                 MOVE_DUAL_CHOP,
                 MOVE_BULK_UP,
             },

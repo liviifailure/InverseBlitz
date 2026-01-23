@@ -649,6 +649,13 @@ enum BattleCoordTypes GetBattlerCoordsIndex(u32 battler)
 
 u8 CreateBattlerHealthboxSprites(u8 battler)
 {
+    // Ensure Mega symbol palette is loaded so healthbox can draw it reliably
+    if (IndexOfSpritePaletteTag(ANIM_TAG_MEGA_SYMBOL) == 0xFF)
+    {
+        static const struct SpritePalette sMegaSymbolPal = {gBattleAnimSpritePal_MegaSymbol, ANIM_TAG_MEGA_SYMBOL};
+        LoadSpritePalette(&sMegaSymbolPal);
+    }
+
     s16 data6 = 0;
     u8 healthboxLeftSpriteId, healthboxRightSpriteId;
     u8 healthbarSpriteId;

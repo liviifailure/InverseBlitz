@@ -5906,7 +5906,18 @@ static void Task_HandleReplaceMoveYesNoInput(u8 taskId)
         PlaySE(SE_SELECT);
         // fallthrough
     case 1:
-        Task_TryLearningNextMoveAfterText(taskId);
+        if (gPartyMenu.learnMoveState == 0)
+        {
+            GetMonNickname(&gPlayerParty[gPartyMenu.slotId], gStringVar1);
+            StringCopy(gStringVar2, GetMoveName(gPartyMenu.data1));
+            StringExpandPlaceholders(gStringVar4, gText_MoveNotLearned);
+            DisplayPartyMenuMessage(gStringVar4, TRUE);
+            gTasks[taskId].func = Task_ClosePartyMenuAfterText;
+        }
+        else
+        {
+            Task_TryLearningNextMoveAfterText(taskId);
+        }
         break;
     }
 }

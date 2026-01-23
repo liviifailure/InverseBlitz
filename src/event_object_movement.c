@@ -3339,10 +3339,10 @@ u8 LoadPlayerBikePalette(u8 gender)
                     paletteTag = OBJ_EVENT_PAL_TAG_FLYGON_BIKE_CYAN;
                     break;
                 case 5:
-                    paletteTag = OBJ_EVENT_PAL_TAG_FLYGON_BIKE_SILVER;
+                    paletteTag = OBJ_EVENT_PAL_TAG_FLYGON_BIKE_PINK;
                     break;
                 case 6:
-                    paletteTag = OBJ_EVENT_PAL_TAG_FLYGON_BIKE_PINK;
+                    paletteTag = OBJ_EVENT_PAL_TAG_FLYGON_BIKE_SILVER;
                     break;
                 case 7:
                     paletteTag = OBJ_EVENT_PAL_TAG_FLYGON_BIKE_GOLD;
@@ -3377,10 +3377,10 @@ u8 LoadPlayerBikePalette(u8 gender)
                     paletteTag = OBJ_EVENT_PAL_TAG_FLYGON_BIKE_MAY_CYAN;
                     break;
                 case 5:
-                    paletteTag = OBJ_EVENT_PAL_TAG_FLYGON_BIKE_MAY_SILVER;
+                    paletteTag = OBJ_EVENT_PAL_TAG_FLYGON_BIKE_MAY_PINK;
                     break;
                 case 6:
-                    paletteTag = OBJ_EVENT_PAL_TAG_FLYGON_BIKE_MAY_PINK;
+                    paletteTag = OBJ_EVENT_PAL_TAG_FLYGON_BIKE_MAY_SILVER;
                     break;
                 case 7:
                     paletteTag = OBJ_EVENT_PAL_TAG_FLYGON_BIKE_MAY_GOLD;
