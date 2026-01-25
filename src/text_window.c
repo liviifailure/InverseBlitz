@@ -42,6 +42,7 @@ static const u8 sTextWindowFrame32_Gfx[] = INCBIN_U8("graphics/text_window/32.4b
 static const u8 sTextWindowFrame33_Gfx[] = INCBIN_U8("graphics/text_window/33.4bpp");
 static const u8 sTextWindowFrame34_Gfx[] = INCBIN_U8("graphics/text_window/34.4bpp");
 static const u8 sTextWindowFrame35_Gfx[] = INCBIN_U8("graphics/text_window/35.4bpp");
+static const u8 sTextWindowFrame36_Gfx[] = INCBIN_U8("graphics/text_window/36.4bpp");
 
 const u16 gTextWindowFrame1_Pal[] = INCBIN_U16("graphics/text_window/1.gbapal");
 static const u16 sTextWindowFrame2_Pal[] = INCBIN_U16("graphics/text_window/2.gbapal");
@@ -78,6 +79,7 @@ static const u16 sTextWindowFrame32_Pal[] = INCBIN_U16("graphics/text_window/32.
 static const u16 sTextWindowFrame33_Pal[] = INCBIN_U16("graphics/text_window/33.gbapal");
 static const u16 sTextWindowFrame34_Pal[] = INCBIN_U16("graphics/text_window/34.gbapal");
 static const u16 sTextWindowFrame35_Pal[] = INCBIN_U16("graphics/text_window/35.gbapal");
+static const u16 sTextWindowFrame36_Pal[] = INCBIN_U16("graphics/text_window/36.gbapal");
 
 static const u16 sTextWindowPalettes[][16] =
 {
@@ -124,7 +126,8 @@ static const struct TilesPal sWindowFrames[WINDOW_FRAMES_COUNT] =
     {sTextWindowFrame32_Gfx, sTextWindowFrame32_Pal},
     {sTextWindowFrame33_Gfx, sTextWindowFrame33_Pal},
     {sTextWindowFrame34_Gfx, sTextWindowFrame34_Pal},
-    {sTextWindowFrame35_Gfx, sTextWindowFrame35_Pal}
+    {sTextWindowFrame35_Gfx, sTextWindowFrame35_Pal},
+    {sTextWindowFrame36_Gfx, sTextWindowFrame36_Pal}
 };
 
 static const u16 sTextWindowDexNavFrame[] = INCBIN_U16("graphics/text_window/dexnav_pal.gbapal");

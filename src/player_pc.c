@@ -329,6 +329,7 @@ static const u16 sNewGamePCItems[][2] =
 	{ ITEM_SHARPEDONITE, 1 },
     { ITEM_STARAPTITE, 1 },
 	{ ITEM_STARMINITE, 1 },
+	{ ITEM_STEELIXITE, 1 },
 	{ ITEM_SWAMPERTITE, 1 },
     { ITEM_VENUSAURITE, 1 },
 	{ ITEM_ROTOM_CATALOG, 20 },

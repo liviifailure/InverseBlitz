@@ -1189,6 +1189,7 @@ static s32 AI_CheckBadMove(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
             if (effectiveness < UQ_4_12(2.0))
             {
                 if (move != MOVE_SUPERSONIC
+                 && move != MOVE_SWAGGER
                  && move != MOVE_LEECH_SEED)                   
                     RETURN_SCORE_MINUS(20);
             }

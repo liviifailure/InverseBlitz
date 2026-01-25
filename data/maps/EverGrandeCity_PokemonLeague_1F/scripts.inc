@@ -84,6 +84,7 @@ EverGrandeCity_PokemonLeague_1F_Pokemart:
 	.2byte ITEM_SHARPEDONITE
 	.2byte ITEM_STARAPTITE
 	.2byte ITEM_STARMINITE
+	.2byte ITEM_STEELIXITE
 	.2byte ITEM_SWAMPERTITE
 	.2byte ITEM_VENUSAURITE
 	pokemartlistend

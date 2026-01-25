@@ -915,6 +915,7 @@ SlateportCity_Pokemart_StageTwoMegas:
 	.2byte ITEM_SCIZORITE
 	.2byte ITEM_SHARPEDONITE
 	.2byte ITEM_STARMINITE
+	.2byte ITEM_STEELIXITE
 	pokemartlistend
 
 	.align 2
@@ -962,6 +963,7 @@ SlateportCity_Pokemart_StageThreeMegas:
 	.2byte ITEM_SALAMENCITE
 	.2byte ITEM_SCEPTILITE
 	.2byte ITEM_SCIZORITE
+	.2byte ITEM_STEELIXITE
 	.2byte ITEM_SCOLIPITE
 	.2byte ITEM_SHARPEDONITE
 	.2byte ITEM_STARAPTITE
