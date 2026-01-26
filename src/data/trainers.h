@@ -44647,7 +44647,7 @@ F_TRAINER_FEMALE |
 #line 17511
             TRAINER_ENCOUNTER_MUSIC_MALE,
 #line 17512
-        .items = { ITEM_POTION },
+        .items = { ITEM_FULL_HEAL },
 #line 17513
         .battleType = TRAINER_BATTLE_TYPE_DOUBLES,
 #line 17514
@@ -44718,7 +44718,7 @@ F_TRAINER_FEMALE |
 #line 17541
             TRAINER_ENCOUNTER_MUSIC_MALE,
 #line 17542
-        .items = { ITEM_SUPER_POTION },
+        .items = { ITEM_FULL_HEAL },
 #line 17543
         .battleType = TRAINER_BATTLE_TYPE_DOUBLES,
 #line 17544
@@ -44789,7 +44789,7 @@ F_TRAINER_FEMALE |
 #line 17571
             TRAINER_ENCOUNTER_MUSIC_MALE,
 #line 17572
-        .items = { ITEM_SUPER_POTION },
+        .items = { ITEM_FULL_HEAL },
 #line 17573
         .battleType = TRAINER_BATTLE_TYPE_DOUBLES,
 #line 17574
@@ -44902,7 +44902,7 @@ F_TRAINER_FEMALE |
 #line 17621
             TRAINER_ENCOUNTER_MUSIC_MALE,
 #line 17622
-        .items = { ITEM_HYPER_POTION },
+        .items = { ITEM_FULL_HEAL },
 #line 17623
         .battleType = TRAINER_BATTLE_TYPE_DOUBLES,
 #line 17624
@@ -45015,7 +45015,7 @@ F_TRAINER_FEMALE |
 #line 17671
             TRAINER_ENCOUNTER_MUSIC_MALE,
 #line 17672
-        .items = { ITEM_HYPER_POTION, ITEM_HYPER_POTION },
+        .items = { ITEM_FULL_HEAL, ITEM_FULL_HEAL },
 #line 17673
         .battleType = TRAINER_BATTLE_TYPE_DOUBLES,
 #line 17674
@@ -45128,7 +45128,7 @@ F_TRAINER_FEMALE |
 #line 17721
             TRAINER_ENCOUNTER_MUSIC_MALE,
 #line 17722
-        .items = { ITEM_HYPER_POTION, ITEM_HYPER_POTION },
+        .items = { ITEM_FULL_HEAL, ITEM_FULL_HEAL },
 #line 17723
         .battleType = TRAINER_BATTLE_TYPE_DOUBLES,
 #line 17724
@@ -45262,7 +45262,7 @@ F_TRAINER_FEMALE |
 #line 17781
             TRAINER_ENCOUNTER_MUSIC_MALE,
 #line 17782
-        .items = { ITEM_HYPER_POTION, ITEM_HYPER_POTION },
+        .items = { ITEM_FULL_HEAL, ITEM_FULL_HEAL },
 #line 17783
         .battleType = TRAINER_BATTLE_TYPE_DOUBLES,
 #line 17784
@@ -45396,7 +45396,7 @@ F_TRAINER_FEMALE |
 #line 17841
             TRAINER_ENCOUNTER_MUSIC_MALE,
 #line 17842
-        .items = { ITEM_HYPER_POTION, ITEM_HYPER_POTION },
+        .items = { ITEM_FULL_HEAL, ITEM_FULL_HEAL },
 #line 17843
         .battleType = TRAINER_BATTLE_TYPE_DOUBLES,
 #line 17844

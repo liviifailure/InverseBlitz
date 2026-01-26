@@ -17509,7 +17509,7 @@ Class: Leader
 Pic: Leader Juan
 Gender: Male
 Music: Male
-Items: Potion
+Items: Full Heal
 Double Battle: Yes
 AI: Basic Trainer / Smart Mon Choices / Smart Switching
 
@@ -17539,7 +17539,7 @@ Class: Leader
 Pic: Leader Juan
 Gender: Male
 Music: Male
-Items: Super Potion
+Items: Full Heal
 Double Battle: Yes
 AI: Basic Trainer / Smart Mon Choices / Smart Switching
 
@@ -17569,7 +17569,7 @@ Class: Leader
 Pic: Leader Juan
 Gender: Male
 Music: Male
-Items: Super Potion
+Items: Full Heal
 Double Battle: Yes
 AI: Basic Trainer / Smart Mon Choices / Smart Switching
 
@@ -17619,7 +17619,7 @@ Class: Leader
 Pic: Leader Juan
 Gender: Male
 Music: Male
-Items: Hyper Potion
+Items: Full Heal
 Double Battle: Yes
 AI: Basic Trainer / Smart Mon Choices / Smart Switching
 
@@ -17669,7 +17669,7 @@ Class: Leader
 Pic: Leader Juan
 Gender: Male
 Music: Male
-Items: Hyper Potion / Hyper Potion
+Items: Full Heal / Full Heal
 Double Battle: Yes
 AI: Basic Trainer / Smart Mon Choices / Smart Switching
 
@@ -17719,7 +17719,7 @@ Class: Leader
 Pic: Leader Juan
 Gender: Male
 Music: Male
-Items: Hyper Potion / Hyper Potion
+Items: Full Heal / Full Heal
 Double Battle: Yes
 AI: Basic Trainer / Smart Mon Choices / Smart Switching
 
@@ -17779,7 +17779,7 @@ Class: Leader
 Pic: Leader Juan
 Gender: Male
 Music: Male
-Items: Hyper Potion / Hyper Potion
+Items: Full Heal / Full Heal
 Double Battle: Yes
 AI: Basic Trainer / Smart Mon Choices / Smart Switching
 
@@ -17839,7 +17839,7 @@ Class: Leader
 Pic: Leader Juan
 Gender: Male
 Music: Male
-Items: Hyper Potion / Hyper Potion
+Items: Full Heal / Full Heal
 Double Battle: Yes
 AI: Basic Trainer / Smart Mon Choices / Smart Switching
 
