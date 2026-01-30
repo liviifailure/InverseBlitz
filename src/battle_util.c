@@ -959,6 +959,8 @@ void HandleAction_ActionFinished(void)
     gCurrentTurnActionNumber++;
     gCurrentActionFuncId = gActionsByTurnOrder[gCurrentTurnActionNumber];
     memset(&gSpecialStatuses, 0, sizeof(gSpecialStatuses));
+    for (i = 0; i < gBattlersCount; i++)
+        gBattleStruct->battlerState[i].sleepClauseEffectExempt = FALSE;
     gHitMarker &= ~(HITMARKER_OBEYS);
 
     gCurrentMove = MOVE_NONE;
@@ -2143,8 +2145,6 @@ static enum MoveCanceler CancelerObedience(struct BattleContext *ctx)
             gHitMarker |= HITMARKER_OBEYS;
             return MOVE_STEP_FAILURE; // Move doesn't fail but mon hits itself
         case DISOBEYS_FALL_ASLEEP:
-            if (IsSleepClauseEnabled())
-                gBattleStruct->battlerState[ctx->battlerAtk].sleepClauseEffectExempt = TRUE;
             gBattlescriptCurrInstr = BattleScript_IgnoresAndFallsAsleep;
             gBattleStruct->moveResultFlags[ctx->battlerDef] |= MOVE_RESULT_MISSED;
             gHitMarker |= HITMARKER_UNABLE_TO_USE_MOVE;
@@ -6386,6 +6386,9 @@ static bool32 CanSleepDueToSleepClause(u32 battlerAtk, u32 battlerDef, enum Func
         return FALSE;
     }
 
+    if (gBattleStruct->battlerState[battlerDef].sleepClauseEffectExempt)
+        return FALSE;
+
     if (option == RUN_SCRIPT)
         gBattleStruct->battlerState[battlerDef].sleepClauseEffectExempt = FALSE;
     // Can't sleep if clause is active otherwise
@@ -6583,7 +6586,7 @@ u8 GetAttackerObedienceForAction()
                 case 1:
                     return DISOBEYS_HITS_SELF;
                 case 2:
-                    if (CanBeSlept(gBattlerAttacker, gBattlerAttacker, GetBattlerAbility(gBattlerAttacker), NOT_BLOCKED_BY_SLEEP_CLAUSE))
+                    if (CanBeSlept(gBattlerAttacker, gBattlerAttacker, GetBattlerAbility(gBattlerAttacker), BLOCKED_BY_SLEEP_CLAUSE))
                     {
                         int i;
                         for (i = 0; i < gBattlersCount; i++)

@@ -10,9 +10,9 @@ static const struct LevelUpMove sNoneLevelUpLearnset[] = {
 static const struct LevelUpMove sBulbasaurLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 1, MOVE_TACKLE),
     LEVEL_UP_MOVE( 3, MOVE_GROWL),
+    LEVEL_UP_MOVE( 3, MOVE_POISON_POWDER),
     LEVEL_UP_MOVE( 7, MOVE_LEECH_SEED),
     LEVEL_UP_MOVE( 9, MOVE_VINE_WHIP),
-    LEVEL_UP_MOVE(13, MOVE_POISON_POWDER),
     LEVEL_UP_MOVE(13, MOVE_SLEEP_POWDER),
     LEVEL_UP_MOVE(15, MOVE_TAKE_DOWN),
     LEVEL_UP_MOVE(19, MOVE_RAZOR_LEAF),
@@ -6969,8 +6969,8 @@ static const struct LevelUpMove sSuicuneLevelUpLearnset[] = {
 
 #if P_FAMILY_LARVITAR
 static const struct LevelUpMove sLarvitarLevelUpLearnset[] = {
-    LEVEL_UP_MOVE( 1, MOVE_BITE),
     LEVEL_UP_MOVE( 1, MOVE_LEER),
+    LEVEL_UP_MOVE( 1, MOVE_BITE),
     LEVEL_UP_MOVE( 5, MOVE_SANDSTORM),
     LEVEL_UP_MOVE(10, MOVE_SCREECH),
     LEVEL_UP_MOVE(14, MOVE_CHIP_AWAY),

@@ -969,6 +969,7 @@ SlateportCity_Pokemart_StageThreeMegas:
 	.2byte ITEM_STARAPTITE
 	.2byte ITEM_STARMINITE
 	.2byte ITEM_SWAMPERTITE
+	.2byte ITEM_TYRANITARITE
 	.2byte ITEM_VENUSAURITE
 	pokemartlistend
 

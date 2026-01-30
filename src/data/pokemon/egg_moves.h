@@ -1525,18 +1525,7 @@ static const u16 sMiltankEggMoveLearnset[] = {
 
 #if P_FAMILY_LARVITAR
 static const u16 sLarvitarEggMoveLearnset[] = {
-    MOVE_PURSUIT,
-    MOVE_STOMP,
     MOVE_OUTRAGE,
-    MOVE_FOCUS_ENERGY,
-    MOVE_ANCIENT_POWER,
-    MOVE_DRAGON_DANCE,
-    MOVE_CURSE,
-    MOVE_IRON_DEFENSE,
-    MOVE_ASSURANCE,
-    MOVE_IRON_HEAD,
-    MOVE_STEALTH_ROCK,
-    MOVE_IRON_TAIL,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_LARVITAR

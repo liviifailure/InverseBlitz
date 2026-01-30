@@ -41066,7 +41066,7 @@ F_TRAINER_FEMALE |
 #line 15921
                 MOVE_WILL_O_WISP,
                 MOVE_FEINT_ATTACK,
-                MOVE_TAIL_WHIP,
+                MOVE_QUICK_ATTACK,
                 MOVE_FIRE_SPIN,
             },
             },
@@ -45085,7 +45085,7 @@ F_TRAINER_FEMALE |
             .moves = {
 #line 17701
                 MOVE_WATER_PULSE,
-                MOVE_AURORA_BEAM,
+                MOVE_TWISTER,
                 MOVE_BOUNCE,
                 MOVE_REST,
             },
@@ -45822,7 +45822,7 @@ F_TRAINER_FEMALE |
             .moves = {
 #line 18032
                 MOVE_LEECH_SEED,
-                MOVE_FEINT_ATTACK,
+                MOVE_SUCKER_PUNCH,
                 MOVE_NEEDLE_ARM,
                 MOVE_SPIKY_SHIELD,
             },

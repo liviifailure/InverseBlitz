@@ -15920,7 +15920,7 @@ Nature: Serious
 Ability: Flash Fire
 - Will O Wisp
 - Feint Attack
-- Tail Whip
+- Quick Attack
 - Fire Spin
 
 Numel
@@ -17699,7 +17699,7 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
 Ability: Poison Point
 - Water Pulse
-- Aurora Beam
+- Twister
 - Bounce
 - Rest
 
@@ -18030,7 +18030,7 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
 Ability: Sand Veil
 - Leech Seed
-- Feint Attack
+- Sucker Punch
 - Needle Arm
 - Spiky Shield
 
@@ -18304,7 +18304,7 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
 Ability: Inner Focus
 - Crunch
-- Explosion
+- Headbutt
 - Hail
 - Freeze Dry
 

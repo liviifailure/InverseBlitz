@@ -12485,7 +12485,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
             gShinyOverworldPalette_Steelix
         )
         OVERWORLD_FEMALE(
-            sPicTable_SteelixF,
+            sPicTable_Steelix,
             SIZE_64x64,
             SHADOW_SIZE_M,
             TRACKS_SLITHER,
