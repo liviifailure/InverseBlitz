@@ -40964,7 +40964,7 @@ F_TRAINER_FEMALE |
 #line 15878
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 #line 15880
-            .ability = ABILITY_SOLID_ROCK,
+            .ability = ABILITY_OBLIVIOUS,
 #line 15877
             .lvl = 12,
 #line 15879
@@ -41077,7 +41077,7 @@ F_TRAINER_FEMALE |
 #line 15928
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 #line 15930
-            .ability = ABILITY_SOLID_ROCK,
+            .ability = ABILITY_OBLIVIOUS,
 #line 15927
             .lvl = 17,
 #line 15929
@@ -41190,7 +41190,7 @@ F_TRAINER_FEMALE |
 #line 15978
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 #line 15980
-            .ability = ABILITY_SOLID_ROCK,
+            .ability = ABILITY_OBLIVIOUS,
 #line 15977
             .lvl = 23,
 #line 15979
@@ -44684,8 +44684,6 @@ F_TRAINER_FEMALE |
 #line 17526
             .species = SPECIES_TATSUGIRI,
             .gender = TRAINER_MON_RANDOM_GENDER,
-#line 17526
-            .heldItem = ITEM_ORAN_BERRY,
 #line 17528
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 #line 17530
@@ -44755,8 +44753,6 @@ F_TRAINER_FEMALE |
 #line 17556
             .species = SPECIES_TATSUGIRI,
             .gender = TRAINER_MON_RANDOM_GENDER,
-#line 17556
-            .heldItem = ITEM_ORAN_BERRY,
 #line 17558
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 #line 17560
@@ -44817,7 +44813,7 @@ F_TRAINER_FEMALE |
                 MOVE_WHIRLPOOL,
                 MOVE_DEFENSE_CURL,
                 MOVE_ROLLOUT,
-                MOVE_WATER_PULSE,
+                MOVE_DRAGON_DANCE,
             },
             },
             {
@@ -44835,10 +44831,10 @@ F_TRAINER_FEMALE |
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
 #line 17591
-                MOVE_MUD_BOMB,
+                MOVE_MUD_SLAP,
                 MOVE_WATERFALL,
                 MOVE_AMNESIA,
-                MOVE_RAIN_DANCE,
+                MOVE_DRAGON_DANCE,
             },
             },
             {
@@ -44868,8 +44864,6 @@ F_TRAINER_FEMALE |
 #line 17606
             .species = SPECIES_TATSUGIRI,
             .gender = TRAINER_MON_RANDOM_GENDER,
-#line 17606
-            .heldItem = ITEM_SITRUS_BERRY,
 #line 17608
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 #line 17610
@@ -44981,8 +44975,6 @@ F_TRAINER_FEMALE |
 #line 17656
             .species = SPECIES_TATSUGIRI,
             .gender = TRAINER_MON_RANDOM_GENDER,
-#line 17656
-            .heldItem = ITEM_SITRUS_BERRY,
 #line 17658
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 #line 17660
@@ -46429,7 +46421,7 @@ F_TRAINER_FEMALE |
             .moves = {
 #line 18306
                 MOVE_CRUNCH,
-                MOVE_EXPLOSION,
+                MOVE_HEADBUTT,
                 MOVE_HAIL,
                 MOVE_FREEZE_DRY,
             },

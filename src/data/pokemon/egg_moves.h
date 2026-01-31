@@ -192,23 +192,7 @@ static const u16 sOddishEggMoveLearnset[] = {
 
 #if P_FAMILY_PARAS
 static const u16 sParasEggMoveLearnset[] = {
-    MOVE_SCREECH,
-    MOVE_COUNTER,
-    MOVE_PSYBEAM,
-    MOVE_FLAIL,
-    MOVE_SWEET_SCENT,
-    MOVE_PURSUIT,
-    MOVE_METAL_CLAW,
-    MOVE_BUG_BITE,
-    MOVE_CROSS_POISON,
-    MOVE_AGILITY,
-    MOVE_ENDURE,
-    MOVE_NATURAL_GIFT,
     MOVE_LEECH_SEED,
-    MOVE_WIDE_GUARD,
-    MOVE_ROTOTILLER,
-    MOVE_FELL_STINGER,
-    MOVE_GRASSY_TERRAIN,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_PARAS
@@ -681,12 +665,12 @@ static const u16 sRhyhornEggMoveLearnset[] = {
 #if P_FAMILY_CHANSEY
 #if P_GEN_4_CROSS_EVOS
 static const u16 sHappinyEggMoveLearnset[] = {
-    MOVE_HEAL_BELL,
+    MOVE_SEISMIC_TOSS,
     MOVE_UNAVAILABLE,
 };
 #endif //P_GEN_4_CROSS_EVOS
 static const u16 sChanseyEggMoveLearnset[] = {
-    MOVE_HEAL_BELL,
+    MOVE_SEISMIC_TOSS,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_CHANSEY
@@ -1504,7 +1488,7 @@ static const u16 sHoundourEggMoveLearnset[] = {
 
 #if P_FAMILY_PHANPY
 static const u16 sPhanpyEggMoveLearnset[] = {
-    MOVE_HIGH_HORSEPOWER,
+    MOVE_ICE_SHARD,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_PHANPY
@@ -1573,7 +1557,7 @@ static const u16 sZigzagoonGalarEggMoveLearnset[] = {
 
 #if P_FAMILY_LOTAD
 static const u16 sLotadEggMoveLearnset[] = {
-    MOVE_LEECH_SEED,
+    MOVE_TEETER_DANCE,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_LOTAD
@@ -2474,7 +2458,7 @@ static const u16 sFinneonEggMoveLearnset[] = {
 
 #if P_FAMILY_SNOVER
 static const u16 sSnoverEggMoveLearnset[] = {
-    MOVE_LEECH_SEED,
+    MOVE_AVALANCHE,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_SNOVER

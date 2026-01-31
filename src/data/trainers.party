@@ -15877,7 +15877,7 @@ Numel
 Level: 12
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
-Ability: Solid Rock
+Ability: Oblivious
 - Overheat
 - Magnitude
 - Tackle
@@ -15927,7 +15927,7 @@ Numel
 Level: 17
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
-Ability: Solid Rock
+Ability: Oblivious
 - Overheat
 - Magnitude
 - Tackle
@@ -15977,7 +15977,7 @@ Numel
 Level: 23
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
-Ability: Solid Rock
+Ability: Oblivious
 - Overheat
 - Magnitude
 - Sunny Day
@@ -17523,7 +17523,7 @@ Ability: Unaware
 - Noble Roar
 - Water Gun
 
-Tatsugiri @ Oran Berry
+Tatsugiri
 Level: 13
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
@@ -17553,7 +17553,7 @@ Ability: Unaware
 - Noble Roar
 - Water Gun
 
-Tatsugiri @ Oran Berry
+Tatsugiri
 Level: 17
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
@@ -17581,17 +17581,17 @@ Ability: Water Veil
 - Whirlpool
 - Defense Curl
 - Rollout
-- Water Pulse
+- Dragon Dance
 
 Barboach
 Level: 20
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
 Ability: Oblivious
-- Mud Bomb
+- Mud Slap
 - Waterfall
 - Amnesia
-- Rain Dance
+- Dragon Dance
 
 Dondozo @ Sitrus Berry
 Level: 24
@@ -17603,7 +17603,7 @@ Ability: Unaware
 - Order Up
 - Water Gun
 
-Tatsugiri @ Sitrus Berry
+Tatsugiri
 Level: 23
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
@@ -17653,7 +17653,7 @@ Ability: Unaware
 - Order Up
 - Water Gun
 
-Tatsugiri @ Sitrus Berry
+Tatsugiri
 Level: 27
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious

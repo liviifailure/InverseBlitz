@@ -1977,6 +1977,27 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
             u32 otIdType = OT_ID_RANDOM_NO_SHINY;
             u32 fixedOtId = 0;
             u32 abilityNum = 0;
+            u16 species = partyData[monIndex].species;
+
+            if (species == SPECIES_TATSUGIRI)
+            {
+                u16 trainerNum = (firstTrainer) ? TRAINER_BATTLE_PARAM.opponentA : TRAINER_BATTLE_PARAM.opponentB;
+                if (trainerNum >= TRAINER_JUAN_1 && trainerNum <= TRAINER_JUAN_8)
+                {
+                    switch (Random() % 3)
+                    {
+                    case 0:
+                        species = SPECIES_TATSUGIRI;
+                        break;
+                    case 1:
+                        species = SPECIES_TATSUGIRI_DROOPY;
+                        break;
+                    case 2:
+                        species = SPECIES_TATSUGIRI_STRETCHY;
+                        break;
+                    }
+                }
+            }
 
             if (trainer->battleType != TRAINER_BATTLE_TYPE_SINGLES)
                 personalityValue = 0x80;
@@ -1987,18 +2008,18 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
 
             personalityValue += personalityHash << 8;
             if (partyData[monIndex].gender == TRAINER_MON_MALE)
-                personalityValue = (personalityValue & 0xFFFFFF00) | GeneratePersonalityForGender(MON_MALE, partyData[monIndex].species);
+                personalityValue = (personalityValue & 0xFFFFFF00) | GeneratePersonalityForGender(MON_MALE, species);
             else if (partyData[monIndex].gender == TRAINER_MON_FEMALE)
-                personalityValue = (personalityValue & 0xFFFFFF00) | GeneratePersonalityForGender(MON_FEMALE, partyData[monIndex].species);
+                personalityValue = (personalityValue & 0xFFFFFF00) | GeneratePersonalityForGender(MON_FEMALE, species);
             else if (partyData[monIndex].gender == TRAINER_MON_RANDOM_GENDER)
-                personalityValue = (personalityValue & 0xFFFFFF00) | GeneratePersonalityForGender(Random() & 1 ? MON_MALE : MON_FEMALE, partyData[monIndex].species);
+                personalityValue = (personalityValue & 0xFFFFFF00) | GeneratePersonalityForGender(Random() & 1 ? MON_MALE : MON_FEMALE, species);
             ModifyPersonalityForNature(&personalityValue, partyData[monIndex].nature);
             if (partyData[monIndex].isShiny)
             {
                 otIdType = OT_ID_PRESET;
                 fixedOtId = HIHALF(personalityValue) ^ LOHALF(personalityValue);
             }
-            CreateMon(&party[i], partyData[monIndex].species, partyData[monIndex].lvl, 0, TRUE, personalityValue, otIdType, fixedOtId);
+            CreateMon(&party[i], species, partyData[monIndex].lvl, 0, TRUE, personalityValue, otIdType, fixedOtId);
             SetMonData(&party[i], MON_DATA_HELD_ITEM, &partyData[monIndex].heldItem);
 
             CustomTrainerPartyAssignMoves(&party[i], &partyData[monIndex]);
@@ -2014,7 +2035,7 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
             }
             if (partyData[monIndex].ability != ABILITY_NONE)
             {
-                const struct SpeciesInfo *speciesInfo = &gSpeciesInfo[partyData[monIndex].species];
+                const struct SpeciesInfo *speciesInfo = &gSpeciesInfo[species];
                 u32 maxAbilityNum = ARRAY_COUNT(speciesInfo->abilities);
                 for (abilityNum = 0; abilityNum < maxAbilityNum; ++abilityNum)
                 {
@@ -2026,7 +2047,7 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
             }
             else if (B_TRAINER_MON_RANDOM_ABILITY)
             {
-                const struct SpeciesInfo *speciesInfo = &gSpeciesInfo[partyData[monIndex].species];
+                const struct SpeciesInfo *speciesInfo = &gSpeciesInfo[species];
                 abilityNum = personalityHash % 3;
                 while (speciesInfo->abilities[abilityNum] == ABILITY_NONE)
                 {

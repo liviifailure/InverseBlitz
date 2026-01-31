@@ -86,7 +86,7 @@ static const u16 sGiftPokemonList[] = {
     SPECIES_JANGMO_O,
     SPECIES_JOLTIK,
     SPECIES_KLAWF,
-    SPECIES_LARVITAR,
+    //SPECIES_LARVITAR,
     SPECIES_LILLIPUP,
     SPECIES_LITLEO,
     SPECIES_LITTEN, 
@@ -115,6 +115,7 @@ static const u16 sGiftPokemonList[] = {
     SPECIES_ONIX,
     SPECIES_PANCHAM,
     SPECIES_PANSEAR,
+    //SPECIES_PARAS,
     SPECIES_PHANTUMP,
     SPECIES_PIKIPEK, 
     SPECIES_POLIWAG, 
@@ -213,6 +214,11 @@ void BuildGiftPokemonMenu(void)
         {
             species = SPECIES_MINIOR_CORE_RED + (Random() % (SPECIES_MINIOR_CORE_VIOLET - SPECIES_MINIOR_CORE_RED + 1));
             ScriptMenu_AddDynmultichoice(gSpeciesInfo[SPECIES_MINIOR].speciesName, species, 0);
+        }
+        else if (species == SPECIES_FLABEBE)
+        {
+            species = sFlabebeFormSpeciesIdTable[Random() % (ARRAY_COUNT(sFlabebeFormSpeciesIdTable) - 1)];
+            ScriptMenu_AddDynmultichoice(gSpeciesInfo[SPECIES_FLABEBE].speciesName, species, 0);
         }
         else if (species == SPECIES_SCATTERBUG)
         {
