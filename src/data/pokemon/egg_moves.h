@@ -4192,12 +4192,7 @@ static const u16 sMaschiffEggMoveLearnset[] = {
 
 #if P_FAMILY_SHROODLE
 static const u16 sShroodleEggMoveLearnset[] = {
-    MOVE_COPYCAT,
-    MOVE_CROSS_POISON,
     MOVE_PARTING_SHOT,
-    MOVE_SUPER_FANG,
-    MOVE_SWAGGER,
-    MOVE_TOXIC,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_SHROODLE

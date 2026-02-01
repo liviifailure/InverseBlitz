@@ -784,6 +784,8 @@ static const struct LevelUpMove sClefairyLevelUpLearnset[] = {
 };
 
 static const struct LevelUpMove sClefableLevelUpLearnset[] = {
+    LEVEL_UP_MOVE( 1, MOVE_MOONBLAST),
+    LEVEL_UP_MOVE( 1, MOVE_MOONLIGHT),
     LEVEL_UP_MOVE( 1, MOVE_METEOR_MASH),
     LEVEL_UP_MOVE( 1, MOVE_SPOTLIGHT),
     LEVEL_UP_MOVE( 1, MOVE_DISARMING_VOICE),
@@ -906,6 +908,7 @@ static const struct LevelUpMove sJigglypuffLevelUpLearnset[] = {
     LEVEL_UP_MOVE(38, MOVE_MIMIC),
     LEVEL_UP_MOVE(41, MOVE_HYPER_VOICE),
     LEVEL_UP_MOVE(45, MOVE_DOUBLE_EDGE),
+    LEVEL_UP_MOVE(53, MOVE_MOONBLAST),
     LEVEL_UP_END
 };
 
@@ -916,6 +919,7 @@ static const struct LevelUpMove sWigglytuffLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 1, MOVE_DEFENSE_CURL),
     LEVEL_UP_MOVE( 1, MOVE_DISABLE),
     LEVEL_UP_MOVE( 1, MOVE_DOUBLE_SLAP),
+    LEVEL_UP_MOVE(53, MOVE_MOONBLAST),
     LEVEL_UP_END
 };
 #endif //P_FAMILY_JIGGLYPUFF
@@ -1025,6 +1029,7 @@ static const struct LevelUpMove sGloomLevelUpLearnset[] = {
     LEVEL_UP_MOVE(19, MOVE_MEGA_DRAIN),
     //LEVEL_UP_MOVE(24, MOVE_LUCKY_CHANT),
     LEVEL_UP_MOVE(29, MOVE_MOONLIGHT),
+    LEVEL_UP_MOVE(32, MOVE_MOONBLAST),
     LEVEL_UP_MOVE(34, MOVE_GIGA_DRAIN),
     LEVEL_UP_MOVE(39, MOVE_TOXIC),
     LEVEL_UP_MOVE(44, MOVE_NATURAL_GIFT),
@@ -1035,7 +1040,9 @@ static const struct LevelUpMove sGloomLevelUpLearnset[] = {
 };
 
 static const struct LevelUpMove sVileplumeLevelUpLearnset[] = {
-    LEVEL_UP_MOVE( 1, MOVE_MEGA_DRAIN),
+    LEVEL_UP_MOVE( 1, MOVE_MOONBLAST),
+    LEVEL_UP_MOVE( 1, MOVE_MOONLIGHT),
+    //LEVEL_UP_MOVE( 1, MOVE_MEGA_DRAIN),
     LEVEL_UP_MOVE( 1, MOVE_AROMATHERAPY),
     LEVEL_UP_MOVE( 1, MOVE_POISON_POWDER),
     LEVEL_UP_MOVE( 1, MOVE_STUN_SPORE),
@@ -1048,10 +1055,12 @@ static const struct LevelUpMove sVileplumeLevelUpLearnset[] = {
 #if P_GEN_2_CROSS_EVOS
 static const struct LevelUpMove sBellossomLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 0, MOVE_MAGICAL_LEAF),
+    LEVEL_UP_MOVE( 1, MOVE_MOONBLAST),
+    LEVEL_UP_MOVE( 1, MOVE_MOONLIGHT),
     //LEVEL_UP_MOVE( 1, MOVE_MAGICAL_LEAF),
     //LEVEL_UP_MOVE( 1, MOVE_LEAF_STORM),
     LEVEL_UP_MOVE( 1, MOVE_LEAF_BLADE),
-    LEVEL_UP_MOVE( 1, MOVE_MEGA_DRAIN),
+    //LEVEL_UP_MOVE( 1, MOVE_MEGA_DRAIN),
     //LEVEL_UP_MOVE( 1, MOVE_SWEET_SCENT),
     LEVEL_UP_MOVE( 1, MOVE_STUN_SPORE),
     LEVEL_UP_MOVE( 1, MOVE_SUNNY_DAY),
@@ -16305,6 +16314,7 @@ static const struct LevelUpMove sEspurrLevelUpLearnset[] = {
 
 static const struct LevelUpMove sMeowsticMLevelUpLearnset[] = {
     //LEVEL_UP_MOVE( 1, MOVE_QUICK_GUARD),
+    LEVEL_UP_MOVE( 1, MOVE_MOONBLAST),
     LEVEL_UP_MOVE( 1, MOVE_MEAN_LOOK),
     LEVEL_UP_MOVE( 1, MOVE_HELPING_HAND),
     //LEVEL_UP_MOVE( 1, MOVE_SCRATCH),
@@ -16332,6 +16342,7 @@ static const struct LevelUpMove sMeowsticMLevelUpLearnset[] = {
 
 static const struct LevelUpMove sMeowsticFLevelUpLearnset[] = {
     //LEVEL_UP_MOVE( 1, MOVE_STORED_POWER),
+    LEVEL_UP_MOVE( 1, MOVE_MOONBLAST),
     LEVEL_UP_MOVE( 1, MOVE_ME_FIRST),
     LEVEL_UP_MOVE( 1, MOVE_MAGICAL_LEAF),
     //LEVEL_UP_MOVE( 1, MOVE_SCRATCH),
@@ -21879,12 +21890,12 @@ static const struct LevelUpMove sMabosstiffLevelUpLearnset[] = {
 
 #if P_FAMILY_SHROODLE
 static const struct LevelUpMove sShroodleLevelUpLearnset[] = {
-    LEVEL_UP_MOVE( 1, MOVE_SCRATCH),
+    //LEVEL_UP_MOVE( 1, MOVE_SCRATCH),
     LEVEL_UP_MOVE( 1, MOVE_LEER),
     LEVEL_UP_MOVE( 5, MOVE_ACID_SPRAY),
     LEVEL_UP_MOVE( 8, MOVE_BITE),
     LEVEL_UP_MOVE( 8, MOVE_FURY_SWIPES),
-    LEVEL_UP_MOVE(11, MOVE_SWITCHEROO),
+    //LEVEL_UP_MOVE(11, MOVE_SWITCHEROO),
     LEVEL_UP_MOVE(14, MOVE_POISON_FANG),
     LEVEL_UP_MOVE(18, MOVE_FLATTER),
     LEVEL_UP_MOVE(21, MOVE_SLASH),
@@ -21899,11 +21910,11 @@ static const struct LevelUpMove sShroodleLevelUpLearnset[] = {
 
 static const struct LevelUpMove sGrafaiaiLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 0, MOVE_DOODLE),
-    LEVEL_UP_MOVE( 1, MOVE_SCRATCH),
+    //LEVEL_UP_MOVE( 1, MOVE_SCRATCH),
     LEVEL_UP_MOVE( 1, MOVE_LEER),
     LEVEL_UP_MOVE( 5, MOVE_ACID_SPRAY),
-    LEVEL_UP_MOVE( 8, MOVE_FURY_SWIPES),
-    LEVEL_UP_MOVE(11, MOVE_SWITCHEROO),
+    //LEVEL_UP_MOVE( 8, MOVE_FURY_SWIPES),
+    //LEVEL_UP_MOVE(11, MOVE_SWITCHEROO),
     LEVEL_UP_MOVE(14, MOVE_POISON_FANG),
     LEVEL_UP_MOVE(18, MOVE_FLATTER),
     LEVEL_UP_MOVE(21, MOVE_SLASH),

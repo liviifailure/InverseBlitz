@@ -5127,6 +5127,7 @@ static const u16 sElectrodeTeachableLearnset[] = {
 static const u16 sVoltorbHisuiTeachableLearnset[] = {
     MOVE_BULLET_SEED,
     MOVE_DOUBLE_EDGE,
+    MOVE_DOUBLE_TEAM,
     MOVE_ENDURE,
     MOVE_EXPLOSION,
     MOVE_FACADE,
@@ -5136,6 +5137,7 @@ static const u16 sVoltorbHisuiTeachableLearnset[] = {
     MOVE_REFLECT,
     MOVE_REST,
     MOVE_ROLLOUT,
+    MOVE_SHOCK_WAVE,
     MOVE_SLEEP_TALK,
     MOVE_SOLAR_BEAM,
     MOVE_SWIFT,
@@ -5150,6 +5152,7 @@ static const u16 sVoltorbHisuiTeachableLearnset[] = {
 static const u16 sElectrodeHisuiTeachableLearnset[] = {
     MOVE_BULLET_SEED,
     MOVE_DOUBLE_EDGE,
+    MOVE_DOUBLE_TEAM,
     MOVE_ENDURE,
     MOVE_EXPLOSION,
     MOVE_FACADE,
@@ -5160,6 +5163,7 @@ static const u16 sElectrodeHisuiTeachableLearnset[] = {
     MOVE_REFLECT,
     MOVE_REST,
     MOVE_ROLLOUT,
+    MOVE_SHOCK_WAVE,
     MOVE_SLEEP_TALK,
     MOVE_SOLAR_BEAM,
     MOVE_SWIFT,

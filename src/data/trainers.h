@@ -44945,7 +44945,7 @@ F_TRAINER_FEMALE |
                 MOVE_MUD_BOMB,
                 MOVE_WATERFALL,
                 MOVE_AMNESIA,
-                MOVE_RAIN_DANCE,
+                MOVE_DRAGON_DANCE,
             },
             },
             {
