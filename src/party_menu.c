@@ -84,11 +84,25 @@
 
 extern const u8 gText_SketchWhichMove[]; // Declared to resolve "undeclared" error
 
+// Forward declare Task_HandleDoodleAbilityInput_Loop
+static void Task_HandleDoodleAbilityInput_Loop(u8 taskId);
+
+// Correct MON_DATA_ABILITY to MON_DATA_ABILITY_NUM
+#define MON_DATA_ABILITY MON_DATA_ABILITY_NUM
+
+// Ensure declarations for missing functions
+extern u8 GetMenuCursorPos(void);
+extern void DisplayAbilityOption(u8 index, u16 ability);
+extern u8 GetPlayerAbilityChoice(void);
+
 static const u8 sText_Clear[] = _("CLEAR");
 static const u8 sText_ItemsTaken[] = _("Items were taken from the party.{PAUSE_UNTIL_PRESS}");
 static const u8 sText_ItemsTakenBagFull[] = _("Items taken. The BAG is full.{PAUSE_UNTIL_PRESS}");
 static const u8 sText_BagFull[] = _("The BAG is full.{PAUSE_UNTIL_PRESS}");
 static const u8 sText_NoItemsHeld[] = _("No items to take.{PAUSE_UNTIL_PRESS}");
+
+static const u8 gText_DoodleWhichAbility[] = _("Doodle which ability?");
+static const u8 gText_AbilityChanged[] = _("{STR_VAR_1}'s ability changed!");
 
 enum {
     MENU_SUMMARY,
@@ -342,6 +356,7 @@ static void Task_CancelChooseMonYesNo(u8);
 static void PartyMenuDisplayYesNoMenu(void);
 static void Task_HandleCancelChooseMonYesNoInput(u8);
 static void Task_InitSketchMoveMenu(u8 taskId);
+static void Task_InitDoodleAbilityMenu(u8 taskId);
 static void Task_ReturnToChooseMonAfterText(u8);
 static void UpdateCurrentPartySelection(s8 *, s8);
 static void UpdatePartySelectionSingleLayout(s8 *, s8);
@@ -3123,6 +3138,10 @@ static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
     {
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_FIELD_MOVES + FIELD_MOVE_SKETCH);
     }
+        if (MonKnowsMove(&mons[slotId], MOVE_DOODLE))
+    {
+        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_FIELD_MOVES + FIELD_MOVE_DOODLE);
+    }
     if (MonKnowsMove(&mons[slotId], MOVE_MILK_DRINK))
     {
         u16 species = GetMonData(&mons[slotId], MON_DATA_SPECIES);
@@ -4329,6 +4348,9 @@ static void CursorCb_FieldMove(u8 taskId)
             case FIELD_MOVE_SKETCH:
                 gTasks[taskId].func = Task_InitSketchMoveMenu;
                 break;
+            case FIELD_MOVE_DOODLE:
+                gTasks[taskId].func = Task_InitDoodleAbilityMenu;
+                break;
             case FIELD_MOVE_FLY:
                 gPartyMenu.exitCallback = CB2_OpenFlyMap;
                 Task_ClosePartyMenu(taskId);
@@ -4590,6 +4612,12 @@ bool32 SetUpFieldMove_Dive(void)
 bool32 SetUpFieldMove_Sketch(void)
 {
     gPartyMenu.task = Task_InitSketchMoveMenu;
+    return TRUE;
+}
+
+bool32 SetUpFieldMove_Doodle(void)
+{
+    gPartyMenu.task = Task_InitDoodleAbilityMenu;
     return TRUE;
 }
 
@@ -8475,6 +8503,109 @@ static const u16 sSketchMovePool[] = {
     MOVE_WILL_O_WISP,
     MOVE_U_TURN,
 };
+
+// Define the ability pool for Doodle
+static const u16 sDoodleAbilityPool[] = {
+    ABILITY_DRY_SKIN,
+    ABILITY_FLASH_FIRE,
+    ABILITY_FORECAST,
+    ABILITY_GUTS,
+    ABILITY_LEVITATE,
+    ABILITY_HUGE_POWER,
+    ABILITY_INTIMIDATE,
+    ABILITY_PROTEAN,
+    ABILITY_SAP_SIPPER,
+    ABILITY_SEED_SOWER,
+    ABILITY_VOLT_ABSORB
+};
+
+#define DOODLE_MENU_ABILITIES 4
+
+// Task to initialize the Doodle ability selection menu
+static void Task_InitDoodleAbilityMenu(u8 taskId)
+{
+    PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
+    PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[2]);
+
+    // Use a smaller window for the "Doodle which ability?" prompt
+    sPartyMenuInternal->windowId[1] = AddWindow(&sDoWhatWithMonMsgWindowTemplate);
+    DrawStdFrameWithCustomTileAndPalette(sPartyMenuInternal->windowId[1], FALSE, 0x4F, 13);
+    AddTextPrinterParameterized(sPartyMenuInternal->windowId[1], FONT_NORMAL, gText_DoodleWhichAbility, 0, 1, TEXT_SKIP_DRAW, NULL);
+    PutWindowTilemap(sPartyMenuInternal->windowId[1]);
+    CopyWindowToVram(sPartyMenuInternal->windowId[1], COPYWIN_GFX);
+
+    sPartyMenuInternal->windowId[0] = DisplaySelectionWindow(SELECTWINDOW_MOVES);
+
+    // Generate 4 unique random abilities from the pool
+    for (u8 i = 0; i < DOODLE_MENU_ABILITIES; i++)
+    {
+        bool32 unique;
+        do
+        {
+            unique = TRUE;
+            sPartyMenuInternal->data[i] = sDoodleAbilityPool[Random() % ARRAY_COUNT(sDoodleAbilityPool)];
+
+            if (GetMonAbility(&gPlayerParty[gPartyMenu.slotId]) == sPartyMenuInternal->data[i])
+            {
+                unique = FALSE;
+                continue;
+            }
+
+            for (u8 j = 0; j < i; j++)
+            {
+                if (sPartyMenuInternal->data[j] == sPartyMenuInternal->data[i])
+                {
+                    unique = FALSE;
+                    break;
+                }
+            }
+        } while (!unique);
+        AddTextPrinterParameterized(sPartyMenuInternal->windowId[0], FONT_NORMAL, gAbilitiesInfo[sPartyMenuInternal->data[i]].name, 8, (i * 16) + 1, TEXT_SKIP_DRAW, NULL);
+    }
+    InitMenuInUpperLeftCornerNormal(sPartyMenuInternal->windowId[0], DOODLE_MENU_ABILITIES, 0);
+    ScheduleBgCopyTilemapToVram(2);
+
+    gTasks[taskId].func = Task_HandleDoodleAbilityInput_Loop;
+}
+
+static void Task_HandleDoodleAbilityInput_Loop(u8 taskId)
+{
+    s8 input = Menu_ProcessInput();
+
+    switch (input)
+    {
+    case MENU_NOTHING_CHOSEN:
+        break;
+    case MENU_B_PRESSED:
+        // B button does nothing
+        break;
+    default: // A button pressed
+        {
+            s16 chosenAbilityIndex = input;
+            u16 chosenAbility = sPartyMenuInternal->data[chosenAbilityIndex];
+
+            // Update the Pokémon's ability
+            SetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_ABILITY, &chosenAbility);
+
+            // Delete Doodle move
+            {
+                struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
+                DeleteMove(mon, MOVE_DOODLE);
+            }
+
+            // Notify the player
+            GetMonNickname(&gPlayerParty[gPartyMenu.slotId], gStringVar1);
+            StringExpandPlaceholders(gStringVar4, gText_AbilityChanged);
+
+            PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
+            PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
+
+            DisplayPartyMenuMessage(gStringVar4, TRUE);
+            gTasks[taskId].func = Task_ClosePartyMenuAfterText;
+        }
+        break;
+    }
+}
 
 #define SKETCH_MENU_MOVES 4
 

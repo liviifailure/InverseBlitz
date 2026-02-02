@@ -90,6 +90,11 @@ static bool32 IsFieldMoveUnlocked_Sketch(void)
     return TRUE;
 }
 
+static bool32 IsFieldMoveUnlocked_Doodle(void)
+{
+    return TRUE;
+}
+
 #if OW_DEFOG_FIELD_MOVE == TRUE
 static bool32 IsFieldMoveUnlocked_Defog(void)
 {
@@ -233,6 +238,14 @@ const struct FieldMoveInfo gFieldMoveInfo[FIELD_MOVES_COUNT] =
         .fieldMoveFunc = SetUpFieldMove_Sketch,
         .isUnlockedFunc = IsFieldMoveUnlocked_Sketch,
         .moveID = MOVE_SKETCH,
+        .partyMsgID = PARTY_MSG_CANT_USE_HERE,
+    },
+
+    [FIELD_MOVE_DOODLE] =
+    {
+        .fieldMoveFunc = SetUpFieldMove_Doodle,
+        .isUnlockedFunc = IsFieldMoveUnlocked_Doodle,
+        .moveID = MOVE_DOODLE,
         .partyMsgID = PARTY_MSG_CANT_USE_HERE,
     },
 };

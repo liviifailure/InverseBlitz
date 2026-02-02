@@ -3363,10 +3363,10 @@ enum Ability GetAbilityBySpecies(u16 species, u8 abilityNum)
 {
     int i;
 
-    if (abilityNum < NUM_ABILITY_SLOTS)
+    if (abilityNum < NUM_ABILITY_SLOTS && abilityNum <= 2)
         gLastUsedAbility = GetSpeciesAbility(species, abilityNum);
     else
-        gLastUsedAbility = ABILITY_NONE;
+        gLastUsedAbility = abilityNum;
 
     if (abilityNum >= NUM_NORMAL_ABILITY_SLOTS) // if abilityNum is empty hidden ability, look for other hidden abilities
     {
