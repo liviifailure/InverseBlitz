@@ -88,7 +88,7 @@ extern const u8 gText_SketchWhichMove[]; // Declared to resolve "undeclared" err
 static void Task_HandleDoodleAbilityInput_Loop(u8 taskId);
 
 // Correct MON_DATA_ABILITY to MON_DATA_ABILITY_NUM
-#define MON_DATA_ABILITY MON_DATA_ABILITY_NUM
+#define MON_DATA_ABILITY MON_DATA_ABILITY_CUSTOM
 
 // Ensure declarations for missing functions
 extern u8 GetMenuCursorPos(void);
@@ -8460,6 +8460,7 @@ static const u16 sSketchMovePool[] = {
     MOVE_CHARM,
     MOVE_DESTINY_BOND,
     MOVE_DRACO_METEOR,
+    MOVE_DOODLE,
     MOVE_EERIE_IMPULSE,
     MOVE_ELECTROWEB,
     MOVE_ENDEAVOR,
@@ -8506,17 +8507,26 @@ static const u16 sSketchMovePool[] = {
 
 // Define the ability pool for Doodle
 static const u16 sDoodleAbilityPool[] = {
+    ABILITY_DRIZZLE,
+    ABILITY_DROUGHT,
     ABILITY_DRY_SKIN,
+    ABILITY_EFFECT_SPORE,
     ABILITY_FLASH_FIRE,
-    ABILITY_FORECAST,
-    ABILITY_GUTS,
+    ABILITY_FLUFFY,
     ABILITY_LEVITATE,
-    ABILITY_HUGE_POWER,
+    ABILITY_ILLUSION,
     ABILITY_INTIMIDATE,
     ABILITY_PROTEAN,
+    ABILITY_PERISH_BODY,
+    ABILITY_PIXILATE,
+    ABILITY_REFRIGERATE,
+    ABILITY_REGENERATOR,
     ABILITY_SAP_SIPPER,
     ABILITY_SEED_SOWER,
-    ABILITY_VOLT_ABSORB
+    ABILITY_SHEER_FORCE,
+    ABILITY_STURDY,
+    ABILITY_TOUGH_CLAWS,
+    ABILITY_VOLT_ABSORB,
 };
 
 #define DOODLE_MENU_ABILITIES 4

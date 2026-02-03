@@ -2702,6 +2702,12 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
                 }.combinedValue;
             }
             break;
+        case MON_DATA_ABILITY_CUSTOM:
+        {
+            struct PokemonSubstruct0 *substruct0 = GetSubstruct0(boxMon);
+            retVal = substruct0->unused_02 | (substruct0->unused_04 << 6);
+            break;
+        }
         default:
             break;
         }
@@ -3128,6 +3134,15 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
             substruct1->evolutionTracker2 = evoTracker.tracker2;
             break;
         }
+        case MON_DATA_ABILITY_CUSTOM:
+        {
+            struct PokemonSubstruct0 *substruct0 = GetSubstruct0(boxMon);
+            u16 ability;
+            SET16(ability);
+            substruct0->unused_02 = ability & 0x3F;
+            substruct0->unused_04 = (ability >> 6) & 0x7;
+            break;
+        }
         default:
             break;
         }
@@ -3386,6 +3401,10 @@ enum Ability GetAbilityBySpecies(u16 species, u8 abilityNum)
 
 enum Ability GetMonAbility(struct Pokemon *mon)
 {
+    u16 ability = GetMonData(mon, MON_DATA_ABILITY_CUSTOM, NULL);
+    if (ability != ABILITY_NONE)
+        return ability;
+
     u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
     u8 abilityNum = GetMonData(mon, MON_DATA_ABILITY_NUM, NULL);
     return GetAbilityBySpecies(species, abilityNum);
@@ -3659,7 +3678,7 @@ void PokemonToBattleMon(struct Pokemon *src, struct BattlePokemon *dst)
     dst->types[1] = GetSpeciesType(dst->species, 1);
     dst->types[2] = TYPE_MYSTERY;
     dst->isShiny = IsMonShiny(src);
-    dst->ability = GetAbilityBySpecies(dst->species, dst->abilityNum);
+    dst->ability = GetMonAbility(src);
     GetMonData(src, MON_DATA_NICKNAME, nickname);
     StringCopy_Nickname(dst->nickname, nickname);
     GetMonData(src, MON_DATA_OT_NAME, dst->otName);
@@ -5936,7 +5955,7 @@ bool32 HasRelearnerLevelUpMoves(struct Pokemon *mon)
         {
             if (learnset[i].level > level && VarGet(VAR_BADGE_COUNT) < 8)
                 break;
-            if (learnset[i].move != MOVE_SKETCH && !DoesMonHaveMove(learnedMoves, learnset[i].move))
+            if (learnset[i].move != MOVE_SKETCH && learnset[i].move != MOVE_DOODLE && !DoesMonHaveMove(learnedMoves, learnset[i].move))
                 return TRUE;
         }
 
