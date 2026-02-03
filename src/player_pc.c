@@ -333,6 +333,7 @@ static const u16 sNewGamePCItems[][2] =
 	{ ITEM_SWAMPERTITE, 1 },
 	{ ITEM_TYRANITARITE, 1 },
     { ITEM_VENUSAURITE, 1 },
+	{ ITEM_BURMY_BINDER, 20 },
 	{ ITEM_ROTOM_CATALOG, 20 },
     { ITEM_SERIOUS_MINT, 50 },
     { ITEM_LONELY_MINT, 10 },

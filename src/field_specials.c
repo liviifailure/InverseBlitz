@@ -154,6 +154,8 @@ static void BufferFanClubTrainerName_(struct LinkBattleRecords *, u8, u8);
 static void BufferFanClubTrainerName_(u8 whichLinkTrainer, u8 whichNPCTrainer);
 #endif //FREE_LINK_BATTLE_RECORDS
 
+#define SCROLL_MULTI_HIDDEN_POWER_TYPES 13
+
 static const u8 sText_BigGuy[] = _("Big guy");
 static const u8 sText_BigGirl[] = _("Big girl");
 static const u8 sText_Son[] = _("son");
@@ -2299,7 +2301,7 @@ void ShowScrollableMultichoice(void)
     struct Task *task = &gTasks[taskId];
     task->tScrollMultiId = gSpecialVar_0x8004;
 
-    switch ((enum ScrollMulti)gSpecialVar_0x8004)
+    switch (gSpecialVar_0x8004)
     {
     case SCROLL_MULTI_NONE:
         task->tMaxItemsOnScreen = 1;
@@ -2422,12 +2424,25 @@ void ShowScrollableMultichoice(void)
         task->tKeepOpenAfterSelect = FALSE;
         task->tTaskId = taskId;
         break;
+    case SCROLL_MULTI_HIDDEN_POWER_TYPES:
+        task->tMaxItemsOnScreen = MAX_SCROLL_MULTI_ON_SCREEN;
+        task->tNumItems = 17;
+        task->tLeft = 15;
+        task->tTop = 1;
+        task->tWidth = 14;
+        task->tHeight = 12;
+        task->tKeepOpenAfterSelect = FALSE;
+        task->tTaskId = taskId;
+        break;
     default:
         gSpecialVar_Result = MULTI_B_PRESSED;
         DestroyTask(taskId);
         break;
     }
 }
+
+#undef MAX_SCROLL_MULTI_LENGTH
+#define MAX_SCROLL_MULTI_LENGTH 17
 
 static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] =
 {
@@ -2582,6 +2597,27 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
         gText_Underpowered,
         gText_WhenInDanger,
         gText_Exit
+    }
+    ,
+    [SCROLL_MULTI_HIDDEN_POWER_TYPES] =
+    {
+        COMPOUND_STRING("FIGHTING"),
+        COMPOUND_STRING("FLYING"),
+        COMPOUND_STRING("POISON"),
+        COMPOUND_STRING("GROUND"),
+        COMPOUND_STRING("ROCK"),
+        COMPOUND_STRING("BUG"),
+        COMPOUND_STRING("GHOST"),
+        COMPOUND_STRING("STEEL"),
+        COMPOUND_STRING("FIRE"),
+        COMPOUND_STRING("WATER"),
+        COMPOUND_STRING("GRASS"),
+        COMPOUND_STRING("ELECTRIC"),
+        COMPOUND_STRING("PSYCHIC"),
+        COMPOUND_STRING("ICE"),
+        COMPOUND_STRING("DRAGON"),
+        COMPOUND_STRING("DARK"),
+        COMPOUND_STRING("FAIRY"),
     }
 };
 
@@ -4444,4 +4480,58 @@ void SetAbility(void)
 {
     u32 ability = gSpecialVar_Result;
     SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_ABILITY_NUM, &ability);
+}
+
+void SetHiddenPowerType(void)
+{
+    u32 partyIdx = gSpecialVar_0x8004;
+    u32 type = gSpecialVar_0x8005;
+
+    if (partyIdx >= gPlayerPartyCount)
+        return;
+
+    SetMonData(&gPlayerParty[partyIdx], MON_DATA_HIDDEN_POWER_TYPE, &type);
+    CalculateMonStats(&gPlayerParty[partyIdx]);
+}
+
+void CheckHiddenPower(void)
+{
+    u32 partyIdx = gSpecialVar_0x8004;
+    u16 move;
+    u8 i;
+
+    gSpecialVar_Result = FALSE;
+
+    if (partyIdx >= gPlayerPartyCount)
+        return;
+
+    for (i = 0; i < MAX_MON_MOVES; i++)
+    {
+        move = GetMonData(&gPlayerParty[partyIdx], MON_DATA_MOVE1 + i);
+        if (move == MOVE_HIDDEN_POWER)
+        {
+            gSpecialVar_Result = TRUE;
+            break;
+        }
+    }
+}
+
+void MapHiddenPowerMenuSelectionToType(void)
+{
+    static const u8 sHiddenPowerTypes[] = {
+        TYPE_FIGHTING, TYPE_FLYING, TYPE_POISON, TYPE_GROUND,
+        TYPE_ROCK, TYPE_BUG, TYPE_GHOST, TYPE_STEEL,
+        TYPE_FIRE, TYPE_WATER, TYPE_GRASS, TYPE_ELECTRIC,
+        TYPE_PSYCHIC, TYPE_ICE, TYPE_DRAGON, TYPE_DARK,
+        TYPE_FAIRY
+    };
+
+    if (gSpecialVar_0x8005 < ARRAY_COUNT(sHiddenPowerTypes))
+    {
+        gSpecialVar_0x8005 = sHiddenPowerTypes[gSpecialVar_0x8005];
+    }
+    else
+    {
+        gSpecialVar_0x8005 = TYPE_NORMAL;
+    }
 }

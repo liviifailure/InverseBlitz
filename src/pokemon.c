@@ -2708,6 +2708,9 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
             retVal = substruct0->unused_02 | (substruct0->unused_04 << 6);
             break;
         }
+        case MON_DATA_HIDDEN_POWER_TYPE:
+            retVal = GetSubstruct1(boxMon)->unused_04;
+            break;
         default:
             break;
         }
@@ -3143,6 +3146,9 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
             substruct0->unused_04 = (ability >> 6) & 0x7;
             break;
         }
+        case MON_DATA_HIDDEN_POWER_TYPE:
+            SET8(GetSubstruct1(boxMon)->unused_04);
+            break;
         default:
             break;
         }

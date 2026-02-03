@@ -3,6 +3,8 @@ SlateportCity_MapScripts::
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, SlateportCity_OnFrame
 	.byte 0
 
+.set SCROLL_MULTI_HIDDEN_POWER_TYPES, 13
+
 SlateportCity_OnTransition:
 	setvar VAR_SLATEPORT_MUSEUM_1F_STATE, 0
 	call SlateportCity_EventScript_EnterSlateport
@@ -1848,3 +1850,89 @@ SlateportCity_Text_NotSellingYet:
 	.string "Hello! I sell TMs to players\n"
 	.string "completing the gym challenge.\p"
 	.string "Come back once you have a badge!$"
+
+SlateportCity_EventScript_HiddenPowerNPC::
+	lock
+	faceplayer
+	msgbox SlateportCity_Text_HiddenPowerNPC_Intro, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, SlateportCity_EventScript_HiddenPowerNPC_Decline
+	checkmoney 1000
+	goto_if_eq VAR_RESULT, FALSE, SlateportCity_EventScript_HiddenPowerNPC_NotEnoughMoney
+	msgbox SlateportCity_Text_HiddenPowerNPC_ChooseMon, MSGBOX_DEFAULT
+	special ChoosePartyMon
+	waitstate
+	goto_if_eq VAR_0x8004, 255, SlateportCity_EventScript_HiddenPowerNPC_Decline
+	special IsSelectedMonEgg
+	goto_if_eq VAR_RESULT, TRUE, SlateportCity_EventScript_HiddenPowerNPC_Egg
+	callnative CheckHiddenPower
+	goto_if_eq VAR_RESULT, FALSE, SlateportCity_EventScript_HiddenPowerNPC_NoHiddenPower
+
+	msgbox SlateportCity_Text_HiddenPowerNPC_ChooseType, MSGBOX_DEFAULT
+	copyvar VAR_0x8006, VAR_0x8004 @ Save slot
+	setvar VAR_0x8004, SCROLL_MULTI_HIDDEN_POWER_TYPES
+	special ShowScrollableMultichoice
+	waitstate
+	goto_if_eq VAR_RESULT, MULTI_B_PRESSED, SlateportCity_EventScript_HiddenPowerNPC_Decline
+
+	copyvar VAR_0x8005, VAR_RESULT
+	callnative MapHiddenPowerMenuSelectionToType
+
+	removemoney 1000
+	updatemoneybox
+	playse SE_SHOP
+
+	copyvar VAR_0x8004, VAR_0x8006 @ Restore slot
+	callnative SetHiddenPowerType
+
+	msgbox SlateportCity_Text_HiddenPowerNPC_Success, MSGBOX_DEFAULT
+	release
+	end
+
+SlateportCity_EventScript_HiddenPowerNPC_Decline::
+	msgbox SlateportCity_Text_HiddenPowerNPC_Decline, MSGBOX_DEFAULT
+	release
+	end
+
+SlateportCity_EventScript_HiddenPowerNPC_NotEnoughMoney::
+	msgbox SlateportCity_Text_HiddenPowerNPC_NotEnoughMoney, MSGBOX_DEFAULT
+	release
+	end
+
+SlateportCity_EventScript_HiddenPowerNPC_Egg::
+	msgbox SlateportCity_Text_HiddenPowerNPC_Egg, MSGBOX_DEFAULT
+	release
+	end
+
+SlateportCity_EventScript_HiddenPowerNPC_NoHiddenPower::
+	msgbox SlateportCity_Text_HiddenPowerNPC_NoHiddenPower, MSGBOX_DEFAULT
+	release
+	end
+
+SlateportCity_Text_HiddenPowerNPC_Intro:
+	.string "I can change the type of your\n"
+	.string "POKéMON's HIDDEN POWER for ¥1000.\p"
+	.string "Would you like to do that?$"
+
+SlateportCity_Text_HiddenPowerNPC_Decline:
+	.string "Come back if you change your mind.$"
+
+SlateportCity_Text_HiddenPowerNPC_NotEnoughMoney:
+	.string "You don't have enough money.$"
+
+SlateportCity_Text_HiddenPowerNPC_ChooseMon:
+	.string "Which POKéMON's HIDDEN POWER type\n"
+	.string "should I change?$"
+
+SlateportCity_Text_HiddenPowerNPC_Egg:
+	.string "I can't change an EGG's HIDDEN POWER.$"
+
+SlateportCity_Text_HiddenPowerNPC_NoHiddenPower:
+	.string "That POKéMON doesn't know\n"
+	.string "HIDDEN POWER.$"
+
+SlateportCity_Text_HiddenPowerNPC_ChooseType:
+	.string "Which type should it be?$"
+
+SlateportCity_Text_HiddenPowerNPC_Success:
+	.string "The type of HIDDEN POWER has been\n"
+	.string "changed!$"

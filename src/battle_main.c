@@ -6023,6 +6023,10 @@ enum Type GetDynamicMoveType(struct Pokemon *mon, u32 move, u32 battler, enum Mo
         break;
     case EFFECT_HIDDEN_POWER:
         {
+            u32 customType = GetMonData(mon, MON_DATA_HIDDEN_POWER_TYPE);
+            if (customType != TYPE_NORMAL)
+                return customType;
+
             u32 typeBits = 0;
             if (state == MON_IN_BATTLE)
             {

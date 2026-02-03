@@ -11876,7 +11876,7 @@ const struct Item gItemsInfo[] =
     [ITEM_TM_HIDDEN_POWER] =
     {
         .name = ITEM_NAME("Hidden Power"),
-        .price = 1000,
+        .price = 3000,
         .description = COMPOUND_STRING(
             "The attack power\n"
             "varies among\n"
@@ -13200,6 +13200,22 @@ const struct Item gItemsInfo[] =
         .pocket = POCKET_ITEMS,
         .type = ITEM_USE_PARTY_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_RotomCatalog,
+        .flingPower = 10,
+        .iconPic = gItemIcon_RotomCatalog,
+        .iconPalette = gItemIconPalette_RotomCatalog,
+    },
+
+    [ITEM_BURMY_BINDER] =
+    {
+        .name = ITEM_NAME("Burmy Binder"),
+        .price = 20,
+        .description = COMPOUND_STRING(
+            "A binder full of\n"
+            "cloaks liked by\n"
+            "Burmy."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_BurmyBinder,
         .flingPower = 10,
         .iconPic = gItemIcon_RotomCatalog,
         .iconPalette = gItemIconPalette_RotomCatalog,

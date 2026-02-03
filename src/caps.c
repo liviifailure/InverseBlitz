@@ -9,7 +9,7 @@ u32 GetCurrentLevelCap(void)
 {
     static const u32 sLevelCapFlagMap[] =
     {
-        40, // Badge 1
+        15, // Badge 1
         19, // Badge 2
         24, // Badge 3
         29, // Badge 4

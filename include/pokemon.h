@@ -127,6 +127,7 @@ enum MonData {
     MON_DATA_TERA_TYPE,
     MON_DATA_EVOLUTION_TRACKER,
     MON_DATA_ABILITY_CUSTOM,
+    MON_DATA_HIDDEN_POWER_TYPE,
 };
 
 struct PokemonSubstruct0

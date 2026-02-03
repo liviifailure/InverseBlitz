@@ -1045,8 +1045,9 @@
 
 #define ITEM_MED_KIT 874
 #define ITEM_PORTABLE_PC 875
+#define ITEM_BURMY_BINDER 876
 
-#define ITEMS_COUNT 876
+#define ITEMS_COUNT 877
 #define ITEM_FIELD_ARROW ITEMS_COUNT
 
 // A special item id associated with "Cancel"/"Exit" etc. in a list of items or decorations
