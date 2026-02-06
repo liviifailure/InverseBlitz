@@ -191,10 +191,11 @@ Route104_PrettyPetalFlowerShop_Text_ImGrowingFlowers:
 	.string "Here you go!\n"
 	.string "It's for you!$"
 
-Route104_PrettyPetalFlowerShop_Text_Nectar:
-	.string "I've heard that some birds love nectar.\n"
-	.string "Here, maybe you will find a bird\p"
-	.string "who would like these!$"
+Route104_PrettyPetalFlowerShop_Text_BurmyBinder:
+	.string "I've heard that some POKéMON change\n"
+	.string "their clothes with their environment!\p"
+	.string "If you find any POKéMON like that, try\n"
+	.string "showing it one of these!$"
 
 Route104_PrettyPetalFlowerShop_Text_MachineMixesBerries:
 	.string "You can plant a BERRY and grow it big,\n"

@@ -17513,16 +17513,6 @@ Items: Full Heal
 Double Battle: Yes
 AI: Basic Trainer / Smart Mon Choices / Smart Switching
 
-Barboach
-Level: 10
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Serious
-Ability: Oblivious
-- Mud Slap
-- Waterfall
-- Amnesia
-- Dragon Dance
-
 Dondozo @ Oran Berry
 Level: 15
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
@@ -17621,7 +17611,7 @@ Ability: Commander
 - Helping Hand
 - Water Pulse
 - Rapid Spin
-- Dark Pulse
+- Feint Attack
 
 === TRAINER_JUAN_4 ===
 Name: JUAN
@@ -17671,7 +17661,7 @@ Ability: Commander
 - Helping Hand
 - Water Pulse
 - Rapid Spin
-- Dark Pulse
+- Feint Attack
 
 === TRAINER_JUAN_5 ===
 Name: JUAN
@@ -17763,16 +17753,6 @@ Ability: Oblivious
 - Waterfall
 - Rock Slide
 
-Milotic @ Sitrus Berry
-Level: 35
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Serious
-Ability: Marvel Scale
-- Disarming Voice
-- Water Pulse
-- Icy Wind
-- Ice Beam
-
 Kingdra @ Chesto Berry
 Level: 34
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
@@ -17782,6 +17762,16 @@ Ability: Swift Swim
 - Dragon Pulse
 - Bounce
 - Rest
+
+Milotic @ Sitrus Berry
+Level: 35
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Nature: Serious
+Ability: Marvel Scale
+- Disarming Voice
+- Water Pulse
+- Icy Wind
+- Rain Dance
 
 === TRAINER_JUAN_7 ===
 Name: JUAN&WALCE
@@ -17831,7 +17821,7 @@ Ability: Marvel Scale
 - Disarming Voice
 - Water Pulse
 - Icy Wind
-- Ice Beam
+- Rain Dance
 
 Kingdra @ Chesto Berry
 Level: 42
@@ -17888,10 +17878,10 @@ Level: 48
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
 Ability: Marvel Scale
+- Disarming Voice
 - Water Pulse
 - Ice Beam
-- Recover
-- Icy Wind
+- Rain Dance
 
 Kingdra @ Chesto Berry
 Level: 48

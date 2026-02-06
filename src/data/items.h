@@ -13212,13 +13212,13 @@ const struct Item gItemsInfo[] =
         .description = COMPOUND_STRING(
             "A binder full of\n"
             "cloaks liked by\n"
-            "Burmy."),
+            "Burmy and Wormadam."),
         .pocket = POCKET_ITEMS,
         .type = ITEM_USE_PARTY_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_BurmyBinder,
         .flingPower = 10,
-        .iconPic = gItemIcon_RotomCatalog,
-        .iconPalette = gItemIconPalette_RotomCatalog,
+        .iconPic = gItemIcon_BurmyBinder,
+        .iconPalette = gItemIconPalette_BurmyBinder,
     },
 
     [ITEM_GRACIDEA] =

@@ -1486,6 +1486,12 @@ void ItemUseOutOfBattle_ZygardeCube(u8 taskId)
     SetUpItemUseCallback(taskId);
 }
 
+void ItemUseOutOfBattle_BurmyBinder(u8 taskId)
+{
+    gItemUseCB = ItemUseCB_BurmyBinder;
+    SetUpItemUseCallback(taskId);
+}
+
 void ItemUseOutOfBattle_Fusion(u8 taskId)
 {
     gItemUseCB = ItemUseCB_Fusion;

@@ -104,6 +104,11 @@ static const u8 sText_NoItemsHeld[] = _("No items to take.{PAUSE_UNTIL_PRESS}");
 static const u8 gText_DoodleWhichAbility[] = _("Doodle which ability?");
 static const u8 gText_AbilityChanged[] = _("{STR_VAR_1}'s ability changed!");
 
+static const u8 sText_PlantCloak[] = _("PLANT CLOAK");
+static const u8 sText_SandyCloak[] = _("SANDY CLOAK");
+static const u8 sText_TrashCloak[] = _("TRASH CLOAK");
+static const u8 sText_WhichCloak[] = _("Try on which cloak?");
+
 enum {
     MENU_SUMMARY,
     MENU_SWITCH,
@@ -138,6 +143,9 @@ enum {
     MENU_CATALOG_FRIDGE,
     MENU_CATALOG_FAN,
     MENU_CATALOG_MOWER,
+    MENU_CATALOG_PLANT,
+    MENU_CATALOG_SANDY,
+    MENU_CATALOG_TRASH,
     MENU_CHANGE_FORM,
     MENU_CHANGE_ABILITY,
     MENU_CLEAR,
@@ -192,6 +200,8 @@ enum {
 #define MENU_DIR_UP      -1
 #define MENU_DIR_RIGHT    2
 #define MENU_DIR_LEFT    -2
+
+#define SELECTWINDOW_BURMY_BINDER 10
 
 enum {
     CAN_LEARN_MOVE,
@@ -522,6 +532,9 @@ static void CursorCb_CatalogWashing(u8);
 static void CursorCb_CatalogFridge(u8);
 static void CursorCb_CatalogFan(u8);
 static void CursorCb_CatalogMower(u8);
+static void CursorCb_CatalogPlant(u8);
+static void CursorCb_CatalogSandy(u8);
+static void CursorCb_CatalogTrash(u8);
 static void CursorCb_ChangeForm(u8);
 static void CursorCb_ChangeAbility(u8);
 static void CursorCb_Clear(u8 taskId);
@@ -2996,7 +3009,7 @@ static bool8 ShouldUseChooseMonText(void)
 
 static u8 DisplaySelectionWindow(u8 windowType)
 {
-    struct WindowTemplate window;
+    struct WindowTemplate window = {0};
     u8 cursorDimension;
     u8 letterSpacing;
     u8 i;
@@ -3019,6 +3032,9 @@ static u8 DisplaySelectionWindow(u8 windowType)
         break;
     case SELECTWINDOW_ZYGARDECUBE:
         window = sZygardeCubeSelectWindowTemplate;
+        break;
+    case SELECTWINDOW_BURMY_BINDER:
+        window = sBurmyBinderSelectWindowTemplate;
         break;
     case SELECTWINDOW_MOVES:
         window = sMoveSelectWindowTemplate;
@@ -3046,6 +3062,12 @@ static u8 DisplaySelectionWindow(u8 windowType)
             text = GetMoveName(FieldMove_GetMoveId(sPartyMenuInternal->actions[i] - MENU_FIELD_MOVES));
         else if (sPartyMenuInternal->actions[i] == MENU_CLEAR)
             text = sText_Clear;
+        else if (sPartyMenuInternal->actions[i] == MENU_CATALOG_PLANT)
+            text = sText_PlantCloak;
+        else if (sPartyMenuInternal->actions[i] == MENU_CATALOG_SANDY)
+            text = sText_SandyCloak;
+        else if (sPartyMenuInternal->actions[i] == MENU_CATALOG_TRASH)
+            text = sText_TrashCloak;
         else
             text = sCursorOptions[sPartyMenuInternal->actions[i]].text;
 
@@ -3344,6 +3366,12 @@ static void Task_HandleSelectionMenuInput(u8 taskId)
                 CursorCb_FieldMove(taskId);
             else if (sPartyMenuInternal->actions[input] == MENU_CLEAR)
                 CursorCb_Clear(taskId);
+            else if (sPartyMenuInternal->actions[input] == MENU_CATALOG_PLANT)
+                CursorCb_CatalogPlant(taskId);
+            else if (sPartyMenuInternal->actions[input] == MENU_CATALOG_SANDY)
+                CursorCb_CatalogSandy(taskId);
+            else if (sPartyMenuInternal->actions[input] == MENU_CATALOG_TRASH)
+                CursorCb_CatalogTrash(taskId);
             else
                 sCursorOptions[sPartyMenuInternal->actions[input]].func(taskId);
             break;
@@ -7157,7 +7185,7 @@ bool32 TryMultichoiceFormChange(u8 taskId)
 
     if (targetSpecies != currentSpecies)
     {
-        if (gSpecialVar_ItemId == ITEM_ROTOM_CATALOG)
+        if (gSpecialVar_ItemId == ITEM_ROTOM_CATALOG || gSpecialVar_ItemId == ITEM_BURMY_BINDER)
             RemoveBagItem(gSpecialVar_ItemId, 1);
 
         gPartyMenuUseExitCallback = TRUE;
@@ -7221,12 +7249,45 @@ static void CursorCb_CatalogMower(u8 taskId)
     TryMultichoiceFormChange(taskId);
 }
 
+static void CursorCb_CatalogPlant(u8 taskId)
+{
+    gSpecialVar_Result = 0;
+    TryMultichoiceFormChange(taskId);
+}
+
+static void CursorCb_CatalogSandy(u8 taskId)
+{
+    gSpecialVar_Result = 1;
+    TryMultichoiceFormChange(taskId);
+}
+
+static void CursorCb_CatalogTrash(u8 taskId)
+{
+    gSpecialVar_Result = 2;
+    TryMultichoiceFormChange(taskId);
+}
+
 void ItemUseCB_ZygardeCube(u8 taskId, TaskFunc task)
 {
     PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
     PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
     SetPartyMonSelectionActions(gPlayerParty, gPartyMenu.slotId, ACTIONS_ZYGARDE_CUBE);
     DisplaySelectionWindow(SELECTWINDOW_ZYGARDECUBE);
+    gTasks[taskId].data[0] = 0xFF;
+    gTasks[taskId].func = Task_HandleSelectionMenuInput;
+}
+
+void ItemUseCB_BurmyBinder(u8 taskId, TaskFunc task)
+{
+    PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
+    PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
+    SetPartyMonSelectionActions(gPlayerParty, gPartyMenu.slotId, ACTIONS_BURMY_BINDER);
+    DisplaySelectionWindow(SELECTWINDOW_BURMY_BINDER);
+    sPartyMenuInternal->windowId[1] = AddWindow(&sWhichCloakMsgWindowTemplate);
+    DrawStdFrameWithCustomTileAndPalette(sPartyMenuInternal->windowId[1], FALSE, 0x4F, 13);
+    StringExpandPlaceholders(gStringVar4, sText_WhichCloak);
+    AddTextPrinterParameterized(sPartyMenuInternal->windowId[1], FONT_NORMAL, gStringVar4, 0, 1, 0, 0);
+    ScheduleBgCopyTilemapToVram(2);
     gTasks[taskId].data[0] = 0xFF;
     gTasks[taskId].func = Task_HandleSelectionMenuInput;
 }

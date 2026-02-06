@@ -7435,6 +7435,15 @@ static void Cmd_switchindataupdate(void)
 
     SwitchInClearSetData(battler, &oldData.volatiles);
 
+    if (gBattleStruct->battlerState[battler].commanderSpecies != SPECIES_NONE)
+    {
+        u32 partner = BATTLE_PARTNER(battler);
+        gBattleStruct->battlerState[battler].commanderSpecies = SPECIES_NONE;
+        gBattleStruct->battlerState[partner].commandingDondozo = FALSE;
+        if (IsBattlerAlive(partner))
+            gBattleMons[partner].volatiles.semiInvulnerable = STATE_NONE;
+    }
+
     if (gBattleTypeFlags & BATTLE_TYPE_PALACE
         && gBattleMons[battler].maxHP / 2 >= gBattleMons[battler].hp
         && IsBattlerAlive(battler)
@@ -8597,8 +8606,10 @@ static u32 GetTrainerMoneyToGive(u16 trainerId)
         const struct TrainerMon *party = GetTrainerPartyFromId(trainerId);
         if (party == NULL)
             return 20;
-        lastMonLevel = party[GetTrainerPartySizeFromId(trainerId) - 1].lvl;
-        trainerMoney = gTrainerClasses[GetTrainerClassFromId(trainerId)].money ?: 5;
+        if (trainerId >= TRAINER_JUAN_1 && trainerId <= TRAINER_JUAN_4)
+            lastMonLevel = party[GetTrainerPartySizeFromId(trainerId) - 2].lvl;
+        else
+            lastMonLevel = party[GetTrainerPartySizeFromId(trainerId) - 1].lvl;        trainerMoney = gTrainerClasses[GetTrainerClassFromId(trainerId)].money ?: 5;
 
         if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
             moneyReward = 10 * lastMonLevel * gBattleStruct->moneyMultiplier * trainerMoney;

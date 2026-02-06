@@ -494,6 +494,17 @@ static const struct WindowTemplate sOrderWhichApplianceMsgWindowTemplate =
     .baseBlock = 0x299,
 };
 
+static const struct WindowTemplate sWhichCloakMsgWindowTemplate =
+{
+    .bg = 2,
+    .tilemapLeft = 1,
+    .tilemapTop = 15,
+    .width = 16,
+    .height = 4,
+    .paletteNum = 15,
+    .baseBlock = 0x299,
+};
+
 static const struct WindowTemplate sItemGiveTakeWindowTemplate =
 {
     .bg = 2,
@@ -536,6 +547,17 @@ static const struct WindowTemplate sCatalogSelectWindowTemplate =
     .height = 14,
     .paletteNum = 14,
     .baseBlock = 0x2E9,
+};
+
+static const struct WindowTemplate sBurmyBinderSelectWindowTemplate =
+{
+    .bg = 2,
+    .tilemapLeft = 19,
+    .tilemapTop = 11,
+    .width = 10,
+    .height = 8,
+    .paletteNum = 14,
+    .baseBlock = 0x2E9
 };
 
 static const struct WindowTemplate sZygardeCubeSelectWindowTemplate =
@@ -731,6 +753,9 @@ struct
     [MENU_CATALOG_FRIDGE]  = {COMPOUND_STRING("Refrigerator"),    CursorCb_CatalogFridge},
     [MENU_CATALOG_FAN]     = {COMPOUND_STRING("Electric fan"),    CursorCb_CatalogFan},
     [MENU_CATALOG_MOWER]   = {COMPOUND_STRING("Lawn mower"),      CursorCb_CatalogMower},
+    [MENU_CATALOG_PLANT]  = {COMPOUND_STRING("Plant cloak"),    CursorCb_CatalogPlant},
+    [MENU_CATALOG_SANDY]     = {COMPOUND_STRING("Sandy cloak"),    CursorCb_CatalogSandy},
+    [MENU_CATALOG_TRASH]   = {COMPOUND_STRING("Trash cloak"),      CursorCb_CatalogTrash},
     [MENU_CHANGE_FORM]     = {COMPOUND_STRING("Change form"),     CursorCb_ChangeForm},
     [MENU_CHANGE_ABILITY]  = {COMPOUND_STRING("Change Ability"),  CursorCb_ChangeAbility},
 };
@@ -749,6 +774,7 @@ static const u8 sPartyMenuAction_TradeSummaryCancel1[] = {MENU_TRADE1, MENU_SUMM
 static const u8 sPartyMenuAction_TradeSummaryCancel2[] = {MENU_TRADE2, MENU_SUMMARY, MENU_CANCEL1};
 static const u8 sPartyMenuAction_TakeItemTossCancel[] = {MENU_TAKE_ITEM, MENU_TOSS, MENU_CANCEL1};
 static const u8 sPartyMenuAction_RotomCatalog[] = {MENU_CATALOG_BULB, MENU_CATALOG_OVEN, MENU_CATALOG_WASHING, MENU_CATALOG_FRIDGE, MENU_CATALOG_FAN, MENU_CATALOG_MOWER, MENU_CANCEL1};
+static const u8 sPartyMenuAction_BurmyBinder[] = {MENU_CATALOG_PLANT, MENU_CATALOG_SANDY, MENU_CATALOG_TRASH, MENU_CANCEL1};
 static const u8 sPartyMenuAction_ZygardeCube[] = {MENU_CHANGE_FORM, MENU_CHANGE_ABILITY, MENU_CANCEL1};
 
 
