@@ -1132,6 +1132,18 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     enum Type teraType = (boxMon->personality & 0x1) == 0 ? GetSpeciesType(species, 0) : GetSpeciesType(species, 1);
     SetBoxMonData(boxMon, MON_DATA_TERA_TYPE, &teraType);
 
+    {
+        static const u8 sHiddenPowerTypes[] = {
+            TYPE_FIGHTING, TYPE_FLYING, TYPE_POISON, TYPE_GROUND,
+            TYPE_ROCK, TYPE_BUG, TYPE_GHOST, TYPE_STEEL,
+            TYPE_FIRE, TYPE_WATER, TYPE_GRASS, TYPE_ELECTRIC,
+            TYPE_PSYCHIC, TYPE_ICE, TYPE_DRAGON, TYPE_DARK,
+            TYPE_FAIRY
+        };
+        u32 hpType = sHiddenPowerTypes[Random() % ARRAY_COUNT(sHiddenPowerTypes)];
+        SetBoxMonData(boxMon, MON_DATA_HIDDEN_POWER_TYPE, &hpType);
+    }
+
     if (fixedIV < USE_RANDOM_IVS)
     {
         SetBoxMonData(boxMon, MON_DATA_HP_IV, &fixedIV);
@@ -5749,6 +5761,9 @@ u32 GetRelearnerLevelUpMoves(struct Pokemon *mon, u16 *moves)
         {
             if (learnset[i].level > level && VarGet(VAR_BADGE_COUNT) < 8)
                 break;
+
+            if (learnset[i].move == MOVE_DOODLE)
+                continue;
 
             u32 j;
             for (j = 0; j < MAX_MON_MOVES; j++)
