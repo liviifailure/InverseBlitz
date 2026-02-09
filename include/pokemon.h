@@ -128,6 +128,7 @@ enum MonData {
     MON_DATA_EVOLUTION_TRACKER,
     MON_DATA_ABILITY_CUSTOM,
     MON_DATA_HIDDEN_POWER_TYPE,
+    MON_DATA_KO_COUNT,
 };
 
 struct PokemonSubstruct0
@@ -228,6 +229,7 @@ struct PokemonSubstruct3
     // Set for in-game event island legendaries, events distributed after a certain date, & Pokémon from XD: Gale of Darkness.
     // Not to be confused with METLOC_FATEFUL_ENCOUNTER.
     u32 modernFatefulEncounter:1;
+    u16 koCount;
 };
 
 // Number of bytes in the largest Pokémon substruct.

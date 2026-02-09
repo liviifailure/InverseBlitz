@@ -45863,12 +45863,12 @@ F_TRAINER_FEMALE |
             },
             {
 #line 18057
-            .species = SPECIES_CRAWDAUNT,
+            .species = SPECIES_GRIMMSNARL,
             .gender = TRAINER_MON_RANDOM_GENDER,
 #line 18059
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 #line 18061
-            .ability = ABILITY_HYPER_CUTTER,
+            .ability = ABILITY_PICKPOCKET,
 #line 18058
             .lvl = 53,
 #line 18060
@@ -45876,10 +45876,10 @@ F_TRAINER_FEMALE |
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
 #line 18062
-                MOVE_CRABHAMMER,
-                MOVE_SWORDS_DANCE,
-                MOVE_NIGHT_SLASH,
-                MOVE_FACADE,
+                MOVE_PLAY_ROUGH,
+                MOVE_SUCKER_PUNCH,
+                MOVE_FOUL_PLAY,
+                MOVE_TORMENT,
             },
             },
             {
@@ -46635,12 +46635,12 @@ F_TRAINER_FEMALE |
             },
             {
 #line 18403
-            .species = SPECIES_ALTARIA,
+            .species = SPECIES_DRAGALGE,
             .gender = TRAINER_MON_RANDOM_GENDER,
 #line 18405
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 #line 18407
-            .ability = ABILITY_NATURAL_CURE,
+            .ability = ABILITY_POISON_TOUCH,
 #line 18404
             .lvl = 54,
 #line 18406
@@ -46648,10 +46648,10 @@ F_TRAINER_FEMALE |
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
 #line 18408
-                MOVE_DOUBLE_EDGE,
-                MOVE_DRAGON_BREATH,
-                MOVE_DRAGON_DANCE,
-                MOVE_AERIAL_ACE,
+                MOVE_THUNDERBOLT,
+                MOVE_SURF,
+                MOVE_POISON_TAIL,
+                MOVE_DRAGON_TAIL,
             },
             },
             {
@@ -46661,7 +46661,7 @@ F_TRAINER_FEMALE |
 #line 18415
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 #line 18417
-            .ability = ABILITY_SNIPER,
+            .ability = ABILITY_SWIFT_SWIM,
 #line 18414
             .lvl = 53,
 #line 18416
@@ -46669,10 +46669,10 @@ F_TRAINER_FEMALE |
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
 #line 18418
-                MOVE_SMOKESCREEN,
+                MOVE_HURRICANE,
                 MOVE_DRAGON_PULSE,
                 MOVE_OCTAZOOKA,
-                MOVE_ICE_BEAM,
+                MOVE_SMOKESCREEN,
             },
             },
             {

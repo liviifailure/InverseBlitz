@@ -131,7 +131,7 @@ static const struct WindowTemplate sHof_WindowTemplate = {
     .tilemapLeft = 2,
     .tilemapTop = 2,
     .width = 14,
-    .height = 6,
+    .height = 10,
     .paletteNum = 14,
     .baseBlock = 1
 };
@@ -139,6 +139,7 @@ static const struct WindowTemplate sHof_WindowTemplate = {
 static const u8 sMonInfoTextColors[4] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY};
 static const u8 sPlayerInfoTextColors[4] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY};
 static const u8 sUnusedTextColors[4] = {TEXT_COLOR_RED, TEXT_COLOR_LIGHT_RED, TEXT_COLOR_TRANSPARENT};
+static const u8 sText_MVPKOCount[] = _("KO COUNT");
 
 static const struct CompressedSpriteSheet sSpriteSheet_Confetti[] =
 {
@@ -721,6 +722,7 @@ static void Task_Hof_DisplayPlayer(u8 taskId)
             LoadPalette(palette, OBJ_PLTT_ID(gSprites[gTasks[taskId].tPlayerSpriteID].oam.paletteNum), PLTT_SIZE_4BPP);
     }
 
+    RemoveWindow(1);
     AddWindow(&sHof_WindowTemplate);
     LoadWindowGfx(1, gSaveBlock2Ptr->optionsWindowFrameType, 0x21D, BG_PLTT_ID(13));
     LoadPalette(GetTextWindowPalette(1), BG_PLTT_ID(14), PLTT_SIZE_4BPP);
@@ -1247,6 +1249,25 @@ static void HallOfFame_PrintPlayerInfo(u8 unused1, u8 unused2)
 {
     u8 text[20];
     u32 width;
+    u8 i;
+    u16 maxKO = 0;
+    u8 leaderIndex = 0;
+    bool8 foundLeader = FALSE;
+
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL) != SPECIES_NONE
+         && !GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG, NULL))
+        {
+            u16 koCount = GetMonData(&gPlayerParty[i], MON_DATA_KO_COUNT, NULL);
+            if (!foundLeader || koCount > maxKO)
+            {
+                maxKO = koCount;
+                leaderIndex = i;
+                foundLeader = TRUE;
+            }
+        }
+    }
 
     FillWindowPixelBuffer(1, PIXEL_FILL(1));
     PutWindowTilemap(1);
@@ -1278,6 +1299,22 @@ static void HallOfFame_PrintPlayerInfo(u8 unused1, u8 unused2)
 
     width = GetStringRightAlignXOffset(FONT_NORMAL, text, 0x70);
     AddTextPrinterParameterized3(1, FONT_NORMAL, width, 0x21, sPlayerInfoTextColors, TEXT_SKIP_DRAW, text);
+
+    if (foundLeader)
+    {
+        AddTextPrinterParameterized3(1, FONT_NORMAL, 0, 0x31, sPlayerInfoTextColors, TEXT_SKIP_DRAW, gText_KOLeader);
+        
+        GetMonData(&gPlayerParty[leaderIndex], MON_DATA_NICKNAME, gStringVar1);
+        StringGet_Nickname(gStringVar1);
+        width = GetStringRightAlignXOffset(FONT_NORMAL, gStringVar1, 0x70);
+        AddTextPrinterParameterized3(1, FONT_NORMAL, width, 0x31, sPlayerInfoTextColors, TEXT_SKIP_DRAW, gStringVar1);
+   
+        AddTextPrinterParameterized3(1, FONT_NORMAL, 0, 0x41, sPlayerInfoTextColors, TEXT_SKIP_DRAW, sText_MVPKOCount);
+        ConvertIntToDecimalStringN(gStringVar1, maxKO, STR_CONV_MODE_LEFT_ALIGN, 5);
+        width = GetStringRightAlignXOffset(FONT_NORMAL, gStringVar1, 0x70);
+        AddTextPrinterParameterized3(1, FONT_NORMAL, width, 0x41, sPlayerInfoTextColors, TEXT_SKIP_DRAW, gStringVar1);
+    
+    }
 
     CopyWindowToVram(1, COPYWIN_FULL);
 }

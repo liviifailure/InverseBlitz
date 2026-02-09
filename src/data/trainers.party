@@ -18054,15 +18054,15 @@ Ability: Chlorophyll
 - Swagger
 - Hurricane
 
-Crawdaunt
+Grimmsnarl
 Level: 53
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
-Ability: Hyper Cutter
-- Crabhammer
-- Swords Dance
-- Night Slash
-- Facade
+Ability: Prankster
+- Play Rough
+- Sucker Punch
+- Foul Play
+- Torment
 
 Absol @ Sitrus Berry
 Level: 55
@@ -18400,25 +18400,25 @@ Ability: Harvest
 - Sludge Bomb
 - Seed Bomb
 
-Altaria
+Dragalge
 Level: 54
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
-Ability: Natural Cure
-- Double Edge
-- Dragon Breath
-- Dragon Dance
-- Aerial Ace
+Ability: Poison Touch
+- Thunderbolt
+- Surf
+- Poison Tail
+- Dragon Tail
 
 Kingdra
 Level: 53
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
-Ability: Sniper
-- Smokescreen
+Ability: Swift Swim
+- Hurricane
 - Dragon Pulse
 - Octazooka
-- Ice Beam
+- Smokescreen
 
 Flygon
 Level: 53
