@@ -41528,12 +41528,12 @@ F_TRAINER_FEMALE |
             },
             {
 #line 16126
-            .species = SPECIES_NINETALES,
+            .species = SPECIES_SCOVILLAIN,
             .gender = TRAINER_MON_RANDOM_GENDER,
 #line 16128
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 #line 16130
-            .ability = ABILITY_DROUGHT,
+            .ability = ABILITY_CHLOROPHYLL,
 #line 16127
             .lvl = 32,
 #line 16129
@@ -41542,9 +41542,9 @@ F_TRAINER_FEMALE |
             .moves = {
 #line 16131
                 MOVE_OVERHEAT,
-                MOVE_FEINT_ATTACK,
-                MOVE_HEX,
-                MOVE_WILL_O_WISP,
+                MOVE_BULLET_SEED,
+                MOVE_GIGA_DRAIN,
+                MOVE_SUNNY_DAY,
             },
             },
             {
@@ -41664,12 +41664,12 @@ F_TRAINER_FEMALE |
             },
             {
 #line 16186
-            .species = SPECIES_NINETALES,
+            .species = SPECIES_SCOVILLAIN,
             .gender = TRAINER_MON_RANDOM_GENDER,
 #line 16188
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 #line 16190
-            .ability = ABILITY_DROUGHT,
+            .ability = ABILITY_CHLOROPHYLL,
 #line 16187
             .lvl = 40,
 #line 16189
@@ -41678,9 +41678,9 @@ F_TRAINER_FEMALE |
             .moves = {
 #line 16191
                 MOVE_OVERHEAT,
-                MOVE_FLAMETHROWER,
-                MOVE_HEX,
-                MOVE_WILL_O_WISP,
+                MOVE_SEED_BOMB,
+                MOVE_GIGA_DRAIN,
+                MOVE_SUNNY_DAY,
             },
             },
             {
@@ -41800,12 +41800,12 @@ F_TRAINER_FEMALE |
             },
             {
 #line 16246
-            .species = SPECIES_NINETALES,
+            .species = SPECIES_SCOVILLAIN,
             .gender = TRAINER_MON_RANDOM_GENDER,
 #line 16248
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 #line 16250
-            .ability = ABILITY_DROUGHT,
+            .ability = ABILITY_CHLOROPHYLL,
 #line 16247
             .lvl = 44,
 #line 16249
@@ -41814,9 +41814,9 @@ F_TRAINER_FEMALE |
             .moves = {
 #line 16251
                 MOVE_OVERHEAT,
-                MOVE_FLAMETHROWER,
-                MOVE_HEX,
-                MOVE_WILL_O_WISP,
+                MOVE_SEED_BOMB,
+                MOVE_GIGA_DRAIN,
+                MOVE_SUNNY_DAY,
             },
             },
             {
@@ -45868,7 +45868,7 @@ F_TRAINER_FEMALE |
 #line 18059
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 #line 18061
-            .ability = ABILITY_PICKPOCKET,
+            .ability = ABILITY_PRANKSTER,
 #line 18058
             .lvl = 53,
 #line 18060

@@ -967,6 +967,21 @@ static bool8 AllocPartyMenuBgGfx(void)
         break;
     case 2:
         LoadPalette(gPartyMenuBg_Pal, BG_PLTT_ID(0), 11 * PLTT_SIZE_4BPP);
+        {
+            // Inject purple palette colors into unused slots
+            u16 colors[] = {
+                RGB(24, 10, 28), // 14: Purple Text
+                RGB(24, 15, 28), // 73: Light Purple
+                RGB(18, 10, 22), // 74: Dark Purple
+                RGB(28, 20, 31), // 75: Bright Purple (Selected)
+                RGB(22, 15, 26)  // 76: Darker Bright Purple (Selected)
+            };
+            LoadPalette(&colors[0], BG_PLTT_ID(0) + 28, PLTT_SIZEOF(1));
+            LoadPalette(&colors[1], BG_PLTT_ID(4) + 18, PLTT_SIZEOF(1));
+            LoadPalette(&colors[2], BG_PLTT_ID(4) + 20, PLTT_SIZEOF(1));
+            LoadPalette(&colors[3], BG_PLTT_ID(4) + 22, PLTT_SIZEOF(1));
+            LoadPalette(&colors[4], BG_PLTT_ID(4) + 24, PLTT_SIZEOF(1));
+        }
         CpuCopy16(gPlttBufferUnfaded, sPartyMenuInternal->palBuffer, 11 * PLTT_SIZE_4BPP);
         sPartyMenuInternal->data[0]++;
         break;
@@ -2508,6 +2523,10 @@ static void DrawEmptySlot(u8 windowId)
 static const u8 sPartyBoxEvolutionPalIds1[] = {57, 58, 58};
 static const u8 sPartyBoxEvolutionPalIds2[] = {2, 58, 58};
 static const u8 sPartyBoxCurrSelectionEvolutionPalIds[] = {57, 58, 58};
+static const u8 sPartyBoxPurplePalIds1[] = {82, 84, 84};
+static const u8 sPartyBoxPurplePalIds2[] = {28, 84, 84};
+static const u8 sPartyBoxCurrSelectionPurplePalIds1[] = {86, 88, 88};
+static const u8 sPartyBoxCurrSelectionPurplePalIds2[] = {8, 88, 88};
 
 static void LoadPartyBoxPalette(struct PartyMenuBox *menuBox, u8 palFlags)
 {
@@ -2586,6 +2605,38 @@ static void LoadPartyBoxPalette(struct PartyMenuBox *menuBox, u8 palFlags)
     }
 
     if (!(palFlags & (PARTY_PAL_NO_MON | PARTY_PAL_FAINTED | PARTY_PAL_MULTI_ALT))
+        && ((VarGet(VAR_BADGE_COUNT) < 3 && (
+            GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_ABSOL
+         || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_VIGOROTH
+         || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_APPLETUN
+         || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_DIPPLIN
+         || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_FLAPPLE
+         || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_FALINKS
+         || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_HAWLUCHA
+         || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_KLAWF
+         || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_MILTANK
+         || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_TURTONATOR
+         || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_STONJOURNER
+         || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_STANTLER
+         || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_BOMBIRDIER
+         || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_ROTOM
+         || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_SCYTHER
+         || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_SNEASEL
+         || GET_BASE_SPECIES_ID(GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES)) == SPECIES_MINIOR
+        ))))
+    {
+        if (palFlags & PARTY_PAL_SELECTED)
+        {
+            LOAD_PARTY_BOX_PAL(sPartyBoxCurrSelectionPurplePalIds1, sPartyBoxPalOffsets1);
+            LOAD_PARTY_BOX_PAL(sPartyBoxCurrSelectionPurplePalIds2, sPartyBoxPalOffsets2);
+        }
+        else
+        {
+            LOAD_PARTY_BOX_PAL(sPartyBoxPurplePalIds1, sPartyBoxPalOffsets1);
+            LOAD_PARTY_BOX_PAL(sPartyBoxPurplePalIds2, sPartyBoxPalOffsets2);
+        }
+    }
+    else if (!(palFlags & (PARTY_PAL_NO_MON | PARTY_PAL_FAINTED | PARTY_PAL_MULTI_ALT))
         && ((VarGet(VAR_BADGE_COUNT) >= 8 && (
             GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_SLIGGOO
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_SLIGGOO_HISUI
