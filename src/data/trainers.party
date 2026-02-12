@@ -11393,18 +11393,76 @@ Swablu
 Level: 10
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 
-=== TRAINER_WALLY_MAUVILLE ===
+=== TRAINER_WALLY ===
 Name: WALLY
 Class: Rival
 Pic: Wally
 Gender: Male
 Music: Male
+Items: Full Restore / Full Restore
 Double Battle: No
 AI: Basic Trainer / Smart Mon Choices / Smart Switching
+Mugshot: Yellow
 
-Ralts
-Level: 17
+Roserade
+Level: 57
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Nature: Serious
+Ability: Poison Point
+- Petal Blizzard
+- Leech Seed
+- Synthesis
+- Toxic Spikes
+
+Azumarill
+Level: 46
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Nature: Serious
+Ability: Cute Charm
+- Sing
+- Assist
+- Charm
+- Play Rough
+
+Talonflame
+Level: 47
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Nature: Serious
+Ability: Poison Point
+- Petal Blizzard
+- Leech Seed
+- Synthesis
+- Toxic
+
+Magnezone
+Level: 44
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Nature: Serious
+Ability: Magnet Pull
+- Supersonic
+- Flash Cannon
+- Tri Attack
+- Discharge
+
+Garchomp
+Level: 47
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Nature: Serious
+Ability: Poison Point
+- Petal Blizzard
+- Leech Seed
+- Synthesis
+- Toxic
+
+Gallade @ Galladite
+Level: 48
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Nature: Serious
+Ability: Steadfast
+- Close Combat
+- Aerial Ace
+- Psycho Cut
+- Swords Dance
 
 === TRAINER_WALLY_VR_2 ===
 Name: WALLY

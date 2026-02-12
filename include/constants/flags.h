@@ -1251,7 +1251,7 @@
 #define FLAG_HIDE_TRUCK_KECLEON                                     0x4A6
 #define FLAG_HIDE_TRUCK_VIGOROTH                                    0x4A7
 #define FLAG_RECEIVED_BURMY_BINDER                                  0x339 
-#define FLAG_UNUSED_0x4A9                                           0x4A9 // Unused Flag
+#define FLAG_WALLY_IS_CHAMPION                                      0x4A9 // Unused Flag
 #define FLAG_UNUSED_0x4AA                                           0x4AA // Unused Flag
 #define FLAG_UNUSED_0x4AB                                           0x4AB // Unused Flag
 #define FLAG_UNUSED_0x4AC                                           0x4AC // Unused Flag
@@ -1333,7 +1333,7 @@
 #define FLAG_DEFEATED_SOOTOPOLIS_GYM                                0x4F7
 #define FLAG_DEFEATED_METEOR_FALLS_STEVEN                           0x4F8
 
-#define FLAG_UNUSED_0x4F9                                           0x4F9 // Unused Flag
+#define FLAG_HIDE_CHAMPIONS_ROOM_WALLY                              0x4F9
 #define FLAG_UNUSED_0x4FA                                           0x4FA // Unused Flag
 
 #define FLAG_DEFEATED_ELITE_4_SIDNEY                                0x4FB

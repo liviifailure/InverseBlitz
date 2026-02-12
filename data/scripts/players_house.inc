@@ -81,9 +81,12 @@ PlayersHouse_2F_EventScript_MomComesUpstairsMale::
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
 	msgbox PlayersHouse_2F_Text_HowDoYouLikeYourRoom, MSGBOX_DEFAULT
+	call PlayersHouse_2F_EventScript_MomAskAboutFriend
 	closemessage
 	applymovement VAR_0x8008, PlayersHouse_2F_Movement_MomExitsMale
 	waitmovement 0
+	// Reset gender variable to ensure correct script is called next time
+	setvar VAR_RESULT, MALE
 	return
 
 PlayersHouse_2F_EventScript_MomComesUpstairsFemale::
@@ -95,9 +98,32 @@ PlayersHouse_2F_EventScript_MomComesUpstairsFemale::
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterLeft
 	waitmovement 0
 	msgbox PlayersHouse_2F_Text_HowDoYouLikeYourRoom, MSGBOX_DEFAULT
+	call PlayersHouse_2F_EventScript_MomAskAboutFriend
 	closemessage
 	applymovement VAR_0x8008, PlayersHouse_2F_Movement_MomExitsFemale
 	waitmovement 0
+	return
+
+PlayersHouse_2F_EventScript_MomAskAboutFriend::
+	msgbox PlayersHouse_2F_Text_FriendStoppedBy, MSGBOX_DEFAULT
+	multichoice 23, 8, MULTI_WALLY_STEVEN, TRUE
+	copyvar VAR_0x8004, VAR_RESULT
+	switch VAR_RESULT
+	case 0, PlayersHouse_2F_EventScript_WallyStoppedBy
+	case 1, PlayersHouse_2F_EventScript_StevenStoppedBy
+	case MULTI_B_PRESSED, PlayersHouse_2F_EventScript_WallyStoppedBy
+	return
+
+PlayersHouse_2F_EventScript_WallyStoppedBy::
+	setflag FLAG_WALLY_IS_CHAMPION
+	bufferstring STR_VAR_1, PlayersHouse_2F_Text_Wally
+	msgbox PlayersHouse_2F_Text_AhYesItWas, MSGBOX_DEFAULT
+	return
+
+PlayersHouse_2F_EventScript_StevenStoppedBy::
+	clearflag FLAG_WALLY_IS_CHAMPION
+	bufferstring STR_VAR_1, PlayersHouse_2F_Text_Steven
+	msgbox PlayersHouse_2F_Text_AhYesItWas, MSGBOX_DEFAULT
 	return
 
 PlayersHouse_2F_EventScript_CheckWallClock::
@@ -697,3 +723,23 @@ PlayersHouse_1F_Movement_PlayerApproachTVForLatiFemale:
 EventScript_RunningShoesManual::
 	msgbox PlayersHouse_1F_Text_RunningShoesManual, MSGBOX_SIGN
 	end
+
+PlayersHouse_2F_Text_FriendStoppedBy:
+	.string "MOM: Oh, {PLAYER}, I almost forgot!\n"
+	.string "A friend of yours stopped by to say hi.\p"
+	.string "But… I'm sorry,\n"
+	.string "I was so busy unpacking,\n"
+	.string "I forgot who it was.\p"
+	.string "Were you expecting someone?$"
+
+PlayersHouse_2F_Text_Wally:
+	.string "WALLY$"
+
+PlayersHouse_2F_Text_Steven:
+	.string "STEVEN$"
+
+PlayersHouse_2F_Text_AhYesItWas:
+	.string "MOM: Ah yes, it was {STR_VAR_1}!\p"
+	.string "Well, they said they were in a rush,\n"
+	.string "but I'm sure you'll catch up with them\l"
+	.string "later!$"

@@ -1,3 +1,7 @@
+.set LOCALID_WALLACE, 1
+.set LOCALID_RIVAL, 2
+.set LOCALID_BIRCH, 3
+
 EverGrandeCity_ChampionsRoom_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, EverGrandeCity_ChampionsRoom_OnTransition
 	map_script MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE, EverGrandeCity_ChampionsRoom_OnWarp
@@ -6,7 +10,25 @@ EverGrandeCity_ChampionsRoom_MapScripts::
 
 EverGrandeCity_ChampionsRoom_OnTransition:
 	call Common_EventScript_SetupRivalGfxId
+	call_if_set FLAG_WALLY_IS_CHAMPION, EverGrandeCity_ChampionsRoom_EventScript_SetupWallyScene
 	end
+
+EverGrandeCity_ChampionsRoom_EventScript_SetupWallyScene::
+	setobjectxyperm LOCALID_WALLACE, 3, 6 @ Steven on Left
+	setobjectmovementtype LOCALID_WALLACE, MOVEMENT_TYPE_FACE_RIGHT
+	setobjectxyperm LOCALID_RIVAL, 9, 6 @ Wally on Right
+	setobjectmovementtype LOCALID_RIVAL, MOVEMENT_TYPE_FACE_LEFT
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_WALLY
+	clearflag FLAG_HIDE_CHAMPIONS_ROOM_RIVAL
+	clearflag FLAG_HIDE_CHAMPIONS_ROOM_WALLY
+	@ Setup Pokemon
+	setobjectxyperm LOCALID_METAGROSS, 5, 6 @ 2 tiles in front of Steven
+	setobjectmovementtype LOCALID_METAGROSS, MOVEMENT_TYPE_FACE_RIGHT
+	setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_SPECIES(METAGROSS_MEGA)
+	setobjectxyperm LOCALID_GALLADE, 7, 6 @ Across from Metagross
+	setobjectmovementtype LOCALID_GALLADE, MOVEMENT_TYPE_FACE_LEFT
+	setvar VAR_OBJ_GFX_ID_2, OBJ_EVENT_GFX_SPECIES(GALLADE_MEGA)
+	return
 
 EverGrandeCity_ChampionsRoom_OnWarp:
 	map_script_2 VAR_TEMP_1, 0, EverGrandeCity_ChampionsRoom_EventScript_PlayerTurnNorth
@@ -22,15 +44,115 @@ EverGrandeCity_ChampionsRoom_OnFrame:
 
 EverGrandeCity_ChampionsRoom_EventScript_EnterRoom::
 	lockall
-	applymovement LOCALID_PLAYER, Common_Movement_WalkUp4
+	applymovement LOCALID_PLAYER, Common_Movement_WalkUp2
 	waitmovement 0
 	delay 40
+	goto_if_set FLAG_WALLY_IS_CHAMPION, EverGrandeCity_ChampionsRoom_EventScript_WallyChampionScene
 	applymovement LOCALID_PLAYER, EverGrandeCity_ChampionsRoom_Movement_PlayerApproachWallace
 	waitmovement 0
 	setvar VAR_TEMP_1, 1
 	goto EverGrandeCity_ChampionsRoom_EventScript_Wallace
 	releaseall
 	end
+
+EverGrandeCity_ChampionsRoom_EventScript_WallyChampionScene::
+	@ Player walks up to watch
+	applymovement LOCALID_PLAYER, Common_Movement_WalkUp
+	waitmovement 0
+	delay 20
+	@ Battle Scene
+	msgbox EverGrandeCity_ChampionsRoom_Text_WallyGalladeUseCloseCombat, MSGBOX_DEFAULT
+	closemessage
+	applymovement LOCALID_GALLADE, EverGrandeCity_ChampionsRoom_Movement_GalladeAttack
+	waitmovement 0
+	playse SE_SUPER_EFFECTIVE
+	removeobject LOCALID_METAGROSS
+	waitse
+	delay 30
+	applymovement LOCALID_GALLADE, Common_Movement_FaceRight
+	waitmovement 0
+	playmoncry SPECIES_GALLADE, CRY_MODE_NORMAL
+	waitmoncry
+	playse SE_BALL_OPEN
+	removeobject LOCALID_GALLADE
+	@ Dialogue
+	msgbox EverGrandeCity_ChampionsRoom_Text_WallyIWon, MSGBOX_DEFAULT
+	closemessage
+	applymovement LOCALID_WALLACE, EverGrandeCity_ChampionsRoom_Movement_StevenStepIn
+	applymovement LOCALID_RIVAL, EverGrandeCity_ChampionsRoom_Movement_WallyStepIn
+	waitmovement 0
+	msgbox EverGrandeCity_ChampionsRoom_Text_StevenCongrats, MSGBOX_DEFAULT
+	msgbox EverGrandeCity_ChampionsRoom_Text_WallyMeChampion, MSGBOX_DEFAULT
+	closemessage
+	applymovement LOCALID_WALLACE, Common_Movement_FaceDown
+	waitmovement 0
+	msgbox EverGrandeCity_ChampionsRoom_Text_StevenDefendTitle, MSGBOX_DEFAULT
+	closemessage
+	applymovement LOCALID_PLAYER, Common_Movement_WalkUp
+	waitmovement 0
+	@ Wally notices player
+	applymovement LOCALID_RIVAL, Common_Movement_FaceDown
+	waitmovement 0
+	playse SE_PIN
+	applymovement LOCALID_RIVAL, Common_Movement_ExclamationMark
+	waitmovement 0
+	delay 48
+	applymovement LOCALID_RIVAL, EverGrandeCity_ChampionsRoom_Movement_WallyApproachPlayer
+	waitmovement 0
+	msgbox EverGrandeCity_ChampionsRoom_Text_WallyChallenge, MSGBOX_DEFAULT
+	trainerbattle_no_intro TRAINER_WALLY, EverGrandeCity_ChampionsRoom_Text_WallyDefeat
+	@ Post Battle
+	setvar VAR_FORCEANIM, 0
+	playse SE_DOOR
+	setmetatile 6, 1, METATILE_EliteFour_OpenDoorChampion_Frame, FALSE
+	setmetatile 6, 2, METATILE_EliteFour_OpenDoorChampion_Opening, FALSE
+	special DrawWholeMapView
+	msgbox EverGrandeCity_ChampionsRoom_Text_WallyPostBattle, MSGBOX_DEFAULT
+	msgbox EverGrandeCity_ChampionsRoom_Text_StevenHonors, MSGBOX_DEFAULT
+	closemessage
+	applymovement LOCALID_RIVAL, EverGrandeCity_ChampionsRoom_Movement_WallyStepAside
+	waitmovement 0
+	applymovement LOCALID_WALLACE, Common_Movement_WalkRight
+	applymovement LOCALID_PLAYER, Common_Movement_WalkUp
+	applymovement LOCALID_PLAYER, Common_Movement_WalkUp
+	waitmovement 0
+	applymovement LOCALID_WALLACE, EverGrandeCity_ChampionsRoom_Movement_StevenExit
+	applymovement LOCALID_PLAYER, EverGrandeCity_ChampionsRoom_Movement_PlayerExit
+	waitmovement 0
+	setflag FLAG_HIDE_PETALBURG_GYM_GREETER
+	setflag FLAG_COOL_PAINTING_MADE
+	setflag FLAG_BEAUTY_PAINTING_MADE
+	setflag FLAG_CUTE_PAINTING_MADE
+	setflag FLAG_SMART_PAINTING_MADE
+	setflag FLAG_TOUGH_PAINTING_MADE
+	clearflag FLAG_RECEIVED_BIKE
+	warp MAP_EVER_GRANDE_CITY_HALL_OF_FAME, 7, 16
+	waitstate
+	releaseall
+	end
+
+EverGrandeCity_ChampionsRoom_Movement_GalladeAttack:
+	walk_left
+	step_end
+
+EverGrandeCity_ChampionsRoom_Movement_WallyApproachPlayer:
+	walk_down
+	walk_left
+	walk_in_place_faster_down
+	step_end
+
+EverGrandeCity_ChampionsRoom_Movement_WallyStepAside:
+	walk_right
+	walk_in_place_faster_left
+	step_end
+
+EverGrandeCity_ChampionsRoom_Movement_StevenExit:
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	set_invisible
+	step_end
 
 EverGrandeCity_ChampionsRoom_Movement_PlayerApproachWallace:
 	walk_up
@@ -162,6 +284,16 @@ EverGrandeCity_ChampionsRoom_EventScript_RivalLookBackAndForth::
 	waitmovement 0
 	return
 
+EverGrandeCity_ChampionsRoom_Movement_WallyStepIn:
+	walk_left
+	walk_left
+	step_end
+
+EverGrandeCity_ChampionsRoom_Movement_StevenStepIn:
+	walk_right
+	walk_right
+	step_end
+
 EverGrandeCity_ChampionsRoom_Movement_PlayerExitStart:
 	walk_up
 	walk_up
@@ -170,6 +302,9 @@ EverGrandeCity_ChampionsRoom_Movement_PlayerExitStart:
 EverGrandeCity_ChampionsRoom_Movement_PlayerExit:
 	walk_up
 	delay_16
+	walk_up
+	walk_up
+	walk_up
 	walk_up
 	delay_8
 	set_invisible
@@ -328,3 +463,46 @@ EverGrandeCity_ChampionsRoom_Text_BrendanCongratulations:
 	.string "{PLAYER}, way to go!\n"
 	.string "Congratulations!$"
 
+EverGrandeCity_ChampionsRoom_Text_WallyGalladeUseCloseCombat:
+	.string "WALLY: GALLADE, use CLOSE COMBAT!$"
+
+EverGrandeCity_ChampionsRoom_Text_WallyIWon:
+	.string "WALLY: I... I won? I won!?$"
+
+EverGrandeCity_ChampionsRoom_Text_StevenCongrats:
+	.string "STEVEN: A battle well fought!\n"
+	.string "Congratulations WALLY, you are the\l"
+	.string "new CHAMPION of HOENN!$"
+
+EverGrandeCity_ChampionsRoom_Text_WallyMeChampion:
+	.string "WALLY: Me... the CHAMPION!? I did it!\n"
+	.string "My POKéMON and I did it!!$"
+
+EverGrandeCity_ChampionsRoom_Text_StevenDefendTitle:
+	.string "STEVEN: Don't look now WALLY, but it\n"
+	.string "looks like it's already time to\l"
+	.string "defend your title.$"
+
+EverGrandeCity_ChampionsRoom_Text_WallyChallenge:
+	.string "WALLY: {PLAYER}, did you hear that!?\n"
+	.string "My POKéMON and I defeated STEVEN,\l"
+	.string "and we did it in record time!\p"
+	.string "I bet you weren't expecting that!\p"
+	.string "Well, I guess it's just between you\n"
+	.string "and me now...\p"
+	.string "Let's find out the true CHAMPION\n"
+	.string "of HOENN!$"
+
+EverGrandeCity_ChampionsRoom_Text_WallyDefeat:
+	.string "I... I lost?$"
+
+EverGrandeCity_ChampionsRoom_Text_WallyPostBattle:
+	.string "WALLY: Ah! And to think, I was\n"
+	.string "CHAMPION for only a few minutes!\p"
+	.string "But {PLAYER}, you deserve it!\n"
+	.string "So... now what?$"
+
+EverGrandeCity_ChampionsRoom_Text_StevenHonors:
+	.string "STEVEN: I suppose I'll do the honors.\n"
+	.string "WALLY, wait right here.\p"
+	.string "{PLAYER}, come with me.$"

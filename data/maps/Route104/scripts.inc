@@ -319,6 +319,18 @@ Route104_EventScript_Boy1::
 	end
 
 Route104_EventScript_Woman::
+	setflag FLAG_BADGE01_GET
+	setflag FLAG_BADGE02_GET
+	setflag FLAG_BADGE03_GET
+	setflag FLAG_BADGE04_GET
+	setflag FLAG_BADGE05_GET
+	setflag FLAG_BADGE06_GET
+	setflag FLAG_BADGE07_GET
+	setflag FLAG_BADGE08_GET
+	setvar VAR_BADGE_COUNT, 8
+	setflag FLAG_VISITED_EVER_GRANDE_CITY
+	setflag FLAG_LANDMARK_POKEMON_LEAGUE
+	setflag FLAG_BADGE06_GET
 	msgbox Route104_Text_OnlyThrowBallAtWildPokemon, MSGBOX_NPC
 	end
 
