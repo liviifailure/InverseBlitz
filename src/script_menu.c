@@ -1199,11 +1199,20 @@ static void Task_HandleScrollingMultichoiceInput(u8 taskId)
             else
             {
                 u16 species = (u16)input;
+                u16 partnerSpecies = SPECIES_NONE;
+
+                if (species == SPECIES_PLUSLE)
+                    partnerSpecies = SPECIES_MINUN;
+                else if (species == SPECIES_MINUN)
+                    partnerSpecies = SPECIES_PLUSLE;
 
                 if (sGiftMonIsTaken[species])
                 {
                     if (GiftMonMenu_RemoveSelection(species))
                     {
+                        if (partnerSpecies != SPECIES_NONE && sGiftMonIsTaken[partnerSpecies])
+                            GiftMonMenu_RemoveSelection(partnerSpecies);
+
                         PlaySE(SE_PC_OFF);
                         RedrawListMenu(gTasks[taskId].data[0]);
                     }
@@ -1212,12 +1221,15 @@ static void Task_HandleScrollingMultichoiceInput(u8 taskId)
                         PlaySE(SE_FAILURE);
                     }
                 }
-                else if (CountTakenGiftMons() >= MAX_GIFT_MON)
+                else if (CountTakenGiftMons() >= MAX_GIFT_MON || (partnerSpecies != SPECIES_NONE && !sGiftMonIsTaken[partnerSpecies] && CountTakenGiftMons() >= MAX_GIFT_MON - 1))
                 {
                     PlaySE(SE_FAILURE);
                 }
                 else if (GiftMonMenu_AddSelection(species, species, species, FALSE))
                 {
+                    if (partnerSpecies != SPECIES_NONE && !sGiftMonIsTaken[partnerSpecies])
+                        GiftMonMenu_AddSelection(partnerSpecies, partnerSpecies, partnerSpecies, FALSE);
+
                     PlaySE(SE_SUCCESS);
                     RedrawListMenu(gTasks[taskId].data[0]);
                 }

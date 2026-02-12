@@ -16550,7 +16550,7 @@ Nature: Serious
 Ability: Soundproof
 - Fire Fang
 - Facade
-- Facade
+- Disarming Voice
 - Uproar
 
 Linoone-Galar
@@ -18233,9 +18233,9 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
 Ability: Liquid Ooze
 - Sludge Bomb
-- Pain Split
 - Encore
 - Shadow Ball
+- Toxic
 
 Dustox
 Level: 53
@@ -18314,8 +18314,8 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
 Ability: Thick Fat
 - Surf
+- Ice Fang
 - Body Slam
-- Ice Beam
 - Freeze Dry
 
 === TRAINER_TUCKER ===
@@ -18418,7 +18418,7 @@ Ability: Swift Swim
 - Hurricane
 - Dragon Pulse
 - Octazooka
-- Smokescreen
+- Agility
 
 Flygon
 Level: 53

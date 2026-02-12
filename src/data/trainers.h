@@ -46445,7 +46445,7 @@ F_TRAINER_FEMALE |
 #line 18316
                 MOVE_SURF,
                 MOVE_BODY_SLAM,
-                MOVE_ICE_BEAM,
+                MOVE_ICE_FANG,
                 MOVE_FREEZE_DRY,
             },
             },

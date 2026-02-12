@@ -139,7 +139,7 @@ static const struct WindowTemplate sHof_WindowTemplate = {
 static const u8 sMonInfoTextColors[4] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY};
 static const u8 sPlayerInfoTextColors[4] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY};
 static const u8 sUnusedTextColors[4] = {TEXT_COLOR_RED, TEXT_COLOR_LIGHT_RED, TEXT_COLOR_TRANSPARENT};
-static const u8 sText_MVPKOCount[] = _("KO COUNT");
+static const u8 sText_MVPKOCount[] = _("MVP KOs");
 
 static const struct CompressedSpriteSheet sSpriteSheet_Confetti[] =
 {

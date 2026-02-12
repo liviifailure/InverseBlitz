@@ -977,10 +977,10 @@ static bool8 AllocPartyMenuBgGfx(void)
                 RGB(22, 15, 26)  // 76: Darker Bright Purple (Selected)
             };
             LoadPalette(&colors[0], BG_PLTT_ID(0) + 28, PLTT_SIZEOF(1));
-            LoadPalette(&colors[1], BG_PLTT_ID(4) + 18, PLTT_SIZEOF(1));
-            LoadPalette(&colors[2], BG_PLTT_ID(4) + 20, PLTT_SIZEOF(1));
-            LoadPalette(&colors[3], BG_PLTT_ID(4) + 22, PLTT_SIZEOF(1));
-            LoadPalette(&colors[4], BG_PLTT_ID(4) + 24, PLTT_SIZEOF(1));
+            LoadPalette(&colors[1], BG_PLTT_ID(4) + 2, PLTT_SIZEOF(1));
+            LoadPalette(&colors[2], BG_PLTT_ID(4) + 4, PLTT_SIZEOF(1));
+            LoadPalette(&colors[3], BG_PLTT_ID(4) + 6, PLTT_SIZEOF(1));
+            LoadPalette(&colors[4], BG_PLTT_ID(4) + 8, PLTT_SIZEOF(1));
         }
         CpuCopy16(gPlttBufferUnfaded, sPartyMenuInternal->palBuffer, 11 * PLTT_SIZE_4BPP);
         sPartyMenuInternal->data[0]++;
@@ -2523,10 +2523,10 @@ static void DrawEmptySlot(u8 windowId)
 static const u8 sPartyBoxEvolutionPalIds1[] = {57, 58, 58};
 static const u8 sPartyBoxEvolutionPalIds2[] = {2, 58, 58};
 static const u8 sPartyBoxCurrSelectionEvolutionPalIds[] = {57, 58, 58};
-static const u8 sPartyBoxPurplePalIds1[] = {82, 84, 84};
-static const u8 sPartyBoxPurplePalIds2[] = {28, 84, 84};
-static const u8 sPartyBoxCurrSelectionPurplePalIds1[] = {86, 88, 88};
-static const u8 sPartyBoxCurrSelectionPurplePalIds2[] = {8, 88, 88};
+static const u8 sPartyBoxPurplePalIds1[] = {66, 68, 68};
+static const u8 sPartyBoxPurplePalIds2[] = {28, 68, 68};
+static const u8 sPartyBoxCurrSelectionPurplePalIds1[] = {70, 72, 72};
+static const u8 sPartyBoxCurrSelectionPurplePalIds2[] = {8, 72, 72};
 
 static void LoadPartyBoxPalette(struct PartyMenuBox *menuBox, u8 palFlags)
 {

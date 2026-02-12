@@ -1731,26 +1731,12 @@ static const u16 sElectrikeEggMoveLearnset[] = {
 #if P_FAMILY_PLUSLE
 static const u16 sPlusleEggMoveLearnset[] = {
     MOVE_WISH,
-    MOVE_SING,
-    MOVE_SWEET_KISS,
-    MOVE_DISCHARGE,
-    MOVE_LUCKY_CHANT,
-    MOVE_CHARM,
-    MOVE_FAKE_TEARS,
-    MOVE_TEARFUL_LOOK,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_PLUSLE
 
 #if P_FAMILY_MINUN
 static const u16 sMinunEggMoveLearnset[] = {
-    MOVE_WISH,
-    MOVE_SING,
-    MOVE_SWEET_KISS,
-    MOVE_DISCHARGE,
-    MOVE_LUCKY_CHANT,
-    MOVE_CHARM,
-    MOVE_FAKE_TEARS,
     MOVE_TEARFUL_LOOK,
     MOVE_UNAVAILABLE,
 };
@@ -2677,16 +2663,7 @@ static const u16 sTimburrEggMoveLearnset[] = {
 
 #if P_FAMILY_TYMPOLE
 static const u16 sTympoleEggMoveLearnset[] = {
-    MOVE_WATER_PULSE,
-    MOVE_REFRESH,
-    MOVE_MUD_SPORT,
-    MOVE_MUD_BOMB,
-    MOVE_SLEEP_TALK,
-    MOVE_SNORE,
-    MOVE_MIST,
     MOVE_EARTH_POWER,
-    MOVE_AFTER_YOU,
-    MOVE_VENOM_DRENCH,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_TYMPOLE
@@ -4098,7 +4075,6 @@ static const u16 sTarountulaEggMoveLearnset[] = {
 
 #if P_FAMILY_NYMBLE
 static const u16 sNymbleEggMoveLearnset[] = {
-    MOVE_COUNTER,
     MOVE_SKITTER_SMACK,
     MOVE_UNAVAILABLE,
 };

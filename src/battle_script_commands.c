@@ -4399,7 +4399,7 @@ static void Cmd_tryfaintmon(void)
                 gBattleResults.lastOpponentSpecies = GetMonData(GetBattlerMon(battler), MON_DATA_SPECIES, NULL);
                 gSideTimers[B_SIDE_OPPONENT].retaliateTimer = 2;
 
-                if (IsOnPlayerSide(gBattlerAttacker) && gBattlerAttacker != battler)
+                if (IsOnPlayerSide(gBattlerAttacker) && gBattlerAttacker != battler && (gBattleTypeFlags & BATTLE_TYPE_TRAINER))
                 {
                     u16 koCount = GetMonData(GetBattlerMon(gBattlerAttacker), MON_DATA_KO_COUNT);
                     if (koCount < 0xFFFF)
