@@ -11393,77 +11393,6 @@ Swablu
 Level: 10
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 
-=== TRAINER_WALLY ===
-Name: WALLY
-Class: Rival
-Pic: Wally
-Gender: Male
-Music: Male
-Items: Full Restore / Full Restore
-Double Battle: No
-AI: Basic Trainer / Smart Mon Choices / Smart Switching
-Mugshot: Yellow
-
-Roserade
-Level: 57
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Serious
-Ability: Poison Point
-- Petal Blizzard
-- Leech Seed
-- Synthesis
-- Toxic Spikes
-
-Azumarill
-Level: 46
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Serious
-Ability: Cute Charm
-- Sing
-- Assist
-- Charm
-- Play Rough
-
-Talonflame
-Level: 47
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Serious
-Ability: Poison Point
-- Petal Blizzard
-- Leech Seed
-- Synthesis
-- Toxic
-
-Magnezone
-Level: 44
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Serious
-Ability: Magnet Pull
-- Supersonic
-- Flash Cannon
-- Tri Attack
-- Discharge
-
-Garchomp
-Level: 47
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Serious
-Ability: Poison Point
-- Petal Blizzard
-- Leech Seed
-- Synthesis
-- Toxic
-
-Gallade @ Galladite
-Level: 48
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Nature: Serious
-Ability: Steadfast
-- Close Combat
-- Aerial Ace
-- Psycho Cut
-- Swords Dance
-
 === TRAINER_WALLY_VR_2 ===
 Name: WALLY
 Class: Rival
@@ -16181,15 +16110,15 @@ Ability: Flame Body
 - Light Screen
 - Sunny Day
 
-Scovillain
+Ninetales
 Level: 32
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
-Ability: Chlorophyll
+Ability: Drought
 - Overheat
-- Bullet Seed
-- Giga Drain
-- Sunny Day
+- Feint Attack
+- Hex
+- Will O Wisp
 
 Camerupt
 Level: 33
@@ -16241,15 +16170,15 @@ Ability: Flame Body
 - Incinerate
 - Sunny Day
 
-Scovillain
+Ninetales
 Level: 40
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
-Ability: Chlorophyll
+Ability: Drought
 - Overheat
-- Seed Bomb
-- Giga Drain
-- Sunny Day
+- Solar Beam
+- Hex
+- Will O Wisp
 
 Camerupt
 Level: 40
@@ -16301,15 +16230,15 @@ Ability: Flame Body
 - Earth Power
 - Sunny Day
 
-Scovillain
+Ninetales
 Level: 44
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
-Ability: Chlorophyll
+Ability: Drought
 - Overheat
-- Seed Bomb
-- Giga Drain
-- Sunny Day
+- Solar Beam
+- Hex
+- Will O Wisp
 
 Camerupt
 Level: 46
@@ -17277,7 +17206,7 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
 Ability: Levitate
 - Psywave
-- Rock Throw
+- Rock Slide
 - Calm Mind
 - Incinerate
 
@@ -17658,7 +17587,7 @@ Nature: Serious
 Ability: Unaware
 - Lick
 - Waterfall
-- Order Up
+- Noble Roar
 - Water Gun
 
 Tatsugiri
@@ -18102,24 +18031,24 @@ Ability: Torrent
 - Megahorn
 - Aqua Jet
 
-Shiftry
+Crawdaunt
 Level: 53
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
-Ability: Chlorophyll
-- Leaf Tornado
-- Double Team
-- Swagger
-- Hurricane
+Ability: Adaptability
+- Crabhammer
+- Swords Dance
+- Knock Off
+- Facade
 
 Grimmsnarl
 Level: 53
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
 Ability: Prankster
+- Foul Play
 - Play Rough
 - Sucker Punch
-- Foul Play
 - Torment
 
 Absol @ Sitrus Berry
@@ -18143,15 +18072,15 @@ Double Battle: No
 AI: Basic Trainer / Smart Mon Choices / Smart Switching
 Mugshot: Green
 
-Roserade
+Shiftry
 Level: 52
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
-Ability: Poison Point
-- Toxic Spikes
-- Giga Drain
-- Leech Seed
-- Sludge Bomb
+Ability: Chlorophyll
+- Leaf Tornado
+- Double Team
+- Swagger
+- Hurricane
 
 Decidueye-Hisui
 Level: 54
@@ -18179,7 +18108,7 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
 Ability: Own Tempo
 - Giga Drain
-- Hydro Pump
+- Surf
 - Ice Beam
 - Astonish
 
@@ -18394,7 +18323,7 @@ Nature: Serious
 Ability: Cute Charm
 - Sing
 - Hyper Voice
-- Dazzling Gleam
+- Play Rough
 - Light Screen
 
 Rapidash-Galar
@@ -18407,15 +18336,15 @@ Ability: Pastel Veil
 - Megahorn
 - Dazzling Gleam
 
-Azumarill
+Togekiss
 Level: 53
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
-Ability: Huge Power
-- Play Rough
-- Aqua Tail
-- Bounce
-- Double Edge
+Ability: Serene Grace
+- Aura Sphere
+- Dazzling Gleam
+- Air Slash
+- Encore
 
 Mawile
 Level: 53
@@ -18625,7 +18554,78 @@ Level: 58
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
 Ability: Clear Body
+- Meteor Mash
 - Hammer Arm
 - Psychic
-- Meteor Mash
 - Hyper Beam
+
+=== TRAINER_WALLY ===
+Name: WALLY
+Class: Rival
+Pic: Wally
+Gender: Male
+Music: Male
+Items: Full Restore / Full Restore
+Double Battle: No
+AI: Basic Trainer / Smart Mon Choices / Smart Switching
+Mugshot: Yellow
+
+Roserade
+Level: 57
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Nature: Serious
+Ability: Poison Point
+- Giga Drain
+- Leech Seed
+- Sludge Bomb
+- Toxic Spikes
+
+Azumarill
+Level: 55
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Nature: Serious
+Ability: Huge Power
+- Play Rough
+- Waterfall
+- Bounce
+- Double Edge
+
+Talonflame
+Level: 56
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Nature: Serious
+Ability: Flame Body
+- Brave Bird
+- Flame Charge
+- Roost
+- Steel Wing
+
+Magnezone
+Level: 56
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Nature: Serious
+Ability: Sturdy
+- Tri Attack
+- Light Screen
+- Discharge
+- Thunder Wave
+
+Garchomp
+Level: 56
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Nature: Serious
+Ability: Rough Skin
+- Dragon Claw
+- Dig
+- Flamethrower
+- Sandstorm
+
+Gallade @ Galladite
+Level: 58
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Nature: Serious
+Ability: Steadfast
+- Close Combat
+- Leaf Blade
+- Psycho Cut
+- Swords Dance

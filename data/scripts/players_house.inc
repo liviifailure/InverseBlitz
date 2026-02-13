@@ -728,8 +728,8 @@ PlayersHouse_2F_Text_FriendStoppedBy:
 	.string "MOM: Oh, {PLAYER}, I almost forgot!\n"
 	.string "A friend of yours stopped by to say hi.\p"
 	.string "But… I'm sorry,\n"
-	.string "I was so busy unpacking,\n"
-	.string "I forgot who it was.\p"
+	.string "I was so busy unpacking,\l"
+	.string "I forgot to see who it was.\p"
 	.string "Were you expecting someone?$"
 
 PlayersHouse_2F_Text_Wally:
@@ -740,6 +740,6 @@ PlayersHouse_2F_Text_Steven:
 
 PlayersHouse_2F_Text_AhYesItWas:
 	.string "MOM: Ah yes, it was {STR_VAR_1}!\p"
-	.string "Well, they said they were in a rush,\n"
-	.string "but I'm sure you'll catch up with them\l"
+	.string "Well, he said he was in a rush,\n"
+	.string "but I'm sure you'll catch up with him\l"
 	.string "later!$"

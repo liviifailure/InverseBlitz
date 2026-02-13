@@ -10,7 +10,7 @@ EverGrandeCity_ChampionsRoom_MapScripts::
 
 EverGrandeCity_ChampionsRoom_OnTransition:
 	call Common_EventScript_SetupRivalGfxId
-	call_if_set FLAG_WALLY_IS_CHAMPION, EverGrandeCity_ChampionsRoom_EventScript_SetupWallyScene
+	call EverGrandeCity_ChampionsRoom_EventScript_SetupWallyScene
 	end
 
 EverGrandeCity_ChampionsRoom_EventScript_SetupWallyScene::
@@ -48,10 +48,7 @@ EverGrandeCity_ChampionsRoom_EventScript_EnterRoom::
 	waitmovement 0
 	delay 40
 	goto_if_set FLAG_WALLY_IS_CHAMPION, EverGrandeCity_ChampionsRoom_EventScript_WallyChampionScene
-	applymovement LOCALID_PLAYER, EverGrandeCity_ChampionsRoom_Movement_PlayerApproachWallace
-	waitmovement 0
-	setvar VAR_TEMP_1, 1
-	goto EverGrandeCity_ChampionsRoom_EventScript_Wallace
+	goto EverGrandeCity_ChampionsRoom_EventScript_StevenChampionScene
 	releaseall
 	end
 
@@ -99,6 +96,7 @@ EverGrandeCity_ChampionsRoom_EventScript_WallyChampionScene::
 	delay 48
 	applymovement LOCALID_RIVAL, EverGrandeCity_ChampionsRoom_Movement_WallyApproachPlayer
 	waitmovement 0
+	setvar VAR_FORCEANIM, 1
 	msgbox EverGrandeCity_ChampionsRoom_Text_WallyChallenge, MSGBOX_DEFAULT
 	trainerbattle_no_intro TRAINER_WALLY, EverGrandeCity_ChampionsRoom_Text_WallyDefeat
 	@ Post Battle
@@ -114,6 +112,78 @@ EverGrandeCity_ChampionsRoom_EventScript_WallyChampionScene::
 	waitmovement 0
 	applymovement LOCALID_WALLACE, Common_Movement_WalkRight
 	applymovement LOCALID_PLAYER, Common_Movement_WalkUp
+	waitmovement 0
+	applymovement LOCALID_WALLACE, EverGrandeCity_ChampionsRoom_Movement_StevenExit
+	applymovement LOCALID_PLAYER, EverGrandeCity_ChampionsRoom_Movement_PlayerExit
+	waitmovement 0
+	setflag FLAG_HIDE_PETALBURG_GYM_GREETER
+	setflag FLAG_COOL_PAINTING_MADE
+	setflag FLAG_BEAUTY_PAINTING_MADE
+	setflag FLAG_CUTE_PAINTING_MADE
+	setflag FLAG_SMART_PAINTING_MADE
+	setflag FLAG_TOUGH_PAINTING_MADE
+	clearflag FLAG_RECEIVED_BIKE
+	warp MAP_EVER_GRANDE_CITY_HALL_OF_FAME, 7, 16
+	waitstate
+	releaseall
+	end
+
+EverGrandeCity_ChampionsRoom_EventScript_StevenChampionScene::
+	@ Player walks up to watch
+	applymovement LOCALID_PLAYER, Common_Movement_WalkUp
+	waitmovement 0
+	delay 20
+	@ Battle Scene
+	msgbox EverGrandeCity_ChampionsRoom_Text_StevenMetagrossUseMeteorMash, MSGBOX_DEFAULT
+	closemessage
+	applymovement LOCALID_METAGROSS, EverGrandeCity_ChampionsRoom_Movement_MetagrossAttack
+	waitmovement 0
+	playse SE_SUPER_EFFECTIVE
+	removeobject LOCALID_GALLADE
+	waitse
+	delay 30
+	applymovement LOCALID_METAGROSS, Common_Movement_FaceLeft
+	waitmovement 0
+	playmoncry SPECIES_METAGROSS, CRY_MODE_NORMAL
+	waitmoncry
+	playse SE_BALL_OPEN
+	removeobject LOCALID_METAGROSS
+	@ Dialogue
+	msgbox EverGrandeCity_ChampionsRoom_Text_WallyILost, MSGBOX_DEFAULT
+	closemessage
+	applymovement LOCALID_WALLACE, EverGrandeCity_ChampionsRoom_Movement_StevenStepIn
+	applymovement LOCALID_RIVAL, EverGrandeCity_ChampionsRoom_Movement_WallyStepIn
+	waitmovement 0
+	msgbox EverGrandeCity_ChampionsRoom_Text_StevenGoodFight, MSGBOX_DEFAULT
+	closemessage
+	applymovement LOCALID_PLAYER, Common_Movement_WalkUp
+	waitmovement 0
+	@ Wally notices player
+	applymovement LOCALID_RIVAL, Common_Movement_FaceDown
+	waitmovement 0
+	playse SE_PIN
+	applymovement LOCALID_RIVAL, Common_Movement_ExclamationMark
+	waitmovement 0
+	delay 48
+	msgbox EverGrandeCity_ChampionsRoom_Text_WallyEncourage, MSGBOX_DEFAULT
+	closemessage
+	applymovement LOCALID_WALLACE, Common_Movement_FaceDown
+	waitmovement 0
+	applymovement LOCALID_WALLACE, EverGrandeCity_ChampionsRoom_Movement_StevenApproachPlayer
+	waitmovement 0
+	setvar VAR_FORCEANIM, 1
+	playbgm MUS_ENCOUNTER_CHAMPION, FALSE
+	msgbox EverGrandeCity_ChampionsRoom_Text_IntroSpeech, MSGBOX_DEFAULT
+	trainerbattle_no_intro TRAINER_STEVEN, EverGrandeCity_ChampionsRoom_Text_Defeat
+	@ Post Battle
+	setvar VAR_FORCEANIM, 0
+	playse SE_DOOR
+	setmetatile 6, 1, METATILE_EliteFour_OpenDoorChampion_Frame, FALSE
+	setmetatile 6, 2, METATILE_EliteFour_OpenDoorChampion_Opening, FALSE
+	special DrawWholeMapView
+	msgbox EverGrandeCity_ChampionsRoom_Text_PostBattleSpeech, MSGBOX_DEFAULT
+	closemessage
+	applymovement LOCALID_WALLACE, Common_Movement_WalkUp
 	applymovement LOCALID_PLAYER, Common_Movement_WalkUp
 	waitmovement 0
 	applymovement LOCALID_WALLACE, EverGrandeCity_ChampionsRoom_Movement_StevenExit
@@ -135,9 +205,19 @@ EverGrandeCity_ChampionsRoom_Movement_GalladeAttack:
 	walk_left
 	step_end
 
+EverGrandeCity_ChampionsRoom_Movement_MetagrossAttack:
+	walk_right
+	step_end
+
 EverGrandeCity_ChampionsRoom_Movement_WallyApproachPlayer:
 	walk_down
 	walk_left
+	walk_in_place_faster_down
+	step_end
+
+EverGrandeCity_ChampionsRoom_Movement_StevenApproachPlayer:
+	walk_down
+	walk_right
 	walk_in_place_faster_down
 	step_end
 
@@ -301,7 +381,6 @@ EverGrandeCity_ChampionsRoom_Movement_PlayerExitStart:
 
 EverGrandeCity_ChampionsRoom_Movement_PlayerExit:
 	walk_up
-	delay_16
 	walk_up
 	walk_up
 	walk_up
@@ -506,3 +585,21 @@ EverGrandeCity_ChampionsRoom_Text_StevenHonors:
 	.string "STEVEN: I suppose I'll do the honors.\n"
 	.string "WALLY, wait right here.\p"
 	.string "{PLAYER}, come with me.$"
+
+EverGrandeCity_ChampionsRoom_Text_StevenMetagrossUseMeteorMash:
+	.string "STEVEN: METAGROSS, use METEOR MASH!$"
+
+EverGrandeCity_ChampionsRoom_Text_WallyILost:
+	.string "WALLY: I... I lost?$"
+
+EverGrandeCity_ChampionsRoom_Text_StevenGoodFight:
+	.string "STEVEN: That was a good match, WALLY.\n"
+	.string "You have grown strong.\p"
+	.string "But to stand at the top, you need\n"
+	.string "more than just strength.$"
+
+EverGrandeCity_ChampionsRoom_Text_WallyEncourage:
+	.string "WALLY: Look, it's {PLAYER}!\p"
+	.string "I couldn't defeat STEVEN...\n"
+	.string "But I know you can do it, {PLAYER}!\l"
+	.string "Win it for both of us!$"
