@@ -53,6 +53,8 @@
 #include "constants/weather.h"
 #include "constants/pokemon.h"
 
+u32 sCantCritBattlers = 0;
+
 /*
 NOTE: The data and functions in this file up until (but not including) sSoundMovesTable
 are actually part of battle_main.c. They needed to be moved to this file in order to
@@ -1308,6 +1310,12 @@ void PrepareStringBattle(enum StringID stringId, u32 battler)
         break;
     default:
         break;
+    }
+
+    if (gCurrentMove == MOVE_BABY_DOLL_EYES || gCurrentMove == MOVE_FAKE_TEARS || gCurrentMove == MOVE_PLAY_NICE || gCurrentMove == MOVE_TEARFUL_LOOK)
+    {
+        if (stringId == STRINGID_DEFENDERSSTATFELL || stringId == STRINGID_STATSWONTDECREASE || stringId == STRINGID_PKMNCUTSATTACKWITH)
+            sCantCritBattlers |= (1u << gBattlerTarget);
     }
 
     if ((stringId == STRINGID_PKMNCUTSATTACKWITH || stringId == STRINGID_DEFENDERSSTATFELL)
@@ -3975,6 +3983,7 @@ u32 AbilityBattleEffects(enum AbilityEffect caseID, u32 battler, enum Ability ab
     switch (caseID)
     {
     case ABILITYEFFECT_ON_SWITCHIN:
+        sCantCritBattlers &= ~(1u << battler);
         gBattleScripting.battler = battler;
         switch (gLastUsedAbility)
         {

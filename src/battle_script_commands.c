@@ -76,6 +76,8 @@
 #include "load_save.h"
 #include "test/test_runner_battle.h"
 
+extern u32 sCantCritBattlers;
+
 // table to avoid ugly powing on gba (courtesy of doesnt)
 // this returns (i^2.5)/4
 // the quarters cancel so no need to re-quadruple them in actual calculation
@@ -1702,6 +1704,9 @@ s32 CalcCritChanceStage(u32 battlerAtk, u32 battlerDef, u32 move, bool32 recordA
 {
     s32 critChance = 0;
 
+    if (sCantCritBattlers & (1u << battlerAtk))
+        return CRITICAL_HIT_BLOCKED;
+
     if (gSideStatuses[GetBattlerSide(battlerDef)] & SIDE_STATUS_LUCKY_CHANT)
     {
         critChance = CRITICAL_HIT_BLOCKED;
@@ -1754,6 +1759,9 @@ s32 CalcCritChanceStageGen1(u32 battlerAtk, u32 battlerDef, u32 move, bool32 rec
     s32 bonusCritStage = gBattleMons[battlerAtk].volatiles.bonusCritStages; // G-Max Chi Strike
     u32 holdEffectCritStage = GetHoldEffectCritChanceIncrease(battlerAtk, holdEffectAtk);
     u16 baseSpeed = GetSpeciesBaseSpeed(gBattleMons[battlerAtk].species);
+
+    if (sCantCritBattlers & (1u << battlerAtk))
+        return CRITICAL_HIT_BLOCKED;
 
     critChance = baseSpeed / 2;
 
