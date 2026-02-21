@@ -1312,7 +1312,8 @@ void PrepareStringBattle(enum StringID stringId, u32 battler)
         break;
     }
 
-    if (gCurrentMove == MOVE_BABY_DOLL_EYES || gCurrentMove == MOVE_FAKE_TEARS || gCurrentMove == MOVE_PLAY_NICE || gCurrentMove == MOVE_TEARFUL_LOOK)
+    //if (gCurrentMove == MOVE_BABY_DOLL_EYES || gCurrentMove == MOVE_FAKE_TEARS || gCurrentMove == MOVE_PLAY_NICE || gCurrentMove == MOVE_TEARFUL_LOOK)
+    if (gCurrentMove == MOVE_HOLD_HANDS)
     {
         if (stringId == STRINGID_DEFENDERSSTATFELL || stringId == STRINGID_STATSWONTDECREASE || stringId == STRINGID_PKMNCUTSATTACKWITH)
             sCantCritBattlers |= (1u << gBattlerTarget);
@@ -4762,6 +4763,7 @@ u32 AbilityBattleEffects(enum AbilityEffect caseID, u32 battler, enum Ability ab
                 BtlController_EmitSpriteInvisibility(battler, B_COMM_TO_CONTROLLER, TRUE);
                 MarkBattlerForControllerExec(battler);
                 BattleScriptPushCursorAndCallback(BattleScript_CommanderActivates);
+                sCantCritBattlers |= (1u << partner);
                 effect++;
             }
             break;
