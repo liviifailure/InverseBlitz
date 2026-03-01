@@ -9,6 +9,7 @@ EverGrandeCity_PokemonLeague_1F_OnTransition:
 	setflag FLAG_VISITED_FALLARBOR_TOWN
 	setflag FLAG_VISITED_PACIFIDLOG_TOWN
 	setflag FLAG_VISITED_VERDANTURF_TOWN 
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_MART_EMPLOYEE
 	call_if_unset FLAG_ENTERED_ELITE_FOUR, EverGrandeCity_PokemonLeague_1F_EventScript_GuardsBlockDoor
 	end
 
@@ -28,6 +29,11 @@ EverGrandeCity_PokemonLeague_1F_EventScript_Nurse::
 EverGrandeCity_PokemonLeague_1F_EventScript_Clerk::
 	lock
 	faceplayer
+	goto_if_eq VAR_SLATEPORT_RENTAL_STATE, 2, EverGrandeCity_PokemonLeague_1F_EventScript_ClerkTrap
+	goto_if_eq VAR_SLATEPORT_RENTAL_STATE, 1, EverGrandeCity_PokemonLeague_1F_EventScript_CheckRentalFraud
+	goto EverGrandeCity_PokemonLeague_1F_EventScript_ClerkShop
+
+EverGrandeCity_PokemonLeague_1F_EventScript_ClerkShop::
 	message gText_HowMayIServeYou
 	waitmessage
 	pokemart EverGrandeCity_PokemonLeague_1F_Pokemart
@@ -35,10 +41,69 @@ EverGrandeCity_PokemonLeague_1F_EventScript_Clerk::
 	release
 	end
 
+EverGrandeCity_PokemonLeague_1F_EventScript_CheckRentalFraud::
+	copyvar VAR_0x8005, VAR_BADGE_COUNT
+	subvar VAR_0x8005, VAR_RENTAL_BADGE_COUNT
+	goto_if_gt VAR_0x8005, 1, EverGrandeCity_PokemonLeague_1F_EventScript_ClerkTrap
+	goto EverGrandeCity_PokemonLeague_1F_EventScript_ClerkShop
+
+EverGrandeCity_PokemonLeague_1F_EventScript_ClerkTrap::
+	applymovement LOCALID_LEAGUE_CLERK, EverGrandeCity_PokemonLeague_1F_Movement_ClerkTwirl
+	waitmovement 0
+	removeobject LOCALID_LEAGUE_CLERK
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_MAN_1
+	addobject LOCALID_LEAGUE_CLERK
+	applymovement LOCALID_LEAGUE_CLERK, Common_Movement_FacePlayer
+	waitmovement 0
+	callnative DoLightsOutFast
+	waitstate
+	setflashlevel 6
+	msgbox EverGrandeCity_PokemonLeague_1F_Text_CantHideFromMe, MSGBOX_DEFAULT
+	copyvar VAR_0x8004, VAR_RENTAL_MON_SPECIES
+	callnative RemoveRentalMon
+	updatefollowingmon
+	setvar VAR_SLATEPORT_RENTAL_STATE, 2
+	setvar VAR_RENTAL_MON_SPECIES, 0
+	callnative TakeAllMoney
+	goto_if_eq VAR_RESULT, 0, EverGrandeCity_PokemonLeague_1F_EventScript_ClerkTrap_SkipMoney
+	buffernumberstring STR_VAR_1, VAR_RESULT
+	msgbox EverGrandeCity_PokemonLeague_1F_Text_TookMoney, MSGBOX_DEFAULT
+EverGrandeCity_PokemonLeague_1F_EventScript_ClerkTrap_SkipMoney::
+	closemessage
+	applymovement LOCALID_LEAGUE_CLERK, EverGrandeCity_PokemonLeague_1F_Movement_ClerkTwirl
+	waitmovement 0
+	removeobject LOCALID_LEAGUE_CLERK
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_MART_EMPLOYEE
+	addobject LOCALID_LEAGUE_CLERK
+	applymovement LOCALID_LEAGUE_CLERK, Common_Movement_FacePlayer
+	waitmovement 0
+	callnative DoLightsOnFast
+	waitstate
+	setflashlevel 0
+	release
+	end
+
+EverGrandeCity_PokemonLeague_1F_Movement_ClerkTwirl:
+	face_left
+	delay_4
+	face_up
+	delay_4
+	face_right
+	delay_4
+	face_down
+	delay_4
+	face_left
+	delay_4
+	face_up
+	delay_4
+	face_right
+	delay_4
+	face_down
+	step_end
+
 	.align 2
 EverGrandeCity_PokemonLeague_1F_Pokemart:
 	.2byte ITEM_ABOMASITE
-	.2byte ITEM_ABSOLITE
 	.2byte ITEM_AGGRONITE
 	.2byte ITEM_AMPHAROSITE
 	.2byte ITEM_BANETTITE
@@ -55,7 +120,6 @@ EverGrandeCity_PokemonLeague_1F_Pokemart:
 	.2byte ITEM_DRAGALGITE
 	.2byte ITEM_EELEKTROSSITE
 	.2byte ITEM_EXCADRITE
-	.2byte ITEM_FALINKSITE
 	.2byte ITEM_FERALIGITE
 	.2byte ITEM_FROSLASSITE
 	.2byte ITEM_GALLADITE
@@ -64,7 +128,6 @@ EverGrandeCity_PokemonLeague_1F_Pokemart:
 	.2byte ITEM_GENGARITE
 	.2byte ITEM_GLALITITE
 	.2byte ITEM_GRENINJITE
-	.2byte ITEM_HAWLUCHANITE
 	.2byte ITEM_HOUNDOOMINITE
 	.2byte ITEM_LOPUNNITE
 	.2byte ITEM_LUCARIONITE
@@ -179,3 +242,13 @@ EverGrandeCity_PokemonLeague_1F_Text_HaventObtainedAllBadges:
 EverGrandeCity_PokemonLeague_1F_Text_GoForth:
 	.string "TRAINER! Believe in yourself and your\n"
 	.string "POKéMON, and go forth!$"
+
+EverGrandeCity_PokemonLeague_1F_Text_CantHideFromMe:
+	.string "You thought you were really clever,\n"
+	.string "huh? Stealing my POKéMON!\p"
+	.string "But you can't hide from me.\p"
+	.string "That POKéMON and every penny you've\n"
+	.string "ever earned are mine!$"
+
+EverGrandeCity_PokemonLeague_1F_Text_TookMoney:
+	.string "{PLAYER} handed over ¥{STR_VAR_1}.$"

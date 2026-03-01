@@ -1,3 +1,5 @@
+.set LOCALID_SHADY_MAN, 38
+
 SlateportCity_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, SlateportCity_OnTransition
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, SlateportCity_OnFrame
@@ -750,14 +752,10 @@ SlateportCity_Pokemart_PowerTMs_Badge2TMs::
 	.align 2
 SlateportCity_Pokemart_PowerTMs_Badge2TMsItems:
 	.2byte ITEM_TM_BULLET_SEED
-	.2byte ITEM_TM_HAIL
 	.2byte ITEM_TM_SAFEGUARD
-	.2byte ITEM_TM_SANDSTORM
-	.2byte ITEM_TM_SKILL_SWAP
 	.2byte ITEM_TM_STEEL_WING
 	.2byte ITEM_TM_TAUNT
 	.2byte ITEM_TM_THIEF
-	.2byte ITEM_TM_TORMENT
 	.2byte ITEM_TM_TRICK_ROOM
 	pokemartlistend
 
@@ -819,19 +817,19 @@ SlateportCity_Pokemart_PowerTMs_Badge7TMs::
 	.align 2
 SlateportCity_Pokemart_PowerTMs_Badge7TMsItems:
 	.2byte ITEM_TM_BULLET_SEED
-	.2byte ITEM_TM_HAIL
 	.2byte ITEM_TM_SAFEGUARD
-	.2byte ITEM_TM_SANDSTORM
-	.2byte ITEM_TM_SKILL_SWAP
 	.2byte ITEM_TM_TAUNT
 	.2byte ITEM_TM_STEEL_WING
 	.2byte ITEM_TM_THIEF
-	.2byte ITEM_TM_TORMENT
 	.2byte ITEM_TM_TRICK_ROOM
 	.2byte ITEM_TM_DOUBLE_TEAM
+	.2byte ITEM_TM_HAIL
 	.2byte ITEM_TM_LIGHT_SCREEN
+	.2byte ITEM_TM_RAIN_DANCE
 	.2byte ITEM_TM_REFLECT
 	.2byte ITEM_TM_REST
+	.2byte ITEM_TM_SANDSTORM
+	.2byte ITEM_TM_SUNNY_DAY
 	.2byte ITEM_TM_BRICK_BREAK
 	.2byte ITEM_TM_DAZZLING_GLEAM
 	.2byte ITEM_TM_DIG
@@ -839,10 +837,9 @@ SlateportCity_Pokemart_PowerTMs_Badge7TMsItems:
 	.2byte ITEM_TM_GIGA_DRAIN
 	.2byte ITEM_TM_HYPER_BEAM
 	.2byte ITEM_TM_IRON_TAIL
-	.2byte ITEM_TM_RAIN_DANCE
+	.2byte ITEM_TM_ROCK_SLIDE
 	.2byte ITEM_TM_SNARL
 	.2byte ITEM_TM_SOLAR_BEAM
-	.2byte ITEM_TM_SUNNY_DAY
 	.2byte ITEM_TM_SHADOW_BALL
 	.2byte ITEM_TM_X_SCISSOR
 	.2byte ITEM_TM_BLIZZARD
@@ -865,6 +862,8 @@ SlateportCity_EventScript_MegaSalesman::
 	waitmessage
 	compare VAR_BADGE_COUNT, 6
 	goto_if_lt SlateportCity_EventScript_SellStageOneStones
+	compare VAR_BADGE_COUNT, 6
+	goto_if_eq SlateportCity_EventScript_SellStageTwoStonesPlusRentals
 	compare VAR_BADGE_COUNT, 8
 	goto_if_lt SlateportCity_EventScript_SellStageTwoStones
 	pokemart SlateportCity_Pokemart_StageThreeMegas
@@ -874,6 +873,12 @@ SlateportCity_EventScript_MegaSalesman::
 
 SlateportCity_EventScript_SellStageOneStones::
 	pokemart SlateportCity_Pokemart_StageOneMegas
+	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
+	release
+	end
+
+SlateportCity_EventScript_SellStageTwoStonesPlusRentals::
+	pokemart SlateportCity_Pokemart_StageTwoMegasPlusRentals
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
 	release
 	end
@@ -893,17 +898,14 @@ SlateportCity_Pokemart_StageOneMegas:
 	.align 2
 SlateportCity_Pokemart_StageTwoMegas:
 	.2byte ITEM_ABOMASITE
-	.2byte ITEM_ABSOLITE
 	.2byte ITEM_BANETTITE
 	.2byte ITEM_CAMERUPTITE
 	.2byte ITEM_CHIMECHITE
 	.2byte ITEM_DRAGALGITE
 	.2byte ITEM_EELEKTROSSITE
 	.2byte ITEM_EXCADRITE
-	.2byte ITEM_FALINKSITE
 	.2byte ITEM_FROSLASSITE
 	.2byte ITEM_GLALITITE
-	.2byte ITEM_HAWLUCHANITE
 	.2byte ITEM_HOUNDOOMINITE
 	.2byte ITEM_LOPUNNITE
 	.2byte ITEM_LUCARIONITE
@@ -921,9 +923,43 @@ SlateportCity_Pokemart_StageTwoMegas:
 	pokemartlistend
 
 	.align 2
-SlateportCity_Pokemart_StageThreeMegas:
+SlateportCity_Pokemart_StageTwoMegasPlusRentals:
 	.2byte ITEM_ABOMASITE
 	.2byte ITEM_ABSOLITE
+	.2byte ITEM_BANETTITE
+	.2byte ITEM_CAMERUPTITE
+	.2byte ITEM_CHIMECHITE
+	.2byte ITEM_DRAGALGITE
+	.2byte ITEM_DRAMPANITE;
+	.2byte ITEM_EELEKTROSSITE
+	.2byte ITEM_EXCADRITE
+	.2byte ITEM_FALINKSITE;
+	.2byte ITEM_FROSLASSITE
+	.2byte ITEM_GLALITITE
+	.2byte ITEM_HAWLUCHANITE;
+	.2byte ITEM_HERACRONITE;
+	.2byte ITEM_HOUNDOOMINITE
+	.2byte ITEM_KANGASKHANITE
+	.2byte ITEM_LOPUNNITE
+	.2byte ITEM_LUCARIONITE
+	.2byte ITEM_MALAMARITE
+	.2byte ITEM_MANECTITE
+	.2byte ITEM_MAWILITE
+	.2byte ITEM_MEDICHAMITE
+	.2byte ITEM_MEOWSTICITE
+	.2byte ITEM_PINSIRITE;
+	.2byte ITEM_PYROARITE
+	.2byte ITEM_SABLENITE
+	.2byte ITEM_SCIZORITE
+	.2byte ITEM_SHARPEDONITE
+	.2byte ITEM_SKARMORITE;
+	.2byte ITEM_STARMINITE
+	.2byte ITEM_STEELIXITE
+	pokemartlistend
+
+	.align 2
+SlateportCity_Pokemart_StageThreeMegas:
+	.2byte ITEM_ABOMASITE
 	.2byte ITEM_AGGRONITE
 	.2byte ITEM_AMPHAROSITE
 	.2byte ITEM_BANETTITE
@@ -940,7 +976,6 @@ SlateportCity_Pokemart_StageThreeMegas:
 	.2byte ITEM_DRAGALGITE
 	.2byte ITEM_EELEKTROSSITE
 	.2byte ITEM_EXCADRITE
-	.2byte ITEM_FALINKSITE
 	.2byte ITEM_FERALIGITE
 	.2byte ITEM_FROSLASSITE
 	.2byte ITEM_GALLADITE
@@ -949,7 +984,6 @@ SlateportCity_Pokemart_StageThreeMegas:
 	.2byte ITEM_GENGARITE
 	.2byte ITEM_GLALITITE
 	.2byte ITEM_GRENINJITE
-	.2byte ITEM_HAWLUCHANITE
 	.2byte ITEM_HOUNDOOMINITE
 	.2byte ITEM_LOPUNNITE
 	.2byte ITEM_LUCARIONITE
@@ -974,6 +1008,538 @@ SlateportCity_Pokemart_StageThreeMegas:
 	.2byte ITEM_TYRANITARITE
 	.2byte ITEM_VENUSAURITE
 	pokemartlistend
+
+SlateportCity_EventScript_ShadyRentalMan::
+	lock
+	faceplayer
+	goto_if_eq VAR_SLATEPORT_RENTAL_STATE, 2, SlateportCity_EventScript_ShadyManDebt
+	goto_if_eq VAR_SLATEPORT_RENTAL_STATE, 1, SlateportCity_EventScript_ShadyManActive
+	goto_if_ge VAR_BADGE_COUNT, 7, SlateportCity_EventScript_ShadyManRefuse
+	
+	callnative BufferRentalCost
+	msgbox SlateportCity_Text_ShadyManIntro, MSGBOX_DEFAULT
+	
+	@ Generate offer if not already set
+	goto_if_ne VAR_RENTAL_MON_OFFER, 0, SlateportCity_EventScript_ShadyManShowOffer
+	random 27
+	switch VAR_RESULT
+	case 0, SlateportCity_EventScript_SetOfferSkarmory
+	case 1, SlateportCity_EventScript_SetOfferFalinks
+	case 2, SlateportCity_EventScript_SetOfferHawlucha
+	case 3, SlateportCity_EventScript_SetOfferDrampa
+	case 4, SlateportCity_EventScript_SetOfferHeracross
+	case 5, SlateportCity_EventScript_SetOfferPinsir
+	case 6, SlateportCity_EventScript_SetOfferKangaskhan
+	case 7, SlateportCity_EventScript_SetOfferAbsol
+	case 8, SlateportCity_EventScript_SetOfferZangoose
+	case 9, SlateportCity_EventScript_SetOfferSeviper
+	case 10, SlateportCity_EventScript_SetOfferTorkoal
+	case 11, SlateportCity_EventScript_SetOfferTropius
+	case 12, SlateportCity_EventScript_SetOfferTurtonator
+	case 13, SlateportCity_EventScript_SetOfferLapras
+	case 14, SlateportCity_EventScript_SetOfferMiltank
+	case 15, SlateportCity_EventScript_SetOfferMimikyu
+	case 16, SlateportCity_EventScript_SetOfferTogedemaru
+	case 17, SlateportCity_EventScript_SetOfferBombirdier
+	case 18, SlateportCity_EventScript_SetOfferDhelmise
+	case 19, SlateportCity_EventScript_SetOfferRelicanth
+	case 20, SlateportCity_EventScript_SetOfferBouffalant
+	case 21, SlateportCity_EventScript_SetOfferCarnivine
+	case 22, SlateportCity_EventScript_SetOfferHeatmor
+	case 23, SlateportCity_EventScript_SetOfferDurant
+	case 24, SlateportCity_EventScript_SetOfferComfey
+	case 25, SlateportCity_EventScript_SetOfferCryogonal
+	case 26, SlateportCity_EventScript_SetOfferStonjourner
+	end
+
+SlateportCity_EventScript_SetOfferSkarmory::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_SKARMORY
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferFalinks::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_FALINKS
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferHawlucha::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_HAWLUCHA
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferDrampa::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_DRAMPA
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferHeracross::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_HERACROSS
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferPinsir::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_PINSIR
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferKangaskhan::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_KANGASKHAN
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferAbsol::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_ABSOL
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferZangoose::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_ZANGOOSE
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferSeviper::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_SEVIPER
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferTorkoal::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_TORKOAL
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferRelicanth::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_RELICANTH
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferTropius::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_TROPIUS
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferTurtonator::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_TURTONATOR
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferLapras::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_LAPRAS
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferMiltank::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_MILTANK
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferMimikyu::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_MIMIKYU
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferTogedemaru::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_TOGEDEMARU
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferBombirdier::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_BOMBIRDIER
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferDhelmise::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_DHELMISE
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferBouffalant::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_BOUFFALANT
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferCarnivine::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_CARNIVINE
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferHeatmor::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_HEATMOR
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferDurant::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_DURANT
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferComfey::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_COMFEY
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferCryogonal::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_CRYOGONAL
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferStonjourner::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_STONJOURNER
+	goto SlateportCity_EventScript_ShadyManShowOffer
+
+SlateportCity_EventScript_ShadyManShowOffer::
+	bufferspeciesname STR_VAR_1, VAR_RENTAL_MON_OFFER
+	msgbox SlateportCity_Text_ShadyManCheckOut, MSGBOX_DEFAULT
+	callnative ShowRentalMon
+	waitstate
+	callnative BufferRentalCost
+	msgbox SlateportCity_Text_ShadyManOffer, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, SlateportCity_EventScript_ShadyManDecline
+	
+	callnative CheckHasRentalCost
+	goto_if_eq VAR_RESULT, FALSE, SlateportCity_EventScript_ShadyManNoMoney
+	
+	callnative TakeRentalCost
+	updatemoneybox
+	
+SlateportCity_EventScript_GiveRentalMon::
+	callnative GiveRentalMon
+	goto_if_eq VAR_RESULT, 0, SlateportCity_EventScript_RentalGiven
+	goto_if_eq VAR_RESULT, 1, SlateportCity_EventScript_RentalSentToPC
+	goto_if_eq VAR_RESULT, 2, SlateportCity_EventScript_ShadyManPartyFull
+	
+SlateportCity_EventScript_RentalGiven::
+	setvar VAR_SLATEPORT_RENTAL_STATE, 1
+	copyvar VAR_RENTAL_MON_SPECIES, VAR_RENTAL_MON_OFFER
+	copyvar VAR_RENTAL_BADGE_COUNT, VAR_BADGE_COUNT
+	setvar VAR_RENTAL_MON_OFFER, 0
+	
+	msgbox SlateportCity_Text_ShadyManWarning, MSGBOX_DEFAULT
+	release
+	end
+
+SlateportCity_EventScript_RentalSentToPC::
+	setvar VAR_SLATEPORT_RENTAL_STATE, 1
+	copyvar VAR_RENTAL_MON_SPECIES, VAR_RENTAL_MON_OFFER
+	copyvar VAR_RENTAL_BADGE_COUNT, VAR_BADGE_COUNT
+	setvar VAR_RENTAL_MON_OFFER, 0
+	msgbox SlateportCity_Text_ShadyManWarning, MSGBOX_DEFAULT
+	release
+	end
+
+SlateportCity_EventScript_SetHeracronite::
+	setvar VAR_0x8006, ITEM_HERACRONITE
+	return
+SlateportCity_EventScript_SetPinsirite::
+	setvar VAR_0x8006, ITEM_PINSIRITE
+	return
+SlateportCity_EventScript_SetKangaskhanite::
+	setvar VAR_0x8006, ITEM_KANGASKHANITE
+	return
+SlateportCity_EventScript_SetAbsolite::
+	setvar VAR_0x8006, ITEM_ABSOLITE
+	return
+SlateportCity_EventScript_SetDrampite::
+	setvar VAR_0x8006, ITEM_DRAMPANITE
+	return
+SlateportCity_EventScript_SetSkarmorite::
+	setvar VAR_0x8006, ITEM_SKARMORITE
+	return
+SlateportCity_EventScript_SetFalinksite::
+	setvar VAR_0x8006, ITEM_FALINKSITE
+	return
+SlateportCity_EventScript_SetHawluchite::
+	setvar VAR_0x8006, ITEM_HAWLUCHANITE
+	return
+
+SlateportCity_EventScript_ShadyManDecline::
+	msgbox SlateportCity_Text_ShadyManDecline, MSGBOX_DEFAULT
+	release
+	end
+
+SlateportCity_EventScript_ShadyManNoMoney::
+	msgbox SlateportCity_Text_ShadyManNoMoney, MSGBOX_DEFAULT
+	release
+	end
+
+SlateportCity_EventScript_ShadyManPartyFull::
+	release
+	end
+
+SlateportCity_EventScript_ShadyManActive::
+	copyvar VAR_0x8005, VAR_BADGE_COUNT
+	subvar VAR_0x8005, VAR_RENTAL_BADGE_COUNT
+	goto_if_gt VAR_0x8005, 1, SlateportCity_EventScript_ShadyManFraudManual
+	goto_if_gt VAR_0x8005, 0, SlateportCity_EventScript_ShadyManReturnMon
+	msgbox SlateportCity_Text_ShadyManActive, MSGBOX_DEFAULT
+	release
+	end
+
+SlateportCity_EventScript_ShadyManReturnMon::
+	copyvar VAR_0x8004, VAR_RENTAL_MON_SPECIES
+	callnative RemoveRentalMon
+	updatefollowingmon
+	goto_if_eq VAR_RESULT, 1, SlateportCity_EventScript_ShadyManReturnFainted
+	goto_if_eq VAR_RESULT, 2, SlateportCity_EventScript_ShadyManLostMon
+	goto_if_eq VAR_RESULT, 3, SlateportCity_EventScript_ShadyManFoundInDayCare
+	msgbox SlateportCity_Text_RentalReturnedAlive, MSGBOX_DEFAULT
+	bufferspeciesname STR_VAR_1, VAR_RENTAL_MON_SPECIES
+	msgbox SlateportCity_Text_PlayerReturnedMon, MSGBOX_DEFAULT
+	setvar VAR_SLATEPORT_RENTAL_STATE, 0
+	setvar VAR_RENTAL_MON_SPECIES, 0
+	addvar VAR_RENTAL_RETURN_COUNT, 1
+	release
+	end
+
+SlateportCity_EventScript_ShadyManFraudManual::
+	copyvar VAR_0x8004, VAR_RENTAL_MON_SPECIES
+	callnative RemoveRentalMon
+	updatefollowingmon
+	msgbox SlateportCity_Text_RentalFraud, MSGBOX_DEFAULT
+	callnative TakeAllMoney
+	goto_if_eq VAR_RESULT, 0, SlateportCity_EventScript_ShadyManFraudManual_SkipMoney
+	buffernumberstring STR_VAR_1, VAR_RESULT
+	msgbox SlateportCity_Text_PlayerHandedOverMoney, MSGBOX_DEFAULT
+SlateportCity_EventScript_ShadyManFraudManual_SkipMoney::
+	setvar VAR_SLATEPORT_RENTAL_STATE, 2
+	setvar VAR_RENTAL_MON_SPECIES, 0
+	release
+	end
+
+SlateportCity_EventScript_ShadyManReturnFainted::
+	msgbox SlateportCity_Text_RentalFaintedGreeting, MSGBOX_DEFAULT
+	bufferspeciesname STR_VAR_1, VAR_RENTAL_MON_SPECIES
+	msgbox SlateportCity_Text_PlayerReturnedMon, MSGBOX_DEFAULT
+	msgbox SlateportCity_Text_RentalFaintedReaction, MSGBOX_DEFAULT
+	callnative CheckHasRentalCost
+	goto_if_eq VAR_RESULT, TRUE, SlateportCity_EventScript_ShadyManPayFine
+	callnative TakeAllMoney
+	goto_if_eq VAR_RESULT, 0, SlateportCity_EventScript_ShadyManReturnFaintedEnd
+	buffernumberstring STR_VAR_1, VAR_RESULT
+	msgbox SlateportCity_Text_PlayerHandedOverMoney, MSGBOX_DEFAULT
+	goto SlateportCity_EventScript_ShadyManReturnFaintedEnd
+
+SlateportCity_EventScript_ShadyManPayFine::
+	callnative TakeRentalCost
+	updatemoneybox
+	callnative BufferRentalCost
+	msgbox SlateportCity_Text_PlayerHandedOverMoney, MSGBOX_DEFAULT
+	goto SlateportCity_EventScript_ShadyManReturnFaintedEnd
+
+SlateportCity_EventScript_ShadyManReturnFaintedEnd::
+	setvar VAR_SLATEPORT_RENTAL_STATE, 0
+	setvar VAR_RENTAL_MON_SPECIES, 0
+	addvar VAR_RENTAL_RETURN_COUNT, 1
+	release
+	end
+
+SlateportCity_EventScript_ShadyManFoundInDayCare::
+	msgbox SlateportCity_Text_ShadyManDayCare, MSGBOX_DEFAULT
+	setvar VAR_SLATEPORT_RENTAL_STATE, 0
+	setvar VAR_RENTAL_MON_SPECIES, 0
+	release
+	end
+
+SlateportCity_EventScript_ShadyManLostMon::
+	msgbox SlateportCity_Text_ShadyManLostMon, MSGBOX_DEFAULT
+	release
+	end
+
+SlateportCity_EventScript_ShadyManRefuse::
+	msgbox SlateportCity_Text_ShadyManRefuse, MSGBOX_DEFAULT
+	release
+	end
+
+SlateportCity_EventScript_ShadyManDebt::
+	msgbox SlateportCity_Text_ShadyManDebt, MSGBOX_DEFAULT
+	callnative TakeAllMoney
+	release
+	end
+
+SlateportCity_EventScript_LightsOut::
+	setvar VAR_TEMP_1, 1
+	callnative DoLightsOutFast
+	waitstate
+	setflashlevel 6
+	applymovement LOCALID_SHADY_MAN, SlateportCity_Movement_RevealShadyMan
+	waitmovement 0
+	setobjectmovementtype LOCALID_SHADY_MAN, MOVEMENT_TYPE_FACE_DOWN
+	return
+	end
+
+SlateportCity_EventScript_LightsOn::
+	removeobject LOCALID_SHADY_MAN
+	setobjectxy LOCALID_SHADY_MAN, 2, 33
+	setobjectmovementtype LOCALID_SHADY_MAN, MOVEMENT_TYPE_TREE_DISGUISE
+	addobject LOCALID_SHADY_MAN
+	setvar VAR_TEMP_1, 0
+	callnative DoLightsOnFast
+	waitstate
+	setflashlevel 0
+	return
+	end
+
+SlateportCity_Movement_RevealShadyMan:
+	reveal_trainer
+	face_down
+	step_end
+
+SlateportCity_EventScript_RentalIntercept::
+	lockall
+	copyvar VAR_0x8005, VAR_BADGE_COUNT
+	subvar VAR_0x8005, VAR_RENTAL_BADGE_COUNT
+	goto_if_eq VAR_0x8005, 0, SlateportCity_EventScript_RentalIntercept_End
+
+	call SlateportCity_EventScript_LightsOut
+	setvar VAR_TEMP_1, 0 @ 0 for normal intercept
+
+	addobject LOCALID_SHADY_MAN
+	showobjectat LOCALID_SHADY_MAN, MAP_SLATEPORT_CITY
+	applymovement LOCALID_SHADY_MAN, Common_Movement_WalkInPlaceFasterDown
+	waitmovement 0
+	playse SE_PIN
+	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_ExclamationMark
+	waitmovement 0
+	applymovement LOCALID_SHADY_MAN, Common_Movement_Delay48
+	waitmovement 0
+	
+	@ Move Shady Man to player
+	getplayerxy VAR_0x8004, VAR_0x8005
+	getobjectxy LOCALID_SHADY_MAN, 0, VAR_0x8006, VAR_0x8007
+	getdirectiontoface VAR_0x8008, LOCALID_SHADY_MAN, OBJ_EVENT_ID_PLAYER
+	
+	goto_if_eq VAR_0x8004, 9, SlateportCity_EventScript_RentalIntercept_TeleportPos1
+	goto_if_eq VAR_0x8005, 52, SlateportCity_EventScript_RentalIntercept_TeleportPos2
+	goto_if_eq VAR_0x8005, 53, SlateportCity_EventScript_RentalIntercept_TeleportPos3
+	@ Fallback if coordinates don't match (shouldn't happen)
+	applymovement LOCALID_SHADY_MAN, SlateportCity_Movement_ShadyManRunToPlayer 
+SlateportCity_EventScript_RentalIntercept_Continue::
+	waitmovement 0
+	
+	copyvar VAR_0x8004, VAR_RENTAL_MON_SPECIES
+	callnative RemoveRentalMon
+	updatefollowingmon
+	@ VAR_RESULT: 0=Alive, 1=Fainted, 2=Not Found, 3=DayCare
+	
+	@ Check for Badge Fraud
+	copyvar VAR_0x8005, VAR_BADGE_COUNT
+	subvar VAR_0x8005, VAR_RENTAL_BADGE_COUNT
+	goto_if_gt VAR_0x8005, 1, SlateportCity_EventScript_RentalFraud
+	
+	goto_if_eq VAR_RESULT, 1, SlateportCity_EventScript_RentalFainted
+	goto_if_eq VAR_RESULT, 3, SlateportCity_EventScript_RentalDayCare
+	
+	msgbox SlateportCity_Text_RentalReturnedAlive, MSGBOX_DEFAULT
+	bufferspeciesname STR_VAR_1, VAR_RENTAL_MON_SPECIES
+	msgbox SlateportCity_Text_PlayerReturnedMon, MSGBOX_DEFAULT
+	setvar VAR_SLATEPORT_RENTAL_STATE, 0
+	setvar VAR_RENTAL_MON_SPECIES, 0
+	
+	@ Return Shady Man (Teleport back for simplicity or walk back)
+	getplayerxy VAR_0x8004, VAR_0x8005
+	goto_if_eq VAR_0x8004, 9, SlateportCity_EventScript_RentalReturn_Pos1
+	goto_if_eq VAR_0x8005, 52, SlateportCity_EventScript_RentalReturn_Pos2
+	goto_if_eq VAR_0x8005, 53, SlateportCity_EventScript_RentalReturn_Pos3
+	applymovement LOCALID_SHADY_MAN, SlateportCity_Movement_ShadyManReturn
+SlateportCity_EventScript_RentalReturn_Continue::
+	waitmovement 0
+	releaseall
+	end
+
+SlateportCity_EventScript_RentalIntercept_End::
+	releaseall
+	end
+
+SlateportCity_EventScript_RentalIntercept_TeleportPos1::
+	copyvar VAR_0x8006, VAR_0x8004
+	subvar VAR_0x8006, 1 @ X - 1
+	copyvar VAR_0x8007, VAR_0x8005
+	goto SlateportCity_EventScript_RentalIntercept_Teleport
+
+SlateportCity_EventScript_RentalIntercept_TeleportPos2::
+	copyvar VAR_0x8006, VAR_0x8004
+	subvar VAR_0x8006, 1
+	copyvar VAR_0x8007, VAR_0x8005
+	goto SlateportCity_EventScript_RentalIntercept_Teleport
+
+SlateportCity_EventScript_RentalIntercept_TeleportPos3::
+	copyvar VAR_0x8006, VAR_0x8004
+	subvar VAR_0x8006, 1
+	copyvar VAR_0x8007, VAR_0x8005
+	goto SlateportCity_EventScript_RentalIntercept_Teleport
+
+SlateportCity_EventScript_RentalIntercept_Teleport::
+	setobjectxy LOCALID_SHADY_MAN, VAR_0x8006, VAR_0x8007
+	applymovement LOCALID_SHADY_MAN, SlateportCity_Movement_ShadyManSpin
+	waitmovement 0
+	applymovement LOCALID_SHADY_MAN, Common_Movement_FacePlayer
+	showobjectat LOCALID_SHADY_MAN, MAP_SLATEPORT_CITY
+	waitmovement 0
+	turnobject LOCALID_PLAYER, DIR_WEST
+	goto_if_eq VAR_TEMP_1, 0, SlateportCity_EventScript_RentalIntercept_Continue
+	goto SlateportCity_EventScript_RentalDebtIntercept_Continue
+
+SlateportCity_EventScript_RentalReturn_Pos1::
+	goto SlateportCity_EventScript_RentalReturn_Spin
+
+SlateportCity_EventScript_RentalReturn_Pos2::
+	goto SlateportCity_EventScript_RentalReturn_Spin
+
+SlateportCity_EventScript_RentalReturn_Pos3::
+	goto SlateportCity_EventScript_RentalReturn_Spin
+
+SlateportCity_EventScript_RentalReturn_Spin::
+	applymovement LOCALID_SHADY_MAN, SlateportCity_Movement_ShadyManSpin
+	waitmovement 0
+	removeobject LOCALID_SHADY_MAN
+	call SlateportCity_EventScript_LightsOn
+	goto SlateportCity_EventScript_RentalReturn_Continue
+
+SlateportCity_EventScript_RentalFainted::
+	msgbox SlateportCity_Text_RentalFaintedGreeting, MSGBOX_DEFAULT
+	bufferspeciesname STR_VAR_1, VAR_RENTAL_MON_SPECIES
+	msgbox SlateportCity_Text_PlayerReturnedMon, MSGBOX_DEFAULT
+	msgbox SlateportCity_Text_RentalFaintedReaction, MSGBOX_DEFAULT
+	callnative CheckHasRentalCost
+	goto_if_eq VAR_RESULT, TRUE, SlateportCity_EventScript_PayFine
+	callnative TakeAllMoney
+	buffernumberstring STR_VAR_1, VAR_RESULT
+	msgbox SlateportCity_Text_PlayerHandedOverMoney, MSGBOX_DEFAULT
+	goto SlateportCity_EventScript_RentalFaintedEnd
+SlateportCity_EventScript_PayFine::
+	callnative TakeRentalCost
+	updatemoneybox
+	callnative BufferRentalCost
+	msgbox SlateportCity_Text_PlayerHandedOverMoney, MSGBOX_DEFAULT
+SlateportCity_EventScript_RentalFaintedEnd::
+	setvar VAR_SLATEPORT_RENTAL_STATE, 0
+	setvar VAR_RENTAL_MON_SPECIES, 0
+	addvar VAR_RENTAL_RETURN_COUNT, 1
+	getplayerxy VAR_0x8004, VAR_0x8005
+	goto_if_eq VAR_0x8004, 9, SlateportCity_EventScript_RentalReturn_Pos1
+	goto_if_eq VAR_0x8005, 52, SlateportCity_EventScript_RentalReturn_Pos2
+	goto_if_eq VAR_0x8005, 53, SlateportCity_EventScript_RentalReturn_Pos3
+	applymovement LOCALID_SHADY_MAN, SlateportCity_Movement_ShadyManReturn
+	waitmovement 0
+	releaseall
+	end
+
+SlateportCity_EventScript_RentalFraud::
+	msgbox SlateportCity_Text_RentalFraud, MSGBOX_DEFAULT
+	callnative TakeAllMoney
+	goto_if_eq VAR_RESULT, 0, SlateportCity_EventScript_RentalFraud_SkipMoney
+	buffernumberstring STR_VAR_1, VAR_RESULT
+	msgbox SlateportCity_Text_PlayerHandedOverMoney, MSGBOX_DEFAULT
+SlateportCity_EventScript_RentalFraud_SkipMoney::
+	setvar VAR_SLATEPORT_RENTAL_STATE, 2
+	setvar VAR_RENTAL_MON_SPECIES, 0
+	getplayerxy VAR_0x8004, VAR_0x8005
+	goto_if_eq VAR_0x8004, 9, SlateportCity_EventScript_RentalReturn_Pos1
+	goto_if_eq VAR_0x8005, 52, SlateportCity_EventScript_RentalReturn_Pos2
+	goto_if_eq VAR_0x8005, 53, SlateportCity_EventScript_RentalReturn_Pos3
+	applymovement LOCALID_SHADY_MAN, SlateportCity_Movement_ShadyManReturn
+	waitmovement 0
+	releaseall
+	end
+
+SlateportCity_EventScript_RentalDayCare::
+	msgbox SlateportCity_Text_ShadyManDayCare, MSGBOX_DEFAULT
+	setvar VAR_SLATEPORT_RENTAL_STATE, 0
+	setvar VAR_RENTAL_MON_SPECIES, 0
+	getplayerxy VAR_0x8004, VAR_0x8005
+	goto_if_eq VAR_0x8004, 9, SlateportCity_EventScript_RentalReturn_Pos1
+	goto_if_eq VAR_0x8005, 52, SlateportCity_EventScript_RentalReturn_Pos2
+	goto_if_eq VAR_0x8005, 53, SlateportCity_EventScript_RentalReturn_Pos3
+	applymovement LOCALID_SHADY_MAN, SlateportCity_Movement_ShadyManReturn
+	waitmovement 0
+	releaseall
+	end
+
+SlateportCity_EventScript_RentalDebtIntercept::
+	lockall
+	checkmoney 1
+	goto_if_eq VAR_RESULT, FALSE, SlateportCity_EventScript_RentalIntercept_End
+
+	call SlateportCity_EventScript_LightsOut
+
+	setvar VAR_TEMP_1, 1 @ 1 for debt intercept
+	addobject LOCALID_SHADY_MAN
+	showobjectat LOCALID_SHADY_MAN, MAP_SLATEPORT_CITY
+	applymovement LOCALID_SHADY_MAN, Common_Movement_WalkInPlaceFasterDown
+	waitmovement 0
+	playse SE_PIN
+	applymovement LOCALID_PLAYER, Common_Movement_ExclamationMark
+	waitmovement 0
+	applymovement LOCALID_SHADY_MAN, Common_Movement_Delay48
+	waitmovement 0
+	getplayerxy VAR_0x8004, VAR_0x8005
+	goto_if_eq VAR_0x8004, 9, SlateportCity_EventScript_RentalIntercept_TeleportPos1
+	goto_if_eq VAR_0x8005, 52, SlateportCity_EventScript_RentalIntercept_TeleportPos2
+	goto_if_eq VAR_0x8005, 53, SlateportCity_EventScript_RentalIntercept_TeleportPos3
+	applymovement LOCALID_SHADY_MAN, SlateportCity_Movement_ShadyManRunToPlayer
+	goto SlateportCity_EventScript_RentalDebtIntercept_Continue
+
+SlateportCity_EventScript_RentalDebtIntercept_Continue::
+	waitmovement 0
+	msgbox SlateportCity_Text_ShadyManDebtIntercept, MSGBOX_DEFAULT
+	callnative TakeAllMoney
+	goto_if_eq VAR_RESULT, 0, SlateportCity_EventScript_RentalDebtIntercept_SkipMoney
+	buffernumberstring STR_VAR_1, VAR_RESULT
+	msgbox SlateportCity_Text_PlayerHandedOverMoney, MSGBOX_DEFAULT
+SlateportCity_EventScript_RentalDebtIntercept_SkipMoney::
+	applymovement LOCALID_SHADY_MAN, SlateportCity_Movement_ShadyManSpin
+	waitmovement 0
+	removeobject LOCALID_SHADY_MAN
+	call SlateportCity_EventScript_LightsOn
+	releaseall
+	end
 
 @ Scene with Capt Sterns interview and Team Aqua announcing plans to steal Submarine
 SlateportCity_EventScript_CaptStern::
@@ -1354,6 +1920,57 @@ SlateportCity_EventScript_BerryCrushRankingsSign::
 	releaseall
 	end
 
+SlateportCity_Movement_ShadyManRunToPlayer:
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	step_end
+
+SlateportCity_Movement_ShadyManSpin:
+	face_down
+	delay_1
+	face_left
+	delay_1
+	face_up
+	delay_1
+	face_right
+	delay_1
+	face_down
+	step_end
+
+SlateportCity_Movement_ShadyManReturn:
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	face_down
+	step_end
+
 SlateportCity_Text_CookIntro:
 	.string "My cooking is so potent, it can change\n"
 	.string "a POKéMON's very condition!$"
@@ -1384,7 +2001,7 @@ SlateportCity_Text_EnergyGuru_ChooseMon:
 	.string "Which POKéMON needs my help?$"
 
 SlateportCity_Text_EnergyGuru_InvalidMon:
-	.string "Hrm... No, that POKéMON doesn't meet\n"
+	.string "Hrm… No, that POKéMON doesn't meet\n"
 	.string "my criteria.$"
 
 SlateportCity_Text_EnergyGuru_Hooplah:
@@ -1405,7 +2022,7 @@ SlateportCity_Text_EffortRibbonWoman_ChooseMon:
 	.string "Which POKéMON needs my help?$"
 
 SlateportCity_Text_EffortRibbonWoman_InvalidMon:
-	.string "Hrm... No, that POKéMON doesn't meet\n"
+	.string "Hrm… No, that POKéMON doesn't meet\n"
 	.string "my criteria.$"
 
 SlateportCity_Text_EffortRibbonWoman_Decline:
@@ -1936,3 +2553,92 @@ SlateportCity_Text_HiddenPowerNPC_ChooseType:
 SlateportCity_Text_HiddenPowerNPC_Success:
 	.string "The type of HIDDEN POWER has been\n"
 	.string "changed!$"
+
+SlateportCity_Text_ShadyManIntro:
+	.string "Psst. Hey kid.\n"
+	.string "You look like you need some muscle.\p"
+	.string "I run a rental service. For ¥{STR_VAR_1},\n"
+	.string "you can borrow one of my POKéMON.$"
+
+SlateportCity_Text_ShadyManCheckOut:
+	.string "I've got a {STR_VAR_1} available.\p"
+	.string "It's one of a kind. A POKéMON this\n"
+	.string "good? You'll never find another.\p"
+	.string "Take a look for yourself.$"
+
+SlateportCity_Text_ShadyManOffer:
+	.string "Want to rent it for ¥{STR_VAR_1}?$"
+
+SlateportCity_Text_ShadyManDecline:
+	.string "Suit yourself. I'll be waiting here\n"
+	.string "when come crawling back.$"
+
+SlateportCity_Text_ShadyManNoMoney:
+	.string "You don't have the cash.\n"
+	.string "I don't run a charity, kid.$"
+
+SlateportCity_Text_ShadyManWarning:
+	.string "Here you go. Now listen closely.\n"
+	.string "If you don't bring it back alive,\l"
+	.string "you'll regret it.$"
+
+SlateportCity_Text_ShadyManActive:
+	.string "Take good care of that POKéMON.\n"
+	.string "Bring it back here when you're done.$"
+
+SlateportCity_Text_ShadyManRefuse:
+	.string "You've got a strange look in your eye…\n"
+	.string "Like you're planning to skip town.\l"
+	.string "No, I'm not renting to you.$"
+
+SlateportCity_Text_RentalReturnedAlive:
+	.string "Pleasure doing business with you.\n"
+	.string "Hope it helped you out.$"
+
+SlateportCity_Text_RentalFaintedGreeting:
+	.string "Hello! I suppose you're here to return\n"
+	.string "my precious POKéMON! Well thank you!$"
+
+SlateportCity_Text_RentalFaintedReaction:
+	.string "My POKéMON… What have you done!?\n"
+	.string "It's fainted! This is going to cost you!\p"
+	.string "Just for that, I'm charging you double!$"
+
+SlateportCity_Text_PlayerHandedOverMoney:
+	.string "{PLAYER} handed over ¥{STR_VAR_1}.$"
+
+SlateportCity_Text_PlayerReturnedMon:
+	.string "{PLAYER} returned {STR_VAR_1}.$"
+
+SlateportCity_Text_RentalFraud:
+	.string "Hold it right there!\p"
+	.string "You've been busy, haven't you?\n"
+	.string "Collecting badges with MY POKéMON?\p"
+	.string "That wasn't the deal!\n"
+	.string "I'm taking it back, and I'm taking\l"
+	.string "everything you've got!\p"
+	.string "Oh, you'll pay for this.\p"
+	.string "You heard me! Every cent you earn\n"
+	.string "moving forward has my name on it!$"
+
+SlateportCity_Text_ShadyManLostMon:
+	.string "Huh? You don't have it?\n"
+	.string "Did you lose it?! Get out of here!$"
+
+SlateportCity_Text_ShadyManDebt:
+	.string "You've got some nerve showing your\n"
+	.string "face here.\p"
+	.string "You'll be in debt to me for the\n"
+	.string "rest of your life.\p"
+	.string "You heard me! Every cent you earn\n"
+	.string "moving forward has my name on it!$"
+
+SlateportCity_Text_ShadyManDebtIntercept:
+	.string "Where do you think you're going?\n"
+	.string "Hand over the cash!$"
+
+SlateportCity_Text_ShadyManDayCare:
+	.string "What? It's in the Day Care!?\n"
+	.string "I'm going up there right now--\p"
+	.string "What are you doing putting my\n"
+	.string "POKéMON in the Day Care!?$"

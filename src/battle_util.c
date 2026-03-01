@@ -6575,7 +6575,10 @@ u8 GetAttackerObedienceForAction()
 
     if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && GetBattlerPosition(gBattlerAttacker) == B_POSITION_PLAYER_RIGHT)
         return OBEYS;
-    if (IsOnPlayerSide(gBattlerAttacker) && VarGet(VAR_BADGE_COUNT) < 2)
+    //if (IsOnPlayerSide(gBattlerAttacker) && VarGet(VAR_BADGE_COUNT) < 2)
+    //Obedience is currently disabled
+    if (IsOnPlayerSide(gBattlerAttacker) && VarGet(VAR_BADGE_COUNT) > 9)
+
     {
         u16 species = gBattleMons[gBattlerAttacker].species;
         u32 bst = gSpeciesInfo[species].baseHP +

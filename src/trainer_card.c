@@ -1103,6 +1103,7 @@ static void PrintTimeOnCard(void)
 {
     u16 hours;
     u16 minutes;
+    u16 seconds = 0;
     s32 width;
     u32 x, y, totalWidth;
 
@@ -1115,17 +1116,21 @@ static void PrintTimeOnCard(void)
     {
         hours = sData->trainerCard.playTimeHours;
         minutes = sData->trainerCard.playTimeMinutes;
+        // Link trainer cards do not transmit seconds, so it defaults to 0.
     }
     else
     {
         hours = gSaveBlock2Ptr->playTimeHours;
         minutes = gSaveBlock2Ptr->playTimeMinutes;
+        seconds = gSaveBlock2Ptr->playTimeSeconds;
     }
 
     if (hours > 999)
         hours = 999;
     if (minutes > 59)
         minutes = 59;
+    if (seconds > 59)
+        seconds = 59;
     width = GetStringWidth(FONT_NORMAL, gText_Colon2, 0);
 
     if (!sData->isHoenn)
@@ -1138,7 +1143,7 @@ static void PrintTimeOnCard(void)
         x = 128;
         y = 89;
     }
-    totalWidth = width + 30;
+    totalWidth = width + 30 + width + 12;
     x -= totalWidth;
 
     FillWindowPixelRect(WIN_CARD_TEXT, PIXEL_FILL(0), x, y, totalWidth, 15);
@@ -1148,6 +1153,11 @@ static void PrintTimeOnCard(void)
     AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, x, y, sTimeColonTextColors[sData->timeColonInvisible], TEXT_SKIP_DRAW, gText_Colon2);
     x += width;
     ConvertIntToDecimalStringN(gStringVar4, minutes, STR_CONV_MODE_LEADING_ZEROS, 2);
+    AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, x, y, sTrainerCardTextColors, TEXT_SKIP_DRAW, gStringVar4);
+    x += 12;
+    AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, x, y, sTimeColonTextColors[sData->timeColonInvisible], TEXT_SKIP_DRAW, gText_Colon2);
+    x += width;
+    ConvertIntToDecimalStringN(gStringVar4, seconds, STR_CONV_MODE_LEADING_ZEROS, 2);
     AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, x, y, sTrainerCardTextColors, TEXT_SKIP_DRAW, gStringVar4);
 }
 

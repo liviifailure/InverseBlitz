@@ -546,7 +546,7 @@ EverGrandeCity_ChampionsRoom_Text_WallyGalladeUseCloseCombat:
 	.string "WALLY: GALLADE, use CLOSE COMBAT!$"
 
 EverGrandeCity_ChampionsRoom_Text_WallyIWon:
-	.string "WALLY: I... I won? I won!?$"
+	.string "WALLY: I… I won? I won!?$"
 
 EverGrandeCity_ChampionsRoom_Text_StevenCongrats:
 	.string "STEVEN: A battle well fought!\n"
@@ -554,7 +554,7 @@ EverGrandeCity_ChampionsRoom_Text_StevenCongrats:
 	.string "new CHAMPION of HOENN!$"
 
 EverGrandeCity_ChampionsRoom_Text_WallyMeChampion:
-	.string "WALLY: Me... the CHAMPION!? I did it!\n"
+	.string "WALLY: Me… the CHAMPION!? I did it!\n"
 	.string "My POKéMON and I did it!!$"
 
 EverGrandeCity_ChampionsRoom_Text_StevenDefendTitle:
@@ -568,18 +568,18 @@ EverGrandeCity_ChampionsRoom_Text_WallyChallenge:
 	.string "and we did it in record time!\p"
 	.string "I bet you weren't expecting that!\p"
 	.string "Well, I guess it's just between you\n"
-	.string "and me now...\p"
+	.string "and me now…\p"
 	.string "Let's find out the true CHAMPION\n"
 	.string "of HOENN!$"
 
 EverGrandeCity_ChampionsRoom_Text_WallyDefeat:
-	.string "I... I lost?$"
+	.string "I… I lost?$"
 
 EverGrandeCity_ChampionsRoom_Text_WallyPostBattle:
 	.string "WALLY: Ah! And to think, I was\n"
 	.string "CHAMPION for only a few minutes!\p"
 	.string "But {PLAYER}, you deserve it!\n"
-	.string "So... now what?$"
+	.string "So… now what?$"
 
 EverGrandeCity_ChampionsRoom_Text_StevenHonors:
 	.string "STEVEN: I suppose I'll do the honors.\n"
@@ -590,7 +590,7 @@ EverGrandeCity_ChampionsRoom_Text_StevenMetagrossUseMeteorMash:
 	.string "STEVEN: METAGROSS, use METEOR MASH!$"
 
 EverGrandeCity_ChampionsRoom_Text_WallyILost:
-	.string "WALLY: I... I lost?$"
+	.string "WALLY: I… I lost?$"
 
 EverGrandeCity_ChampionsRoom_Text_StevenGoodFight:
 	.string "STEVEN: That was a good match, WALLY.\n"

@@ -119,6 +119,7 @@ LittlerootTown_ProfessorBirchsLab_EventScript_GiveStarterEvent::
 	setflag FLAG_RECEIVED_RUNNING_SHOES
 	setvar VAR_BADGE_COUNT, 0
     setvar VAR_GYM_LOCKED, 1
+	setvar VAR_SLATEPORT_RENTAL_STATE, 0
 
 	@ Petalburg Woods Flags
 	setvar VAR_PETALBURG_WOODS_STATE, 1  //First set of speedchoice variables to set

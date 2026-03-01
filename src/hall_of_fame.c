@@ -1282,24 +1282,19 @@ static void HallOfFame_PrintPlayerInfo(u8 unused1, u8 unused2)
     width = GetStringRightAlignXOffset(FONT_NORMAL, text, 0x70);
     AddTextPrinterParameterized3(1, FONT_NORMAL, width, 0x11, sPlayerInfoTextColors, TEXT_SKIP_DRAW, text);
 
-    AddTextPrinterParameterized3(1, FONT_NORMAL, 0, 0x21, sPlayerInfoTextColors, TEXT_SKIP_DRAW, gText_Time);
-    text[0] = (gSaveBlock2Ptr->playTimeHours / 100) + CHAR_0;
-    text[1] = (gSaveBlock2Ptr->playTimeHours % 100) / 10 + CHAR_0;
-    text[2] = (gSaveBlock2Ptr->playTimeHours % 10) + CHAR_0;
+    {
+        u8 *str;
+        AddTextPrinterParameterized3(1, FONT_NORMAL, 0, 0x21, sPlayerInfoTextColors, TEXT_SKIP_DRAW, gText_Time);
+        str = ConvertIntToDecimalStringN(text, gSaveBlock2Ptr->playTimeHours, STR_CONV_MODE_LEFT_ALIGN, 3);
+        *str++ = CHAR_COLON;
+        str = ConvertIntToDecimalStringN(str, gSaveBlock2Ptr->playTimeMinutes, STR_CONV_MODE_LEADING_ZEROS, 2);
+        *str++ = CHAR_COLON;
+        ConvertIntToDecimalStringN(str, gSaveBlock2Ptr->playTimeSeconds, STR_CONV_MODE_LEADING_ZEROS, 2);
 
-    if (text[0] == CHAR_0)
-        text[0] = CHAR_SPACE;
-    if (text[0] == CHAR_SPACE && text[1] == CHAR_0)
-        text[8] = CHAR_SPACE;
-
-    text[3] = CHAR_COLON;
-    text[4] = (gSaveBlock2Ptr->playTimeMinutes % 100) / 10 + CHAR_0;
-    text[5] = (gSaveBlock2Ptr->playTimeMinutes % 10) + CHAR_0;
-    text[6] = EOS;
-
-    width = GetStringRightAlignXOffset(FONT_NORMAL, text, 0x70);
-    AddTextPrinterParameterized3(1, FONT_NORMAL, width, 0x21, sPlayerInfoTextColors, TEXT_SKIP_DRAW, text);
-
+        width = GetStringRightAlignXOffset(FONT_NORMAL, text, 0x70);
+        AddTextPrinterParameterized3(1, FONT_NORMAL, width, 0x21, sPlayerInfoTextColors, TEXT_SKIP_DRAW, text);
+    }
+    
     if (foundLeader)
     {
         AddTextPrinterParameterized3(1, FONT_NORMAL, 0, 0x31, sPlayerInfoTextColors, TEXT_SKIP_DRAW, gText_KOLeader);

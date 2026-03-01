@@ -11827,7 +11827,7 @@ const struct Item gItemsInfo[] =
     [ITEM_TM_HAIL] =
     {
         .name = ITEM_NAME("Hail"),
-        .price = 1000,
+        .price = 2000,
         #if B_PREFERRED_ICE_WEATHER == B_ICE_WEATHER_SNOW
         .description = COMPOUND_STRING(
             "Raises the Defense\n"
@@ -11873,14 +11873,14 @@ const struct Item gItemsInfo[] =
         .fieldUseFunc = ItemUseOutOfBattle_TMHM,
     },
 
-    [ITEM_TM_HIDDEN_POWER] =
+    [ITEM_TM_ROCK_SLIDE] =
     {
-        .name = ITEM_NAME("Hidden Power"),
+        .name = ITEM_NAME("Rock Slide"),
         .price = 3000,
         .description = COMPOUND_STRING(
-            "The attack power\n"
-            "varies among\n"
-            "different Pokémon."),
+            "Large boulders are\n"
+            "hurled. May cause\n"
+            "flinching."),
         .importance = I_REUSABLE_TMS,
         .pocket = POCKET_TM_HM,
         .type = ITEM_USE_PARTY_MENU,
@@ -11890,7 +11890,7 @@ const struct Item gItemsInfo[] =
     [ITEM_TM_SUNNY_DAY] =
     {
         .name = ITEM_NAME("Sunny Day"),
-        .price = 3000,
+        .price = 2000,
         .description = COMPOUND_STRING(
             "Raises the power of\n"
             "Fire-type moves\n"
@@ -11998,7 +11998,7 @@ const struct Item gItemsInfo[] =
     [ITEM_TM_RAIN_DANCE] =
     {
         .name = ITEM_NAME("Rain Dance"),
-        .price = 3000,
+        .price = 2000,
         .description = COMPOUND_STRING(
             "Raises the power of\n"
             "Water-type moves\n"
@@ -12265,7 +12265,7 @@ const struct Item gItemsInfo[] =
     [ITEM_TM_SANDSTORM] =
     {
         .name = ITEM_NAME("Sandstorm"),
-        .price = 1000,
+        .price = 2000,
         .description = COMPOUND_STRING(
             "Causes a sandstorm\n"
             "that hits the foe\n"

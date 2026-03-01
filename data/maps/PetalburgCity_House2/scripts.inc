@@ -6,7 +6,27 @@ PetalburgCity_House2_EventScript_Woman::
 	end
 
 PetalburgCity_House2_EventScript_SchoolKid::
-	msgbox PetalburgCity_House2_Text_BattledNormanOnce, MSGBOX_NPC
+	lock
+	faceplayer
+	msgbox PetalburgCity_House2_Text_DebugModePrompt, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, PetalburgCity_House2_EventScript_EnableDebugMode
+	msgbox PetalburgCity_House2_Text_BattledNormanOnce, MSGBOX_DEFAULT
+	release
+	end
+
+PetalburgCity_House2_EventScript_EnableDebugMode::
+	setflag FLAG_BADGE01_GET
+	setflag FLAG_BADGE02_GET
+	setflag FLAG_BADGE03_GET
+	setflag FLAG_BADGE04_GET
+	setflag FLAG_BADGE05_GET
+	setflag FLAG_BADGE06_GET
+	setflag FLAG_BADGE07_GET
+	setflag FLAG_BADGE08_GET
+	setvar VAR_BADGE_COUNT, 8
+	setflag FLAG_VISITED_EVER_GRANDE_CITY
+	setflag FLAG_LANDMARK_POKEMON_LEAGUE
+	release
 	end
 
 PetalburgCity_House2_Text_NormanBecameGymLeader:
@@ -22,3 +42,7 @@ PetalburgCity_House2_Text_BattledNormanOnce:
 	.string "I just got the feeling that he\n"
 	.string "lives for POKéMON.$"
 
+PetalburgCity_House2_Text_DebugModePrompt:
+	.string "Turn on debug mode? This will end your\n"
+	.string "run, but allow you to test for bugs\l"
+	.string "quickly.$"

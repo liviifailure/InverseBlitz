@@ -856,6 +856,11 @@ static void SetFlashScanlineEffectWindowBoundaries(u16 *dest, s32 centerX, s32 c
     s32 r = radius;
     s32 v2 = radius;
     s32 v3 = 0;
+
+    for (v3 = 0; v3 < 160; v3++)
+        dest[v3] = (255 << 8) | 255;
+
+    v3 = 0;
     while (r >= v3)
     {
         SetFlashScanlineEffectWindowBoundary(dest, centerY - v3, centerX - r, centerX + r);
@@ -893,6 +898,11 @@ static void SetOrbFlashScanlineEffectWindowBoundaries(u16 *dest, s32 centerX, s3
     s32 r = radius;
     s32 v2 = radius;
     s32 v3 = 0;
+
+    for (v3 = 0; v3 < 160; v3++)
+        dest[v3] = (240 << 8) | 240;
+
+    v3 = 0;
     while (r >= v3)
     {
         SetOrbFlashScanlineEffectWindowBoundary(dest, centerY - v3, centerX - r, centerX + r);
@@ -930,7 +940,8 @@ static void UpdateFlashLevelEffect(u8 taskId)
         SetFlashScanlineEffectWindowBoundaries(gScanlineEffectRegBuffers[gScanlineEffect.srcBuffer], tFlashCenterX, tFlashCenterY, tCurFlashRadius);
         tState = 0;
         tCurFlashRadius += tFlashRadiusDelta;
-        if (tCurFlashRadius > tDestFlashRadius)
+        if ((tFlashRadiusDelta < 0 && tCurFlashRadius <= tDestFlashRadius) ||
+            (tFlashRadiusDelta > 0 && tCurFlashRadius >= tDestFlashRadius))
         {
             if (tClearScanlineEffect == 1)
             {
@@ -939,6 +950,8 @@ static void UpdateFlashLevelEffect(u8 taskId)
             }
             else
             {
+                SetFlashScanlineEffectWindowBoundaries(gScanlineEffectRegBuffers[gScanlineEffect.srcBuffer], tFlashCenterX, tFlashCenterY, tDestFlashRadius);
+                SetFlashScanlineEffectWindowBoundaries(gScanlineEffectRegBuffers[gScanlineEffect.srcBuffer ^ 1], tFlashCenterX, tFlashCenterY, tDestFlashRadius);
                 DestroyTask(taskId);
             }
         }
@@ -964,7 +977,8 @@ static void UpdateOrbFlashEffect(u8 taskId)
         SetOrbFlashScanlineEffectWindowBoundaries(gScanlineEffectRegBuffers[gScanlineEffect.srcBuffer], tFlashCenterX, tFlashCenterY, tCurFlashRadius);
         tState = 0;
         tCurFlashRadius += tFlashRadiusDelta;
-        if (tCurFlashRadius > tDestFlashRadius)
+        if ((tFlashRadiusDelta < 0 && tCurFlashRadius <= tDestFlashRadius) ||
+            (tFlashRadiusDelta > 0 && tCurFlashRadius >= tDestFlashRadius))
         {
             if (tClearScanlineEffect == 1)
             {
@@ -973,6 +987,8 @@ static void UpdateOrbFlashEffect(u8 taskId)
             }
             else
             {
+                SetOrbFlashScanlineEffectWindowBoundaries(gScanlineEffectRegBuffers[gScanlineEffect.srcBuffer], tFlashCenterX, tFlashCenterY, tDestFlashRadius);
+                SetOrbFlashScanlineEffectWindowBoundaries(gScanlineEffectRegBuffers[gScanlineEffect.srcBuffer ^ 1], tFlashCenterX, tFlashCenterY, tDestFlashRadius);
                 DestroyTask(taskId);
             }
         }
@@ -1043,15 +1059,41 @@ static u8 StartUpdateOrbFlashEffect(s32 centerX, s32 centerY, s32 initialFlashRa
 #undef tClearScanlineEffect
 
 // A higher flash level is a smaller flash radius (more darkness). 0 is full brightness
-void AnimateFlash(u8 newFlashLevel)
+static void AnimateFlashWithSpeed(u8 newFlashLevel, u8 speed)
 {
     u8 curFlashLevel = GetFlashLevel();
     bool8 fullBrightness = FALSE;
     if (newFlashLevel == 0)
         fullBrightness = TRUE;
-    StartUpdateFlashLevelEffect(DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2, sFlashLevelToRadius[curFlashLevel], sFlashLevelToRadius[newFlashLevel], fullBrightness, 1);
+
+    if (curFlashLevel == 0)
+    {
+        SetFlashScanlineEffectWindowBoundaries(&gScanlineEffectRegBuffers[0][0], DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2, sFlashLevelToRadius[curFlashLevel]);
+        CpuFastSet(&gScanlineEffectRegBuffers[0], &gScanlineEffectRegBuffers[1], 480);
+        ScanlineEffect_SetParams(sFlashEffectParams);
+        SetGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_WIN0_ON);
+        SetGpuReg(REG_OFFSET_WININ, WININ_WIN0_BG_ALL | WININ_WIN0_OBJ | WININ_WIN0_CLR);
+        SetGpuReg(REG_OFFSET_WINOUT, WINOUT_WIN01_BG0);
+    }
+
+    StartUpdateFlashLevelEffect(DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2, sFlashLevelToRadius[curFlashLevel], sFlashLevelToRadius[newFlashLevel], fullBrightness, speed);
     StartWaitForFlashUpdate();
     LockPlayerFieldControls();
+}
+
+void AnimateFlash(u8 newFlashLevel)
+{
+    AnimateFlashWithSpeed(newFlashLevel, 1);
+}
+
+void DoLightsOutFast(struct ScriptContext *ctx)
+{
+    AnimateFlashWithSpeed(6, 8);
+}
+
+void DoLightsOnFast(struct ScriptContext *ctx)
+{
+    AnimateFlashWithSpeed(0, 8);
 }
 
 void WriteFlashScanlineEffectBuffer(u8 flashLevel)

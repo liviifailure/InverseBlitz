@@ -8,7 +8,7 @@ EverGrandeCity_Hall5_OnWarp:
 
 EverGrandeCity_Hall5_EventScript_TurnPlayerNorth::
 	turnobject LOCALID_PLAYER, DIR_NORTH
-	clearflag FLAG_BOSS_FLIP  @ This shouldn't be necessary since it should be impossible for this flag to be set. That said, it seems it is somehow possible...
+	clearflag FLAG_BOSS_FLIP  @ This shouldn't be necessary since it should be impossible for this flag to be set. That said, it seems it is somehow possible…
 	special SwapRegisteredKit
 	end
 

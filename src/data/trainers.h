@@ -47079,7 +47079,7 @@ F_TRAINER_FEMALE |
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
 #line 18608
-                MOVE_TRI_ATTACK,
+                MOVE_FLASH_CANNON,
                 MOVE_LIGHT_SCREEN,
                 MOVE_DISCHARGE,
                 MOVE_THUNDER_WAVE,

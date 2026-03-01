@@ -1486,7 +1486,9 @@ static void ShowSaveInfoWindow(void)
     u8 *str = gStringVar4;
     str = ConvertIntToDecimalStringN(str, gSaveBlock2Ptr->playTimeHours, STR_CONV_MODE_LEFT_ALIGN, 3);
     *str++ = CHAR_COLON;
-    ConvertIntToDecimalStringN(str, gSaveBlock2Ptr->playTimeMinutes, STR_CONV_MODE_LEADING_ZEROS, 2);
+    str = ConvertIntToDecimalStringN(str, gSaveBlock2Ptr->playTimeMinutes, STR_CONV_MODE_LEADING_ZEROS, 2);
+    *str++ = CHAR_COLON;
+    ConvertIntToDecimalStringN(str, gSaveBlock2Ptr->playTimeSeconds, STR_CONV_MODE_LEADING_ZEROS, 2);
 
     u8 timeColor[] = {TEXT_COLOR_WHITE, color, TEXT_COLOR_LIGHT_GRAY};
     xOffset = GetStringRightAlignXOffset(FONT_NORMAL, gStringVar4, 0x70);
