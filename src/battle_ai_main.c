@@ -25,6 +25,7 @@
 #include "constants/battle_move_effects.h"
 #include "constants/moves.h"
 #include "constants/items.h"
+#include "constants/species.h"
 #include "constants/trainers.h"
 
 #define AI_ACTION_DONE          (1 << 0)
@@ -381,6 +382,10 @@ void ComputeBattlerDecisions(u32 battler)
         if (isAiBattler)
             BattlerChooseNonMoveAction();
         ModifySwitchAfterMoveScoring(battler);
+
+        // Prevent Dondozo and Whiscash from switching out
+        if (gBattleMons[battler].species == SPECIES_DONDOZO || gBattleMons[battler].species == SPECIES_WHISCASH)
+            gAiLogicData->shouldSwitch &= ~(1u << battler);
 
         gAiLogicData->aiCalcInProgress = FALSE;
     }

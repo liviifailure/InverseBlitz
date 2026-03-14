@@ -272,9 +272,34 @@ SlateportCity_EventScript_OldWomanSternInterview::
 SlateportCity_EventScript_Girl::
 	lock
 	faceplayer
+	compare VAR_BADGE_COUNT, 4
+	goto_if_eq SlateportCity_EventScript_Girl_CheckEevee
+SlateportCity_EventScript_Girl_Default::
 	call_if_eq VAR_SLATEPORT_CITY_STATE, 1, SlateportCity_EventScript_GirlSternInterview
 	goto_if_set FLAG_RECEIVED_SECRET_POWER, SlateportCity_EventScript_GirlSecretBase
 	msgbox SlateportCity_Text_SlateportWonderfulPlace, MSGBOX_DEFAULT
+	release
+	end
+
+SlateportCity_EventScript_Girl_CheckEevee::
+	callnative CheckPartyForEeveelution
+	compare VAR_RESULT, TRUE
+	goto_if_eq SlateportCity_EventScript_Girl_OfferDevolve
+	goto SlateportCity_EventScript_Girl_Default
+
+SlateportCity_EventScript_Girl_OfferDevolve::
+	msgbox SlateportCity_Text_Girl_DevolveOffer, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq SlateportCity_EventScript_Girl_Decline
+	callnative DevolveEeveelution
+	addmoney 1000
+	playse SE_SHOP
+	msgbox SlateportCity_Text_Girl_DevolveComplete, MSGBOX_DEFAULT
+	release
+	end
+
+SlateportCity_EventScript_Girl_Decline::
+	msgbox SlateportCity_Text_Girl_Decline, MSGBOX_DEFAULT
 	release
 	end
 
@@ -2642,3 +2667,20 @@ SlateportCity_Text_ShadyManDayCare:
 	.string "I'm going up there right now--\p"
 	.string "What are you doing putting my\n"
 	.string "POKéMON in the Day Care!?$"
+
+SlateportCity_Text_Girl_DevolveOffer:
+	.string "Ah, is that an evolved Eevee?\n"
+	.string "If you made a mistake in your race\p"
+	.string "and evolved it into an Eeveelution that\n"
+	.string "had already been claimed, I can \p"
+	.string "devolve it back to an Eevee for you.\n"
+	.string "I'll even pay you back the ¥1000!\p"
+	.string "Do you need me to devolve it?$"
+
+SlateportCity_Text_Girl_Decline:
+	.string "Oh, okay. Thanks for being honest!$"
+
+SlateportCity_Text_Girl_DevolveComplete:
+	.string "There you go! It's back to being a\n"
+	.string "cute little Eevee!\p"
+	.string "Here's your ¥1000.$"

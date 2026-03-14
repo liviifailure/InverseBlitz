@@ -686,19 +686,7 @@ static const u16 sTangelaEggMoveLearnset[] = {
 
 #if P_FAMILY_KANGASKHAN
 static const u16 sKangaskhanEggMoveLearnset[] = {
-    MOVE_STOMP,
-    MOVE_FORESIGHT,
-    MOVE_FOCUS_ENERGY,
-    MOVE_DISABLE,
-    MOVE_COUNTER,
-    MOVE_CRUSH_CLAW,
-    MOVE_DOUBLE_EDGE,
-    MOVE_ENDEAVOR,
     MOVE_HAMMER_ARM,
-    MOVE_FOCUS_PUNCH,
-    MOVE_TRUMP_CARD,
-    MOVE_UPROAR,
-    MOVE_CIRCLE_THROW,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_KANGASKHAN
@@ -3933,8 +3921,6 @@ static const u16 sNacliEggMoveLearnset[] = {
 #if P_FAMILY_CHARCADET
 static const u16 sCharcadetEggMoveLearnset[] = {
     MOVE_DESTINY_BOND,
-    MOVE_DISABLE,
-    MOVE_SPITE,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_CHARCADET

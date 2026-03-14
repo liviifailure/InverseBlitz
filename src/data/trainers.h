@@ -44673,7 +44673,7 @@ F_TRAINER_FEMALE |
     [DIFFICULTY_NORMAL][TRAINER_JUAN_2] =
     {
 #line 17524
-        .trainerName = _("JUAN"),
+        .trainerName = _("JUAN&WALCE"),
 #line 17525
         .trainerClass = TRAINER_CLASS_LEADER,
 #line 17526
@@ -44742,7 +44742,7 @@ F_TRAINER_FEMALE |
     [DIFFICULTY_NORMAL][TRAINER_JUAN_3] =
     {
 #line 17554
-        .trainerName = _("JUAN"),
+        .trainerName = _("JUAN&WALCE"),
 #line 17555
         .trainerClass = TRAINER_CLASS_LEADER,
 #line 17556
@@ -44853,7 +44853,7 @@ F_TRAINER_FEMALE |
     [DIFFICULTY_NORMAL][TRAINER_JUAN_4] =
     {
 #line 17604
-        .trainerName = _("JUAN"),
+        .trainerName = _("JUAN&WALCE"),
 #line 17605
         .trainerClass = TRAINER_CLASS_LEADER,
 #line 17606
@@ -44964,7 +44964,7 @@ F_TRAINER_FEMALE |
     [DIFFICULTY_NORMAL][TRAINER_JUAN_5] =
     {
 #line 17654
-        .trainerName = _("JUAN"),
+        .trainerName = _("JUAN&WALCE"),
 #line 17655
         .trainerClass = TRAINER_CLASS_LEADER,
 #line 17656
@@ -47101,7 +47101,7 @@ F_TRAINER_FEMALE |
             .moves = {
 #line 18618
                 MOVE_DRAGON_CLAW,
-                MOVE_DIG,
+                MOVE_EARTHQUAKE,
                 MOVE_FLAMETHROWER,
                 MOVE_SANDSTORM,
             },

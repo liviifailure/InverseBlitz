@@ -3984,7 +3984,8 @@ u32 AbilityBattleEffects(enum AbilityEffect caseID, u32 battler, enum Ability ab
     switch (caseID)
     {
     case ABILITYEFFECT_ON_SWITCHIN:
-        sCantCritBattlers &= ~(1u << battler);
+        if (gBattleStruct->battlerState[battler].commanderSpecies == SPECIES_NONE)
+            sCantCritBattlers &= ~(1u << battler);
         gBattleScripting.battler = battler;
         switch (gLastUsedAbility)
         {

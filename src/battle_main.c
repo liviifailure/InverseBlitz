@@ -3450,7 +3450,10 @@ const u8* FaintClearSetData(u32 battler)
         {
             BtlController_EmitSpriteInvisibility(partner, B_COMM_TO_CONTROLLER, FALSE);
             MarkBattlerForControllerExec(partner);
+            gBattleStruct->battlerState[partner].commandingDondozo = FALSE;
+            gBattleMons[partner].volatiles.semiInvulnerable = STATE_NONE;
         }
+        gBattleStruct->battlerState[battler].commanderSpecies = SPECIES_NONE;
     }
 
     for (i = 0; i < ARRAY_COUNT(gSideTimers); i++)
