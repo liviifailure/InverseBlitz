@@ -1,5 +1,7 @@
 EventScript_TV::
 	lockall
+	goto_if_set FLAG_SYS_SOLO_MODE, EventScript_SoloModeToggleOff
+
 	incrementgamestat GAME_STAT_WATCHED_TV
 	special ResetTVShowState
 	specialvar VAR_RESULT, CheckForPlayersHouseNews
@@ -23,8 +25,37 @@ EventScript_TryDoTVShow::
 	end
 
 EventScript_MomDadMightLikeThis1::
+	goto_if_set FLAG_SYS_SOLO_MODE, EventScript_SoloModeToggleOff @ Should not be reached
+	msgbox PlayersHouse_2F_Text_SoloModeIntro, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, EventScript_TurnOnSoloMode
+	goto EventScript_MomDadMightLikeThis1_Generic
+
+EventScript_SoloModeToggleOff::
+	msgbox PlayersHouse_2F_Text_SoloModeTurnOff, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, EventScript_JustRelease
+	goto EventScript_TurnOffSoloMode
+EventScript_MomDadMightLikeThis1_Generic:
 	special GetMomOrDadStringForTVMessage
 	msgbox gText_MomOrDadMightLikeThisProgram, MSGBOX_DEFAULT
+	special TurnOffTVScreen
+	releaseall
+	end
+
+EventScript_TurnOnSoloMode::
+	callnative ScriptMenu_SetupSoloMode
+	msgbox PlayersHouse_2F_Text_SoloModeActivated, MSGBOX_DEFAULT
+	special TurnOffTVScreen
+	releaseall
+	end
+
+EventScript_TurnOffSoloMode::
+	callnative ScriptMenu_DisableSoloMode
+	msgbox PlayersHouse_2F_Text_SoloModeDeactivated, MSGBOX_DEFAULT
+	special TurnOffTVScreen
+	releaseall
+	end
+
+EventScript_JustRelease::
 	special TurnOffTVScreen
 	releaseall
 	end
@@ -83,3 +114,27 @@ EventScript_DoInSearchOfTrainers::
 	goto_if_eq VAR_RESULT, 0, EventScript_DoInSearchOfTrainers
 	goto EventScript_TurnOffTV
 	end
+
+PlayersHouse_2F_Text_SoloModeIntro:
+	.string "Welcome to SOLO MODE! In this mode,\p"
+	.string "Pokémon cost points to select\n"
+	.string "and have neutral IVs and natures.\p"
+	.string "It also sets your Eevee's IVs to\n"
+	.string "15 and its nature to Hardy.\p"
+	.string "Additionally, this mode adds 8\n"
+	.string "ability capsules to your bag, which\l"
+	.string "you can use to choose your Pokémon's\l"
+	.string "starting abilities.\n"
+	.string "After choosing, you should toss\n"
+	.string "your extras.\p"
+	.string "Would you like to enable SOLO MODE?$"
+
+PlayersHouse_2F_Text_SoloModeActivated:
+	.string "Solo Mode has been activated!$"
+
+PlayersHouse_2F_Text_SoloModeTurnOff:
+	.string "SOLO MODE is currently active.\n"
+	.string "Would you like to disable it?$"
+
+PlayersHouse_2F_Text_SoloModeDeactivated:
+	.string "Solo Mode has been deactivated!$"

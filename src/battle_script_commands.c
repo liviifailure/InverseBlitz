@@ -8622,10 +8622,17 @@ static u32 GetTrainerMoneyToGive(u16 trainerId)
         const struct TrainerMon *party = GetTrainerPartyFromId(trainerId);
         if (party == NULL)
             return 20;
-        if (trainerId >= TRAINER_JUAN_1 && trainerId <= TRAINER_JUAN_4)
-            lastMonLevel = party[GetTrainerPartySizeFromId(trainerId) - 2].lvl;
-        else
-            lastMonLevel = party[GetTrainerPartySizeFromId(trainerId) - 1].lvl;        trainerMoney = gTrainerClasses[GetTrainerClassFromId(trainerId)].money ?: 5;
+
+        {
+            u8 i;
+            u8 count = GetTrainerPartySizeFromId(trainerId);
+            for (i = 0; i < count; i++)
+            {
+                if (party[i].lvl > lastMonLevel)
+                    lastMonLevel = party[i].lvl;
+            }
+        }
+        trainerMoney = gTrainerClasses[GetTrainerClassFromId(trainerId)].money ?: 5;
 
         if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
             moneyReward = 10 * lastMonLevel * gBattleStruct->moneyMultiplier * trainerMoney;

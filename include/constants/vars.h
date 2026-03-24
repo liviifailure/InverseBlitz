@@ -270,7 +270,7 @@
 #define VAR_RENTAL_MON_SPECIES                           0x40FA 
 #define VAR_RENTAL_BADGE_COUNT                           0x40FB // Unused Var
 #define VAR_RENTAL_RETURN_COUNT                          0x40FC // Unused Var
-#define VAR_UNUSED_0x40FD                                0x40FD // Unused Var
+#define VAR_SOLO_MODE_POINTS                             0x40FD
 #define VAR_UNUSED_0x40FE                                0x40FE // Unused Var
 #define VAR_UNUSED_0x40FF                                0x40FF // Unused Var
 

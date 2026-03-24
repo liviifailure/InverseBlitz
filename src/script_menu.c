@@ -1,12 +1,10 @@
 #include "global.h"
 #include "main.h"
 #include "pokemon.h"
-#include "pokemon.h"
 #include "event_data.h"
 #include "field_effect.h"
 #include "field_screen_effect.h"
 #include "field_specials.h"
-#include "pokemon.h"
 #include "field_weather.h"
 #include "graphics.h"
 #include "item.h"
@@ -24,7 +22,6 @@
 #include "task.h"
 #include "text.h"
 #include "text_window.h"
-#include "list_menu.h"
 #include "malloc.h"
 #include "util.h"
 #include "decompress.h"
@@ -37,6 +34,7 @@
 #include "constants/songs.h"
 #include "script_pokemon_util.h"
 #include "trainer_pokemon_sprites.h"
+#include "constants/species.h"
 #include "list_menu.h"
 #include "pokemon_storage_system.h"
 
@@ -51,6 +49,58 @@
 #define GIFT_MON_LEVEL 15
 
 #include "data/script_menu.h"
+
+#ifndef VAR_SOLO_MODE_POINTS
+#define VAR_SOLO_MODE_POINTS 0x40FF
+#endif
+
+void ScriptMenu_SetupSoloMode(void)
+{
+    s32 i;
+
+    FlagSet(FLAG_SYS_SOLO_MODE);
+    VarSet(VAR_SOLO_MODE_POINTS, 80);
+    gSpecialVar_Result = TRUE;
+
+    AddBagItem(ITEM_ABILITY_CAPSULE, 8);
+
+    for (i = 0; i < gPlayerPartyCount; i++)
+    {
+        if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL) == SPECIES_EEVEE)
+        {
+            struct Pokemon mon;
+
+            CreateMonWithNature(&mon, SPECIES_EEVEE, 5, 15, NATURE_HARDY);
+            SetMonData(&mon, MON_DATA_OT_NAME, gSaveBlock2Ptr->playerName);
+            SetMonData(&mon, MON_DATA_OT_GENDER, &gSaveBlock2Ptr->playerGender);
+            SetMonData(&mon, MON_DATA_OT_ID, gSaveBlock2Ptr->playerTrainerId);
+
+            gPlayerParty[i] = mon;
+            break;
+        }
+    }
+}
+
+void ScriptMenu_DisableSoloMode(void)
+{
+    FlagClear(FLAG_SYS_SOLO_MODE);
+    VarSet(VAR_SOLO_MODE_POINTS, 0);
+    gSpecialVar_Result = TRUE;
+}
+
+u8 GetGiftMonCost(u16 species);
+
+static u8 GetSpeciesSoloModeCost(u16 species)
+{
+    if (species == GIFT_MON_RANDOM_ID)
+        return 20;
+
+    u8 cost = GetGiftMonCost(species);
+    if (cost == 0)
+        return 18;
+
+    return cost;
+}
 
 enum GiftMonStorageLocation
 {
@@ -94,6 +144,7 @@ struct GiftMonMenu
     u8 monSpriteId;
     u8 windowId;
     u8 bottomWindowId;
+    u8 pointsWindowId;
     u16 monSpriteIds[MAX_GIFT_MON];
     u16 selectedMonSpriteId;
     u16 selectedMonSpecies;
@@ -110,6 +161,20 @@ static EWRAM_DATA u16 *sDynamicMenuEventScratchPad = NULL;
 static EWRAM_DATA bool8 sGiftMonIsTaken[SPECIES_EGG + 1] = {0};
 static EWRAM_DATA bool8 sIsGiftMonMenu = FALSE; // TODO: Make this a part of the dynamic list menu args
 static u8 sLilycoveSSTidalSelections[SSTIDAL_SELECTION_COUNT] = {0}; // TODO: Make this a part of the dynamic list menu args
+
+static void GiftMonMenu_UpdatePointsDisplay(void)
+{
+    if (FlagGet(FLAG_SYS_SOLO_MODE) && sGiftMonMenuData.pointsWindowId != WINDOW_NONE)
+    {
+        FillWindowPixelBuffer(sGiftMonMenuData.pointsWindowId, PIXEL_FILL(1));
+        u16 points = VarGet(VAR_SOLO_MODE_POINTS);
+        ConvertIntToDecimalStringN(gStringVar1, points, STR_CONV_MODE_LEFT_ALIGN, 3);
+        u32 width = GetStringWidth(FONT_NORMAL, gStringVar1, 0);
+        u32 x = (18 - width) / 2;
+        AddTextPrinterParameterized(sGiftMonMenuData.pointsWindowId, FONT_NORMAL, gStringVar1, x, 1, 0, NULL);
+        CopyWindowToVram(sGiftMonMenuData.pointsWindowId, COPYWIN_GFX);
+    }
+}
 
 const u16 sGiftEggPool[] =
 {
@@ -229,7 +294,7 @@ static void GiftMonMenu_CreateChosenMonIcon(u16 species)
     u8 row, col;
     u16 x, y;
 
-    // Display up to 10 Pokémon icons in a 2x5 grid in the bottom right window.
+    // Display up to 10 Pokémon icons in a 2x5 grid.
     for (i = 0; i < MAX_GIFT_MON; i++)
     {
         if (sGiftSpriteIds[i] == 0xFF)
@@ -238,7 +303,7 @@ static void GiftMonMenu_CreateChosenMonIcon(u16 species)
             row = i / 5;
             col = i % 5;
 
-            // Position the 2x5 grid on the center-right of the screen.
+            // Position the 2x5 grid.
             x = 120 + col * 24;
             y = 112 + row * 24;
 
@@ -395,6 +460,13 @@ static bool8 GiftMonMenu_AddSelection(u16 species, u16 displaySpecies, u16 taken
     u8 initialPartyCount = CalculatePlayerPartyCount();
     u8 giveResult;
 
+    if (FlagGet(FLAG_SYS_SOLO_MODE))
+    {
+        u8 cost = GetSpeciesSoloModeCost(species);
+        if (VarGet(VAR_SOLO_MODE_POINTS) < cost)
+            return FALSE;
+    }
+
     if (giveEgg)
         giveResult = ScriptGiveEgg(species);
     else
@@ -423,6 +495,12 @@ static bool8 GiftMonMenu_AddSelection(u16 species, u16 displaySpecies, u16 taken
         return FALSE;
     }
 
+    if (FlagGet(FLAG_SYS_SOLO_MODE))
+    {
+        u8 cost = GetSpeciesSoloModeCost(species);
+        VarSet(VAR_SOLO_MODE_POINTS, VarGet(VAR_SOLO_MODE_POINTS) - cost);
+    } 
+
     sGiftMonIsTaken[takenKey] = TRUE;
     GiftMonMenu_RebuildChosenMonIcons();
     return TRUE;
@@ -430,13 +508,21 @@ static bool8 GiftMonMenu_AddSelection(u16 species, u16 displaySpecies, u16 taken
 
 static bool8 GiftMonMenu_AddEggSelection(void)
 {
-    u16 species = sGiftEggPool[Random() % ARRAY_COUNT(sGiftEggPool)];
+    u16 species;
+    u8 cost = GetSpeciesSoloModeCost(SPECIES_EGG);
 
+    if (FlagGet(FLAG_SYS_SOLO_MODE) && VarGet(VAR_SOLO_MODE_POINTS) < cost)
+        return FALSE;
+
+    species = sGiftEggPool[Random() % ARRAY_COUNT(sGiftEggPool)];
     return GiftMonMenu_AddSelection(species, SPECIES_EGG, SPECIES_EGG, TRUE);
 }
 
 static bool8 GiftMonMenu_AddRandomSelection(struct ListMenuItem *items, u32 numMons)
 {
+    if (FlagGet(FLAG_SYS_SOLO_MODE) && VarGet(VAR_SOLO_MODE_POINTS) < GetSpeciesSoloModeCost(GIFT_MON_RANDOM_ID))
+        return FALSE;
+
     u16 availableMons[MAX_GIFT_MON_LIST];
     u32 availableMonsCount = 0;
     u32 i;
@@ -471,6 +557,12 @@ static bool8 GiftMonMenu_RemoveSelection(u16 takenKey)
     // Undoing a choice clears both UI and the actual mon grant (party or PC).
     if (!GiftMonMenu_RemoveSelectionEntry(selection))
         return FALSE;
+
+    if (FlagGet(FLAG_SYS_SOLO_MODE))
+    {
+        u8 cost = GetSpeciesSoloModeCost(selection->species);
+        VarSet(VAR_SOLO_MODE_POINTS, VarGet(VAR_SOLO_MODE_POINTS) + cost);
+    }   
 
     sGiftMonIsTaken[takenKey] = FALSE;
     memset(selection, 0, sizeof(*selection));
@@ -577,34 +669,32 @@ static u8 CountTakenGiftMons(void)
 static void GiftMonMenu_ItemPrintFunc(u8 windowId, u32 speciesId, u8 y)
 {
     const u8 *colors;
-    const u8 *name = gSpeciesInfo[speciesId].speciesName;
-
-    const u8 *stringToDraw;
+    u8 cost;
+    const u8 *name;
     
     if (speciesId == SPECIES_EGG)
         name = gText_EggNickname;
     else if (speciesId == 999)
         name = gText_Finished;
-    else if (speciesId == GIFT_MON_RANDOM_ID) {
+    else if (speciesId == GIFT_MON_RANDOM_ID)
         name = gText_Finished;
-    } else {
-        name = gSpeciesInfo[speciesId].speciesName;
-    }
-
-    if (sGiftMonIsTaken[speciesId])
-    {
-        colors = sGiftMenuTextColors[1]; // Chosen (green)
-        stringToDraw = name;
-    }
     else
-    {
-        colors = sGiftMenuTextColors[0]; // Normal (grey)
-        stringToDraw = name;
-    }
+        name = gSpeciesInfo[speciesId].speciesName;
+
+    colors = sGiftMonIsTaken[speciesId] ? sGiftMenuTextColors[1] : sGiftMenuTextColors[0];
 
     // Clear the area before drawing to prevent overwriting issues.
     FillWindowPixelRect(windowId, PIXEL_FILL(1), 8, y, GetWindowAttribute(windowId, WINDOW_WIDTH) * 8 - 8, 16);
-    AddTextPrinterParameterized4(windowId, FONT_NORMAL, 8, y, 0, 0, colors, TEXT_SKIP_DRAW, stringToDraw);
+    AddTextPrinterParameterized4(windowId, FONT_NORMAL, 8, y, 0, 0, colors, TEXT_SKIP_DRAW, name);
+
+    if (FlagGet(FLAG_SYS_SOLO_MODE) && speciesId != 999)
+    {
+        cost = GetSpeciesSoloModeCost(speciesId);
+        ConvertIntToDecimalStringN(gStringVar1, cost, STR_CONV_MODE_LEFT_ALIGN, 2);
+        StringExpandPlaceholders(gStringVar4, COMPOUND_STRING("{STR_VAR_1}P"));
+        // Print cost slightly offset to the right
+        AddTextPrinterParameterized4(windowId, FONT_SMALL, 68, y + 2, 0, 0, colors, TEXT_SKIP_DRAW, gStringVar4);
+    }
 }
 
 void MultichoiceDynamic_MoveCursor(s32 itemIndex, bool8 onInit, struct ListMenu *list)
@@ -666,6 +756,11 @@ void Task_ExitGiftMenu(u8 taskId)
         {
             ClearStdWindowAndFrameToTransparent(sGiftMonMenuData.bottomWindowId, TRUE);
             RemoveWindow(sGiftMonMenuData.bottomWindowId);
+        }
+        if (sGiftMonMenuData.pointsWindowId != WINDOW_NONE)
+        {
+            ClearStdWindowAndFrameToTransparent(sGiftMonMenuData.pointsWindowId, TRUE);
+            RemoveWindow(sGiftMonMenuData.pointsWindowId);
         }
         sIsGiftMonMenu = FALSE;
 
@@ -927,12 +1022,15 @@ for (i = 0; i < argc; ++i) {
     if (sIsGiftMonMenu)
     {
         // Manually set width for gift mon menu to fit Pokémon names
-        width = 60;
-    }
+        if (FlagGet(FLAG_SYS_SOLO_MODE))
+            width = 76;
+        else
+            width = 60;    }
     if (sIsGiftMonMenu)
     {
         sGiftMonMenuData.monSpriteId = MAX_SPRITES;
         sGiftMonMenuData.bottomWindowId = WINDOW_NONE;
+        sGiftMonMenuData.pointsWindowId = WINDOW_NONE;
         memset(sGiftMonIsTaken, 0, sizeof(sGiftMonIsTaken));
         memset(sGiftMonSelections, 0, sizeof(sGiftMonSelections));
         GiftMonMenu_ClearChosenMonIcons();
@@ -970,6 +1068,25 @@ for (i = 0; i < argc; ++i) {
         FillWindowPixelBuffer(sGiftMonMenuData.bottomWindowId, PIXEL_FILL(1));
         // Create the single Pokémon sprite. It will be invisible until the first scroll.
         DrawStdFrameWithCustomTileAndPalette(sGiftMonMenuData.bottomWindowId, TRUE, 0x214, 14);
+        PutWindowTilemap(sGiftMonMenuData.bottomWindowId);
+
+        if (FlagGet(FLAG_SYS_SOLO_MODE))
+        {
+            // New window for points
+            template.bg = 0;
+            template.tilemapLeft = 14;
+            template.tilemapTop = 1;
+            template.width = 2;
+            template.height = 2;
+            template.paletteNum = 15;
+            template.baseBlock = 400;
+            sGiftMonMenuData.pointsWindowId = AddWindow(&template);
+            FillWindowPixelBuffer(sGiftMonMenuData.pointsWindowId, PIXEL_FILL(1));
+            PutWindowTilemap(sGiftMonMenuData.pointsWindowId);
+            SetStandardWindowBorderStyle(sGiftMonMenuData.pointsWindowId, TRUE);
+        }
+
+        GiftMonMenu_UpdatePointsDisplay();
     }
 
     windowHeight = (argc < maxBeforeScroll) ? argc * 2 : maxBeforeScroll * 2;
@@ -1158,6 +1275,7 @@ static void Task_HandleScrollingMultichoiceInput(u8 taskId)
                     {
                         PlaySE(SE_SUCCESS);
                         RedrawListMenu(gTasks[taskId].data[0]);
+                        GiftMonMenu_UpdatePointsDisplay();
                     }
                     else
                     {
@@ -1175,6 +1293,7 @@ static void Task_HandleScrollingMultichoiceInput(u8 taskId)
                 {
                     PlaySE(SE_SUCCESS);
                     RedrawListMenu(gTasks[taskId].data[0]);
+                    GiftMonMenu_UpdatePointsDisplay();
                 }
                 else
                 {
@@ -1200,6 +1319,7 @@ static void Task_HandleScrollingMultichoiceInput(u8 taskId)
 
                         PlaySE(SE_PC_OFF);
                         RedrawListMenu(gTasks[taskId].data[0]);
+                        GiftMonMenu_UpdatePointsDisplay();
                     }
                     else
                     {
@@ -1217,6 +1337,7 @@ static void Task_HandleScrollingMultichoiceInput(u8 taskId)
 
                     PlaySE(SE_SUCCESS);
                     RedrawListMenu(gTasks[taskId].data[0]);
+                    GiftMonMenu_UpdatePointsDisplay();
                 }
                 else
                 {
