@@ -1613,3 +1613,8 @@ static u8 ModifyBreedingScoreForOvalCharm(u8 score)
 
     return score;
 }
+
+void Script_IsSelectedMonFainted(void)
+{
+    gSpecialVar_Result = (GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_HP) == 0);
+}

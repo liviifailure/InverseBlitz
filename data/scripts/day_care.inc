@@ -124,13 +124,13 @@ Route117_PokemonDayCare_Closed::
 Route117_PokemonDayCare_EventScript_GiveMonToRaise::
 	specialvar VAR_RESULT, CountPartyNonEggMons
 	goto_if_eq VAR_RESULT, 1, Route117_PokemonDayCare_EventScript_OnlyOneMon
-	specialvar VAR_RESULT, CountPartyAliveNonEggMons
-	goto_if_eq VAR_RESULT, 2, Route117_PokemonDayCare_EventScript_OnlyTwoAliveMons
 	msgbox Route117_PokemonDayCare_Text_WhichMonShouldWeRaise, MSGBOX_DEFAULT
 	fadescreen FADE_TO_BLACK
 	special ChooseSendDaycareMon
 	waitstate
 	goto_if_eq VAR_0x8004, PARTY_NOTHING_CHOSEN, Route117_PokemonDayCare_EventScript_ComeAgain
+	callnative Script_IsSelectedMonFainted
+	goto_if_eq VAR_RESULT, TRUE, Route117_PokemonDayCare_EventScript_FaintedMon
 	specialvar VAR_RESULT, CountPartyAliveNonEggMons_IgnoreVar0x8004Slot
 	goto_if_eq VAR_RESULT, 0, Route117_PokemonDayCare_EventScript_OnlyOneAliveMon
 	specialvar VAR_0x8005, GetSelectedMonNicknameAndSpecies
@@ -169,8 +169,8 @@ Route117_PokemonDayCare_EventScript_OnlyOneAliveMon::
 	release
 	end
 
-Route117_PokemonDayCare_EventScript_OnlyTwoAliveMons::
-	msgbox Route117_PokemonDayCare_Text_YoullBeLeftWithJustOne, MSGBOX_DEFAULT
+Route117_PokemonDayCare_EventScript_FaintedMon::
+	msgbox Route117_PokemonDayCare_Text_CantRaiseFaintedMon, MSGBOX_DEFAULT
 	release
 	end
 
@@ -415,6 +415,10 @@ Route117_PokemonDayCare_Text_WellRaiseYourMon:
 	.string "for a while.\p"
 	.string "Come back for it later.$"
 
+Route117_PokemonDayCare_Text_CantRaiseFaintedMon:
+	.string "I'm sorry, but we can't raise a\n"
+	.string "POKéMON that has fainted.$"
+
 Route117_PokemonDayCare_Text_WeCanRaiseOneMore:
 	.string "We can raise two of your POKéMON.\n"
 	.string "Would you like us to raise one more?$"
@@ -487,13 +491,6 @@ Route117_PokemonDayCare_Text_WhatWillYouBattleWith:
 Text_EggHatchHuh:
 	.string "Huh?$"
 
-Route117_PokemonDayCare_Text_YoullBeLeftWithJustOne:
-	.string "Huh?\n"
-	.string "Now, now.\p"
-	.string "If you leave that POKéMON with\n"
-	.string "me, you'll be left with just one.\p"
-	.string "You will be better off if you catch\n"
-	.string "some more, I dare say.$"
 
 Route117_Text_NoMove:
 	.string "No Move$"

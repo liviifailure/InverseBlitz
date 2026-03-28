@@ -111,6 +111,8 @@ enum
     SPRITE_ARR_ID_MON,
     SPRITE_ARR_ID_BALL,
     SPRITE_ARR_ID_STATUS,
+    SPRITE_ARR_ID_ATK_INDICATOR,
+    SPRITE_ARR_ID_SPATK_INDICATOR,
     SPRITE_ARR_ID_TYPE, // 2 for mon types, 5 for move types(4 moves and 1 to learn), used interchangeably, because mon types and move types aren't shown on the same screen
     SPRITE_ARR_ID_MOVE_SELECTOR1 = SPRITE_ARR_ID_TYPE + TYPE_ICON_SPRITE_COUNT, // 10 sprites that make up the selector
     SPRITE_ARR_ID_MOVE_SELECTOR2 = SPRITE_ARR_ID_MOVE_SELECTOR1 + MOVE_SELECTOR_SPRITES_COUNT,
@@ -564,7 +566,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .bg = 0,
         .tilemapLeft = 1,
         .tilemapTop = 2,
-        .width = 5,
+        .width = 9,
         .height = 2,
         .paletteNum = 7,
         .baseBlock = 403,
@@ -576,7 +578,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .width = 9,
         .height = 2,
         .paletteNum = 6,
-        .baseBlock = 413,
+        .baseBlock = 421,
     },
     [PSS_LABEL_WINDOW_PORTRAIT_SPECIES] = {
         .bg = 0,
@@ -585,7 +587,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .width = 9,
         .height = 4,
         .paletteNum = 6,
-        .baseBlock = 431,
+        .baseBlock = 439,
     },
     [PSS_LABEL_WINDOW_END] = DUMMY_WIN_TEMPLATE
 };
@@ -598,7 +600,7 @@ static const struct WindowTemplate sPageInfoTemplate[] =
         .width = 11,
         .height = 2,
         .paletteNum = 6,
-        .baseBlock = 467,
+        .baseBlock = 475,
     },
     [PSS_DATA_WINDOW_INFO_ID] = {
         .bg = 0,
@@ -607,7 +609,7 @@ static const struct WindowTemplate sPageInfoTemplate[] =
         .width = 7,
         .height = 2,
         .paletteNum = 6,
-        .baseBlock = 489,
+        .baseBlock = 497,
     },
     [PSS_DATA_WINDOW_INFO_ABILITY] = {
         .bg = 0,
@@ -616,7 +618,7 @@ static const struct WindowTemplate sPageInfoTemplate[] =
         .width = 18,
         .height = 4,
         .paletteNum = 6,
-        .baseBlock = 503,
+        .baseBlock = 511,
     },
     [PSS_DATA_WINDOW_INFO_MEMO] = {
         .bg = 0,
@@ -625,7 +627,7 @@ static const struct WindowTemplate sPageInfoTemplate[] =
         .width = 18,
         .height = 6,
         .paletteNum = 6,
-        .baseBlock = 575,
+        .baseBlock = 583,
     },
 };
 static const struct WindowTemplate sPageSkillsTemplate[] =
@@ -637,7 +639,7 @@ static const struct WindowTemplate sPageSkillsTemplate[] =
         .width = 10,
         .height = 2,
         .paletteNum = 6,
-        .baseBlock = 467,
+        .baseBlock = 475,
     },
     [PSS_DATA_WINDOW_SKILLS_RIBBON_COUNT] = {
         .bg = 0,
@@ -646,7 +648,7 @@ static const struct WindowTemplate sPageSkillsTemplate[] =
         .width = 10,
         .height = 2,
         .paletteNum = 6,
-        .baseBlock = 487,
+        .baseBlock = 495,
     },
     [PSS_DATA_WINDOW_SKILLS_STATS_LEFT] = {
         .bg = 0,
@@ -655,7 +657,7 @@ static const struct WindowTemplate sPageSkillsTemplate[] =
         .width = 6,
         .height = 6,
         .paletteNum = 6,
-        .baseBlock = 507,
+        .baseBlock = 515,
     },
     [PSS_DATA_WINDOW_SKILLS_STATS_RIGHT] = {
         .bg = 0,
@@ -664,7 +666,7 @@ static const struct WindowTemplate sPageSkillsTemplate[] =
         .width = 3,
         .height = 6,
         .paletteNum = 6,
-        .baseBlock = 543,
+        .baseBlock = 551,
     },
     [PSS_DATA_WINDOW_EXP] = {
         .bg = 0,
@@ -673,7 +675,7 @@ static const struct WindowTemplate sPageSkillsTemplate[] =
         .width = 6,
         .height = 4,
         .paletteNum = 6,
-        .baseBlock = 561,
+        .baseBlock = 569,
     },
 };
 static const struct WindowTemplate sPageMovesTemplate[] = // This is used for both battle and contest moves
@@ -685,7 +687,7 @@ static const struct WindowTemplate sPageMovesTemplate[] = // This is used for bo
         .width = 9,
         .height = 10,
         .paletteNum = 6,
-        .baseBlock = 467,
+        .baseBlock = 475,
     },
     [PSS_DATA_WINDOW_MOVE_PP] = {
         .bg = 0,
@@ -694,7 +696,7 @@ static const struct WindowTemplate sPageMovesTemplate[] = // This is used for bo
         .width = 6,
         .height = 10,
         .paletteNum = 8,
-        .baseBlock = 557,
+        .baseBlock = 565,
     },
     [PSS_DATA_WINDOW_MOVE_DESCRIPTION] = {
         .bg = 0,
@@ -703,7 +705,7 @@ static const struct WindowTemplate sPageMovesTemplate[] = // This is used for bo
         .width = 20,
         .height = 4,
         .paletteNum = 6,
-        .baseBlock = 617,
+        .baseBlock = 625,
     },
 };
 static const u8 sTextColors[][3] =
@@ -1294,6 +1296,7 @@ static bool8 LoadGraphics(void)
         break;
     case 5:
         InitBGs();
+        ResetSpriteIds();
         sMonSummaryScreen->switchCounter = 0;
         gMain.state++;
         break;
@@ -1339,7 +1342,6 @@ static bool8 LoadGraphics(void)
         gMain.state++;
         break;
     case 16:
-        ResetSpriteIds();
         CreateMoveTypeIcons();
         sMonSummaryScreen->switchCounter = 0;
         gMain.state++;
@@ -3275,34 +3277,42 @@ static void PrintNotEggInfo(void)
 {
     struct Pokemon *mon = &sMonSummaryScreen->currentMon;
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
-    u16 dexNum = SpeciesToPokedexNum(summary->species);
 
-    if (dexNum != 0xFFFF)
+    u8 colorId = IsMonShiny(mon) ? 7 : 1;
+
+    ConvertIntToDecimalStringN(gStringVar1, summary->atk, STR_CONV_MODE_LEFT_ALIGN, 3);
+    PrintTextOnWindowWithFont(PSS_LABEL_WINDOW_PORTRAIT_DEX_NUMBER, gStringVar1, 12, 1, 0, colorId, FONT_SMALL);
+
+    ConvertIntToDecimalStringN(gStringVar1, summary->spatk, STR_CONV_MODE_LEFT_ALIGN, 3);
+    PrintTextOnWindowWithFont(PSS_LABEL_WINDOW_PORTRAIT_DEX_NUMBER, gStringVar1, 44, 1, 0, colorId, FONT_SMALL);
+
+    if (sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ATK_INDICATOR] == SPRITE_NONE)
     {
-        u8 digitCount = (NATIONAL_DEX_COUNT > 999 && IsNationalPokedexEnabled()) ? 4 : 3;
-        StringCopy(gStringVar1, &gText_NumberClear01[0]);
-        ConvertIntToDecimalStringN(gStringVar2, dexNum, STR_CONV_MODE_LEADING_ZEROS, digitCount);
-        StringAppend(gStringVar1, gStringVar2);
-        if (!IsMonShiny(mon))
-        {
-            PrintTextOnWindow(PSS_LABEL_WINDOW_PORTRAIT_DEX_NUMBER, gStringVar1, 0, 1, 0, 1);
-            SetMonPicBackgroundPalette(FALSE);
-        }
-        else
-        {
-            PrintTextOnWindow(PSS_LABEL_WINDOW_PORTRAIT_DEX_NUMBER, gStringVar1, 0, 1, 0, 7);
-            SetMonPicBackgroundPalette(TRUE);
-        }
-        PutWindowTilemap(PSS_LABEL_WINDOW_PORTRAIT_DEX_NUMBER);
+        sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ATK_INDICATOR] = CreateSprite(&gSpriteTemplate_CategoryIcons, 0, 0, 0);
+        sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_SPATK_INDICATOR] = CreateSprite(&gSpriteTemplate_CategoryIcons, 0, 0, 0);
     }
-    else
+
+    struct Sprite *atkIcon = &gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ATK_INDICATOR]];
+    struct Sprite *spAtkIcon = &gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_SPATK_INDICATOR]];
+
+    if (sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ATK_INDICATOR] < MAX_SPRITES)
     {
-        ClearWindowTilemap(PSS_LABEL_WINDOW_PORTRAIT_DEX_NUMBER);
-        if (!IsMonShiny(mon))
-            SetMonPicBackgroundPalette(FALSE);
-        else
-            SetMonPicBackgroundPalette(TRUE);
+        atkIcon->invisible = FALSE;
+        atkIcon->oam.priority = 0;
+        StartSpriteAnim(atkIcon, DAMAGE_CATEGORY_PHYSICAL);
+        atkIcon->x = 8 + 4;
+        atkIcon->y = 16 + 8;
+
+        spAtkIcon->invisible = FALSE;
+        spAtkIcon->oam.priority = 0;
+        StartSpriteAnim(spAtkIcon, DAMAGE_CATEGORY_SPECIAL);
+        spAtkIcon->x = 8 + 36;
+        spAtkIcon->y = 16 + 8;
     }
+
+    SetMonPicBackgroundPalette(IsMonShiny(mon));
+    PutWindowTilemap(PSS_LABEL_WINDOW_PORTRAIT_DEX_NUMBER);
+
     StringCopy(gStringVar1, gText_LevelSymbol);
     ConvertIntToDecimalStringN(gStringVar2, summary->level, STR_CONV_MODE_LEFT_ALIGN, 3);
     StringAppend(gStringVar1, gStringVar2);
@@ -3321,6 +3331,13 @@ static void PrintEggInfo(void)
     GetMonNickname(&sMonSummaryScreen->currentMon, gStringVar1);
     PrintTextOnWindow(PSS_LABEL_WINDOW_PORTRAIT_NICKNAME, gStringVar1, 0, 1, 0, 1);
     PutWindowTilemap(PSS_LABEL_WINDOW_PORTRAIT_NICKNAME);
+
+    if (sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ATK_INDICATOR] != SPRITE_NONE)
+    {
+        SetSpriteInvisibility(SPRITE_ARR_ID_ATK_INDICATOR, TRUE);
+        SetSpriteInvisibility(SPRITE_ARR_ID_SPATK_INDICATOR, TRUE);
+    }
+
     ClearWindowTilemap(PSS_LABEL_WINDOW_PORTRAIT_DEX_NUMBER);
     ClearWindowTilemap(PSS_LABEL_WINDOW_PORTRAIT_SPECIES);
 }
@@ -4384,6 +4401,8 @@ static void SetTypeIcons(void)
     case PSS_PAGE_INFO:
         SetMonTypeIcons();
         break;
+    case PSS_PAGE_SKILLS:
+        break;
     case PSS_PAGE_BATTLE_MOVES:
         SetMoveTypeIcons();
         SetNewMoveTypeIcon();
@@ -4665,7 +4684,7 @@ static void StopPokemonAnimations(void)  // A subtle effect, this function stops
 
 static void CreateMonMarkingsSprite(struct Pokemon *mon)
 {
-    struct Sprite *sprite = CreateMonMarkingAllCombosSprite(TAG_MON_MARKINGS, TAG_MON_MARKINGS, sMarkings_Pal);
+    /*struct Sprite *sprite = CreateMonMarkingAllCombosSprite(TAG_MON_MARKINGS, TAG_MON_MARKINGS, sMarkings_Pal);
 
     sMonSummaryScreen->markingsSprite = sprite;
     if (sprite != NULL)
@@ -4674,14 +4693,14 @@ static void CreateMonMarkingsSprite(struct Pokemon *mon)
         sMonSummaryScreen->markingsSprite->x = 60;
         sMonSummaryScreen->markingsSprite->y = 26;
         sMonSummaryScreen->markingsSprite->oam.priority = 1;
-    }
+    }*/
 }
 
 static void RemoveAndCreateMonMarkingsSprite(struct Pokemon *mon)
 {
-    DestroySprite(sMonSummaryScreen->markingsSprite);
-    FreeSpriteTilesByTag(TAG_MON_MARKINGS);
-    CreateMonMarkingsSprite(mon);
+    // DestroySprite(sMonSummaryScreen->markingsSprite);
+    // FreeSpriteTilesByTag(TAG_MON_MARKINGS);
+    // CreateMonMarkingsSprite(mon);
 }
 
 static void CreateCaughtBallSprite(struct Pokemon *mon)

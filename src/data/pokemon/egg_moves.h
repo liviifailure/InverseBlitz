@@ -2129,22 +2129,7 @@ static const u16 sCherubiEggMoveLearnset[] = {
 
 #if P_FAMILY_SHELLOS
 static const u16 sShellosEggMoveLearnset[] = {
-    MOVE_COUNTER,
     MOVE_MIRROR_COAT,
-    MOVE_STOCKPILE,
-    MOVE_SWALLOW,
-    MOVE_SPIT_UP,
-    MOVE_YAWN,
-    MOVE_MEMENTO,
-    MOVE_CURSE,
-    MOVE_AMNESIA,
-    MOVE_FISSURE,
-    MOVE_TRUMP_CARD,
-    MOVE_SLUDGE,
-    MOVE_CLEAR_SMOG,
-    MOVE_BRINE,
-    MOVE_MIST,
-    MOVE_ACID_ARMOR,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_SHELLOS

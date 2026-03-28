@@ -55,8 +55,15 @@ void RemoveRentalMon(void)
             species = GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SPECIES, NULL);
             if (species == speciesToRemove)
             {
+                struct Pokemon tempMon;
+
+                BoxMonToMon(&gPokemonStoragePtr->boxes[i][j], &tempMon);
+                if (tempMon.hp == 0)
+                    gSpecialVar_Result = 1; // Fainted
+                else
+                    gSpecialVar_Result = 0; // Alive
+
                 ZeroBoxMonAt(i, j);
-                gSpecialVar_Result = 0; // Alive
                 return;
             }
         }

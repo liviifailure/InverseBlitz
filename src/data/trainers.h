@@ -46112,7 +46112,7 @@ F_TRAINER_FEMALE |
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
 #line 18171
-                MOVE_SHADOW_BALL,
+                MOVE_PHANTOM_FORCE,
                 MOVE_SPITE,
                 MOVE_WILL_O_WISP,
                 MOVE_FEINT_ATTACK,

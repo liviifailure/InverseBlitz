@@ -70,7 +70,7 @@ void ScriptMenu_SetupSoloMode(void)
         {
             struct Pokemon mon;
 
-            CreateMonWithNature(&mon, SPECIES_EEVEE, 5, 15, NATURE_HARDY);
+            CreateMonWithNature(&mon, SPECIES_EEVEE, 15, 15, NATURE_HARDY);
             SetMonData(&mon, MON_DATA_OT_NAME, gSaveBlock2Ptr->playerName);
             SetMonData(&mon, MON_DATA_OT_GENDER, &gSaveBlock2Ptr->playerGender);
             SetMonData(&mon, MON_DATA_OT_ID, gSaveBlock2Ptr->playerTrainerId);
