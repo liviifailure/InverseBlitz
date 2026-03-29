@@ -124,7 +124,7 @@ PlayersHouse_2F_Text_SoloModeIntro:
 	.string "Additionally, this mode adds 8\n"
 	.string "ability capsules to your bag, which\l"
 	.string "you can use to choose your Pokémon's\l"
-	.string "starting abilities.\n"
+	.string "starting abilities.\p"
 	.string "After choosing, you should toss\n"
 	.string "your extras.\p"
 	.string "Would you like to enable SOLO MODE?$"

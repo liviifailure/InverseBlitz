@@ -462,3 +462,7 @@ LittlerootTown_BrendansHouse_2F_Text_PaletteSelectedSkyBlue:
 
 PlayersHouse_1F_Text_ReceivedEgg:
 	.string "{PLAYER} received an egg!$"
+
+LittlerootTown_BrendansHouse_2F_EventScript_GrandPrixMessage::
+	msgbox gText_GrandPrixMessage, MSGBOX_SIGN
+	end

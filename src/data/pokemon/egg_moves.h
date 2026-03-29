@@ -2440,17 +2440,6 @@ static const u16 sRoggenrolaEggMoveLearnset[] = {
 #if P_FAMILY_WOOBAT
 static const u16 sWoobatEggMoveLearnset[] = {
     MOVE_CHARM,
-    MOVE_KNOCK_OFF,
-    MOVE_FAKE_TEARS,
-    MOVE_SUPERSONIC,
-    MOVE_SYNCHRONOISE,
-    MOVE_STORED_POWER,
-    MOVE_ROOST,
-    MOVE_FLATTER,
-    MOVE_HELPING_HAND,
-    MOVE_CAPTIVATE,
-    MOVE_VENOM_DRENCH,
-    MOVE_PSYCHO_SHIFT,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_WOOBAT
@@ -3658,9 +3647,6 @@ static const u16 sCramorantEggMoveLearnset[] = {
 
 #if P_FAMILY_ARROKUDA
 static const u16 sArrokudaEggMoveLearnset[] = {
-    MOVE_THRASH,
-    MOVE_ACUPRESSURE,
-    MOVE_SLASH,
     MOVE_NIGHT_SLASH,
     MOVE_UNAVAILABLE,
 };
