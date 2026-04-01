@@ -620,7 +620,7 @@ const struct AbilityInfo gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_GLUTTONY] =
     {
         .name = _("Gluttony"),
-        .description = COMPOUND_STRING("Eats Berries early."),
+        .description = COMPOUND_STRING("Ransacks for Berries."),
         .aiRating = 3,
     },
 
@@ -2420,5 +2420,11 @@ const struct AbilityInfo gAbilitiesInfo[ABILITIES_COUNT] =
         .cantBeCopied = TRUE,
         .cantBeSwapped = TRUE,
         .cantBeTraced = TRUE,
+    },
+    [ABILITY_DRAGONIZE] =
+    {
+        .name = _("Dragonize"),
+        .description = COMPOUND_STRING("Normal moves become Dragon."),
+        .aiRating = 8,
     },
 };

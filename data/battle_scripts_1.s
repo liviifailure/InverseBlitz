@@ -8907,3 +8907,23 @@ BattleScript_SwapToSubstituteContinue:
 	waitanimation
 BattleScript_SwapToSubstituteReturn:
 	return
+
+BattleScript_GluttonyOranBerry::
+	copybyte gBattlerAbility, sBATTLER
+	call BattleScript_AbilityPopUp
+BattleScript_GluttonyOranBerryLoop:
+	callnative BS_GluttonyOranBerry
+	@ gBattleCommunication[0] is set to 0 by the native function when the loop should end
+	jumpifbyte CMP_EQUAL, gBattleCommunication, 0, BattleScript_GluttonyOranBerryEnd
+	call BattleScript_GluttonyRansackedBag
+	goto BattleScript_GluttonyOranBerryLoop
+BattleScript_GluttonyOranBerryEnd:
+	return
+
+BattleScript_GluttonyRansackedBag:
+	playanimation BS_ATTACKER, B_ANIM_HELD_ITEM_EFFECT
+	printstring STRINGID_RANSACKEDBAGFORORANBERRY
+	waitmessage B_WAIT_TIME_LONG
+	healthbarupdate BS_ATTACKER, PASSIVE_HP_UPDATE
+	datahpupdate BS_ATTACKER, PASSIVE_HP_UPDATE
+	return

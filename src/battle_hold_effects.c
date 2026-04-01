@@ -11,6 +11,8 @@
 #include "data/hold_effects.h"
 #include "constants/berry.h"
 
+extern const u8 BattleScript_GluttonyOranBerry[];
+
 bool32 IsOnSwitchInActivation(enum HoldEffect holdEffect)          { return gHoldEffectsInfo[holdEffect].onSwitchIn; }
 bool32 IsOnSwitchInFirstTurnActivation(enum HoldEffect holdEffect) { return gHoldEffectsInfo[holdEffect].onSwitchInFirstTurn; }
 bool32 IsMirrorHerbActivation(enum HoldEffect holdEffect)          { return gHoldEffectsInfo[holdEffect].mirrorHerb; }
@@ -1268,7 +1270,14 @@ enum ItemEffect ItemBattleEffects(u32 itemBattler, u32 battler, enum HoldEffect 
         gLastUsedItem = item;
         gBattleScripting.battler = gPotentialItemEffectBattler = itemBattler;
         if ((item >= FIRST_BERRY_INDEX && item <= LAST_BERRY_INDEX))
+        {
             GetBattlerPartyState(itemBattler)->ateBerry = TRUE;
+            if (IsOnPlayerSide(itemBattler) && GetBattlerAbilityIgnoreMoldBreaker(itemBattler) == ABILITY_GLUTTONY && CheckBagHasItem(ITEM_ORAN_BERRY, 1) && gBattleMons[itemBattler].hp < gBattleMons[itemBattler].maxHP)
+            {
+                gBattleCommunication[1] = Random() % 3 + 3; // Initialized to 3, 4, or 5
+                BattleScriptPush(BattleScript_GluttonyOranBerry);
+            }
+        }
     }
 
     return effect;

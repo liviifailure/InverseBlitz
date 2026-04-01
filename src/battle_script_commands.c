@@ -601,6 +601,7 @@ static void Cmd_jumpifcaptivateaffected(void);
 static void Cmd_setnonvolatilestatus(void);
 static void Cmd_tryoverwriteability(void);
 static void Cmd_callnative(void);
+void BS_GluttonyOranBerry(void);
 
 void (*const gBattleScriptingCommandsTable[])(void) =
 {
@@ -14583,6 +14584,27 @@ static void Cmd_callnative(void)
     CMD_ARGS(void (*func)(void));
     void (*func)(void) = cmd->func;
     func();
+}
+
+void BS_GluttonyOranBerry(void)
+{
+    NATIVE_ARGS();
+    u8 battler = gBattleScripting.battler;
+
+    if (gBattleCommunication[1] > 0 && gBattleMons[battler].hp < gBattleMons[battler].maxHP && CheckBagHasItem(ITEM_ORAN_BERRY, 1))
+    {
+        gBattleCommunication[1]--;
+        gBattleCommunication[0] = 1; // Signal assembly to continue
+        RemoveBagItem(ITEM_ORAN_BERRY, 1);
+        gBattlerAttacker = battler;
+        gLastUsedItem = ITEM_ORAN_BERRY;
+        gBattleStruct->passiveHpUpdate[gBattlerAttacker] = -10;
+    }
+    else
+    {
+        gBattleCommunication[0] = 0; // Signal assembly to stop
+    }
+    gBattlescriptCurrInstr = cmd->nextInstr;
 }
 
 // Callnative Funcs
