@@ -12125,11 +12125,11 @@ const struct Item gItemsInfo[] =
     [ITEM_TM_RETURN] =
     {
         .name = ITEM_NAME("Return"),
-        .price = 2000,
+        .price = 3000,
         .description = COMPOUND_STRING(
-            "The more the user\n"
-            "likes you, the more\n"
-            "powerful this move."),
+            "A move that relies\n"
+            "on the power of\n"
+            "friendship."),
         .importance = I_REUSABLE_TMS,
         .pocket = POCKET_TM_HM,
         .type = ITEM_USE_PARTY_MENU,

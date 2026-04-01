@@ -134,6 +134,17 @@ LilycoveCity_LilycoveMuseum_1F_EventScript_Pangoro::
     release
     end
 
+LilycoveCity_LilycoveMuseum_1F_EventScript_Victini::
+    lock
+    faceplayer
+    playmoncry SPECIES_VICTINI, CRY_MODE_NORMAL
+    msgbox LilycoveCity_LilycoveMuseum_1F_Text_Victini, MSGBOX_DEFAULT
+    waitmoncry
+    closemessage
+    fadescreen FADE_TO_BLACK
+    callnative Script_DoHallOfFameScreenDontSaveData
+    end
+
 LilycoveCity_LilycoveMuseum_1F_Text_VeryOldPainting:
 	.string "It's a painting of an ancient prophecy\n"
 	.string "that predicted your victory today.\p"
@@ -232,6 +243,9 @@ LilycoveCity_LilycoveMuseum_1F_Text_Pangoro:
     .string "PANGORO appears to be blocking the\n"
     .string "stairs to an area the developer was\l"
     .string "too lazy to customize.$"
+
+LilycoveCity_LilycoveMuseum_1F_Text_Victini:
+    .string "Victini is basking in your victory!$"
 
 LilycoveCity_LilycoveMuseum_1F_Text_Trapped:
 	.string "Ah, to return to HOENN!\n"

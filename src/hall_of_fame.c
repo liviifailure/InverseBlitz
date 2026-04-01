@@ -434,6 +434,12 @@ void CB2_DoHallOfFameScreenDontSaveData(void)
     }
 }
 
+void Script_DoHallOfFameScreenDontSaveData(void)
+{
+    gMain.state = 0;
+    SetMainCallback2(CB2_DoHallOfFameScreenDontSaveData);
+}
+
 static void Task_Hof_InitMonData(u8 taskId)
 {
     u16 i, j;

@@ -24,6 +24,7 @@
 #include "test/battle.h"
 #include "constants/battle_anim.h"
 #include "constants/moves.h"
+#include <stdbool.h>
 
 /*
     This file handles the commands for the macros defined in
@@ -100,6 +101,7 @@ EWRAM_DATA static const u8 *sBattleAnimScriptPtr = NULL;
 EWRAM_DATA static const u8 *sBattleAnimScriptRetAddr = NULL;
 EWRAM_DATA void (*gAnimScriptCallback)(void) = NULL;
 EWRAM_DATA static s8 sAnimFramesToWait = 0;
+COMMON_DATA bool8 gIsFastAnim = FALSE;
 EWRAM_DATA bool8 gAnimScriptActive = FALSE;
 EWRAM_DATA u8 gAnimVisualTaskCount = 0;
 EWRAM_DATA u8 gAnimSoundTaskCount = 0;
@@ -411,6 +413,37 @@ void LaunchBattleAnimation(u32 animType, u32 animId)
         sBattleAnimScriptPtr = sBattleAnims_Special[animId];
         break;
     }
+
+    gIsFastAnim = FALSE;
+    if (animType == ANIM_TYPE_GENERAL)
+    {
+        switch (animId)
+        {
+        case B_ANIM_STATS_CHANGE:
+        case B_ANIM_HELD_ITEM_EFFECT:
+        case B_ANIM_RAIN_CONTINUES:
+        case B_ANIM_SUN_CONTINUES:
+        case B_ANIM_SANDSTORM_CONTINUES:
+        case B_ANIM_HAIL_CONTINUES:
+        case B_ANIM_SNOW_CONTINUES:
+        case B_ANIM_FOG_CONTINUES:
+        case B_ANIM_STRONG_WINDS:
+        case B_ANIM_LEECH_SEED_DRAIN:
+            gIsFastAnim = TRUE;
+            break;
+        }
+    }
+    else if (animType == ANIM_TYPE_MOVE)
+    {
+        switch (animId)
+        {
+        case MOVE_LUNGE:
+        case MOVE_SMOG:
+            gIsFastAnim = TRUE;
+            break;
+        }
+    }
+
     gAnimScriptActive = TRUE;
     sAnimFramesToWait = 0;
     gAnimScriptCallback = RunAnimScriptCommand;
@@ -490,10 +523,7 @@ static void WaitAnimFrameCount(void)
         gAnimScriptCallback = RunAnimScriptCommand;
         sAnimFramesToWait = 0;
     }
-    else
-    {
-        sAnimFramesToWait--;
-    }
+    sAnimFramesToWait--;
 }
 
 static void RunAnimScriptCommand(void)
@@ -892,6 +922,7 @@ static void Cmd_end(void)
             sAnimHideHpBoxes = FALSE;
         }
         gAnimScriptActive = FALSE;
+                gIsFastAnim = FALSE;
     }
 }
 

@@ -227,6 +227,7 @@ EWRAM_DATA u16 gChosenMove = 0;
 EWRAM_DATA u16 gCalledMove = 0;
 EWRAM_DATA s32 gBideDmg[MAX_BATTLERS_COUNT] = {0};
 EWRAM_DATA u16 gLastUsedItem = 0;
+extern bool8 gIsFastAnim;
 EWRAM_DATA enum Ability gLastUsedAbility = 0;
 EWRAM_DATA u8 gBattlerAttacker = 0;
 EWRAM_DATA u8 gBattlerTarget = 0;
@@ -517,6 +518,19 @@ void CB2_InitBattle(void)
     {
         CB2_InitBattleInternal();
     }
+}
+
+static u8 GetPlayerAliveCount(void)
+{
+    u8 i, count = 0;
+    for (i = 0; i < gPlayerPartyCount; i++)
+    {
+        if (GetMonData(&gPlayerParty[i], MON_DATA_HP) > 0 
+            && GetMonData(&gPlayerParty[i], MON_DATA_SPECIES_OR_EGG) != SPECIES_NONE 
+            && GetMonData(&gPlayerParty[i], MON_DATA_SPECIES_OR_EGG) != SPECIES_EGG)
+            count++;
+    }
+    return count;
 }
 
 static void CB2_InitBattleInternal(void)
@@ -1809,11 +1823,17 @@ static void CB2_HandleStartMultiBattle(void)
 
 void BattleMainCB2(void)
 {
-    AnimateSprites();
+    u8 i;
+    u8 loops = gIsFastAnim ? 2 : 1;
+
+    for (i = 0; i < loops; i++)
+    {
+        AnimateSprites();
+        RunTasks();
+        RunTextPrinters();
+        UpdatePaletteFade();
+    }
     BuildOamBuffer();
-    RunTextPrinters();
-    UpdatePaletteFade();
-    RunTasks();
 
     if (JOY_HELD(B_BUTTON) && gBattleTypeFlags & BATTLE_TYPE_RECORDED && RecordedBattle_CanStopPlayback())
     {
@@ -3068,13 +3088,19 @@ void BeginBattleIntro(void)
     gBattleMainFunc = DoBattleIntro;
 }
 
+
 static void BattleMainCB1(void)
 {
     u32 battler;
+    u8 i;
+    u8 loops = gIsFastAnim ? 2 : 1;
 
-    gBattleMainFunc();
-    for (battler = 0; battler < gBattlersCount; battler++)
-        gBattlerControllerFuncs[battler](battler);
+    for (i = 0; i < loops; i++)
+    {
+        gBattleMainFunc();
+        for (battler = 0; battler < gBattlersCount; battler++)
+            gBattlerControllerFuncs[battler](battler);
+    }
 }
 
 static void ClearSetBScriptingStruct(void)
@@ -3777,7 +3803,19 @@ static void DoBattleIntro(void)
                 return;
             }
 
-            PrepareStringBattle(STRINGID_INTROSENDOUT, battler);
+            if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE) && !(gBattleTypeFlags & (BATTLE_TYPE_MULTI | BATTLE_TYPE_INGAME_PARTNER)))
+            {
+                if (GetPlayerAliveCount() == 1)
+                {
+                    gBattleTypeFlags &= ~BATTLE_TYPE_DOUBLE;
+                    PrepareStringBattle(STRINGID_INTROSENDOUT, battler);
+                    gBattleTypeFlags |= BATTLE_TYPE_DOUBLE;
+                }
+                else
+                    PrepareStringBattle(STRINGID_INTROSENDOUT, battler);
+            }
+            else
+                PrepareStringBattle(STRINGID_INTROSENDOUT, battler);
         }
         gBattleStruct->eventState.battleIntro++;
         break;
@@ -3799,7 +3837,20 @@ static void DoBattleIntro(void)
         else
             battler = GetBattlerAtPosition(B_POSITION_PLAYER_LEFT);
 
-        BtlController_EmitIntroTrainerBallThrow(battler, B_COMM_TO_CONTROLLER);
+        if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE) && !(gBattleTypeFlags & (BATTLE_TYPE_MULTI | BATTLE_TYPE_INGAME_PARTNER)))
+        {
+            if (GetPlayerAliveCount() == 1)
+            {
+                gBattleTypeFlags &= ~BATTLE_TYPE_DOUBLE;
+                BtlController_EmitIntroTrainerBallThrow(battler, B_COMM_TO_CONTROLLER);
+                gBattleTypeFlags |= BATTLE_TYPE_DOUBLE;
+            }
+            else
+                BtlController_EmitIntroTrainerBallThrow(battler, B_COMM_TO_CONTROLLER);
+        }
+        else
+            BtlController_EmitIntroTrainerBallThrow(battler, B_COMM_TO_CONTROLLER);
+
         MarkBattlerForControllerExec(battler);
         gBattleStruct->eventState.battleIntro++;
         break;
@@ -3941,6 +3992,8 @@ static void TryDoEventsBeforeFirstTurn(void)
         while (gBattleStruct->switchInBattlerCounter < gBattlersCount) // From fastest to slowest
         {
             i = gBattlerByTurnOrder[gBattleStruct->switchInBattlerCounter++];
+            if (gAbsentBattlerFlags & (1u << i))
+                continue;
             if (AbilityBattleEffects(ABILITYEFFECT_NEUTRALIZINGGAS_FIRST_TURN, i, 0, 0, 0) != 0)
                 return;
         }
@@ -3951,6 +4004,9 @@ static void TryDoEventsBeforeFirstTurn(void)
         while (gBattleStruct->switchInBattlerCounter < gBattlersCount) // From fastest to slowest
         {
             u32 battler = gBattlerByTurnOrder[gBattleStruct->switchInBattlerCounter++];
+
+            if (gAbsentBattlerFlags & (1u << battler))
+                continue;
 
             if (TryPrimalReversion(battler))
                 return;
@@ -3968,6 +4024,8 @@ static void TryDoEventsBeforeFirstTurn(void)
         while (gBattleStruct->switchInBattlerCounter < gBattlersCount) // From fastest to slowest
         {
             u32 battler = gBattlerByTurnOrder[gBattleStruct->switchInBattlerCounter++];
+            if (gAbsentBattlerFlags & (1u << battler))
+                continue;
             if (ItemBattleEffects(battler, 0, GetBattlerHoldEffect(battler), IsOnSwitchInFirstTurnActivation))
                 return;
         }
@@ -3978,6 +4036,8 @@ static void TryDoEventsBeforeFirstTurn(void)
         while (gBattleStruct->switchInBattlerCounter < gBattlersCount) // From fastest to slowest
         {
             u32 battler = gBattlerByTurnOrder[gBattleStruct->switchInBattlerCounter++];
+            if (gAbsentBattlerFlags & (1u << battler))
+                continue;
             if (ItemBattleEffects(battler, 0, GetBattlerHoldEffect(battler), IsWhiteHerbFirstTurnActivation))
                 return;
         }
@@ -3988,6 +4048,8 @@ static void TryDoEventsBeforeFirstTurn(void)
         while (gBattleStruct->switchInBattlerCounter < gBattlersCount) // From fastest to slowest
         {
             u32 battler = gBattlerByTurnOrder[gBattleStruct->switchInBattlerCounter++];
+            if (gAbsentBattlerFlags & (1u << battler))
+                continue;
             if (AbilityBattleEffects(ABILITYEFFECT_OPPORTUNIST_FIRST_TURN, battler, GetBattlerAbility(battler), 0, 0))
                 return;
         }
@@ -3998,6 +4060,8 @@ static void TryDoEventsBeforeFirstTurn(void)
         while (gBattleStruct->switchInBattlerCounter < gBattlersCount) // From fastest to slowest
         {
             u32 battler = gBattlerByTurnOrder[gBattleStruct->switchInBattlerCounter++];
+            if (gAbsentBattlerFlags & (1u << battler))
+                continue;
             if (ItemBattleEffects(battler, 0, GetBattlerHoldEffect(battler), IsMirrorHerbFirstTurnActivation))
                 return;
         }

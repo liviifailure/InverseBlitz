@@ -5940,7 +5940,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .levelUpLearnset = sGolbatLevelUpLearnset,
         .teachableLearnset = sGolbatTeachableLearnset,
     #if P_GEN_2_CROSS_EVOS
-        .evolutions = EVOLUTION({EVO_ITEM, ITEM_SOOTHE_BELL, SPECIES_CROBAT}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 30, SPECIES_CROBAT}),
     #endif
     },
 

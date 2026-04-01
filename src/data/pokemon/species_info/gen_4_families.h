@@ -3449,7 +3449,7 @@ const struct SpeciesInfo gSpeciesInfoGen4[] =
         .levelUpLearnset = sBunearyLevelUpLearnset,
         .teachableLearnset = sBunearyTeachableLearnset,
         .eggMoveLearnset = sBunearyEggMoveLearnset,
-        .evolutions = EVOLUTION({EVO_ITEM, ITEM_SOOTHE_BELL, SPECIES_LOPUNNY}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 20, SPECIES_LOPUNNY}),
     },
 
     [SPECIES_LOPUNNY] =
