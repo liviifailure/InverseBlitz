@@ -523,7 +523,10 @@ static void WaitAnimFrameCount(void)
         gAnimScriptCallback = RunAnimScriptCommand;
         sAnimFramesToWait = 0;
     }
-    sAnimFramesToWait--;
+    else
+    {
+        sAnimFramesToWait--;
+    }
 }
 
 static void RunAnimScriptCommand(void)
