@@ -2433,5 +2433,36 @@ const struct AbilityInfo gAbilitiesInfo[ABILITIES_COUNT] =
         .name = _("Dragonize"),
         .description = COMPOUND_STRING("Normal moves become Dragon."),
         .aiRating = 8,
+
+    [ABILITY_PIERCING_DRILL] =
+    {
+        .name = _("Piercing Drill"),
+        .description = COMPOUND_STRING("Unimplemented."),
+    },
+
+    [ABILITY_DRAGONIZE] =
+    {
+        .name = _("Dragonize"),
+        .description = COMPOUND_STRING("Unimplemented."),
+    },
+
+    //ABILITY_313,
+
+    //ABILITY_314,
+
+    [ABILITY_MEGA_SOL] =
+    {
+        .name = _("Mega Sol"),
+        .description = COMPOUND_STRING("Unimplemented."),
+    },
+
+    //ABILITY_316,
+
+    //ABILITY_317,
+
+    [ABILITY_SPICY_SPRAY] =
+    {
+        .name = _("Spicy Spray"),
+        .description = COMPOUND_STRING("Unimplemented."),
     },
 };
