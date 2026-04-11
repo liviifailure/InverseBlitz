@@ -26,6 +26,7 @@
 #include "graphics.h"
 #include "battle_setup.h"
 #include "trainer_pokemon_sprites.h"
+#include "constants/event_objects.h"
 #include "contest_util.h"
 #include "decompress.h"
 #include "event_object_movement.h"
@@ -80,6 +81,7 @@ struct TrainerCardData
     u8 textBattleFacilityStat[70];
     u8 winNames[12][32];
     u8 winTimes[12][32];
+    u8 winSpriteIds[12][2];
     u16 monIconPal[16 * PARTY_SIZE];
     s8 flipBlendY;
     bool8 timeColonNeedDraw;
@@ -178,6 +180,10 @@ static bool8 Task_AnimateCardFlipUp(struct Task *task);
 static bool8 Task_EndCardFlip(struct Task *task);
 static void UpdateCardFlipRegs(u16);
 static void LoadMonIconGfx(void);
+u16 FacilityClassToGraphicsId(u8 facilityClass);
+static u16 GetTrainerOverworldGraphicsId(u16 trainerId);
+static void CreateWinRecordSprites(void);
+static void DestroyWinRecordSprites(void);
 
 static const u32 sTrainerCardStickers_Gfx[]      = INCBIN_U32("graphics/trainer_card/frlg/stickers.4bpp.smol");
 static const u16 sUnused_Pal[]                   = INCBIN_U16("graphics/trainer_card/unused.gbapal");
@@ -370,6 +376,7 @@ static void CB2_TrainerCard(void)
 
 static void CloseTrainerCard(u8 taskId)
 {
+    DestroyWinRecordSprites();
     SetMainCallback2(sData->callback2);
     FreeAllWindowBuffers();
     FREE_AND_SET_NULL(sData);
@@ -1397,12 +1404,12 @@ static void PrintWinRecords(void)
         }
         else
         {
-            x = 120;
+            x = 104;
             y = (i - 6) * 16 + 33;
         }
-        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, x, y, sTrainerCardTextColors, TEXT_SKIP_DRAW, sData->winNames[i]);
+        // Name text removed to be replaced by overworld sprite
 
-        u32 timeX = x + 104 - GetStringWidth(FONT_NORMAL, sData->winTimes[i], 0);
+        u32 timeX = x + 80 - GetStringWidth(FONT_NORMAL, sData->winTimes[i], 0);
         AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, timeX, y, sTrainerCardStatColors, TEXT_SKIP_DRAW, sData->winTimes[i]);
     }
 }
@@ -1422,6 +1429,216 @@ static void PrintPokemonIconsOnCard(void)
                 u8 monSpecies = GetMonIconPaletteIndexFromSpecies(sData->trainerCard.monSpecies[i]);
                 WriteSequenceToBgTilemapBuffer(3, 16 * i + 224, xOffsets[i] + 3, 15, 4, 4, paletteSlots[monSpecies], 1);
             }
+        }
+    }
+}
+
+static u16 GetTrainerOverworldGraphicsId(u16 trainerId)
+{
+    u8 picIndex = GetTrainerPicFromId(trainerId);
+    u32 i;
+
+    // Map unique bosses to their overworld sprites by comparing against known trainer IDs.
+    // This avoids dependency on missing TRAINER_PIC_ or FACILITY_CLASS_ constants.
+    if (picIndex == GetTrainerPicFromId(TRAINER_ROXANNE_1)) return OBJ_EVENT_GFX_ROXANNE;
+    if (picIndex == GetTrainerPicFromId(TRAINER_VIOLA_1)) return OBJ_EVENT_GFX_VIOLA;
+    if (picIndex == GetTrainerPicFromId(TRAINER_BRAWLY_1)) return OBJ_EVENT_GFX_BRAWLY;
+    if (picIndex == GetTrainerPicFromId(TRAINER_WATTSON_1)) return OBJ_EVENT_GFX_WATTSON;
+    if (picIndex == GetTrainerPicFromId(TRAINER_FLANNERY_1)) return OBJ_EVENT_GFX_FLANNERY;
+    if (picIndex == GetTrainerPicFromId(TRAINER_NORMAN_1)) return OBJ_EVENT_GFX_NORMAN;
+    if (picIndex == GetTrainerPicFromId(TRAINER_WINONA_1)) return OBJ_EVENT_GFX_WINONA;
+    if (picIndex == GetTrainerPicFromId(TRAINER_TATE_AND_LIZA_1)) return OBJ_EVENT_GFX_TATE;
+    if (picIndex == GetTrainerPicFromId(TRAINER_JUAN_1)) return OBJ_EVENT_GFX_JUAN;
+
+    if (picIndex == GetTrainerPicFromId(TRAINER_SIDNEY)) return OBJ_EVENT_GFX_SIDNEY;
+    if (picIndex == GetTrainerPicFromId(TRAINER_PHOEBE)) return OBJ_EVENT_GFX_PHOEBE;
+    if (picIndex == GetTrainerPicFromId(TRAINER_GLACIA)) return OBJ_EVENT_GFX_GLACIA;
+    if (picIndex == GetTrainerPicFromId(TRAINER_DRAKE)) return OBJ_EVENT_GFX_DRAKE;
+
+    if (picIndex == GetTrainerPicFromId(TRAINER_WALLACE)) return OBJ_EVENT_GFX_WALLACE;
+    if (picIndex == GetTrainerPicFromId(TRAINER_STEVEN)) return OBJ_EVENT_GFX_STEVEN;
+    if (picIndex == GetTrainerPicFromId(TRAINER_WALLY)) return OBJ_EVENT_GFX_WALLY;
+
+    // Frontier Brains
+    if (picIndex == GetTrainerPicFromId(TRAINER_NOLAND)) return OBJ_EVENT_GFX_NOLAND;
+    if (picIndex == GetTrainerPicFromId(TRAINER_GRETA)) return OBJ_EVENT_GFX_GRETA;
+    if (picIndex == GetTrainerPicFromId(TRAINER_TUCKER)) return OBJ_EVENT_GFX_TUCKER;
+    if (picIndex == GetTrainerPicFromId(TRAINER_LUCY)) return OBJ_EVENT_GFX_LUCY;
+    if (picIndex == GetTrainerPicFromId(TRAINER_SPENSER)) return OBJ_EVENT_GFX_SPENSER;
+    if (picIndex == GetTrainerPicFromId(TRAINER_ANABEL)) return OBJ_EVENT_GFX_ANABEL;
+    if (picIndex == GetTrainerPicFromId(TRAINER_BRANDON)) return OBJ_EVENT_GFX_BRANDON;
+
+    // Search for the facility class that uses this front pic
+    for (i = 0; i < 255; i++)
+    {
+        // If the palette is already loaded and is a generic NPC palette,
+        // we need to ensure it's not greyed out by a previous operation.
+        if (gFacilityClassToPicIndex[i] == picIndex)
+            return FacilityClassToGraphicsId(i);
+    }
+
+    return OBJ_EVENT_GFX_YOUNGSTER;
+}
+
+static u8 AllocateAndGreyOutPalette(u8 spriteId, u32 winRecordIndex, u32 spriteIndexInRecord)
+{
+    u8 oldPalNum = gSprites[spriteId].oam.paletteNum;
+    u8 newPalTag = OBJ_EVENT_PAL_TAG_DYNAMIC_GREY_START + (winRecordIndex * 2) + spriteIndexInRecord;
+    u8 newPalNum = AllocSpritePalette(newPalTag);
+
+    if (newPalNum == 0xFF) // Failed to allocate
+        return 0xFF;
+
+    // Copy original colors from the buffer to the new slot
+    u16 *oldPalPtr = &gPlttBufferUnfaded[OBJ_PLTT_ID(oldPalNum)];
+    u16 *newPalPtrUnfaded = &gPlttBufferUnfaded[OBJ_PLTT_ID(newPalNum)];
+    u16 *newPalPtrFaded = &gPlttBufferFaded[OBJ_PLTT_ID(newPalNum)];
+    s32 i;
+
+    for (i = 0; i < 16; i++)
+    {
+        u32 r, g, b, grey;
+        u16 color = oldPalPtr[i];
+        r = GET_R(color);
+        g = GET_G(color);
+        b = GET_B(color);
+        grey = (r * 30 + g * 59 + b * 11) / 100;
+        color = RGB(grey, grey, grey);
+        newPalPtrUnfaded[i] = color;
+        newPalPtrFaded[i] = color;
+    }
+    return newPalNum;
+}
+
+static void CreateWinRecordSprites(void)
+{
+    u32 i;
+    s16 x, y;
+    u16 trainerId;
+    u8 picIndex;
+    u16 leftGfx, rightGfx;
+    u8 spriteIdLeft, spriteIdRight;
+    u8 greyPalNum;
+    bool8 isPair;
+    bool8 foughtLeft;
+
+    for (i = 0; i < sData->trainerCard.winsCount && i < 12; i++)
+    {
+        if (i < 6)
+        {
+            x = 32;
+            y = i * 16 + 41;
+        }
+        else
+        {
+            x = 128;
+            y = (i - 6) * 16 + 41;
+        }
+
+        trainerId = sData->trainerCard.wins[i].trainerId;
+        picIndex = GetTrainerPicFromId(trainerId);
+        isPair = FALSE;
+        foughtLeft = FALSE;
+
+        if (picIndex == GetTrainerPicFromId(TRAINER_ROXANNE_1) || picIndex == GetTrainerPicFromId(TRAINER_VIOLA_1))
+        {
+            leftGfx = OBJ_EVENT_GFX_ROXANNE;
+            rightGfx = OBJ_EVENT_GFX_VIOLA;
+            foughtLeft = (picIndex == GetTrainerPicFromId(TRAINER_ROXANNE_1));
+            isPair = TRUE;
+        }
+        else if (picIndex == GetTrainerPicFromId(TRAINER_SIDNEY) || picIndex == GetTrainerPicFromId(TRAINER_SPENSER))
+        {
+            leftGfx = OBJ_EVENT_GFX_SIDNEY;
+            rightGfx = OBJ_EVENT_GFX_SPENSER;
+            foughtLeft = (picIndex == GetTrainerPicFromId(TRAINER_SIDNEY));
+            isPair = TRUE;
+        }
+        else if (picIndex == GetTrainerPicFromId(TRAINER_PHOEBE) || picIndex == GetTrainerPicFromId(TRAINER_LUCY))
+        {
+            leftGfx = OBJ_EVENT_GFX_PHOEBE;
+            rightGfx = OBJ_EVENT_GFX_LUCY;
+            foughtLeft = (picIndex == GetTrainerPicFromId(TRAINER_PHOEBE));
+            isPair = TRUE;
+        }
+        else if (picIndex == GetTrainerPicFromId(TRAINER_GLACIA) || picIndex == GetTrainerPicFromId(TRAINER_TUCKER))
+        {
+            leftGfx = OBJ_EVENT_GFX_GLACIA;
+            rightGfx = OBJ_EVENT_GFX_TUCKER;
+            foughtLeft = (picIndex == GetTrainerPicFromId(TRAINER_GLACIA));
+            isPair = TRUE;
+        }
+        else if (picIndex == GetTrainerPicFromId(TRAINER_DRAKE) || picIndex == GetTrainerPicFromId(TRAINER_BRANDON))
+        {
+            leftGfx = OBJ_EVENT_GFX_DRAKE;
+            rightGfx = OBJ_EVENT_GFX_BRANDON;
+            foughtLeft = (picIndex == GetTrainerPicFromId(TRAINER_DRAKE));
+            isPair = TRUE;
+        }
+
+        if (isPair)
+        {
+            spriteIdLeft = CreateObjectGraphicsSprite(leftGfx, SpriteCallbackDummy, x, y, 0);
+            spriteIdRight = CreateObjectGraphicsSprite(rightGfx, SpriteCallbackDummy, x + 16, y, 0);
+            sData->winSpriteIds[i][0] = spriteIdLeft;
+            sData->winSpriteIds[i][1] = spriteIdRight;
+            StartSpriteAnim(&gSprites[spriteIdLeft], 0);
+            StartSpriteAnim(&gSprites[spriteIdRight], 0);
+
+            if (foughtLeft)
+            {
+                greyPalNum = AllocateAndGreyOutPalette(spriteIdRight, i, 1);
+                if (greyPalNum != 0xFF)
+                    gSprites[spriteIdRight].oam.paletteNum = greyPalNum;
+            }
+            else
+            {
+                greyPalNum = AllocateAndGreyOutPalette(spriteIdLeft, i, 0);
+                if (greyPalNum != 0xFF)
+                    gSprites[spriteIdLeft].oam.paletteNum = greyPalNum;
+            }
+        }
+        else
+        {
+            spriteIdLeft = CreateObjectGraphicsSprite(GetTrainerOverworldGraphicsId(trainerId), SpriteCallbackDummy, x, y, 0);
+            sData->winSpriteIds[i][0] = spriteIdLeft;
+            StartSpriteAnim(&gSprites[spriteIdLeft], 0); // Face South
+
+            // Initialize the second sprite ID to SPRITE_NONE for non-paired trainers
+            sData->winSpriteIds[i][1] = SPRITE_NONE;
+
+            if (picIndex == GetTrainerPicFromId(TRAINER_TATE_AND_LIZA_1))
+            {
+                sData->winSpriteIds[i][1] = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_LIZA, SpriteCallbackDummy, x + 16, y, 0);
+                StartSpriteAnim(&gSprites[sData->winSpriteIds[i][1]], 0);
+            }
+            else if (picIndex == GetTrainerPicFromId(TRAINER_JUAN_1))
+            {
+                sData->winSpriteIds[i][1] = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_WALLACE, SpriteCallbackDummy, x + 16, y, 0);
+                StartSpriteAnim(&gSprites[sData->winSpriteIds[i][1]], 0);
+            }
+        }
+    }
+}
+
+static void DestroyWinRecordSprites(void)
+{
+    u32 i;
+
+    for (i = 0; i < 12; i++)
+    {
+        // Free the dynamically allocated grey palettes
+        if (sData->winSpriteIds[i][0] != SPRITE_NONE)
+        {
+            DestroySprite(&gSprites[sData->winSpriteIds[i][0]]);
+            sData->winSpriteIds[i][0] = SPRITE_NONE;
+            FreeSpritePaletteByTag(OBJ_EVENT_PAL_TAG_DYNAMIC_GREY_START + (i * 2));
+        }
+        if (sData->winSpriteIds[i][1] != SPRITE_NONE)
+        {
+            DestroySprite(&gSprites[sData->winSpriteIds[i][1]]);
+            sData->winSpriteIds[i][1] = SPRITE_NONE;
+            FreeSpritePaletteByTag(OBJ_EVENT_PAL_TAG_DYNAMIC_GREY_START + (i * 2) + 1);
         }
     }
 }
@@ -1659,6 +1876,7 @@ static bool8 Task_BeginCardFlip(struct Task *task)
 
     HideBg(1);
     HideBg(3);
+    DestroyWinRecordSprites();
     ScanlineEffect_Stop();
     ScanlineEffect_Clear();
     for (i = 0; i < DISPLAY_HEIGHT; i++)
@@ -1743,9 +1961,14 @@ static bool8 Task_DrawFlippedCardSide(struct Task *task)
             break;
         case 2:
             if (!sData->onBack)
+            {
                 DrawCardFrontOrBack(sData->backTilemap);
+                CreateWinRecordSprites();
+            }
             else
+            {
                 DrawTrainerCardWindow(WIN_CARD_TEXT);
+            }
             break;
         case 3:
             if (!sData->onBack)
@@ -1777,6 +2000,7 @@ static bool8 Task_SetCardFlipped(struct Task *task)
     if (sData->onBack)
     {
         DrawTrainerCardWindow(WIN_TRAINER_PIC);
+        DestroyWinRecordSprites();
         DrawCardScreenBackground(sData->bgTilemap);
         DrawCardFrontOrBack(sData->frontTilemap);
         DrawStarsAndBadgesOnCard();
@@ -1882,6 +2106,11 @@ static void InitTrainerCardData(void)
     sData->onBack = FALSE;
     sData->flipBlendY = 0;
     sData->cardType = GetSetCardType();
+    for (i = 0; i < 12; i++)
+    {
+        sData->winSpriteIds[i][0] = SPRITE_NONE;
+        sData->winSpriteIds[i][1] = SPRITE_NONE;
+    }
     for (i = 0; i < TRAINER_CARD_PROFILE_LENGTH; i++)
         CopyEasyChatWord(sData->easyChatProfile[i], sData->trainerCard.easyChatProfile[i]);
 }
