@@ -2360,11 +2360,16 @@ enum
 
 static bool32 ShouldShowTypeEffectiveness(u32 targetId)
 {
+    u16 species = gBattleMons[targetId].species;
+    struct Pokemon *illusionMon = GetIllusionMonPtr(targetId);
+    if (illusionMon != NULL)
+        species = GetMonData(illusionMon, MON_DATA_SPECIES);
+
     if (B_SHOW_EFFECTIVENESS == SHOW_EFFECTIVENESS_CAUGHT)
-        return GetSetPokedexFlag(SpeciesToNationalPokedexNum(gBattleMons[targetId].species), FLAG_GET_CAUGHT);
+        return GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_CAUGHT);
 
     if (B_SHOW_EFFECTIVENESS == SHOW_EFFECTIVENESS_SEEN)
-        return GetSetPokedexFlag(SpeciesToNationalPokedexNum(gBattleMons[targetId].species), FLAG_GET_SEEN);
+        return GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_SEEN);
 
     return TRUE;
 }
@@ -2373,15 +2378,36 @@ static u32 CheckTypeEffectiveness(u32 battlerAtk, u32 battlerDef)
 {
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battlerAtk][4]);
     struct DamageContext ctx = {0};
+    struct Pokemon *illusionMon = GetIllusionMonPtr(battlerDef);
+
     ctx.battlerAtk = battlerAtk;
     ctx.battlerDef = battlerDef;
     ctx.move = moveInfo->moves[gMoveSelectionCursor[battlerAtk]];
     ctx.moveType = CheckDynamicMoveType(GetBattlerMon(battlerAtk), ctx.move, battlerAtk, MON_IN_BATTLE);
     ctx.updateFlags = FALSE;
     ctx.abilityAtk = GetBattlerAbility(battlerAtk);
-    ctx.abilityDef = GetBattlerAbility(battlerDef);
     ctx.holdEffectAtk = GetBattlerHoldEffect(battlerAtk);
-    ctx.holdEffectDef = GetBattlerHoldEffect(battlerDef);
+
+    if (illusionMon != NULL)
+    {
+        u16 visualSpecies = GetBattlerVisualSpecies(battlerDef);
+        ctx.overrideTargetTypes = TRUE;
+        ctx.targetTypes[0] = GetSpeciesType(visualSpecies, 0);
+        ctx.targetTypes[1] = GetSpeciesType(visualSpecies, 1);
+        ctx.targetTypes[2] = gBattleMons[battlerDef].types[2];
+        ctx.abilityDef = GetMonAbility(illusionMon);
+        if (IsNeutralizingGasOnField())
+            ctx.abilityDef = ABILITY_NONE;
+
+        ctx.holdEffectDef = GetItemHoldEffect(GetMonData(illusionMon, MON_DATA_HELD_ITEM));
+        if (gBattleMons[battlerDef].volatiles.embargo || (gFieldStatuses & STATUS_FIELD_MAGIC_ROOM) || ctx.abilityDef == ABILITY_KLUTZ)
+            ctx.holdEffectDef = HOLD_EFFECT_NONE;
+    }
+    else
+    {
+        ctx.abilityDef = GetBattlerAbility(battlerDef);
+        ctx.holdEffectDef = GetBattlerHoldEffect(battlerDef);
+    }
 
     uq4_12_t modifier = CalcTypeEffectivenessMultiplier(&ctx);
 

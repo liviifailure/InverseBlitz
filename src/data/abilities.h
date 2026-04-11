@@ -1989,13 +1989,6 @@ const struct AbilityInfo gAbilitiesInfo[ABILITIES_COUNT] =
         .aiRating = 6,
     },
 
-    [ABILITY_PIERCING_DRILL] =
-    {
-        .name = _("Piercing Drill"),
-        .description = COMPOUND_STRING("Contact evades protection."),
-        .aiRating = 6,
-    },
-
     [ABILITY_CURIOUS_MEDICINE] =
     {
         .name = _("Curious Medicine"),
@@ -2428,24 +2421,21 @@ const struct AbilityInfo gAbilitiesInfo[ABILITIES_COUNT] =
         .cantBeSwapped = TRUE,
         .cantBeTraced = TRUE,
     },
+
+    [ABILITY_PIERCING_DRILL] =
+    {
+        .name = _("Piercing Drill"),
+        .description = COMPOUND_STRING("Contact evades protection."),
+        .aiRating = 6,
+    },
+
     [ABILITY_DRAGONIZE] =
     {
         .name = _("Dragonize"),
         .description = COMPOUND_STRING("Normal moves become Dragon."),
         .aiRating = 8,
-
-    [ABILITY_PIERCING_DRILL] =
-    {
-        .name = _("Piercing Drill"),
-        .description = COMPOUND_STRING("Unimplemented."),
     },
-
-    [ABILITY_DRAGONIZE] =
-    {
-        .name = _("Dragonize"),
-        .description = COMPOUND_STRING("Unimplemented."),
-    },
-
+    
     [ABILITY_313] =
     {
         .name = _("-------"),

@@ -8860,7 +8860,17 @@ static inline uq4_12_t CalcTypeEffectivenessMultiplierInternal(struct DamageCont
 {
     u32 illusionSpecies;
     enum Type types[3];
-    GetBattlerTypes(ctx->battlerDef, FALSE, types);
+
+    if (ctx->overrideTargetTypes)
+    {
+        types[0] = ctx->targetTypes[0];
+        types[1] = ctx->targetTypes[1];
+        types[2] = ctx->targetTypes[2];
+    }
+    else
+    {
+        GetBattlerTypes(ctx->battlerDef, FALSE, types);
+    }
 
     MulByTypeEffectiveness(ctx, &modifier, types[0]);
     if (types[1] != types[0])

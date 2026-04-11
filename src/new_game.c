@@ -22,6 +22,7 @@
 #include "tv.h"
 #include "coins.h"
 #include "text.h"
+#include "trainer_card.h"
 #include "overworld.h"
 #include "mail.h"
 #include "battle_records.h"
@@ -206,6 +207,7 @@ void NewGameInitData(void)
     ResetGameStats();
     ClearAllContestWinnerPics();
     ClearPlayerLinkBattleRecords();
+    ClearTrainerCardWins();
     InitSeedotSizeRecord();
     InitLotadSizeRecord();
     gPlayerPartyCount = 0;

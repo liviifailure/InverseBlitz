@@ -168,7 +168,9 @@ struct DamageContext
     u32 fixedBasePower:8;
     u32 padding2:8;
     u32 chosenMove:16; // May be different to 'move', e.g. for Z moves.
-    u32 padding3:16;
+    u32 padding3:15;
+    u32 overrideTargetTypes:1;
+    enum Type targetTypes[3];
     uq4_12_t typeEffectivenessModifier;
     enum Ability abilityAtk;
     enum Ability abilityDef;

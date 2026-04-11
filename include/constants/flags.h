@@ -1250,7 +1250,7 @@
 #define FLAG_TWO_BADGES                                             0x4A5 // Unused Flag
 #define FLAG_HIDE_TRUCK_KECLEON                                     0x4A6
 #define FLAG_HIDE_TRUCK_VIGOROTH                                    0x4A7
-#define FLAG_RECEIVED_BURMY_BINDER                                  0x339 
+#define FLAG_RECEIVED_BURMY_BINDER                                  0x4A8 
 #define FLAG_WALLY_IS_CHAMPION                                      0x4A9 // Unused Flag
 #define FLAG_SYS_SOLO_MODE                                          0x4AA // Unused Flag
 #define FLAG_UNUSED_0x4AB                                           0x4AB // Unused Flag

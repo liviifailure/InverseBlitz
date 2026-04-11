@@ -75,5 +75,6 @@ void ShowPlayerTrainerCard(void (*callback)(void));
 void ShowTrainerCardInLink(u8 cardId, void (*callback)(void));
 void TrainerCard_GenerateCardForLinkPlayer(struct TrainerCard *trainerCard);
 void RecordTrainerCardWin(struct ScriptContext *ctx);
+void ClearTrainerCardWins(void);
 
 #endif // GUARD_TRAINER_CARD_H

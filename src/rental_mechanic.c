@@ -171,7 +171,7 @@ void BufferRentalCost(void)
 {
     u16 count = VarGet(VAR_RENTAL_RETURN_COUNT);
     //u32 cost = 5000 + (count * 1000);
-    u32 cost = 6000;
+    u32 cost = 8000;
     ConvertIntToDecimalStringN(gStringVar1, cost, STR_CONV_MODE_LEFT_ALIGN, 6);
 }
 
@@ -179,7 +179,7 @@ void CheckHasRentalCost(void)
 {
     u16 count = VarGet(VAR_RENTAL_RETURN_COUNT);
     //u32 cost = 5000 + (count * 1000);
-    u32 cost = 6000;
+    u32 cost = 8000;
     if (GetMoney(&gSaveBlock1Ptr->money) >= cost)
         gSpecialVar_Result = TRUE;
     else
@@ -190,6 +190,6 @@ void TakeRentalCost(void)
 {
     u16 count = VarGet(VAR_RENTAL_RETURN_COUNT);
     //u32 cost = 5000 + (count * 1000);
-    u32 cost = 6000;
+    u32 cost = 8000;
     RemoveMoney(&gSaveBlock1Ptr->money, cost);
 }

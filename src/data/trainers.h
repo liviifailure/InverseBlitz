@@ -41953,7 +41953,7 @@ F_TRAINER_FEMALE |
 #line 16317
             .ability = ABILITY_OWN_TEMPO,
 #line 16314
-            .lvl = 16,
+            .lvl = 15,
 #line 16316
             .nature = NATURE_SERIOUS,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
@@ -42064,7 +42064,7 @@ F_TRAINER_FEMALE |
 #line 16367
             .ability = ABILITY_OWN_TEMPO,
 #line 16364
-            .lvl = 21,
+            .lvl = 20,
 #line 16366
             .nature = NATURE_SERIOUS,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
