@@ -136,6 +136,12 @@ LavaridgeTown_Gym_1F_EventScript_FlanneryDefeated::
 	setflag FLAG_BADGE04_GET
 	setvar VAR_0x8008, 4
 	setvar VAR_FORCEANIM, 0
+	goto_if_set FLAG_BOSS_FLIP, LavaridgeTown_Gym_1F_EventScript_RecordMaxie
+	recordtrainerwin TRAINER_FLANNERY_1
+	goto LavaridgeTown_Gym_1F_EventScript_DoRecord
+LavaridgeTown_Gym_1F_EventScript_RecordMaxie:
+	recordtrainerwin TRAINER_MAXIE_MAGMA_HIDEOUT
+LavaridgeTown_Gym_1F_EventScript_DoRecord:
 	clearflag FLAG_BOSS_FLIP
 	call Common_EventScript_SetGymTrainers
 	call LavaridgeTown_Gym_1F_EventScript_GiveOverheat

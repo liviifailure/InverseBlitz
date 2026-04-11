@@ -121,6 +121,7 @@ MossdeepCity_Gym_EventScript_TateAndLizaDefeated::
 	setflag FLAG_BADGE07_GET
 	setvar VAR_0x8008, 7
 	setvar VAR_FORCEANIM, 0
+	recordtrainerwin TRAINER_TATE_AND_LIZA_1
 	call Common_EventScript_SetGymTrainers
 	call MossdeepCity_Gym_EventScript_GiveCalmMind
 	closemessage

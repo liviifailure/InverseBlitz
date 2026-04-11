@@ -99,6 +99,7 @@ EverGrandeCity_ChampionsRoom_EventScript_WallyChampionScene::
 	setvar VAR_FORCEANIM, 1
 	msgbox EverGrandeCity_ChampionsRoom_Text_WallyChallenge, MSGBOX_DEFAULT
 	trainerbattle_no_intro TRAINER_WALLY, EverGrandeCity_ChampionsRoom_Text_WallyDefeat
+	recordtrainerwin TRAINER_WALLY
 	@ Post Battle
 	setvar VAR_FORCEANIM, 0
 	playse SE_DOOR
@@ -175,6 +176,7 @@ EverGrandeCity_ChampionsRoom_EventScript_StevenChampionScene::
 	playbgm MUS_ENCOUNTER_CHAMPION, FALSE
 	msgbox EverGrandeCity_ChampionsRoom_Text_IntroSpeech, MSGBOX_DEFAULT
 	trainerbattle_no_intro TRAINER_STEVEN, EverGrandeCity_ChampionsRoom_Text_Defeat
+	recordtrainerwin TRAINER_STEVEN
 	@ Post Battle
 	setvar VAR_FORCEANIM, 0
 	playse SE_DOOR

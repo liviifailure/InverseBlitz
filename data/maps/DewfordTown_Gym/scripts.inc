@@ -200,6 +200,7 @@ DewfordTown_Gym_EventScript_BrawlyDefeated::
 	setflag FLAG_BADGE02_GET
 	setvar VAR_0x8008, 2
 	setvar VAR_FORCEANIM, 0
+	recordtrainerwin TRAINER_BRAWLY_1
 	call Common_EventScript_SetGymTrainers
 	call DewfordTown_Gym_EventScript_GiveBulkUp
 	closemessage

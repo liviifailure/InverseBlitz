@@ -73,6 +73,12 @@ EverGrandeCity_PhoebesRoom_EventScript_PostBattleSpeech::
 
 EverGrandeCity_PhoebesRoom_EventScript_Defeated::
 	setvar VAR_FORCEANIM, 0
+	goto_if_set FLAG_BOSS_FLIP, EverGrandeCity_PhoebesRoom_EventScript_RecordLucy
+	recordtrainerwin TRAINER_PHOEBE
+	goto EverGrandeCity_PhoebesRoom_EventScript_DoRecord
+EverGrandeCity_PhoebesRoom_EventScript_RecordLucy:
+	recordtrainerwin TRAINER_LUCY
+EverGrandeCity_PhoebesRoom_EventScript_DoRecord:
 	setflag FLAG_DEFEATED_ELITE_4_PHOEBE
 	call PokemonLeague_EliteFour_SetAdvanceToNextRoomMetatiles
 	msgbox EverGrandeCity_PhoebesRoom_Text_PostBattleSpeech, MSGBOX_DEFAULT
@@ -102,4 +108,3 @@ EverGrandeCity_PhoebesRoom_Text_PostBattleSpeech:
 	.string "Yup, I'd like to see how far your bond\n"
 	.string "will carry you.\p"
 	.string "Go ahead, move on to the next room.$"
-

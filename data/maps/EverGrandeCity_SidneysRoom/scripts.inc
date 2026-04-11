@@ -86,6 +86,12 @@ EverGrandeCity_SidneysRoom_EventScript_PostBattleSpeech::
 
 EverGrandeCity_SidneysRoom_EventScript_Defeated::
 	setvar VAR_FORCEANIM, 0
+	goto_if_set FLAG_BOSS_FLIP, EverGrandeCity_SidneysRoom_EventScript_RecordSpenser
+	recordtrainerwin TRAINER_SIDNEY
+	goto EverGrandeCity_SidneysRoom_EventScript_DoRecord
+EverGrandeCity_SidneysRoom_EventScript_RecordSpenser:
+	recordtrainerwin TRAINER_SPENSER
+EverGrandeCity_SidneysRoom_EventScript_DoRecord:
 	setflag FLAG_DEFEATED_ELITE_4_SIDNEY
 	call PokemonLeague_EliteFour_SetAdvanceToNextRoomMetatiles
 	msgbox EverGrandeCity_SidneysRoom_Text_PostBattleSpeech, MSGBOX_DEFAULT
@@ -119,4 +125,3 @@ EverGrandeCity_SidneysRoom_Text_PostBattleSpeech:
 	.string "You've got what it takes to go far.\n"
 	.string "Now, go on to the next room and enjoy\l"
 	.string "your next battle!$"
-

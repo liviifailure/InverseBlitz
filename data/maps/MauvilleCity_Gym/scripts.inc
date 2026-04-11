@@ -142,6 +142,7 @@ MauvilleCity_Gym_EventScript_WattsonDefeated::
 	setflag FLAG_BADGE03_GET
 	setvar VAR_0x8008, 3
 	setvar VAR_FORCEANIM, 0
+	recordtrainerwin TRAINER_WATTSON_1
 	call Common_EventScript_SetGymTrainers
 	special MauvilleGymDeactivatePuzzle
 	special DrawWholeMapView
@@ -478,4 +479,3 @@ MauvilleCity_Gym_Text_WattsonRematchNeedTwoMons:
 	.string "You've only one POKéMON with you!\p"
 	.string "Come see me with two or more\n"
 	.string "POKéMON, all right?$"
-

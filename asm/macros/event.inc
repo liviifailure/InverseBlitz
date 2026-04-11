@@ -2710,3 +2710,8 @@
 	callnative ScrCmd_istmrelearneractive, requests_effects=1
 	.4byte \destination
 	.endm
+
+	.macro recordtrainerwin trainer:req
+	setvar VAR_0x8004, \trainer
+	callnative RecordTrainerCardWin
+	.endm

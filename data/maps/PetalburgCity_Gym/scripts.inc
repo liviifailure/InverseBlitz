@@ -423,6 +423,7 @@ PetalburgCity_Gym_EventScript_PostBattle::
 	special ResetHealLocationFromDewford
 	setvar VAR_0x8008, 5
 	setvar VAR_FORCEANIM, 0
+	recordtrainerwin TRAINER_NORMAN_1
 	call Common_EventScript_SetGymTrainers
 	call PetalburgCity_Gym_EventScript_UnlockAllDoors
 	special DrawWholeMapView
@@ -1620,4 +1621,3 @@ PetalburgCity_Gym_Text_NormanRematchNeedTwoMons:
 	.string "capable of battle?\p"
 	.string "Sorry, but you'll have to come back\n"
 	.string "with at least two POKéMON.$"
-

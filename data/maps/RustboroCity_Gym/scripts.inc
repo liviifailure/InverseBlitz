@@ -124,6 +124,12 @@ RustboroCity_Gym_EventScript_RoxanneDefeated::
 	setflag FLAG_BADGE01_GET
 	setvar VAR_0x8008, 1
 	setvar VAR_FORCEANIM, 0
+	goto_if_set FLAG_BOSS_FLIP, RustboroCity_Gym_EventScript_RecordViola
+	recordtrainerwin TRAINER_ROXANNE_1
+	goto RustboroCity_Gym_EventScript_DoRecord
+RustboroCity_Gym_EventScript_RecordViola:
+	recordtrainerwin TRAINER_VIOLA_1
+RustboroCity_Gym_EventScript_DoRecord:
 	clearflag FLAG_BOSS_FLIP
 	call Common_EventScript_SetGymTrainers
 	goto RustboroCity_Gym_EventScript_GiveRockTomb

@@ -1,6 +1,8 @@
 #ifndef GUARD_TRAINER_CARD_H
 #define GUARD_TRAINER_CARD_H
 
+struct ScriptContext;
+
 #define TRAINER_CARD_PROFILE_LENGTH  4
 #define TRAINER_CARD_STICKER_TYPES   3
 
@@ -60,6 +62,8 @@ struct TrainerCard
              // which they use for a Wonder Card flag id instead (see CreateTrainerCardInBuffer)
     /*0x60*/ bool16 hasAllFrontierSymbols;
     /*0x62*/ u16 frontierBP;
+    struct TrainerCardWin wins[13];
+    u8 winsCount;
 };
 
 extern struct TrainerCard gTrainerCards[4];
@@ -70,5 +74,6 @@ void CopyTrainerCardData(struct TrainerCard *dst, struct TrainerCard *src, u8 ga
 void ShowPlayerTrainerCard(void (*callback)(void));
 void ShowTrainerCardInLink(u8 cardId, void (*callback)(void));
 void TrainerCard_GenerateCardForLinkPlayer(struct TrainerCard *trainerCard);
+void RecordTrainerCardWin(struct ScriptContext *ctx);
 
 #endif // GUARD_TRAINER_CARD_H

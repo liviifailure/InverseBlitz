@@ -22,8 +22,9 @@
 #include "international_string_util.h"
 #include "pokedex.h"
 #include "pokemon_icon.h"
+#include "data.h"
 #include "graphics.h"
-#include "pokemon_icon.h"
+#include "battle_setup.h"
 #include "trainer_pokemon_sprites.h"
 #include "contest_util.h"
 #include "decompress.h"
@@ -36,6 +37,8 @@
 #include "constants/union_room.h"
 
 const u16 *GetPlayerObjectEventPaletteData(u8 gender);
+
+extern const u8 gText_BeatChampion[];
 
 enum {
     WIN_MSG,
@@ -75,6 +78,8 @@ struct TrainerCardData
     u8 textNumLinkPokeblocks[70];
     u8 textNumLinkContests[70];
     u8 textBattleFacilityStat[70];
+    u8 winNames[12][32];
+    u8 winTimes[12][32];
     u16 monIconPal[16 * PARTY_SIZE];
     s8 flipBlendY;
     bool8 timeColonNeedDraw;
@@ -147,6 +152,7 @@ static void PrintUnionStringOnCard(void);
 static void PrintContestStringOnCard(void);
 static void PrintPokemonIconsOnCard(void);
 static void PrintBattleFacilityStringOnCard(void);
+static void PrintWinRecords(void);
 static void PrintStickersOnCard(void);
 static void BufferTextsVarsForCardPage2(void);
 static void BufferNameForCardBack(void);
@@ -158,6 +164,7 @@ static void BufferUnionRoomStats(void);
 static void BufferLinkPokeblocksNum(void);
 static void BufferLinkContestNum(void);
 static void BufferBattleFacilityStats(void);
+static void BufferWinRecords(void);
 static void PrintStatOnBackOfCard(u8 top, const u8 *str1, u8 *str2, const u8 *color);
 static void LoadStickerGfx(void);
 static u8 SetCardBgsAndPals(void);
@@ -732,6 +739,10 @@ static void SetPlayerCardData(struct TrainerCard *trainerCard, u8 cardType)
 
     trainerCard->money = GetMoney(&gSaveBlock1Ptr->money);
 
+    trainerCard->winsCount = gSaveBlock2Ptr->trainerCardWinsCount;
+    for (i = 0; i < 13; i++)
+        trainerCard->wins[i] = gSaveBlock2Ptr->trainerCardWins[i];
+
     for (i = 0; i < TRAINER_CARD_PROFILE_LENGTH; i++)
         trainerCard->easyChatProfile[i] = gSaveBlock1Ptr->easyChatProfile[i];
 
@@ -960,28 +971,9 @@ static bool8 PrintAllOnCardBack(void)
         PrintNameOnCardBack();
         break;
     case 1:
-        PrintHofDebutTimeOnCard();
-        break;
-    case 2:
-        PrintLinkBattleResultsOnCard();
-        break;
-    case 3:
-        PrintTradesStringOnCard();
-        break;
-    case 4:
-        PrintBerryCrushStringOnCard();
-        PrintPokeblockStringOnCard();
-        break;
-    case 5:
-        PrintUnionStringOnCard();
-        PrintContestStringOnCard();
-        break;
-    case 6:
-        PrintPokemonIconsOnCard();
-        PrintBattleFacilityStringOnCard();
+        PrintWinRecords();
         break;
     case 7:
-        PrintStickersOnCard();
         break;
     default:
         sData->printState = 0;
@@ -1002,6 +994,7 @@ static void BufferTextsVarsForCardPage2(void)
     BufferLinkPokeblocksNum();
     BufferLinkContestNum();
     BufferBattleFacilityStats();
+    BufferWinRecords();
 }
 
 static void PrintNameOnCardFront(void)
@@ -1179,7 +1172,22 @@ static void BufferNameForCardBack(void)
 {
     StringCopy(sData->textPlayersCard, sData->trainerCard.playerName);
     ConvertInternationalString(sData->textPlayersCard, sData->language);
-    if (sData->cardType != CARD_TYPE_FRLG)
+
+    if (sData->trainerCard.winsCount > 12)
+    {
+        const u8 *name = GetTrainerNameFromId(sData->trainerCard.wins[12].trainerId);
+        StringCopy(gStringVar1, name);
+
+        u8 *str = gStringVar2;
+        str = ConvertIntToDecimalStringN(str, sData->trainerCard.wins[12].hours, STR_CONV_MODE_LEFT_ALIGN, 3);
+        *str++ = CHAR_COLON;
+        str = ConvertIntToDecimalStringN(str, sData->trainerCard.wins[12].minutes, STR_CONV_MODE_LEADING_ZEROS, 2);
+        *str++ = CHAR_COLON;
+        ConvertIntToDecimalStringN(str, sData->trainerCard.wins[12].seconds, STR_CONV_MODE_LEADING_ZEROS, 2);
+
+        StringExpandPlaceholders(sData->textPlayersCard, gText_BeatChampion);
+    }
+    else if (sData->cardType != CARD_TYPE_FRLG)
     {
         StringCopy(gStringVar1, sData->textPlayersCard);
         StringExpandPlaceholders(sData->textPlayersCard, gText_Var1sTrainerCard);
@@ -1188,7 +1196,12 @@ static void BufferNameForCardBack(void)
 
 static void PrintNameOnCardBack(void)
 {
-    if (!sData->isHoenn)
+    if (sData->trainerCard.winsCount > 12)
+    {
+        s32 x = (224 - GetStringWidth(FONT_NORMAL, sData->textPlayersCard, 0)) / 2;
+        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, x, 9, sTrainerCardTextColors, TEXT_SKIP_DRAW, sData->textPlayersCard);
+    }
+    else if (!sData->isHoenn)
         AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 136, 9, sTrainerCardTextColors, TEXT_SKIP_DRAW, sData->textPlayersCard);
     else
         AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, GetStringRightAlignXOffset(FONT_NORMAL, sData->textPlayersCard, 216), 9, sTrainerCardTextColors, TEXT_SKIP_DRAW, sData->textPlayersCard);
@@ -1351,6 +1364,46 @@ static void PrintBattleFacilityStringOnCard(void)
         break;
     case CARD_TYPE_FRLG:
         break;
+    }
+}
+
+static void BufferWinRecords(void)
+{
+    u32 i;
+    for (i = 0; i < sData->trainerCard.winsCount && i < 12; i++)
+    {
+        StringCopy(sData->winNames[i], GetTrainerNameFromId(sData->trainerCard.wins[i].trainerId));
+        ConvertInternationalString(sData->winNames[i], sData->language);
+
+        u8 *str = sData->winTimes[i];
+        str = ConvertIntToDecimalStringN(str, sData->trainerCard.wins[i].hours, STR_CONV_MODE_LEFT_ALIGN, 3);
+        *str++ = CHAR_COLON;
+        str = ConvertIntToDecimalStringN(str, sData->trainerCard.wins[i].minutes, STR_CONV_MODE_LEADING_ZEROS, 2);
+        *str++ = CHAR_COLON;
+        ConvertIntToDecimalStringN(str, sData->trainerCard.wins[i].seconds, STR_CONV_MODE_LEADING_ZEROS, 2);
+    }
+}
+
+static void PrintWinRecords(void)
+{
+    u32 i;
+    u32 x, y;
+    for (i = 0; i < sData->trainerCard.winsCount && i < 12; i++)
+    {
+        if (i < 6)
+        {
+            x = 8;
+            y = i * 16 + 33;
+        }
+        else
+        {
+            x = 120;
+            y = (i - 6) * 16 + 33;
+        }
+        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, x, y, sTrainerCardTextColors, TEXT_SKIP_DRAW, sData->winNames[i]);
+
+        u32 timeX = x + 104 - GetStringWidth(FONT_NORMAL, sData->winTimes[i], 0);
+        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, timeX, y, sTrainerCardStatColors, TEXT_SKIP_DRAW, sData->winTimes[i]);
     }
 }
 
@@ -1538,43 +1591,10 @@ static void DrawStarsAndBadgesOnCard(void)
 
 static void DrawCardBackStats(void)
 {
-    if (sData->cardType == CARD_TYPE_FRLG)
+    // Disabled to prevent overlap with the new win records list.
+    if (sData->cardType == CARD_TYPE_FRLG && sData->trainerCard.shouldDrawStickers == TRUE)
     {
-        if (sData->hasTrades)
-        {
-            FillBgTilemapBufferRect(3, 141, 27, 9, 1, 1, 1);
-            FillBgTilemapBufferRect(3, 157, 27, 10, 1, 1, 1);
-        }
-        if (sData->trainerCard.linkPoints.berryCrush)
-        {
-            FillBgTilemapBufferRect(3, 141, 21, 13, 1, 1, 1);
-            FillBgTilemapBufferRect(3, 157, 21, 14, 1, 1, 1);
-        }
-        if (sData->trainerCard.unionRoomNum)
-        {
-            FillBgTilemapBufferRect(3, 141, 27, 11, 1, 1, 1);
-            FillBgTilemapBufferRect(3, 157, 27, 12, 1, 1, 1);
-        }
-    }
-    else
-    {
-        if (sData->hasTrades)
-        {
-            FillBgTilemapBufferRect(3, 141, 27, 9, 1, 1, 0);
-            FillBgTilemapBufferRect(3, 157, 27, 10, 1, 1, 0);
-        }
-        if (sData->trainerCard.contestsWithFriends)
-        {
-            FillBgTilemapBufferRect(3, 141, 27, 13, 1, 1, 0);
-            FillBgTilemapBufferRect(3, 157, 27, 14, 1, 1, 0);
-        }
-        if (sData->hasBattleTowerWins)
-        {
-            FillBgTilemapBufferRect(3, 141, 17, 15, 1, 1, 0);
-            FillBgTilemapBufferRect(3, 157, 17, 16, 1, 1, 0);
-            FillBgTilemapBufferRect(3, 140, 27, 15, 1, 1, 0);
-            FillBgTilemapBufferRect(3, 156, 27, 16, 1, 1, 0);
-        }
+        PrintStickersOnCard();
     }
     CopyBgTilemapBufferToVram(3);
 }
@@ -1611,6 +1631,20 @@ static bool8 IsCardFlipTaskActive(void)
         return TRUE;
     else
         return FALSE;
+}
+
+void RecordTrainerCardWin(struct ScriptContext *ctx)
+{
+    if (gSaveBlock2Ptr->trainerCardWinsCount < 13)
+    {
+        u16 trainerId = VarGet(VAR_0x8004);
+        u8 i = gSaveBlock2Ptr->trainerCardWinsCount;
+        gSaveBlock2Ptr->trainerCardWins[i].trainerId = trainerId;
+        gSaveBlock2Ptr->trainerCardWins[i].hours = gSaveBlock2Ptr->playTimeHours;
+        gSaveBlock2Ptr->trainerCardWins[i].minutes = gSaveBlock2Ptr->playTimeMinutes;
+        gSaveBlock2Ptr->trainerCardWins[i].seconds = gSaveBlock2Ptr->playTimeSeconds;
+        gSaveBlock2Ptr->trainerCardWinsCount++;
+    }
 }
 
 static void Task_DoCardFlipTask(u8 taskId)

@@ -135,8 +135,19 @@ void ShowRentalMon(void)
 void GiveRentalMon(void)
 {
     struct Pokemon *mon = &gEnemyParty[0];
-    u8 result = GiveMonToPlayer(mon);
-    gSpecialVar_Result = result;
+    u8 count = CalculatePlayerPartyCount();
+
+    if (count < PARTY_SIZE)
+    {
+        gPlayerParty[count] = *mon;
+        gPlayerPartyCount = count + 1;
+        gSpecialVar_Result = 0; // Added to party
+    }
+    else
+    {
+        u8 result = GiveMonToPlayer(mon);
+        gSpecialVar_Result = result;
+    }
 }
 
 void TakeAllMoney(void)

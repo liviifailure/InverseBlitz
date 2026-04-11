@@ -276,6 +276,14 @@ struct Pokedex
 #endif //FREE_EXTRA_SEEN_FLAGS_SAVEBLOCK2
 };
 
+struct TrainerCardWin
+{
+    u16 trainerId;
+    u16 hours;
+    u8 minutes;
+    u8 seconds;
+};
+
 struct PokemonJumpRecords
 {
     u16 jumpsInRow;
@@ -609,6 +617,8 @@ struct SaveBlock2
 #endif //FREE_RECORD_MIXING_HALL_RECORDS
     /*0x624*/ u16 contestLinkResults[CONTEST_CATEGORIES_COUNT][CONTESTANT_COUNT];
     /*0x64C*/ struct BattleFrontier frontier;
+    struct TrainerCardWin trainerCardWins[13];
+    u8 trainerCardWinsCount;
 }; // sizeof=0xF2C
 
 extern struct SaveBlock2 *gSaveBlock2Ptr;

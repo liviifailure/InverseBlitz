@@ -172,6 +172,13 @@ SootopolisCity_Gym_1F_EventScript_JuanDefeated::
 	setflag FLAG_BADGE08_GET
 	setvar VAR_0x8008, 8
    	setvar VAR_FORCEANIM, 0
+	goto_if_set FLAG_BOSS_FLIP, SootopolisCity_Gym_1F_EventScript_RecordArchie
+	setvar VAR_0x8004, TRAINER_JUAN_1
+	goto SootopolisCity_Gym_1F_EventScript_DoRecord
+SootopolisCity_Gym_1F_EventScript_RecordArchie:
+	setvar VAR_0x8004, TRAINER_ARCHIE
+SootopolisCity_Gym_1F_EventScript_DoRecord:
+	callnative RecordTrainerCardWin
 	clearflag FLAG_BOSS_FLIP
 	call Common_EventScript_SetGymTrainers
 	call SootopolisCity_Gym_1F_EventScript_GiveWaterPulse

@@ -73,6 +73,12 @@ EverGrandeCity_GlaciasRoom_EventScript_PostBattleSpeech::
 
 EverGrandeCity_GlaciasRoom_EventScript_Defeated::
 	setvar VAR_FORCEANIM, 0
+	goto_if_set FLAG_BOSS_FLIP, EverGrandeCity_GlaciasRoom_EventScript_RecordTucker
+	recordtrainerwin TRAINER_GLACIA
+	goto EverGrandeCity_GlaciasRoom_EventScript_DoRecord
+EverGrandeCity_GlaciasRoom_EventScript_RecordTucker:
+	recordtrainerwin TRAINER_TUCKER
+EverGrandeCity_GlaciasRoom_EventScript_DoRecord:
 	setflag FLAG_DEFEATED_ELITE_4_GLACIA
 	call PokemonLeague_EliteFour_SetAdvanceToNextRoomMetatiles
 	msgbox EverGrandeCity_GlaciasRoom_Text_PostBattleSpeech, MSGBOX_DEFAULT
@@ -99,4 +105,3 @@ EverGrandeCity_GlaciasRoom_Text_PostBattleSpeech:
 	.string "Advance to the next room.\p"
 	.string "And there, confirm the truly fearsome\n"
 	.string "side of the POKéMON LEAGUE.$"
-

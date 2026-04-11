@@ -1183,7 +1183,6 @@ SlateportCity_EventScript_RentalGiven::
 	copyvar VAR_RENTAL_MON_SPECIES, VAR_RENTAL_MON_OFFER
 	copyvar VAR_RENTAL_BADGE_COUNT, VAR_BADGE_COUNT
 	setvar VAR_RENTAL_MON_OFFER, 0
-	
 	msgbox SlateportCity_Text_ShadyManWarning, MSGBOX_DEFAULT
 	release
 	end

@@ -750,6 +750,7 @@ const u8 gText_SavingFaints[] = _("DEATHS");
 const u8 gJPText_BattlePoints[] = _("ゲ-ムポイント"); // Unused. Name presumed, translation is Game Points
 const u8 gText_KOLeader[] = _("MVP");
 const u8 gText_Var1sTrainerCard[] = _("{STR_VAR_1}'s TRAINER CARD");
+const u8 gText_BeatChampion[] = _("Beat {STR_VAR_1}! {STR_VAR_2}");
 const u8 gText_HallOfFameDebut[] = _("HALL OF FAME DEBUT  ");
 const u8 gText_LinkBattles[] = _("LINK BATTLES");
 const u8 gText_LinkCableBattles[] = _("LINK CABLE BATTLES");

@@ -75,6 +75,12 @@ EverGrandeCity_DrakesRoom_EventScript_PostBattleSpeech::
 EverGrandeCity_DrakesRoom_EventScript_Defeated::
 	setvar VAR_0x8004, FANCOUNTER_DEFEATED_DRAKE
 	setvar VAR_FORCEANIM, 0
+	goto_if_set FLAG_BOSS_FLIP, EverGrandeCity_DrakesRoom_EventScript_RecordBrandon
+	recordtrainerwin TRAINER_DRAKE
+	goto EverGrandeCity_DrakesRoom_EventScript_DoRecord
+EverGrandeCity_DrakesRoom_EventScript_RecordBrandon:
+	recordtrainerwin TRAINER_BRANDON
+EverGrandeCity_DrakesRoom_EventScript_DoRecord:
 	clearflag FLAG_BOSS_FLIP
 	special Script_TryGainNewFanFromCounter
 	setflag FLAG_DEFEATED_ELITE_4_DRAKE
@@ -110,4 +116,3 @@ EverGrandeCity_DrakesRoom_Text_PostBattleSpeech:
 	.string "TRAINERS and grow strong.\p"
 	.string "Go! Go onwards!\n"
 	.string "The CHAMPION is waiting!$"
-
