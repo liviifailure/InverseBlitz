@@ -150,6 +150,16 @@ void GiveRentalMon(void)
     }
 }
 
+void GenerateRentalOffer(void)
+{
+    u16 trainerId = (gSaveBlock2Ptr->playerTrainerId[1] << 8) | gSaveBlock2Ptr->playerTrainerId[0];
+    u16 badges = VarGet(VAR_BADGE_COUNT);
+    // Deterministic seed based on Player ID and Badge Count.
+    // This ensures the same species is offered until a badge is earned.
+    u32 seed = (u32)trainerId + (badges * 127);
+    gSpecialVar_Result = seed % 27;
+}
+
 void TakeAllMoney(void)
 {
     u32 money = GetMoney(&gSaveBlock1Ptr->money);

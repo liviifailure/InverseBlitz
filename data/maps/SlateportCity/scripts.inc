@@ -1044,7 +1044,7 @@ SlateportCity_EventScript_ShadyRentalMan::
 	
 	@ Generate offer if not already set
 	goto_if_ne VAR_RENTAL_MON_OFFER, 0, SlateportCity_EventScript_ShadyManShowOffer
-	random 27
+	callnative GenerateRentalOffer
 	switch VAR_RESULT
 	case 0, SlateportCity_EventScript_SetOfferSkarmory
 	case 1, SlateportCity_EventScript_SetOfferFalinks
