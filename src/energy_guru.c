@@ -9,9 +9,10 @@
 
 // Checks if a specific species meets the Energy Guru's criteria
 // Criteria: Evolves via Level Up > 30 AND the target species can evolve again.
-static u16 GetEnergyGuruEvolutionTarget(u16 species)
+static u16 GetEnergyGuruEvolutionTarget(struct Pokemon *mon, u32 partyId)
 {
     int i;
+    u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
     const struct Evolution *evolutions = GetSpeciesEvolutions(species);
 
     if (evolutions == NULL)
@@ -19,7 +20,9 @@ static u16 GetEnergyGuruEvolutionTarget(u16 species)
 
     for (i = 0; evolutions[i].method != EVOLUTIONS_END; i++)
     {
-        if (evolutions[i].method == EVO_LEVEL && evolutions[i].param > 30)
+        if (evolutions[i].method == EVO_LEVEL 
+            && evolutions[i].param >= 30
+            && DoesMonMeetAdditionalConditions(mon, evolutions[i].params, NULL, partyId, NULL, CHECK_EVO))
         {
             // Check if the target species can evolve further
             const struct Evolution *targetEvolutions = GetSpeciesEvolutions(evolutions[i].targetSpecies);
@@ -37,16 +40,14 @@ void CheckPartyForEnergyGuruMon(void)
 {
     int i;
     struct Pokemon *mon;
-    u16 species;
 
     gSpecialVar_Result = FALSE;
 
     for (i = 0; i < gPlayerPartyCount; i++)
     {
         mon = &gPlayerParty[i];
-        species = GetMonData(mon, MON_DATA_SPECIES, NULL);
 
-        if (!GetMonData(mon, MON_DATA_IS_EGG, NULL) && GetEnergyGuruEvolutionTarget(species) != SPECIES_NONE)
+        if (!GetMonData(mon, MON_DATA_IS_EGG, NULL) && GetEnergyGuruEvolutionTarget(mon, i) != SPECIES_NONE)
         {
             gSpecialVar_Result = TRUE;
             return;
@@ -56,7 +57,6 @@ void CheckPartyForEnergyGuruMon(void)
 
 void CheckSelectedMonForEnergyGuru(void)
 {
-    u16 species;
     struct Pokemon *mon = &gPlayerParty[gSpecialVar_0x8004];
 
     gSpecialVar_Result = FALSE;
@@ -64,8 +64,7 @@ void CheckSelectedMonForEnergyGuru(void)
     if (GetMonData(mon, MON_DATA_IS_EGG, NULL))
         return;
 
-    species = GetMonData(mon, MON_DATA_SPECIES, NULL);
-    if (GetEnergyGuruEvolutionTarget(species) != SPECIES_NONE)
+    if (GetEnergyGuruEvolutionTarget(mon, gSpecialVar_0x8004) != SPECIES_NONE)
     {
         gSpecialVar_Result = TRUE;
     }
@@ -73,12 +72,10 @@ void CheckSelectedMonForEnergyGuru(void)
 
 void TriggerEnergyGuruEvolution(void)
 {
-    u16 species;
     u16 targetSpecies;
     struct Pokemon *mon = &gPlayerParty[gSpecialVar_0x8004];
 
-    species = GetMonData(mon, MON_DATA_SPECIES, NULL);
-    targetSpecies = GetEnergyGuruEvolutionTarget(species);
+    targetSpecies = GetEnergyGuruEvolutionTarget(mon, gSpecialVar_0x8004);
 
     if (targetSpecies != SPECIES_NONE)
     {
@@ -93,10 +90,11 @@ void TriggerEnergyGuruEvolution(void)
 // 1. Current form didn't evolve from any pokemon (Base stage).
 // 2. Evolves via Level Up > 36.
 // 3. Target species cannot evolve further (Only evolves one more time).
-static u16 GetEffortRibbonEvolutionTarget(u16 species)
+static u16 GetEffortRibbonEvolutionTarget(struct Pokemon *mon, u32 partyId)
 {
     int i;
     const struct Evolution *evolutions;
+    u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
 
     // Condition 1: Current form didn't evolve from any pokemon
     if (GetSpeciesPreEvolution(species) != SPECIES_NONE)
@@ -109,7 +107,9 @@ static u16 GetEffortRibbonEvolutionTarget(u16 species)
     for (i = 0; evolutions[i].method != EVOLUTIONS_END; i++)
     {
         // Condition 2: Evolves via Level Up > 36
-        if (evolutions[i].method == EVO_LEVEL && evolutions[i].param > 36)
+        if (evolutions[i].method == EVO_LEVEL 
+            && evolutions[i].param >= 36 
+            && DoesMonMeetAdditionalConditions(mon, evolutions[i].params, NULL, partyId, NULL, CHECK_EVO))
         {
             // Condition 3: Target species cannot evolve further
             const struct Evolution *targetEvolutions = GetSpeciesEvolutions(evolutions[i].targetSpecies);
@@ -127,16 +127,14 @@ void CheckPartyForEffortRibbonMon(void)
 {
     int i;
     struct Pokemon *mon;
-    u16 species;
 
     gSpecialVar_Result = FALSE;
 
     for (i = 0; i < gPlayerPartyCount; i++)
     {
         mon = &gPlayerParty[i];
-        species = GetMonData(mon, MON_DATA_SPECIES, NULL);
 
-        if (!GetMonData(mon, MON_DATA_IS_EGG, NULL) && GetEffortRibbonEvolutionTarget(species) != SPECIES_NONE)
+        if (!GetMonData(mon, MON_DATA_IS_EGG, NULL) && GetEffortRibbonEvolutionTarget(mon, i) != SPECIES_NONE)
         {
             gSpecialVar_Result = TRUE;
             return;
@@ -146,7 +144,6 @@ void CheckPartyForEffortRibbonMon(void)
 
 void CheckSelectedMonForEffortRibbon(void)
 {
-    u16 species;
     struct Pokemon *mon = &gPlayerParty[gSpecialVar_0x8004];
 
     gSpecialVar_Result = FALSE;
@@ -154,8 +151,7 @@ void CheckSelectedMonForEffortRibbon(void)
     if (GetMonData(mon, MON_DATA_IS_EGG, NULL))
         return;
 
-    species = GetMonData(mon, MON_DATA_SPECIES, NULL);
-    if (GetEffortRibbonEvolutionTarget(species) != SPECIES_NONE)
+    if (GetEffortRibbonEvolutionTarget(mon, gSpecialVar_0x8004) != SPECIES_NONE)
     {
         gSpecialVar_Result = TRUE;
     }
@@ -163,12 +159,10 @@ void CheckSelectedMonForEffortRibbon(void)
 
 void TriggerEffortRibbonEvolution(void)
 {
-    u16 species;
     u16 targetSpecies;
     struct Pokemon *mon = &gPlayerParty[gSpecialVar_0x8004];
 
-    species = GetMonData(mon, MON_DATA_SPECIES, NULL);
-    targetSpecies = GetEffortRibbonEvolutionTarget(species);
+    targetSpecies = GetEffortRibbonEvolutionTarget(mon, gSpecialVar_0x8004);
 
     if (targetSpecies != SPECIES_NONE)
     {

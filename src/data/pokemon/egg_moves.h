@@ -934,20 +934,7 @@ static const u16 sChikoritaEggMoveLearnset[] = {
 
 #if P_FAMILY_CYNDAQUIL
 static const u16 sCyndaquilEggMoveLearnset[] = {
-    MOVE_FURY_SWIPES,
-    MOVE_QUICK_ATTACK,
-    MOVE_REVERSAL,
-    MOVE_THRASH,
-    MOVE_FORESIGHT,
-    MOVE_COVET,
-    MOVE_HOWL,
-    MOVE_CRUSH_CLAW,
-    MOVE_DOUBLE_EDGE,
-    MOVE_DOUBLE_KICK,
-    MOVE_FLARE_BLITZ,
     MOVE_EXTRASENSORY,
-    MOVE_NATURE_POWER,
-    MOVE_FLAME_BURST,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_CYNDAQUIL
@@ -2309,14 +2296,6 @@ static const u16 sTepigEggMoveLearnset[] = {
 
 #if P_FAMILY_OSHAWOTT
 static const u16 sOshawottEggMoveLearnset[] = {
-    MOVE_COPYCAT,
-    MOVE_DETECT,
-    MOVE_AIR_SLASH,
-    MOVE_ASSURANCE,
-    MOVE_BRINE,
-    MOVE_NIGHT_SLASH,
-    MOVE_TRUMP_CARD,
-    MOVE_SCREECH,
     MOVE_SACRED_SWORD,
     MOVE_UNAVAILABLE,
 };
@@ -2976,6 +2955,13 @@ static const u16 sBouffalantEggMoveLearnset[] = {
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_BOUFFALANT
+
+#if P_FAMILY_RUFFLET
+static const u16 sRuffletEggMoveLearnset[] = {
+    MOVE_ROOST,
+    MOVE_UNAVAILABLE,
+};
+#endif //P_FAMILY_RUFFLET
 
 #if P_FAMILY_VULLABY
 static const u16 sVullabyEggMoveLearnset[] = {

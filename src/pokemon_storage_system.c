@@ -6593,6 +6593,44 @@ static void InitCanReleaseMonVars(void)
         sStorage->releaseBoxPos = sCursorPosition;
     }
 
+    // Check if the Pokémon is a rental based on the hardcoded list
+    {
+        u16 species = GetMonData(&sStorage->tempMon, MON_DATA_SPECIES);
+        switch (species)
+        {
+        case SPECIES_SKARMORY:
+        case SPECIES_FALINKS:
+        case SPECIES_HAWLUCHA:
+        case SPECIES_DRAMPA:
+        case SPECIES_HERACROSS:
+        case SPECIES_PINSIR:
+        case SPECIES_KANGASKHAN:
+        case SPECIES_ABSOL:
+        case SPECIES_ZANGOOSE:
+        case SPECIES_SEVIPER:
+        case SPECIES_TORKOAL:
+        case SPECIES_TROPIUS:
+        case SPECIES_TURTONATOR:
+        case SPECIES_LAPRAS:
+        case SPECIES_MILTANK:
+        case SPECIES_MIMIKYU:
+        case SPECIES_TOGEDEMARU:
+        case SPECIES_BOMBIRDIER:
+        case SPECIES_DHELMISE:
+        case SPECIES_RELICANTH:
+        case SPECIES_BOUFFALANT:
+        case SPECIES_CARNIVINE:
+        case SPECIES_HEATMOR:
+        case SPECIES_DURANT:
+        case SPECIES_COMFEY:
+        case SPECIES_CRYOGONAL:
+        case SPECIES_STONJOURNER:
+            sStorage->releaseStatusResolved = TRUE;
+            sStorage->canReleaseMon = FALSE;
+            return;
+        }
+    }
+
     GetRestrictedReleaseMoves(sStorage->restrictedMoveList);
     sStorage->restrictedReleaseMonMoves = GetMonData(&sStorage->tempMon, MON_DATA_KNOWN_MOVES, (u8 *)sStorage->restrictedMoveList);
     if (sStorage->restrictedReleaseMonMoves != 0)

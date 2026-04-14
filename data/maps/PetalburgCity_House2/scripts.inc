@@ -15,16 +15,18 @@ PetalburgCity_House2_EventScript_SchoolKid::
 	end
 
 PetalburgCity_House2_EventScript_EnableDebugMode::
-	setflag FLAG_BADGE01_GET
-	setflag FLAG_BADGE02_GET
-	setflag FLAG_BADGE03_GET
-	setflag FLAG_BADGE04_GET
-	setvar VAR_BADGE_COUNT, 4
-	setflag FLAG_VISITED_SLATEPORT_CITY
-	setflag FLAG_VISITED_FORTREE_CITY
-	setflag FLAG_VISITED_EVER_GRANDE_CITY
-	setflag FLAG_LANDMARK_POKEMON_LEAGUE
-	givemon SPECIES_ESPEON, 22
+	//setflag FLAG_BADGE01_GET
+	//setflag FLAG_BADGE02_GET
+	//setflag FLAG_BADGE03_GET
+	//setflag FLAG_BADGE04_GET
+	//clearflag FLAG_TWO_BADGES
+	//clearflag FLAG_FOUR_BADGES
+	//setvar VAR_BADGE_COUNT, 4
+	//setflag FLAG_VISITED_SLATEPORT_CITY
+	//setflag FLAG_VISITED_FORTREE_CITY
+	//setflag FLAG_VISITED_EVER_GRANDE_CITY
+	//setflag FLAG_LANDMARK_POKEMON_LEAGUE
+	//givemon SPECIES_ESPEON, 22
 	release
 	end
 

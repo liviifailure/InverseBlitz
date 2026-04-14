@@ -260,6 +260,8 @@ static const u16 sNewGamePCItems[][2] =
     { ITEM_TM_PSYCHIC, 20 },
     { ITEM_TM_REFLECT, 20 },
     { ITEM_TM_REST, 20 },
+    { ITEM_TM_RETURN, 20 },
+    { ITEM_TM_ROCK_SLIDE, 20 },
     { ITEM_TM_ROCK_TOMB, 20 },
     { ITEM_TM_SHADOW_BALL, 20 },
     { ITEM_TM_SLUDGE_BOMB, 20 },
