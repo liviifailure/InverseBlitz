@@ -1529,7 +1529,28 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
         ExtractMonSkillStatsData(mon, sum);
         break;
     case 3:
-        GetMonData(mon, MON_DATA_OT_NAME, sum->OTName);
+        if (sMonSummaryScreen->monList.mons == gEnemyParty && (gBattleTypeFlags & BATTLE_TYPE_TRAINER))
+        {
+            // Use the opponent trainer's name for enemy Pokémon
+            u16 trainerId;
+            if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
+                trainerId = (sMonSummaryScreen->curMonIndex >= (PARTY_SIZE / 2)) ? TRAINER_BATTLE_PARAM.opponentB : TRAINER_BATTLE_PARAM.opponentA;
+            else
+                trainerId = TRAINER_BATTLE_PARAM.opponentA;
+
+            if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
+            {
+            }
+            else
+            {
+                u16 sanitizedId = SanitizeTrainerId(trainerId);
+                StringCopy(sum->OTName, gTrainers[GetTrainerDifficultyLevel(sanitizedId)][sanitizedId].trainerName);
+            }
+        }
+        else
+        {
+            GetMonData(mon, MON_DATA_OT_NAME, sum->OTName);
+        }
         ConvertInternationalString(sum->OTName, GetMonData(mon, MON_DATA_LANGUAGE));
         sum->ailment = GetMonAilment(mon);
         sum->OTGender = GetMonData(mon, MON_DATA_OT_GENDER);

@@ -245,6 +245,7 @@ LittlerootTown_BrendansHouse_2F_Movement_PlayerWatchBrendanEast:
 
 LittlerootTown_BrendansHouse_2F_EventScript_PC::
 	lockall
+	setflag FLAG_UNUSED_0x265
 	checkplayergender
 	goto_if_eq VAR_RESULT, MALE, LittlerootTown_BrendansHouse_2F_EventScript_CheckPlayersPC
 	goto_if_eq VAR_RESULT, FEMALE, LittlerootTown_BrendansHouse_2F_EventScript_CheckRivalsPC
@@ -360,6 +361,7 @@ LittlerootTown_BrendansHouse_2F_EventScript_CheckRivalsPC::
 
 PlayersHouse_2F_EventScript_Notebook::
 	lock
+	setflag FLAG_UNUSED_0x266
 	call EventScript_ChooseGiftPokemon
 	release
 	end
@@ -409,7 +411,7 @@ Common_Text_LookCloserAtMap:
 PlayersHouse_2F_Text_ItsAGameCube:
 	.string "It's a Nintendo GameCube.\p"
 	.string "It's currently playing\n"
-	.string "POKéMON EMERALD BLITZ v8.61.$"
+	.string "POKéMON EMERALD BLITZ v8.62.$"
 
 PlayersHouse_2F_Text_DustyFossil:
 	.string "{PLAYER} looked under the bed…\p"

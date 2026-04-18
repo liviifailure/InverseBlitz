@@ -76,6 +76,10 @@ static void PlayerHandleResetActionMoveSelection(u32 battler);
 static void PlayerHandleEndLinkBattle(u32 battler);
 static void PlayerHandleBattleDebug(u32 battler);
 
+static void OpenEnemyPartyMenu(u32 battler);
+static void WaitForEnemyPartyMenu(u32 battler);
+extern void OpenEnemyPartyMenuInBattle(void);
+
 static void PlayerBufferRunCommand(u32 battler);
 static void MoveSelectionDisplayPpNumber(u32 battler);
 static void MoveSelectionDisplayPpString(u32 battler);
@@ -305,6 +309,14 @@ static void HandleInputChooseAction(u32 battler)
         PlaySE(SE_SELECT);
         TryHideLastUsedBall();
 
+        if (gActionSelectionCursor[battler] == 3 && (gBattleTypeFlags & BATTLE_TYPE_TRAINER))
+        {
+            // Open enemy party menu
+            BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
+            gBattlerControllerFuncs[battler] = OpenEnemyPartyMenu;
+            return;
+        }
+
         switch (gActionSelectionCursor[battler])
         {
         case 0: // Top left
@@ -405,6 +417,25 @@ static void HandleInputChooseAction(u32 battler)
         TryHideLastUsedBall();
         BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_THROW_BALL, 0);
         BtlController_Complete(battler);
+    }
+}
+
+static void OpenEnemyPartyMenu(u32 battler)
+{
+    if (!gPaletteFade.active)
+    {
+        gBattlerControllerFuncs[battler] = WaitForEnemyPartyMenu;
+        FreeAllWindowBuffers();
+        OpenEnemyPartyMenuInBattle();
+    }
+}
+
+static void WaitForEnemyPartyMenu(u32 battler)
+{
+    if (gMain.callback2 == BattleMainCB2 && !gPaletteFade.active)
+    {
+        // Return to normal action selection
+        PlayerHandleChooseAction(battler);
     }
 }
 
@@ -1995,11 +2026,16 @@ static void HandleChooseActionAfterDma3(u32 battler)
 
 static void PlayerHandleChooseAction(u32 battler)
 {
+    extern const u8 gText_BattleMenuTrainer[];
     s32 i;
 
     gBattlerControllerFuncs[battler] = HandleChooseActionAfterDma3;
     BattleTv_ClearExplosionFaintCause();
-    BattlePutTextOnWindow(gText_BattleMenu, B_WIN_ACTION_MENU);
+
+    if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+        BattlePutTextOnWindow(gText_BattleMenuTrainer, B_WIN_ACTION_MENU);
+    else
+        BattlePutTextOnWindow(gText_BattleMenu, B_WIN_ACTION_MENU);
 
     for (i = 0; i < 4; i++)
         ActionSelectionDestroyCursorAt(i);

@@ -42,12 +42,14 @@ PlayersHouse_1F_EventScript_MomGoSeeRoom::
 
 LittlerootTown_BrendansHouse_2F_EventScript_WallClock::
 	lockall
+	setflag FLAG_UNUSED_0x267
 	setvar VAR_0x8004, MALE
 	goto PlayersHouse_2F_EventScript_WallClock
 	end
 
 LittlerootTown_MaysHouse_2F_EventScript_WallClock::
 	lockall
+	setflag FLAG_UNUSED_0x267
 	setvar VAR_0x8004, FEMALE
 	goto PlayersHouse_2F_EventScript_WallClock
 	end

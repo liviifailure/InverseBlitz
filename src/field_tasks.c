@@ -4,6 +4,7 @@
 #include "event_data.h"
 #include "field_camera.h"
 #include "field_effect_helpers.h"
+#include "field_effect.h"
 #include "field_player_avatar.h"
 #include "field_special_scene.h"
 #include "field_tasks.h"
@@ -17,7 +18,9 @@
 #include "sound.h"
 #include "task.h"
 #include "constants/field_tasks.h"
+#include "constants/field_effects.h"
 #include "constants/items.h"
+#include "constants/maps.h"
 #include "constants/songs.h"
 #include "constants/metatile_labels.h"
 
@@ -55,6 +58,7 @@ static void PacifidlogBridgePerStepCallback(u8);
 static void SootopolisGymIcePerStepCallback(u8);
 static void CrackedFloorPerStepCallback(u8);
 static void Task_MuddySlope(u8);
+static void Task_BrendanHouseSparkle(u8);
 
 static const TaskFunc sPerStepCallbacks[] =
 {
@@ -191,6 +195,9 @@ void SetUpFieldTasks(void)
 
     if (!FuncIsActiveTask(Task_RunTimeBasedEvents))
         CreateTask(Task_RunTimeBasedEvents, 80);
+
+    if (!FuncIsActiveTask(Task_BrendanHouseSparkle))
+        CreateTask(Task_BrendanHouseSparkle, 80);
 }
 
 void ActivatePerStepCallback(u8 callbackId)
@@ -459,6 +466,75 @@ static void TryLowerFortreeBridge(s16 x, s16 y)
         case METATILE_Fortree_BridgeOverTrees_Raised:
             MapGridSetMetatileIdAt(x, y, METATILE_Fortree_BridgeOverTrees_Lowered);
             break;
+        }
+    }
+}
+
+static void Task_BrendanHouseSparkle(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+
+    u16 mapNum = (gSaveBlock1Ptr->location.mapGroup << 8) | gSaveBlock1Ptr->location.mapNum;
+    u16 brendanHouse = (MAP_GROUP(MAP_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F) << 8) | MAP_NUM(MAP_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F);
+    u16 mayHouse = (MAP_GROUP(MAP_LITTLEROOT_TOWN_MAYS_HOUSE_2F) << 8) | MAP_NUM(MAP_LITTLEROOT_TOWN_MAYS_HOUSE_2F);
+
+    if (mapNum == brendanHouse || mapNum == mayHouse)
+    {
+        if (data[0] == 0)
+        {
+            if (mapNum == brendanHouse)
+            {
+                if (!FlagGet(FLAG_UNUSED_0x265))
+                {
+                    gFieldEffectArguments[0] = 0;
+                    gFieldEffectArguments[1] = 1;
+                    gFieldEffectArguments[2] = 2; // Priority
+                    FieldEffectStart(FLDEFF_SPARKLE);
+                }
+                if (!FlagGet(FLAG_UNUSED_0x266))
+                {
+                    gFieldEffectArguments[0] = 1;
+                    gFieldEffectArguments[1] = 1;
+                    gFieldEffectArguments[2] = 2; // Priority
+                    FieldEffectStart(FLDEFF_SPARKLE);
+                }
+                if (!FlagGet(FLAG_UNUSED_0x267))
+                {
+                    gFieldEffectArguments[0] = 5;
+                    gFieldEffectArguments[1] = 1;
+                    gFieldEffectArguments[2] = 2; // Priority
+                    FieldEffectStart(FLDEFF_SPARKLE);
+                }
+            }
+            else // May's House
+            {
+                if (!FlagGet(FLAG_UNUSED_0x267))
+                {
+                    gFieldEffectArguments[0] = 3;
+                    gFieldEffectArguments[1] = 1;
+                    gFieldEffectArguments[2] = 2; // Priority
+                    FieldEffectStart(FLDEFF_SPARKLE);
+                }
+                if (!FlagGet(FLAG_UNUSED_0x266))
+                {
+                    gFieldEffectArguments[0] = 7;
+                    gFieldEffectArguments[1] = 1;
+                    gFieldEffectArguments[2] = 2; // Priority
+                    FieldEffectStart(FLDEFF_SPARKLE);
+                }
+                if (!FlagGet(FLAG_UNUSED_0x265))
+                {
+                    gFieldEffectArguments[0] = 8;
+                    gFieldEffectArguments[1] = 1;
+                    gFieldEffectArguments[2] = 2; // Priority
+                    FieldEffectStart(FLDEFF_SPARKLE);
+                }
+            }
+            data[0] = 60; // Spawn every 60 frames (~1 second)
+        }
+        else
+        {
+            data[0]--;
         }
     }
 }
