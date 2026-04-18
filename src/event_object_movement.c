@@ -10598,6 +10598,22 @@ static void DoGroundEffects_OnFinishStep(struct ObjectEvent *objEvent, struct Sp
         SetObjectEventSpriteOamTableForLongGrass(objEvent, sprite);
         FilterOutStepOnPuddleGroundEffectIfJumping(objEvent, &flags);
         DoFlaggedGroundEffects(objEvent, sprite, flags);
+
+        if (objEvent->isPlayer 
+            && (gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
+            && gSaveBlock2Ptr->optionsBattleStyle == 1 
+            && (gMain.heldKeys & B_BUTTON))
+        {
+            s16 x = objEvent->previousCoords.x;
+            s16 y = objEvent->previousCoords.y;
+            MoveCoords(GetOppositeDirection(objEvent->movementDirection), &x, &y);
+            gFieldEffectArguments[0] = x;
+            gFieldEffectArguments[1] = y;
+            gFieldEffectArguments[2] = objEvent->previousElevation;
+            gFieldEffectArguments[3] = sprite->oam.priority;
+            FieldEffectStart(FLDEFF_ROCK_CLIMB_DUST);
+        }
+
         objEvent->triggerGroundEffectsOnStop = 0;
         objEvent->landingJump = 0;
     }
