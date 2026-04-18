@@ -100,6 +100,7 @@ EverGrandeCity_ChampionsRoom_EventScript_WallyChampionScene::
 	msgbox EverGrandeCity_ChampionsRoom_Text_WallyChallenge, MSGBOX_DEFAULT
 	trainerbattle_no_intro TRAINER_WALLY, EverGrandeCity_ChampionsRoom_Text_WallyDefeat
 	recordtrainerwin TRAINER_WALLY
+	clearflag FLAG_RECEIVED_BIKE
 	@ Post Battle
 	setvar VAR_FORCEANIM, 0
 	playse SE_DOOR
@@ -123,7 +124,6 @@ EverGrandeCity_ChampionsRoom_EventScript_WallyChampionScene::
 	setflag FLAG_CUTE_PAINTING_MADE
 	setflag FLAG_SMART_PAINTING_MADE
 	setflag FLAG_TOUGH_PAINTING_MADE
-	clearflag FLAG_RECEIVED_BIKE
 	warp MAP_EVER_GRANDE_CITY_HALL_OF_FAME, 7, 16
 	waitstate
 	releaseall
@@ -177,6 +177,7 @@ EverGrandeCity_ChampionsRoom_EventScript_StevenChampionScene::
 	msgbox EverGrandeCity_ChampionsRoom_Text_IntroSpeech, MSGBOX_DEFAULT
 	trainerbattle_no_intro TRAINER_STEVEN, EverGrandeCity_ChampionsRoom_Text_Defeat
 	recordtrainerwin TRAINER_STEVEN
+	clearflag FLAG_RECEIVED_BIKE
 	@ Post Battle
 	setvar VAR_FORCEANIM, 0
 	playse SE_DOOR
@@ -197,7 +198,6 @@ EverGrandeCity_ChampionsRoom_EventScript_StevenChampionScene::
 	setflag FLAG_CUTE_PAINTING_MADE
 	setflag FLAG_SMART_PAINTING_MADE
 	setflag FLAG_TOUGH_PAINTING_MADE
-	clearflag FLAG_RECEIVED_BIKE
 	warp MAP_EVER_GRANDE_CITY_HALL_OF_FAME, 7, 16
 	waitstate
 	releaseall
@@ -340,7 +340,6 @@ EverGrandeCity_ChampionsRoom_EventScript_BirchArrivesExitForHoF::
 	setflag FLAG_CUTE_PAINTING_MADE
 	setflag FLAG_SMART_PAINTING_MADE
 	setflag FLAG_TOUGH_PAINTING_MADE
-	clearflag FLAG_RECEIVED_BIKE
 	warp MAP_EVER_GRANDE_CITY_HALL_OF_FAME, 7, 16
 	waitstate
 	releaseall

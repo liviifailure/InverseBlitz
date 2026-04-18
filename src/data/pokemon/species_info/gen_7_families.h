@@ -4665,6 +4665,15 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .iconPalIndex = iconPal,                                \
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,                 \
         SHADOW(-2, 12, SHADOW_SIZE_S)                           \
+        OVERWORLD(                                          \
+            sPicTable_MiniorMeteor,                         \
+            SIZE_32x32,                                     \
+            SHADOW_SIZE_M,                                  \
+            TRACKS_FOOT,                                    \
+            sAnimTable_Following,                           \
+            gOverworldPalette_MiniorMeteor,                 \
+            gShinyOverworldPalette_MiniorMeteor             \
+        )                                                       \
         .formChangeTable = sMinior ##Form##FormChangeTable,     \
         MINIOR_MISC_INFO(color),                                \
     }

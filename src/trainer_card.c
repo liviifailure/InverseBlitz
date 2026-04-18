@@ -81,6 +81,8 @@ struct TrainerCardData
     u8 textBattleFacilityStat[70];
     u8 winNames[12][32];
     u8 winTimes[12][32];
+    u8 championSpriteIds[2];
+    s16 championSpritesX;
     u8 winSpriteIds[12][2];
     u16 monIconPal[16 * PARTY_SIZE];
     s8 flipBlendY;
@@ -264,8 +266,8 @@ static const struct WindowTemplate sTrainerCardWindowTemplates[] =
 static const u16 *const sHoennTrainerCardPals[] =
 {
     gHoennTrainerCardGreen_Pal,  // Default (0 stars)
-    sHoennTrainerCardBronze_Pal, // 1 star
     sHoennTrainerCardCopper_Pal, // 2 stars
+    sHoennTrainerCardBronze_Pal, // 1 star
     sHoennTrainerCardSilver_Pal, // 3 stars
     sHoennTrainerCardGold_Pal,   // 4 stars
 };
@@ -280,7 +282,7 @@ static const u16 *const sKantoTrainerCardPals[] =
 };
 
 static const u8 sTrainerCardTextColors[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY};
-static const u8 sTrainerCardStatColors[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_RED, TEXT_COLOR_LIGHT_RED};
+static const u8 sTrainerCardGoldTextColors[] = {TEXT_COLOR_TRANSPARENT, 14, 15};
 static const u8 sTimeColonInvisibleTextColors[6] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_TRANSPARENT, TEXT_COLOR_TRANSPARENT};
 
 static const u8 sTrainerPicOffset[2][GENDER_COUNT][2] =
@@ -1156,17 +1158,14 @@ static void BufferNameForCardBack(void)
 
     if (sData->trainerCard.winsCount > 12)
     {
-        const u8 *name = GetTrainerNameFromId(sData->trainerCard.wins[12].trainerId);
-        StringCopy(gStringVar1, name);
+        StringCopy(sData->textPlayersCard, COMPOUND_STRING("BLITZ CHAMPION!     "));
 
-        u8 *str = gStringVar2;
+        u8 *str = sData->textHofTime;
         str = ConvertIntToDecimalStringN(str, sData->trainerCard.wins[12].hours, STR_CONV_MODE_LEFT_ALIGN, 3);
         *str++ = CHAR_COLON;
         str = ConvertIntToDecimalStringN(str, sData->trainerCard.wins[12].minutes, STR_CONV_MODE_LEADING_ZEROS, 2);
         *str++ = CHAR_COLON;
         ConvertIntToDecimalStringN(str, sData->trainerCard.wins[12].seconds, STR_CONV_MODE_LEADING_ZEROS, 2);
-
-        StringExpandPlaceholders(sData->textPlayersCard, gText_BeatChampion);
     }
     else if (sData->cardType != CARD_TYPE_FRLG)
     {
@@ -1179,8 +1178,14 @@ static void PrintNameOnCardBack(void)
 {
     if (sData->trainerCard.winsCount > 12)
     {
-        s32 x = (224 - GetStringWidth(FONT_NORMAL, sData->textPlayersCard, 0)) / 2;
-        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, x, 9, sTrainerCardTextColors, TEXT_SKIP_DRAW, sData->textPlayersCard);
+        u32 textWidth = GetStringWidth(FONT_NORMAL, sData->textPlayersCard, 0);
+        u32 timeWidth = GetStringWidth(FONT_NORMAL, sData->textHofTime, 0);
+        u32 totalWidth = textWidth + 40 + timeWidth;
+        s32 startX = ((224 - totalWidth) / 2) - 12;
+
+        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, startX, 9, sTrainerCardGoldTextColors, TEXT_SKIP_DRAW, sData->textPlayersCard);
+        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, startX + textWidth + 40, 9, sTrainerCardGoldTextColors, TEXT_SKIP_DRAW, sData->textHofTime);
+        sData->championSpritesX = startX + textWidth + 4;
     }
     else if (!sData->isHoenn)
         AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 136, 9, sTrainerCardTextColors, TEXT_SKIP_DRAW, sData->textPlayersCard);
@@ -1213,7 +1218,7 @@ static void PrintStatOnBackOfCard(u8 top, const u8 *statName, u8 *stat, const u8
 static void PrintHofDebutTimeOnCard(void)
 {
     if (sData->hasHofResult)
-        PrintStatOnBackOfCard(0, gText_HallOfFameDebut, sData->textHofTime, sTrainerCardStatColors);
+        PrintStatOnBackOfCard(0, gText_HallOfFameDebut, sData->textHofTime, sTrainerCardGoldTextColors);
 }
 
 static const u8 *const sLinkBattleTexts[] =
@@ -1293,7 +1298,7 @@ static void PrintWinRecords(void)
         // Name text removed to be replaced by overworld sprite
 
         u32 timeX = x + 80 - GetStringWidth(FONT_NORMAL, sData->winTimes[i], 0);
-        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, timeX, y, sTrainerCardStatColors, TEXT_SKIP_DRAW, sData->winTimes[i]);
+        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, timeX, y, sTrainerCardTextColors, TEXT_SKIP_DRAW, sData->winTimes[i]);
     }
 }
 
@@ -1483,6 +1488,28 @@ static void CreateWinRecordSprites(void)
             }
         }
     }
+
+    if (sData->trainerCard.winsCount > 12)
+    {
+        u16 trainerId = sData->trainerCard.wins[12].trainerId;
+        u8 picIndex = GetTrainerPicFromId(trainerId);
+        u8 greyPalNum;
+        s16 x = sData->championSpritesX + 16;
+        s16 y = 17;
+
+        sData->championSpriteIds[0] = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_STEVEN, SpriteCallbackDummy, x, y, 0);
+        sData->championSpriteIds[1] = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_WALLY, SpriteCallbackDummy, x + 16, y, 0);
+        StartSpriteAnim(&gSprites[sData->championSpriteIds[0]], 0);
+        StartSpriteAnim(&gSprites[sData->championSpriteIds[1]], 0);
+
+        if (picIndex == GetTrainerPicFromId(TRAINER_STEVEN))
+            greyPalNum = AllocateAndGreyOutPalette(sData->championSpriteIds[1], 12, 1);
+        else
+            greyPalNum = AllocateAndGreyOutPalette(sData->championSpriteIds[0], 12, 0);
+
+        if (greyPalNum != 0xFF)
+            gSprites[picIndex == GetTrainerPicFromId(TRAINER_STEVEN) ? sData->championSpriteIds[1] : sData->championSpriteIds[0]].oam.paletteNum = greyPalNum;
+    }
 }
 
 static void DestroyWinRecordSprites(void)
@@ -1504,6 +1531,19 @@ static void DestroyWinRecordSprites(void)
             sData->winSpriteIds[i][1] = SPRITE_NONE;
             FreeSpritePaletteByTag(OBJ_EVENT_PAL_TAG_DYNAMIC_GREY_START + (i * 2) + 1);
         }
+    }
+
+    if (sData->championSpriteIds[0] != SPRITE_NONE)
+    {
+        DestroySprite(&gSprites[sData->championSpriteIds[0]]);
+        sData->championSpriteIds[0] = SPRITE_NONE;
+        FreeSpritePaletteByTag(OBJ_EVENT_PAL_TAG_DYNAMIC_GREY_START + (12 * 2));
+    }
+    if (sData->championSpriteIds[1] != SPRITE_NONE)
+    {
+        DestroySprite(&gSprites[sData->championSpriteIds[1]]);
+        sData->championSpriteIds[1] = SPRITE_NONE;
+        FreeSpritePaletteByTag(OBJ_EVENT_PAL_TAG_DYNAMIC_GREY_START + (12 * 2) + 1);
     }
 }
 
@@ -1592,6 +1632,9 @@ static u8 SetCardBgsAndPals(void)
                 LoadPalette(sKantoTrainerCardFemaleBg_Pal, BG_PLTT_ID(1), PLTT_SIZE_4BPP);
         }
         LoadPalette(sTrainerCardStar_Pal, BG_PLTT_ID(4), PLTT_SIZE_4BPP);
+        // Explicitly load Gold colors into indices 15 and 14 of the text palette (Palette 15)
+        gPlttBufferUnfaded[BG_PLTT_ID(15) + 15] = RGB(31, 28, 10); // Bright Gold
+        gPlttBufferUnfaded[BG_PLTT_ID(15) + 14] = RGB(22, 18, 0);  // Dark Gold (Shadow)
         break;
     case 3:
         SetBgTilemapBuffer(0, sData->cardTilemapBuffer);
@@ -1984,6 +2027,8 @@ static void InitTrainerCardData(void)
     sData->onBack = FALSE;
     sData->flipBlendY = 0;
     sData->cardType = GetSetCardType();
+    sData->championSpriteIds[0] = SPRITE_NONE;
+    sData->championSpriteIds[1] = SPRITE_NONE;
     for (i = 0; i < 12; i++)
     {
         sData->winSpriteIds[i][0] = SPRITE_NONE;

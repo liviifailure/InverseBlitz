@@ -2309,6 +2309,25 @@ void BtlController_HandleSwitchInAnim(u32 battler)
                         || IsControllerRecordedPartner(battler)
                         || IsControllerLinkPartner(battler));
 
+    if (isPlayerSide
+        && IsDoubleBattle()
+        && gCurrentMove != MOVE_VOLT_SWITCH
+        && gCurrentMove != MOVE_U_TURN
+        && gCurrentMove != MOVE_BATON_PASS
+        && gCurrentMove != MOVE_FLIP_TURN
+        && gCurrentMove != MOVE_PARTING_SHOT
+        && gCurrentMove != MOVE_CHILLY_RECEPTION
+        && gCurrentMove != MOVE_SHED_TAIL
+        && gCurrentMove != MOVE_TELEPORT
+        && gCurrentMove != MOVE_ROAR
+        && gCurrentMove != MOVE_WHIRLWIND
+        && gSideTimers[B_SIDE_OPPONENT].retaliateTimer > 1
+        && gSideTimers[B_SIDE_PLAYER].retaliateTimer != 2)
+    {
+        BtlController_Complete(battler);
+        return;
+    }
+
     if (IsControllerPlayer(battler))
     {
         gActionSelectionCursor[battler] = 0;
