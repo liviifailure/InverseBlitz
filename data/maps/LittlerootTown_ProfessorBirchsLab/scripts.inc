@@ -297,11 +297,12 @@ LittlerootTown_ProfessorBirchsLab_EventScript_GiveStarterEvent::
 	setflag FLAG_HIDE_SOOTOPOLIS_CITY_RESIDENTS
 	setflag FLAG_HIDE_SOOTOPOLIS_CITY_STEVEN
 	setflag FLAG_HIDE_SOOTOPOLIS_CITY_WALLACE
+	setflag FLAG_ITEM_ROUTE_110_DIRE_HIT
 
     @ make old man disappear for sootopolis
     setflag FLAG_HIDE_CAVE_OF_ORIGIN_B1F_WALLACE @ also hides the expert as a hack
     giveitem ITEM_ACRO_BIKE
-    setflag FLAG_RECEIVED_BIKE
+    @ setflag FLAG_RECEIVED_BIKE //Now set when you first enter Littleroot
 
 	@ Automatically register the Flygon Bike
 	special SwapRegisteredBike

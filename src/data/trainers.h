@@ -42803,7 +42803,7 @@ F_TRAINER_FEMALE |
 #line 16698
                 MOVE_DISARMING_VOICE,
                 MOVE_DRAGONBREATH,
-                MOVE_FURY_ATTACK,
+                MOVE_PERISH_SONG,
                 MOVE_AERIAL_ACE,
             },
             },
@@ -42895,7 +42895,7 @@ F_TRAINER_FEMALE |
 #line 16738
                 MOVE_DISARMING_VOICE,
                 MOVE_DRAGONBREATH,
-                MOVE_SWIFT,
+                MOVE_PERISH_SONG,
                 MOVE_AERIAL_ACE,
             },
             },
@@ -43008,7 +43008,7 @@ F_TRAINER_FEMALE |
 #line 16788
                 MOVE_DISARMING_VOICE,
                 MOVE_DRAGONBREATH,
-                MOVE_SWIFT,
+                MOVE_PERISH_SONG,
                 MOVE_AERIAL_ACE,
             },
             },
@@ -43119,7 +43119,7 @@ F_TRAINER_FEMALE |
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
 #line 16838
-                MOVE_DISARMING_VOICE,
+                MOVE_PERISH_SONG,
                 MOVE_DRAGONBREATH,
                 MOVE_HYPER_VOICE,
                 MOVE_AERIAL_ACE,
@@ -43234,9 +43234,9 @@ F_TRAINER_FEMALE |
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
 #line 16888
-                MOVE_DISARMING_VOICE,
-                MOVE_HYPER_VOICE,
                 MOVE_PERISH_SONG,
+                MOVE_DRAGONBREATH,
+                MOVE_HYPER_VOICE,
                 MOVE_AERIAL_ACE,
             },
             },

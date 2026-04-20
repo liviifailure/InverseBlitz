@@ -497,10 +497,10 @@ static void BattleStyle_DrawChoices(u8 selection)
 
     styles[0] = 0;
     styles[1] = 0;
-    styles[selection ^ 1] = 1;
+    styles[selection] = 1;
 
-    DrawOptionMenuChoice(gText_FlygonDustOn, 104, YPOS_BATTLESTYLE, styles[0]);
-    DrawOptionMenuChoice(gText_FlygonDustOff, GetStringRightAlignXOffset(FONT_NORMAL, gText_FlygonDustOff, 198), YPOS_BATTLESTYLE, styles[1]);
+    DrawOptionMenuChoice(gText_FlygonDustOff, 104, YPOS_BATTLESTYLE, styles[0]);
+    DrawOptionMenuChoice(gText_FlygonDustOn, GetStringRightAlignXOffset(FONT_NORMAL, gText_FlygonDustOn, 198), YPOS_BATTLESTYLE, styles[1]);
 }
 
 static u8 Sound_ProcessInput(u8 selection)

@@ -279,14 +279,14 @@ extern u8 gEnemyPartyCount;
 
 static struct Pokemon *GetPartyMenuParty(void)
 {
-    if (sPartyMenuInternal && sPartyMenuInternal->showEnemy)
+    if (gPartyMenu.menuType == PARTY_MENU_TYPE_ENEMY)
         return gEnemyParty;
     return gPlayerParty;
 }
 
 static u8 GetPartyMenuPartyCount(void)
 {
-    if (sPartyMenuInternal && sPartyMenuInternal->showEnemy)
+    if (gPartyMenu.menuType == PARTY_MENU_TYPE_ENEMY)
         return gEnemyPartyCount;
     return gPlayerPartyCount;
 }
@@ -1063,12 +1063,16 @@ static void FreePartyPointers(void)
 {
     if (sPartyMenuInternal)
         Free(sPartyMenuInternal);
+    sPartyMenuInternal = NULL;
     if (sPartyBgTilemapBuffer)
         Free(sPartyBgTilemapBuffer);
+    sPartyBgTilemapBuffer = NULL;
     if (sPartyBgGfxTilemap)
         Free(sPartyBgGfxTilemap);
+    sPartyBgGfxTilemap = NULL;
     if (sPartyMenuBoxes)
         Free(sPartyMenuBoxes);
+    sPartyMenuBoxes = NULL;
     FreeAllWindowBuffers();
 }
 
@@ -2698,6 +2702,7 @@ static void LoadPartyBoxPalette(struct PartyMenuBox *menuBox, u8 palFlags)
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_HAUNTER
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_BOLDORE
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_MACHOKE
+         || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_DUSCLOPS
         )) || (VarGet(VAR_BADGE_COUNT) >= 4 && (
             GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_VULPIX_ALOLA
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_GROWLITHE
@@ -2781,6 +2786,7 @@ static void LoadPartyBoxPalette(struct PartyMenuBox *menuBox, u8 palFlags)
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_TRAPINCH
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_VANILLITE
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_HATENNA
+         || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_DUSKULL
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_SPHEAL
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_HORSEA
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_ARON
@@ -2798,6 +2804,7 @@ static void LoadPartyBoxPalette(struct PartyMenuBox *menuBox, u8 palFlags)
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_PIKIPEK
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_MAREEP
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_SHINX
+         || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_TAROUNTULA
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_STARLY
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_WEEDLE
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_KAKUNA

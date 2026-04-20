@@ -16697,7 +16697,7 @@ Nature: Serious
 Ability: Natural Cure
 - Disarming Voice
 - Dragonbreath
-- Fury Attack
+- Perish Song
 - Aerial Ace
 
 Wingull
@@ -16737,7 +16737,7 @@ Nature: Serious
 Ability: Natural Cure
 - Disarming Voice
 - Dragonbreath
-- Swift
+- Perish Song
 - Aerial Ace
 
 Wingull
@@ -16787,7 +16787,7 @@ Nature: Serious
 Ability: Natural Cure
 - Disarming Voice
 - Dragonbreath
-- Swift
+- Perish Song
 - Aerial Ace
 
 Wingull
@@ -16835,7 +16835,7 @@ Level: 24
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
 Ability: Natural Cure
-- Disarming Voice
+- Perish Song
 - Dragonbreath
 - Hyper Voice
 - Aerial Ace
@@ -16885,9 +16885,9 @@ Level: 28
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Nature: Serious
 Ability: Natural Cure
-- Disarming Voice
-- Hyper Voice
 - Perish Song
+- Dragonbreath
+- Hyper Voice
 - Aerial Ace
 
 Pelipper @ Deep Sea Tooth

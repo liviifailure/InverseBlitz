@@ -1897,16 +1897,7 @@ static const u16 sShuppetEggMoveLearnset[] = {
 
 #if P_FAMILY_DUSKULL
 static const u16 sDuskullEggMoveLearnset[] = {
-    MOVE_IMPRISON,
-    MOVE_DESTINY_BOND,
     MOVE_PAIN_SPLIT,
-    MOVE_GRUDGE,
-    MOVE_MEMENTO,
-    MOVE_FEINT_ATTACK,
-    MOVE_OMINOUS_WIND,
-    MOVE_DARK_PULSE,
-    MOVE_SKILL_SWAP,
-    MOVE_HAZE,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_DUSKULL
@@ -2778,12 +2769,7 @@ static const u16 sFrillishEggMoveLearnset[] = {
 
 #if P_FAMILY_ALOMOMOLA
 static const u16 sAlomomolaEggMoveLearnset[] = {
-    MOVE_PAIN_SPLIT,
     MOVE_REFRESH,
-    MOVE_TICKLE,
-    MOVE_MIRROR_COAT,
-    MOVE_MIST,
-    MOVE_ENDURE,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_ALOMOMOLA
@@ -3804,10 +3790,7 @@ static const u16 sLechonkEggMoveLearnset[] = {
 
 #if P_FAMILY_TAROUNTULA
 static const u16 sTarountulaEggMoveLearnset[] = {
-    MOVE_FIRST_IMPRESSION,
     MOVE_LUNGE,
-    MOVE_MEMENTO,
-    MOVE_SUCKER_PUNCH,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_TAROUNTULA
@@ -3822,9 +3805,6 @@ static const u16 sNymbleEggMoveLearnset[] = {
 #if P_FAMILY_PAWMI
 static const u16 sPawmiEggMoveLearnset[] = {
     MOVE_FAKE_OUT,
-    MOVE_MACH_PUNCH,
-    MOVE_SWEET_KISS,
-    MOVE_WISH,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_PAWMI

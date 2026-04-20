@@ -1912,6 +1912,22 @@ static s32 AI_CheckBadMove(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
                 ADJUST_SCORE(-9);
             break;
         case EFFECT_PERISH_SONG:
+            ADJUST_SCORE(-10);
+            if (aiData->abilities[battlerDef] != ABILITY_SOUNDPROOF)
+            {
+                for (i = 0; i < AI_MOVE_HISTORY_COUNT; i++)
+                {
+                    if (gBattleHistory->moveHistory[battlerDef][i] == MOVE_DEFENSE_CURL
+                      || gBattleHistory->moveHistory[battlerDef][i] == MOVE_FURY_CUTTER
+                      || gBattleHistory->moveHistory[battlerDef][i] == MOVE_ECHOED_VOICE
+                      || gBattleHistory->moveHistory[battlerDef][i] == MOVE_INGRAIN
+                      || gBattleHistory->moveHistory[battlerDef][i] == MOVE_ROLLOUT)
+                    {
+                        ADJUST_SCORE(20);
+                        break;
+                    }
+                }
+            }
             if (!isBattle1v1)
             {
                 if (CountUsablePartyMons(battlerAtk) == 0
