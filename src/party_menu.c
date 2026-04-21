@@ -1427,7 +1427,7 @@ void AnimatePartySlot(u8 slot, u8 animNum)
     switch (slot)
     {
     default:
-        if (GetMonData(&gPlayerParty[slot], MON_DATA_SPECIES) != SPECIES_NONE)
+        if (GetMonData(&GetPartyMenuParty()[slot], MON_DATA_SPECIES) != SPECIES_NONE)
         {
             LoadPartyBoxPalette(&sPartyMenuBoxes[slot], GetPartyBoxPaletteFlags(slot, animNum));
             AnimateSelectedPartyIcon(sPartyMenuBoxes[slot].monSpriteId, animNum);
@@ -1600,12 +1600,6 @@ static void HandleChooseMonSelection(u8 taskId, s8 *slotPtr)
     }
     else
     {
-        if (gPartyMenu.menuType == PARTY_MENU_TYPE_ENEMY)
-        {
-            CursorCb_Summary(taskId);
-            return;
-        }
-
         switch (gPartyMenu.action)
         {
         case PARTY_ACTION_SOFTBOILED:
@@ -1939,7 +1933,7 @@ static void UpdatePartySelectionSingleLayout(s8 *slotPtr, s8 movementDir)
         }
         break;
     case MENU_DIR_RIGHT:
-        if (gPlayerPartyCount != 1 && *slotPtr == 0)
+        if (GetPartyMenuPartyCount() != 1 && *slotPtr == 0)
         {
             if (sPartyMenuInternal->lastSelectedSlot == 0)
                 *slotPtr = 1;
@@ -3405,7 +3399,7 @@ static bool8 CreateSelectionWindow(u8 taskId)
     PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
     if (gPartyMenu.menuType != PARTY_MENU_TYPE_STORE_PYRAMID_HELD_ITEMS)
     {
-        SetPartyMonSelectionActions(gPlayerParty, gPartyMenu.slotId, GetPartyMenuActionsType(mon));
+        SetPartyMonSelectionActions(GetPartyMenuParty(), gPartyMenu.slotId, GetPartyMenuActionsType(mon));
         DisplaySelectionWindow(SELECTWINDOW_ACTIONS);
         DisplayPartyMenuStdMessage(PARTY_MSG_DO_WHAT_WITH_MON);
     }
@@ -3488,7 +3482,7 @@ static void Task_HandleSelectionMenuInput(u8 taskId)
 
 void OpenEnemyPartyMenuInBattle(void)
 {
-    InitPartyMenu(PARTY_MENU_TYPE_ENEMY, GetPartyLayoutFromBattleType(), PARTY_ACTION_CHOOSE_AND_CLOSE, FALSE, PARTY_MSG_NONE, Task_HandleChooseMonInput, CB2_SetUpReshowBattleScreenAfterMenu);
+    InitPartyMenu(PARTY_MENU_TYPE_ENEMY, GetPartyLayoutFromBattleType(), PARTY_ACTION_CHOOSE_MON, FALSE, PARTY_MSG_CHOOSE_MON, Task_HandleChooseMonInput, CB2_SetUpReshowBattleScreenAfterMenu);
     ReshowBattleScreenDummy();
 }
 

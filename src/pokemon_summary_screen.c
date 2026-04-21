@@ -1231,6 +1231,7 @@ void ShowPokemonSummaryScreen(u8 mode, void *mons, u8 monIndex, u8 maxMonIndex, 
     if (ShouldShowMoveRelearner())
         TryUpdateRelearnType(TRY_SET_UPDATE);
 
+    gMain.state = 0;
     SetMainCallback2(CB2_InitSummaryScreen);
 }
 
@@ -1538,13 +1539,14 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
             else
                 trainerId = TRAINER_BATTLE_PARAM.opponentA;
 
-            if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
+            u16 sanitizedId = SanitizeTrainerId(trainerId);
+            if (!(gBattleTypeFlags & BATTLE_TYPE_FRONTIER) && sanitizedId < TRAINERS_COUNT)
             {
+                StringCopy(sum->OTName, gTrainers[GetTrainerDifficultyLevel(sanitizedId)][sanitizedId].trainerName);
             }
             else
             {
-                u16 sanitizedId = SanitizeTrainerId(trainerId);
-                StringCopy(sum->OTName, gTrainers[GetTrainerDifficultyLevel(sanitizedId)][sanitizedId].trainerName);
+                GetMonData(mon, MON_DATA_OT_NAME, sum->OTName);
             }
         }
         else

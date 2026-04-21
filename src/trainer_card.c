@@ -143,7 +143,7 @@ static u8 GetSetCardType(void);
 static void PrintNameOnCardFront(void);
 static void PrintIdOnCard(void);
 static void PrintMoneyOnCard(void);
-static void PrintPokedexOnCard(void);
+static void PrintDeathsOnCard(void);
 static void PrintProfilePhraseOnCard(void);
 static bool8 PrintAllOnCardBack(void);
 static void PrintNameOnCardBack(void);
@@ -282,7 +282,7 @@ static const u16 *const sKantoTrainerCardPals[] =
 };
 
 static const u8 sTrainerCardTextColors[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY};
-static const u8 sTrainerCardGoldTextColors[] = {TEXT_COLOR_TRANSPARENT, 14, 15};
+static const u8 sTrainerCardGoldTextColors[] = {TEXT_COLOR_TRANSPARENT, 15, TEXT_COLOR_LIGHT_BLUE};
 static const u8 sTimeColonInvisibleTextColors[6] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_TRANSPARENT, TEXT_COLOR_TRANSPARENT};
 
 static const u8 sTrainerPicOffset[2][GENDER_COUNT][2] =
@@ -938,7 +938,7 @@ static bool8 PrintAllOnCardFront(void)
         PrintMoneyOnCard();
         break;
     case 3:
-        PrintPokedexOnCard();
+        PrintDeathsOnCard();
         break;
     case 4:
         PrintTimeOnCard();
@@ -1048,29 +1048,29 @@ static u16 GetCaughtMonsCount(void)
         return GetHoennPokedexCount(FLAG_GET_CAUGHT);
 }
 
-static void PrintPokedexOnCard(void)
+static void PrintDeathsOnCard(void)
 {
     s32 xOffset;
     u8 top;
-    if (FlagGet(FLAG_SYS_POKEDEX_GET))
+
+    if (!sData->isHoenn)
+        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 20, 72, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_SavingFaints);
+    else
+        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 16, 73, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_SavingFaints);
+
+    ConvertIntToDecimalStringN(gStringVar4, gSaveBlock1Ptr->playerFaintCounter, STR_CONV_MODE_LEFT_ALIGN, 5);
+
+    if (!sData->isHoenn)
     {
-        if (!sData->isHoenn)
-            AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 20, 72, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_TrainerCardPokedex);
-        else
-            AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 16, 73, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_TrainerCardPokedex);
-        StringCopy(ConvertIntToDecimalStringN(gStringVar4, sData->trainerCard.caughtMonsCount, STR_CONV_MODE_LEFT_ALIGN, 4), gText_EmptyString6);
-        if (!sData->isHoenn)
-        {
-            xOffset = GetStringRightAlignXOffset(FONT_NORMAL, gStringVar4, 144);
-            top = 72;
-        }
-        else
-        {
-            xOffset = GetStringRightAlignXOffset(FONT_NORMAL, gStringVar4, 128);
-            top = 73;
-        }
-        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, xOffset, top, sTrainerCardTextColors, TEXT_SKIP_DRAW, gStringVar4);
+        xOffset = GetStringRightAlignXOffset(FONT_NORMAL, gStringVar4, 144);
+        top = 72;
     }
+    else
+    {
+        xOffset = GetStringRightAlignXOffset(FONT_NORMAL, gStringVar4, 128);
+        top = 73;
+    }
+    AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, xOffset, top, sTrainerCardTextColors, TEXT_SKIP_DRAW, gStringVar4);
 }
 
 static const u8 *const sTimeColonTextColors[] = {sTrainerCardTextColors, sTimeColonInvisibleTextColors};
@@ -1318,6 +1318,8 @@ static u16 GetTrainerOverworldGraphicsId(u16 trainerId)
     if (picIndex == GetTrainerPicFromId(TRAINER_WINONA_1)) return OBJ_EVENT_GFX_WINONA;
     if (picIndex == GetTrainerPicFromId(TRAINER_TATE_AND_LIZA_1)) return OBJ_EVENT_GFX_TATE;
     if (picIndex == GetTrainerPicFromId(TRAINER_JUAN_1)) return OBJ_EVENT_GFX_JUAN;
+    if (picIndex == GetTrainerPicFromId(TRAINER_ARCHIE)) return OBJ_EVENT_GFX_ARCHIE;
+    if (picIndex == GetTrainerPicFromId(TRAINER_MAXIE_MAGMA_HIDEOUT)) return OBJ_EVENT_GFX_MAXIE;
 
     if (picIndex == GetTrainerPicFromId(TRAINER_SIDNEY)) return OBJ_EVENT_GFX_SIDNEY;
     if (picIndex == GetTrainerPicFromId(TRAINER_PHOEBE)) return OBJ_EVENT_GFX_PHOEBE;
@@ -1633,8 +1635,7 @@ static u8 SetCardBgsAndPals(void)
         }
         LoadPalette(sTrainerCardStar_Pal, BG_PLTT_ID(4), PLTT_SIZE_4BPP);
         // Explicitly load Gold colors into indices 15 and 14 of the text palette (Palette 15)
-        gPlttBufferUnfaded[BG_PLTT_ID(15) + 15] = RGB(31, 28, 10); // Bright Gold
-        gPlttBufferUnfaded[BG_PLTT_ID(15) + 14] = RGB(22, 18, 0);  // Dark Gold (Shadow)
+        gPlttBufferUnfaded[BG_PLTT_ID(15) + 15] = RGB_BLACK;
         break;
     case 3:
         SetBgTilemapBuffer(0, sData->cardTilemapBuffer);
