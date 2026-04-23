@@ -3119,9 +3119,6 @@ static const u16 sInkayEggMoveLearnset[] = {
 #if P_FAMILY_BINACLE
 static const u16 sBinacleEggMoveLearnset[] = {
     MOVE_TICKLE,
-    MOVE_SWITCHEROO,
-    MOVE_HELPING_HAND,
-    MOVE_WATER_SPORT,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_BINACLE

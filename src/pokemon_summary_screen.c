@@ -1539,15 +1539,7 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
             else
                 trainerId = TRAINER_BATTLE_PARAM.opponentA;
 
-            u16 sanitizedId = SanitizeTrainerId(trainerId);
-            if (!(gBattleTypeFlags & BATTLE_TYPE_FRONTIER) && sanitizedId < TRAINERS_COUNT)
-            {
-                StringCopy(sum->OTName, gTrainers[GetTrainerDifficultyLevel(sanitizedId)][sanitizedId].trainerName);
-            }
-            else
-            {
-                GetMonData(mon, MON_DATA_OT_NAME, sum->OTName);
-            }
+            StringCopy(sum->OTName, GetTrainerNameFromId(trainerId));
         }
         else
         {
@@ -3681,7 +3673,7 @@ static void BufferMonTrainerMemo(void)
     DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, sMemoMiscTextColor);
     BufferNatureString();
 
-    if (InBattleFactory() == TRUE || InSlateportBattleTent() == TRUE || IsInGamePartnerMon() == TRUE)
+    if (InBattleFactory() == TRUE || InSlateportBattleTent() == TRUE || IsInGamePartnerMon() == TRUE || sMonSummaryScreen->monList.mons == gEnemyParty)
     {
         DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, gText_XNature);
     }
@@ -3752,10 +3744,17 @@ static bool8 DoesMonOTMatchOwner(void)
 
     if (sMonSummaryScreen->monList.mons == gEnemyParty)
     {
-        u8 multiID = GetMultiplayerId() ^ 1;
-        trainerId = gLinkPlayers[multiID].trainerId & 0xFFFF;
-        gender = gLinkPlayers[multiID].gender;
-        StringCopy(gStringVar1, gLinkPlayers[multiID].name);
+        if (gBattleTypeFlags & BATTLE_TYPE_LINK)
+        {
+            u8 multiID = GetMultiplayerId() ^ 1;
+            trainerId = gLinkPlayers[multiID].trainerId & 0xFFFF;
+            gender = gLinkPlayers[multiID].gender;
+            StringCopy(gStringVar1, gLinkPlayers[multiID].name);
+        }
+        else
+        {
+            return FALSE;
+        }
     }
     else
     {

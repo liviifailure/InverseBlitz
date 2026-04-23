@@ -922,6 +922,7 @@ SlateportCity_Pokemart_StageOneMegas:
 SlateportCity_Pokemart_StageTwoMegas:
 	.2byte ITEM_ABOMASITE
 	.2byte ITEM_BANETTITE
+	.2byte ITEM_BARBARACITE
 	.2byte ITEM_CAMERUPTITE
 	.2byte ITEM_CHIMECHITE
 	.2byte ITEM_DRAGALGITE
@@ -949,6 +950,7 @@ SlateportCity_Pokemart_StageTwoMegasPlusRentals:
 	.2byte ITEM_ABOMASITE
 	.2byte ITEM_ABSOLITE
 	.2byte ITEM_BANETTITE
+	.2byte ITEM_BARBARACITE
 	.2byte ITEM_CAMERUPTITE
 	.2byte ITEM_CHIMECHITE
 	.2byte ITEM_DRAGALGITE
@@ -984,6 +986,7 @@ SlateportCity_Pokemart_StageThreeMegas:
 	.2byte ITEM_AGGRONITE
 	.2byte ITEM_AMPHAROSITE
 	.2byte ITEM_BANETTITE
+	.2byte ITEM_BARBARACITE
 	.2byte ITEM_BEEDRILLITE
 	.2byte ITEM_BLASTOISINITE
 	.2byte ITEM_BLAZIKENITE

@@ -2703,6 +2703,7 @@ static void LoadPartyBoxPalette(struct PartyMenuBox *menuBox, u8 palFlags)
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_GROWLITHE_HISUI
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_PANSEAR
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_CHARCADET
+         || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_BINACLE
          //|| GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_CAPSAKID
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_POLIWHIRL
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_SHELLDER
@@ -2797,6 +2798,7 @@ static void LoadPartyBoxPalette(struct PartyMenuBox *menuBox, u8 palFlags)
          || GET_BASE_SPECIES_ID(GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES)) == SPECIES_SPEWPA
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_PIKIPEK
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_MAREEP
+         || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_CYNDAQUIL
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_SHINX
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_TAROUNTULA
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_STARLY
@@ -6301,7 +6303,7 @@ void ItemUseCB_RareCandy(u8 taskId, TaskFunc task)
 
             // Check if the Pokémon can evolve
             targetSpecies = GetEvolutionTargetSpecies(mon, EVO_MODE_NORMAL, ITEM_NONE, SPECIES_NONE, &canStopEvo, CHECK_EVO);
-            if (targetSpecies != SPECIES_NONE)  // If the Pokémon can evolve
+            if (targetSpecies != SPECIES_NONE && !(gMain.heldKeys & SELECT_BUTTON))  // If the Pokémon can evolve and SELECT is not held
             {
                 canEvolve = TRUE;
             }
@@ -6432,7 +6434,7 @@ static void PartyMenuTryEvolution(u8 taskId)
     u32 targetSpecies = GetEvolutionTargetSpecies(mon, EVO_MODE_NORMAL, ITEM_NONE, SPECIES_NONE, &canStopEvo, DO_EVO);
 
 
-    if (targetSpecies != SPECIES_NONE)
+    if (targetSpecies != SPECIES_NONE && !(gMain.heldKeys & SELECT_BUTTON))
     {
         GetEvolutionTargetSpecies(mon, EVO_MODE_NORMAL, ITEM_NONE, NULL, &canStopEvo, DO_EVO);
         FreePartyPointers();
