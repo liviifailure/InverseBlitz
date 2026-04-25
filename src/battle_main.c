@@ -5303,6 +5303,7 @@ static void TurnValuesCleanUp(bool8 var0)
 
         gSpecialStatuses[i].parentalBondState = PARENTAL_BOND_OFF;
         gBattleStruct->battlerState[i].usedEjectItem = FALSE;
+        gBattleStruct->battlerState[i].forcedSwitch = FALSE;
         gProtectStructs[i].lashOutAffected = FALSE;
         gDisableStructs[i].endured = FALSE;
     }

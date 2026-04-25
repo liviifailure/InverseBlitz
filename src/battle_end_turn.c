@@ -193,6 +193,7 @@ static bool32 HandleEndTurnEmergencyExit(u32 battler)
     {
         gBattlerAbility = battler;
         gLastUsedAbility = ability;
+        gBattleStruct->battlerState[battler].forcedSwitch = TRUE;
 
         if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
             BattleScriptExecute(BattleScript_EmergencyExitEnd2);

@@ -6961,6 +6961,7 @@ static void Cmd_moveend(void)
 
                     effect = TRUE;
                     gBattleScripting.battler = battler;
+                    gBattleStruct->battlerState[battler].forcedSwitch = TRUE;
 
                     if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
                         BattleScriptCall(BattleScript_EmergencyExit);

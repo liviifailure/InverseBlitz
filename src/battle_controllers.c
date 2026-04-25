@@ -5,6 +5,7 @@
 #include "battle_anim.h"
 #include "battle_arena.h"
 #include "battle_controllers.h"
+#include "battle_scripts.h"
 #include "battle_gfx_sfx_util.h"
 #include "battle_interface.h"
 #include "battle_message.h"
@@ -2322,7 +2323,8 @@ void BtlController_HandleSwitchInAnim(u32 battler)
         && gCurrentMove != MOVE_ROAR
         && gCurrentMove != MOVE_WHIRLWIND
         && gSideTimers[B_SIDE_OPPONENT].retaliateTimer > 1
-        && gSideTimers[B_SIDE_PLAYER].retaliateTimer != 2)
+        && gSideTimers[B_SIDE_PLAYER].retaliateTimer != 2
+        && !gBattleStruct->battlerState[battler].forcedSwitch)
     {
         BtlController_Complete(battler);
         return;
