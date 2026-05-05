@@ -283,6 +283,7 @@ static const u16 *const sKantoTrainerCardPals[] =
 
 static const u8 sTrainerCardTextColors[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY};
 static const u8 sTrainerCardGoldTextColors[] = {TEXT_COLOR_TRANSPARENT, 15, TEXT_COLOR_LIGHT_BLUE};
+static const u8 sTrainerCardLossTextColors[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_RED, TEXT_COLOR_LIGHT_RED};
 static const u8 sTimeColonInvisibleTextColors[6] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_TRANSPARENT, TEXT_COLOR_TRANSPARENT};
 
 static const u8 sTrainerPicOffset[2][GENDER_COUNT][2] =
@@ -1267,7 +1268,7 @@ static void BufferWinRecords(void)
     u32 i;
     for (i = 0; i < sData->trainerCard.winsCount && i < 12; i++)
     {
-        StringCopy(sData->winNames[i], GetTrainerNameFromId(sData->trainerCard.wins[i].trainerId));
+        StringCopy(sData->winNames[i], GetTrainerNameFromId(sData->trainerCard.wins[i].trainerId & 0x7FFF));
         ConvertInternationalString(sData->winNames[i], sData->language);
 
         u8 *str = sData->winTimes[i];
@@ -1297,8 +1298,9 @@ static void PrintWinRecords(void)
         }
         // Name text removed to be replaced by overworld sprite
 
+        const u8 *colors = (sData->trainerCard.wins[i].trainerId & 0x8000) ? sTrainerCardLossTextColors : sTrainerCardTextColors;
         u32 timeX = x + 80 - GetStringWidth(FONT_NORMAL, sData->winTimes[i], 0);
-        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, timeX, y, sTrainerCardTextColors, TEXT_SKIP_DRAW, sData->winTimes[i]);
+        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, timeX, y, colors, TEXT_SKIP_DRAW, sData->winTimes[i]);
     }
 }
 
@@ -1406,7 +1408,7 @@ static void CreateWinRecordSprites(void)
             y = (i - 6) * 16 + 41;
         }
 
-        trainerId = sData->trainerCard.wins[i].trainerId;
+        trainerId = sData->trainerCard.wins[i].trainerId & 0x7FFF;
         picIndex = GetTrainerPicFromId(trainerId);
         isPair = FALSE;
         foughtLeft = FALSE;
@@ -1487,6 +1489,21 @@ static void CreateWinRecordSprites(void)
             {
                 sData->winSpriteIds[i][1] = CreateObjectGraphicsSprite(OBJ_EVENT_GFX_WALLACE, SpriteCallbackDummy, x + 16, y, 0);
                 StartSpriteAnim(&gSprites[sData->winSpriteIds[i][1]], 0);
+            }
+        }
+
+        // Grey out sprites if the record is a loss
+        if (sData->trainerCard.wins[i].trainerId & 0x8000)
+        {
+            greyPalNum = AllocateAndGreyOutPalette(sData->winSpriteIds[i][0], i, 0);
+            if (greyPalNum != 0xFF)
+                gSprites[sData->winSpriteIds[i][0]].oam.paletteNum = greyPalNum;
+
+            if (sData->winSpriteIds[i][1] != SPRITE_NONE)
+            {
+                greyPalNum = AllocateAndGreyOutPalette(sData->winSpriteIds[i][1], i, 1);
+                if (greyPalNum != 0xFF)
+                    gSprites[sData->winSpriteIds[i][1]].oam.paletteNum = greyPalNum;
             }
         }
     }
@@ -1774,14 +1791,49 @@ void ClearTrainerCardWins(void)
 
 void RecordTrainerCardWin(struct ScriptContext *ctx)
 {
+    u16 trainerId = VarGet(VAR_0x8004);
+    u32 i;
+
+    // If this trainer was previously recorded as a loss, update it to a win.
+    for (i = 0; i < gSaveBlock2Ptr->trainerCardWinsCount; i++)
+    {
+        if ((gSaveBlock2Ptr->trainerCardWins[i].trainerId & 0x7FFF) == trainerId)
+        {
+            gSaveBlock2Ptr->trainerCardWins[i].trainerId = trainerId; // Remove loss bit
+            gSaveBlock2Ptr->trainerCardWins[i].hours = gSaveBlock2Ptr->playTimeHours;
+            gSaveBlock2Ptr->trainerCardWins[i].minutes = gSaveBlock2Ptr->playTimeMinutes;
+            gSaveBlock2Ptr->trainerCardWins[i].seconds = gSaveBlock2Ptr->playTimeSeconds;
+            return;
+        }
+    }
+
     if (gSaveBlock2Ptr->trainerCardWinsCount < 13)
     {
-        u16 trainerId = VarGet(VAR_0x8004);
-        u8 i = gSaveBlock2Ptr->trainerCardWinsCount;
+        i = gSaveBlock2Ptr->trainerCardWinsCount;
         gSaveBlock2Ptr->trainerCardWins[i].trainerId = trainerId;
         gSaveBlock2Ptr->trainerCardWins[i].hours = gSaveBlock2Ptr->playTimeHours;
         gSaveBlock2Ptr->trainerCardWins[i].minutes = gSaveBlock2Ptr->playTimeMinutes;
         gSaveBlock2Ptr->trainerCardWins[i].seconds = gSaveBlock2Ptr->playTimeSeconds;
+        gSaveBlock2Ptr->trainerCardWinsCount++;
+    }
+}
+
+void RecordTrainerCardLoss(u16 trainerId)
+{
+    u32 i;
+    for (i = 0; i < gSaveBlock2Ptr->trainerCardWinsCount; i++)
+    {
+        if ((gSaveBlock2Ptr->trainerCardWins[i].trainerId & 0x7FFF) == trainerId)
+            return; // Already in the list (as win or loss)
+    }
+
+    if (gSaveBlock2Ptr->trainerCardWinsCount < 12)
+    {
+        u8 count = gSaveBlock2Ptr->trainerCardWinsCount;
+        gSaveBlock2Ptr->trainerCardWins[count].trainerId = trainerId | 0x8000;
+        gSaveBlock2Ptr->trainerCardWins[count].hours = gSaveBlock2Ptr->playTimeHours;
+        gSaveBlock2Ptr->trainerCardWins[count].minutes = gSaveBlock2Ptr->playTimeMinutes;
+        gSaveBlock2Ptr->trainerCardWins[count].seconds = gSaveBlock2Ptr->playTimeSeconds;
         gSaveBlock2Ptr->trainerCardWinsCount++;
     }
 }

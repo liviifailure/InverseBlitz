@@ -34,6 +34,7 @@
 #include "event_data.h"
 #include "pokemon_storage_system.h"
 #include "task.h"
+#include "trainer_card.h"
 #include "naming_screen.h"
 #include "battle_setup.h"
 #include "overworld.h"
@@ -880,87 +881,30 @@ const struct StatFractions gAccuracyStageRatios[] =
     {  3,   1}, // +6
 };
 
-// Make it so that only gym leaders pay money after battle
-static bool8 IsGymLeader(u16 trainerId)
+// Identifies trainers that are recorded on the trainer card
+static bool8 IsBossTrainer(u16 trainerId)
 {
-    switch (trainerId)
+    u32 trainerClass = GetTrainerClassFromId(trainerId);
+
+    switch (trainerClass)
     {
-    case TRAINER_ROXANNE_1:
-    case TRAINER_ROXANNE_2:
-    case TRAINER_ROXANNE_3:
-    case TRAINER_ROXANNE_4:
-    case TRAINER_ROXANNE_5:
-    case TRAINER_ROXANNE_6:
-    case TRAINER_ROXANNE_7:
-    case TRAINER_ROXANNE_8:
-    case TRAINER_BRAWLY_1:
-    case TRAINER_BRAWLY_2:
-    case TRAINER_BRAWLY_3:
-    case TRAINER_BRAWLY_4:
-    case TRAINER_BRAWLY_5:
-    case TRAINER_BRAWLY_6:
-    case TRAINER_BRAWLY_7:
-    case TRAINER_BRAWLY_8:
-    case TRAINER_WATTSON_1:
-    case TRAINER_WATTSON_2:
-    case TRAINER_WATTSON_3:
-    case TRAINER_WATTSON_4:
-    case TRAINER_WATTSON_5:
-    case TRAINER_WATTSON_6:
-    case TRAINER_WATTSON_7:
-    case TRAINER_WATTSON_8:
-    case TRAINER_FLANNERY_1:
-    case TRAINER_FLANNERY_2:
-    case TRAINER_FLANNERY_3:
-    case TRAINER_FLANNERY_4:
-    case TRAINER_FLANNERY_5:
-    case TRAINER_FLANNERY_6:
-    case TRAINER_FLANNERY_7:
-    case TRAINER_FLANNERY_8:
-    case TRAINER_NORMAN_1:
-    case TRAINER_NORMAN_2:
-    case TRAINER_NORMAN_3:
-    case TRAINER_NORMAN_4:
-    case TRAINER_NORMAN_5:
-    case TRAINER_NORMAN_6:
-    case TRAINER_NORMAN_7:
-    case TRAINER_NORMAN_8:
-    case TRAINER_WINONA_1:
-    case TRAINER_WINONA_2:
-    case TRAINER_WINONA_3:
-    case TRAINER_WINONA_4:
-    case TRAINER_WINONA_5:
-    case TRAINER_WINONA_6:
-    case TRAINER_WINONA_7:
-    case TRAINER_WINONA_8:
-    case TRAINER_TATE_AND_LIZA_1:
-    case TRAINER_TATE_AND_LIZA_2:
-    case TRAINER_TATE_AND_LIZA_3:
-    case TRAINER_TATE_AND_LIZA_4:
-    case TRAINER_TATE_AND_LIZA_5:
-    case TRAINER_TATE_AND_LIZA_6:
-    case TRAINER_TATE_AND_LIZA_7:
-    case TRAINER_TATE_AND_LIZA_8:
-    case TRAINER_JUAN_1:
-    case TRAINER_JUAN_2:
-    case TRAINER_JUAN_3:
-    case TRAINER_JUAN_4:
-    case TRAINER_JUAN_5:
-    case TRAINER_JUAN_6:
-    case TRAINER_JUAN_7:
-    case TRAINER_JUAN_8:
-    case TRAINER_VIOLA_1:
-    case TRAINER_VIOLA_2:
-    case TRAINER_VIOLA_3:
-    case TRAINER_VIOLA_4:
-    case TRAINER_VIOLA_5:
-    case TRAINER_VIOLA_6:
-    case TRAINER_VIOLA_7:
-    case TRAINER_VIOLA_8:
-    case TRAINER_ARCHIE:
-    case TRAINER_MAXIE_MAGMA_HIDEOUT:
+    case TRAINER_CLASS_LEADER:
+    case TRAINER_CLASS_ELITE_FOUR:
+    case TRAINER_CLASS_CHAMPION:
+    case TRAINER_CLASS_AQUA_LEADER:
+    case TRAINER_CLASS_MAGMA_LEADER:
+    case TRAINER_CLASS_SALON_MAIDEN:
+    case TRAINER_CLASS_DOME_ACE:
+    case TRAINER_CLASS_PALACE_MAVEN:
+    case TRAINER_CLASS_ARENA_TYCOON:
+    case TRAINER_CLASS_FACTORY_HEAD:
+    case TRAINER_CLASS_PIKE_QUEEN:
+    case TRAINER_CLASS_PYRAMID_KING:
         return TRUE;
     default:
+        // Check for specific trainers like Steven/Wally/Archie/Maxie if they don't share the above classes
+        if (trainerId == TRAINER_STEVEN || trainerId == TRAINER_WALLY || trainerId == TRAINER_ARCHIE || trainerId == TRAINER_MAXIE_MAGMA_HIDEOUT)
+            return TRUE;
         return FALSE;
     }
 }
@@ -8617,8 +8561,8 @@ static u32 GetTrainerMoneyToGive(u16 trainerId)
     }
     else
     {
-        // Only Gym Leaders give prize money.
-        if (!IsGymLeader(trainerId))
+        // Only Bosses (Leaders, E4, etc) give prize money.
+        if (!IsBossTrainer(trainerId))
             return 0;
 
         const struct TrainerMon *party = GetTrainerPartyFromId(trainerId);
@@ -8687,6 +8631,13 @@ static void Cmd_getmoneyreward(void)
             money = sWhiteOutBadgeMoney[count] * sPartyLevel;
         }
         RemoveMoney(&gSaveBlock1Ptr->money, money);
+
+        // Record encounter as a loss if it's a boss
+        if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+        {
+            if (IsBossTrainer(TRAINER_BATTLE_PARAM.opponentA))
+                RecordTrainerCardLoss(TRAINER_BATTLE_PARAM.opponentA);
+        }
     }
 
     PREPARE_WORD_NUMBER_BUFFER(gBattleTextBuff1, 5, money);
@@ -11056,7 +11007,7 @@ static void Cmd_givepaydaymoney(void)
     CMD_ARGS();
 
     if (!(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK)) && gPaydayMoney != 0
-        && (gBattleTypeFlags & BATTLE_TYPE_TRAINER) && IsGymLeader(TRAINER_BATTLE_PARAM.opponentA))
+        && (gBattleTypeFlags & BATTLE_TYPE_TRAINER) && IsBossTrainer(TRAINER_BATTLE_PARAM.opponentA))
     {
         u32 bonusMoney = gPaydayMoney * gBattleStruct->moneyMultiplier;
         AddMoney(&gSaveBlock1Ptr->money, bonusMoney);
@@ -13376,7 +13327,7 @@ static void Cmd_pickup(void)
                 && heldItem == ITEM_NONE
                 && GetMonData(&gPlayerParty[i], MON_DATA_HP) > 0)
             {
-                if ((gBattleTypeFlags & BATTLE_TYPE_TRAINER) && IsGymLeader(TRAINER_BATTLE_PARAM.opponentA))
+                if ((gBattleTypeFlags & BATTLE_TYPE_TRAINER) && IsBossTrainer(TRAINER_BATTLE_PARAM.opponentA))
                 {
                     heldItem = ITEM_SITRUS_BERRY;
                     SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &heldItem);

@@ -210,6 +210,14 @@
       "y": 8,
       "respawn_x": 20,
       "respawn_y": 8
+    },
+    {
+      "id": "HEAL_LOCATION_MR_BRINEYS_HOUSE",
+      "map": "MAP_ROUTE104",
+      "x": 17,
+      "y": 51,
+      "respawn_x": 20,
+      "respawn_y": 108
     }
   ]
 }

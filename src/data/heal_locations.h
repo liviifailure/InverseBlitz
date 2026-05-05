@@ -154,6 +154,12 @@ static const struct HealLocation sHealLocations[NUM_HEAL_LOCATIONS - 1] = {
         .x = 20,
         .y = 8,
     },
+    [HEAL_LOCATION_MR_BRINEYS_HOUSE - 1] = {
+        .mapGroup = MAP_GROUP(MAP_ROUTE104),
+        .mapNum = MAP_NUM(MAP_ROUTE104),
+        .x = 17,
+        .y = 51,
+    },
 };
 
 #define DEFAULT_POKEMON_CENTER_X 7
