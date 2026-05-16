@@ -51,6 +51,8 @@
 #define MAX_ITEMS_SHOWN 8
 #define SHOP_MENU_PALETTE_ID 12
 
+extern const u16 *GetPlayerObjectEventPaletteData(u8 gender);
+
 enum {
     WIN_BUY_SELL_QUIT,
     WIN_BUY_QUIT,
@@ -987,21 +989,35 @@ static void BuyMenuDrawObjectEvents(void)
         if (sShopData->viewportObjects[i][OBJ_EVENT_ID] == OBJECT_EVENTS_COUNT)
             continue;
 
-        if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_SLATEPORT_CITY)
-         && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_SLATEPORT_CITY)
-         && sShopData->viewportObjects[i][OBJ_EVENT_ID] == gPlayerAvatar.objectEventId)
+        u8 objEventId = sShopData->viewportObjects[i][OBJ_EVENT_ID];
+        u16 graphicsId = gObjectEvents[objEventId].graphicsId;
+
+        if (objEventId == gPlayerAvatar.objectEventId)
         {
-            continue;
+            if (gSaveBlock2Ptr->playerGender == MALE)
+                graphicsId = OBJ_EVENT_GFX_BRENDAN_NORMAL;
+            else
+                graphicsId = OBJ_EVENT_GFX_MAY_NORMAL;
         }
 
-        graphicsInfo = GetObjectEventGraphicsInfo(gObjectEvents[sShopData->viewportObjects[i][OBJ_EVENT_ID]].graphicsId);
+        graphicsInfo = GetObjectEventGraphicsInfo(graphicsId);
 
         spriteId = CreateObjectGraphicsSprite(
-            gObjectEvents[sShopData->viewportObjects[i][OBJ_EVENT_ID]].graphicsId,
+            graphicsId,
             SpriteCallbackDummy,
             (u16)sShopData->viewportObjects[i][X_COORD] * 16 + 8,
             (u16)sShopData->viewportObjects[i][Y_COORD] * 16 + 48 - graphicsInfo->height / 2,
             2);
+
+        if (objEventId == gPlayerAvatar.objectEventId)
+        {
+            const u16 *palette = GetPlayerObjectEventPaletteData(gSaveBlock2Ptr->playerGender);
+            if (palette != NULL)
+            {
+                LoadPalette(palette, OBJ_PLTT_ID(gSprites[spriteId].oam.paletteNum), PLTT_SIZE_4BPP);
+                UpdateSpritePaletteWithWeather(gSprites[spriteId].oam.paletteNum, FALSE);
+            }
+        }
 
         if (BuyMenuCheckIfObjectEventOverlapsMenuBg(sShopData->viewportObjects[i]) == TRUE)
         {

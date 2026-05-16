@@ -129,6 +129,7 @@ enum MonData {
     MON_DATA_ABILITY_CUSTOM,
     MON_DATA_HIDDEN_POWER_TYPE,
     MON_DATA_KO_COUNT,
+    MON_DATA_TOTAL_TURNS,
 };
 
 struct PokemonSubstruct0
@@ -230,6 +231,7 @@ struct PokemonSubstruct3
     // Not to be confused with METLOC_FATEFUL_ENCOUNTER.
     u32 modernFatefulEncounter:1;
     u16 koCount;
+    u16 totalTurns;
 };
 
 // Number of bytes in the largest Pokémon substruct.

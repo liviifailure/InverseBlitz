@@ -5539,6 +5539,21 @@ static void RunTurnActionsFunctions(void)
             else if (TryDoMoveEffectsBeforeMoves())
                 return;
             gBattleStruct->effectsBeforeUsingMoveDone = TRUE;
+
+            if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+            {
+                u32 i;
+                for (i = 0; i < gBattlersCount; i++)
+                {
+                    if (IsBattlerAlive(i) && IsOnPlayerSide(i))
+                    {
+                        u16 totalTurns = GetMonData(GetBattlerMon(i), MON_DATA_TOTAL_TURNS);
+                        if (totalTurns < 0xFFFF)
+                            totalTurns++;
+                        SetMonData(GetBattlerMon(i), MON_DATA_TOTAL_TURNS, &totalTurns);
+                    }
+                }
+            }
         }
         else
         {

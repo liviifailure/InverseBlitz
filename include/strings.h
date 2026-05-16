@@ -684,7 +684,7 @@ extern const u8 gText_Defense3[];
 extern const u8 gText_SpAtk4[];
 extern const u8 gText_SpDef4[];
 extern const u8 gText_Speed2[];
-extern const u8 gText_ExpPoints[];
+extern const u8 gText_TotalTurns[];
 extern const u8 gText_KOCount[];
 extern const u8 gText_NextLv[];
 extern const u8 gText_Status[];

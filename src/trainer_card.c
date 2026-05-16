@@ -67,6 +67,7 @@ struct TrainerCardData
     bool8 unused_F;
     bool8 hasTrades;
     u8 badgeCount[NUM_BADGES];
+    u8 currentPalIndex;
     u8 easyChatProfile[TRAINER_CARD_PROFILE_LENGTH][13];
     u8 textPlayersCard[70];
     u8 textHofTime[70];
@@ -135,6 +136,7 @@ static u8 VersionToCardType(u8);
 static void SetDataFromTrainerCard(void);
 static void InitGpuRegs(void);
 static void ResetGpuRegs(void);
+static void UpdateTrainerCardPalette(void);
 static void InitBgsAndWindows(void);
 static void SetTrainerCardCb2(void);
 static void SetUpTrainerCardTask(void);
@@ -452,6 +454,29 @@ static void Task_TrainerCard(u8 taskId)
             PlaySE(SE_RG_CARD_FLIP);
             sData->mainState = STATE_WAIT_FLIP_TO_BACK;
         }
+        else if (JOY_NEW(DPAD_LEFT))
+        {
+            if (sData->isHoenn) // Only apply to Hoenn cards as per request
+            {
+                PlaySE(SE_SELECT);
+                if (sData->currentPalIndex == 0)
+                    sData->currentPalIndex = ARRAY_COUNT(sHoennTrainerCardPals) - 1;
+                else
+                    sData->currentPalIndex--;
+                UpdateTrainerCardPalette();
+            }
+        }
+        else if (JOY_NEW(DPAD_RIGHT))
+        {
+            if (sData->isHoenn) // Only apply to Hoenn cards as per request
+            {
+                PlaySE(SE_SELECT);
+                sData->currentPalIndex++;
+                if (sData->currentPalIndex >= ARRAY_COUNT(sHoennTrainerCardPals))
+                    sData->currentPalIndex = 0;
+                UpdateTrainerCardPalette();
+            }
+        }
         else if (JOY_NEW(B_BUTTON))
         {
             if (gReceivedRemoteLinkPlayers && sData->isLink && InUnionRoom() == TRUE)
@@ -473,22 +498,27 @@ static void Task_TrainerCard(u8 taskId)
         }
         break;
     case STATE_HANDLE_INPUT_BACK:
-        if (JOY_NEW(B_BUTTON))
+        if (JOY_NEW(DPAD_LEFT))
         {
-            if (gReceivedRemoteLinkPlayers && sData->isLink && InUnionRoom() == TRUE)
+            if (sData->isHoenn) // Only apply to Hoenn cards as per request
             {
-                sData->mainState = STATE_WAIT_LINK_PARTNER;
+                PlaySE(SE_SELECT);
+                if (sData->currentPalIndex == 0)
+                    sData->currentPalIndex = ARRAY_COUNT(sHoennTrainerCardPals) - 1;
+                else
+                    sData->currentPalIndex--;
+                UpdateTrainerCardPalette();
             }
-            else if (gReceivedRemoteLinkPlayers)
+        }
+        else if (JOY_NEW(DPAD_RIGHT))
+        {
+            if (sData->isHoenn) // Only apply to Hoenn cards as per request
             {
-                BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, sData->blendColor);
-                sData->mainState = STATE_CLOSE_CARD;
-            }
-            else
-            {
-                FlipTrainerCard();
-                sData->mainState = STATE_WAIT_FLIP_TO_FRONT;
-                PlaySE(SE_RG_CARD_FLIP);
+                PlaySE(SE_SELECT);
+                sData->currentPalIndex++;
+                if (sData->currentPalIndex >= ARRAY_COUNT(sHoennTrainerCardPals))
+                    sData->currentPalIndex = 0;
+                UpdateTrainerCardPalette();
             }
         }
         else if (JOY_NEW(A_BUTTON))
@@ -530,6 +560,24 @@ static void Task_TrainerCard(u8 taskId)
         }
         break;
    }
+}
+
+static void UpdateTrainerCardPalette(void)
+{
+    const u16 *palettes;
+    if (sData->cardType == CARD_TYPE_FRLG)
+        palettes = sKantoTrainerCardPals[sData->currentPalIndex];
+    else // CARD_TYPE_RS or CARD_TYPE_EMERALD
+        palettes = sHoennTrainerCardPals[sData->currentPalIndex];
+
+    LoadPalette(palettes, BG_PLTT_ID(0), 3 * PLTT_SIZE_4BPP);
+
+    if (!sData->onBack)
+        DrawStarsAndBadgesOnCard(); // Redraw front-side elements (stars/badges)
+    else
+        DrawCardBackStats(); // Ensure back-side elements (stickers) or empty space is maintained
+
+    CopyBgTilemapBufferToVram(3); 
 }
 
 static bool8 LoadCardGfx(void)
@@ -1638,6 +1686,7 @@ static u8 SetCardBgsAndPals(void)
     case 2:
         if (sData->cardType != CARD_TYPE_FRLG)
         {
+            sData->currentPalIndex = sData->trainerCard.stars; // Initialize palette index
             LoadPalette(sHoennTrainerCardPals[sData->trainerCard.stars], BG_PLTT_ID(0), 3 * PLTT_SIZE_4BPP);
             LoadPalette(sHoennTrainerCardBadges_Pal, BG_PLTT_ID(3), PLTT_SIZE_4BPP);
             if (sData->trainerCard.gender != MALE)
@@ -1645,6 +1694,7 @@ static u8 SetCardBgsAndPals(void)
         }
         else
         {
+            sData->currentPalIndex = sData->trainerCard.stars; // Initialize palette index
             LoadPalette(sKantoTrainerCardPals[sData->trainerCard.stars], BG_PLTT_ID(0), 3 * PLTT_SIZE_4BPP);
             LoadPalette(sKantoTrainerCardBadges_Pal, BG_PLTT_ID(3), PLTT_SIZE_4BPP);
             if (sData->trainerCard.gender != MALE)

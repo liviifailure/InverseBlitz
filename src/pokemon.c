@@ -2726,6 +2726,9 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
         case MON_DATA_KO_COUNT:
             retVal = GetSubstruct3(boxMon)->koCount;
             break;
+        case MON_DATA_TOTAL_TURNS:
+            retVal = GetSubstruct3(boxMon)->totalTurns;
+            break;
         default:
             break;
         }
@@ -3166,6 +3169,9 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
             break;
         case MON_DATA_KO_COUNT:
             SET16(GetSubstruct3(boxMon)->koCount);
+            break;
+        case MON_DATA_TOTAL_TURNS:
+            SET16(GetSubstruct3(boxMon)->totalTurns);
             break;
         default:
             break;
