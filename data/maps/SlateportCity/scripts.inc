@@ -940,6 +940,7 @@ SlateportCity_Pokemart_StageTwoMegas:
 	.2byte ITEM_PYROARITE
 	.2byte ITEM_SABLENITE
 	.2byte ITEM_SCIZORITE
+	.2byte ITEM_SCRAFTINITE
 	.2byte ITEM_SHARPEDONITE
 	.2byte ITEM_STARMINITE
 	.2byte ITEM_STEELIXITE
@@ -974,6 +975,7 @@ SlateportCity_Pokemart_StageTwoMegasPlusRentals:
 	.2byte ITEM_PYROARITE
 	.2byte ITEM_SABLENITE
 	.2byte ITEM_SCIZORITE
+	.2byte ITEM_SCRAFTINITE
 	.2byte ITEM_SHARPEDONITE
 	.2byte ITEM_SKARMORITE;
 	.2byte ITEM_STARMINITE
@@ -987,6 +989,7 @@ SlateportCity_Pokemart_StageThreeMegas:
 	.2byte ITEM_AMPHAROSITE
 	.2byte ITEM_BANETTITE
 	.2byte ITEM_BARBARACITE
+	.2byte ITEM_BAXCALIBRITE
 	.2byte ITEM_BEEDRILLITE
 	.2byte ITEM_BLASTOISINITE
 	.2byte ITEM_BLAZIKENITE
@@ -1023,6 +1026,8 @@ SlateportCity_Pokemart_StageThreeMegas:
 	.2byte ITEM_SALAMENCITE
 	.2byte ITEM_SCEPTILITE
 	.2byte ITEM_SCIZORITE
+	.2byte ITEM_SCOLIPITE
+	.2byte ITEM_SCRAFTINITE
 	.2byte ITEM_STEELIXITE
 	.2byte ITEM_SCOLIPITE
 	.2byte ITEM_SHARPEDONITE
@@ -1262,6 +1267,8 @@ SlateportCity_EventScript_ShadyManReturnMon::
 	setvar VAR_SLATEPORT_RENTAL_STATE, 0
 	setvar VAR_RENTAL_MON_SPECIES, 0
 	addvar VAR_RENTAL_RETURN_COUNT, 1
+	special HasEnoughMonsForBattle
+	goto_if_eq VAR_RESULT, FALSE, SlateportCity_EventScript_ShadyManGiveDucklett
 	release
 	end
 
@@ -1304,6 +1311,8 @@ SlateportCity_EventScript_ShadyManReturnFaintedEnd::
 	setvar VAR_SLATEPORT_RENTAL_STATE, 0
 	setvar VAR_RENTAL_MON_SPECIES, 0
 	addvar VAR_RENTAL_RETURN_COUNT, 1
+	special HasEnoughMonsForBattle
+	goto_if_eq VAR_RESULT, FALSE, SlateportCity_EventScript_ShadyManGiveDucklett
 	release
 	end
 
@@ -1408,6 +1417,8 @@ SlateportCity_EventScript_RentalIntercept_Continue::
 	msgbox SlateportCity_Text_PlayerReturnedMon, MSGBOX_DEFAULT
 	setvar VAR_SLATEPORT_RENTAL_STATE, 0
 	setvar VAR_RENTAL_MON_SPECIES, 0
+	special HasEnoughMonsForBattle
+	goto_if_eq VAR_RESULT, FALSE, SlateportCity_EventScript_RentalIntercept_GiveDucklett
 	
 	@ Return Shady Man (Teleport back for simplicity or walk back)
 	getplayerxy VAR_0x8004, VAR_0x8005
@@ -1417,6 +1428,16 @@ SlateportCity_EventScript_RentalIntercept_Continue::
 	applymovement LOCALID_SHADY_MAN, SlateportCity_Movement_ShadyManReturn
 SlateportCity_EventScript_RentalReturn_Continue::
 	waitmovement 0
+	releaseall
+	end
+
+SlateportCity_EventScript_RentalIntercept_GiveDucklett::
+	msgbox SlateportCity_Text_GetLost, MSGBOX_DEFAULT
+	givemon SPECIES_LEDYBA, 5
+	applymovement LOCALID_SHADY_MAN, SlateportCity_Movement_ShadyManSpin
+	waitmovement 0
+	removeobject LOCALID_SHADY_MAN
+	call SlateportCity_EventScript_LightsOn
 	releaseall
 	end
 
@@ -1489,6 +1510,8 @@ SlateportCity_EventScript_RentalFaintedEnd::
 	setvar VAR_SLATEPORT_RENTAL_STATE, 0
 	setvar VAR_RENTAL_MON_SPECIES, 0
 	addvar VAR_RENTAL_RETURN_COUNT, 1
+	special HasEnoughMonsForBattle
+	goto_if_eq VAR_RESULT, FALSE, EventScript_WhiteOut
 	getplayerxy VAR_0x8004, VAR_0x8005
 	goto_if_eq VAR_0x8004, 9, SlateportCity_EventScript_RentalReturn_Pos1
 	goto_if_eq VAR_0x8005, 52, SlateportCity_EventScript_RentalReturn_Pos2
@@ -1507,6 +1530,8 @@ SlateportCity_EventScript_RentalFraud::
 SlateportCity_EventScript_RentalFraud_SkipMoney::
 	setvar VAR_SLATEPORT_RENTAL_STATE, 2
 	setvar VAR_RENTAL_MON_SPECIES, 0
+	special HasEnoughMonsForBattle
+	goto_if_eq VAR_RESULT, FALSE, SlateportCity_EventScript_ShadyManGiveDucklett
 	getplayerxy VAR_0x8004, VAR_0x8005
 	goto_if_eq VAR_0x8004, 9, SlateportCity_EventScript_RentalReturn_Pos1
 	goto_if_eq VAR_0x8005, 52, SlateportCity_EventScript_RentalReturn_Pos2
@@ -1520,6 +1545,8 @@ SlateportCity_EventScript_RentalDayCare::
 	msgbox SlateportCity_Text_ShadyManDayCare, MSGBOX_DEFAULT
 	setvar VAR_SLATEPORT_RENTAL_STATE, 0
 	setvar VAR_RENTAL_MON_SPECIES, 0
+	special HasEnoughMonsForBattle
+	goto_if_eq VAR_RESULT, FALSE, SlateportCity_EventScript_ShadyManGiveDucklett
 	getplayerxy VAR_0x8004, VAR_0x8005
 	goto_if_eq VAR_0x8004, 9, SlateportCity_EventScript_RentalReturn_Pos1
 	goto_if_eq VAR_0x8005, 52, SlateportCity_EventScript_RentalReturn_Pos2
@@ -2686,3 +2713,13 @@ SlateportCity_Text_Girl_DevolveComplete:
 	.string "There you go! It's back to being a\n"
 	.string "cute little Eevee!\p"
 	.string "Here's your ¥1000.$"
+
+SlateportCity_EventScript_ShadyManGiveDucklett::
+	msgbox SlateportCity_Text_GetLost, MSGBOX_DEFAULT
+	givemon SPECIES_LEDYBA, 5
+	release
+	end
+
+SlateportCity_Text_GetLost:
+	.string "What's this? You have no POKéMON left?\n"
+	.string "How pathetic. Take this and get lost!$"

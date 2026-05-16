@@ -8554,6 +8554,7 @@ static u32 GetTrainerMoneyToGive(u16 trainerId)
     u32 lastMonLevel = 0;
     u32 moneyReward;
     u8 trainerMoney = 0;
+    u32 trainerClass = GetTrainerClassFromId(trainerId);
 
     if (trainerId == TRAINER_SECRET_BASE)
     {
@@ -8561,8 +8562,16 @@ static u32 GetTrainerMoneyToGive(u16 trainerId)
     }
     else
     {
-        // Only Bosses (Leaders, E4, etc) give prize money.
-        if (!IsBossTrainer(trainerId))
+        // Only certain Bosses give prize money. 
+        // Returning 0 for Elite Four, Champion, Rival (Wally), and all Battle Frontier classes.
+        if (!IsBossTrainer(trainerId)
+         || trainerClass == TRAINER_CLASS_ELITE_FOUR
+         || trainerClass == TRAINER_CLASS_CHAMPION
+         || trainerClass == TRAINER_CLASS_DOME_ACE
+         || trainerClass == TRAINER_CLASS_PALACE_MAVEN
+         || trainerClass == TRAINER_CLASS_PIKE_QUEEN
+         || trainerClass == TRAINER_CLASS_PYRAMID_KING
+         || trainerId == TRAINER_WALLY)
             return 0;
 
         const struct TrainerMon *party = GetTrainerPartyFromId(trainerId);
@@ -13319,8 +13328,9 @@ static void Cmd_pickup(void)
             if (lvlDivBy10 > 9)
                 lvlDivBy10 = 9;
 
-            ability = GetSpeciesAbility(species, GetMonData(&gPlayerParty[i], MON_DATA_ABILITY_NUM));
-
+            //ability = GetSpeciesAbility(species, GetMonData(&gPlayerParty[i], MON_DATA_ABILITY_NUM));
+            ability = GetMonAbility(&gPlayerParty[i]);
+            
             if ((ability == ABILITY_PICKUP || ability == ABILITY_HONEY_GATHER || ability == ABILITY_BALL_FETCH)
                 && species != SPECIES_NONE
                 && species != SPECIES_EGG

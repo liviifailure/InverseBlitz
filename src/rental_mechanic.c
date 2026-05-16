@@ -193,3 +193,42 @@ void TakeRentalCost(void)
     u32 cost = 8000;
     RemoveMoney(&gSaveBlock1Ptr->money, cost);
 }
+
+void HasEnoughMonsForBattle(void)
+{
+    int i, j;
+
+    // Check Party for a non-fainted, non-egg mon
+    for (i = 0; i < gPlayerPartyCount; i++)
+    {
+        if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL) != SPECIES_NONE
+            && !GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG, NULL)
+            && GetMonData(&gPlayerParty[i], MON_DATA_HP, NULL) != 0)
+        {
+            gSpecialVar_Result = TRUE;
+            return;
+        }
+    }
+
+    // Check PC for any non-egg mon
+    for (i = 0; i < TOTAL_BOXES_COUNT; i++)
+    {
+        for (j = 0; j < IN_BOX_COUNT; j++)
+        {
+            struct BoxPokemon *boxMon = &gPokemonStoragePtr->boxes[i][j];
+            u16 species = GetBoxMonData(boxMon, MON_DATA_SPECIES, NULL);
+            if (species != SPECIES_NONE && !GetBoxMonData(boxMon, MON_DATA_IS_EGG, NULL))
+            {
+                struct Pokemon tempMon;
+                BoxMonToMon(boxMon, &tempMon);
+                if (tempMon.hp != 0)
+                {
+                    gSpecialVar_Result = TRUE;
+                    return;
+                }
+            }
+        }
+    }
+
+    gSpecialVar_Result = FALSE;
+}

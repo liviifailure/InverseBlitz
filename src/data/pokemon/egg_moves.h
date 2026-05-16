@@ -1444,7 +1444,7 @@ static const u16 sTorchicEggMoveLearnset[] = {
 
 #if P_FAMILY_MUDKIP
 static const u16 sMudkipEggMoveLearnset[] = {
-    MOVE_SLUDGE,
+    MOVE_AVALANCHE,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_MUDKIP
@@ -2086,21 +2086,7 @@ static const u16 sBuizelEggMoveLearnset[] = {
 
 #if P_FAMILY_CHERUBI
 static const u16 sCherubiEggMoveLearnset[] = {
-    MOVE_RAZOR_LEAF,
-    MOVE_SWEET_SCENT,
-    MOVE_TICKLE,
-    MOVE_NATURE_POWER,
-    MOVE_GRASS_WHISTLE,
-    MOVE_AROMATHERAPY,
     MOVE_WEATHER_BALL,
-    MOVE_HEAL_PULSE,
-    MOVE_HEALING_WISH,
-    MOVE_SEED_BOMB,
-    MOVE_NATURAL_GIFT,
-    MOVE_DEFENSE_CURL,
-    MOVE_ROLLOUT,
-    MOVE_FLOWER_SHIELD,
-    MOVE_GRASSY_TERRAIN,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_CHERUBI
@@ -2475,16 +2461,7 @@ static const u16 sCottoneeEggMoveLearnset[] = {
 
 #if P_FAMILY_PETILIL
 static const u16 sPetililEggMoveLearnset[] = {
-    MOVE_NATURAL_GIFT,
-    MOVE_CHARM,
-    MOVE_ENDURE,
-    MOVE_INGRAIN,
-    MOVE_WORRY_SEED,
     MOVE_GRASS_WHISTLE,
-    MOVE_SWEET_SCENT,
-    MOVE_BIDE,
-    MOVE_HEALING_WISH,
-    MOVE_ENCORE,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_PETILIL
@@ -2582,20 +2559,7 @@ static const u16 sDwebbleEggMoveLearnset[] = {
 
 #if P_FAMILY_SCRAGGY
 static const u16 sScraggyEggMoveLearnset[] = {
-    MOVE_DRAIN_PUNCH,
-    MOVE_COUNTER,
     MOVE_DRAGON_DANCE,
-    MOVE_DETECT,
-    MOVE_FAKE_OUT,
-    MOVE_FIRE_PUNCH,
-    MOVE_ICE_PUNCH,
-    MOVE_THUNDER_PUNCH,
-    MOVE_AMNESIA,
-    MOVE_FEINT_ATTACK,
-    MOVE_ZEN_HEADBUTT,
-    MOVE_QUICK_GUARD,
-    MOVE_POWER_UP_PUNCH,
-    MOVE_ACID_SPRAY,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_SCRAGGY
@@ -2681,15 +2645,7 @@ static const u16 sSolosisEggMoveLearnset[] = {
 
 #if P_FAMILY_DUCKLETT
 static const u16 sDucklettEggMoveLearnset[] = {
-    MOVE_STEEL_WING,
-    MOVE_BRINE,
-    MOVE_GUST,
-    MOVE_AIR_CUTTER,
     MOVE_MIRROR_MOVE,
-    MOVE_ME_FIRST,
-    MOVE_LUCKY_CHANT,
-    MOVE_MUD_SPORT,
-    MOVE_AQUA_JET,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_DUCKLETT
@@ -2710,16 +2666,7 @@ static const u16 sVanilliteEggMoveLearnset[] = {
 
 #if P_FAMILY_DEERLING
 static const u16 sDeerlingEggMoveLearnset[] = {
-    MOVE_FAKE_TEARS,
-    MOVE_NATURAL_GIFT,
     MOVE_SYNTHESIS,
-    MOVE_WORRY_SEED,
-    MOVE_ODOR_SLEUTH,
-    MOVE_AGILITY,
-    MOVE_SLEEP_TALK,
-    MOVE_BATON_PASS,
-    MOVE_GRASS_WHISTLE,
-    MOVE_HEADBUTT,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_DEERLING
@@ -4070,9 +4017,6 @@ static const u16 sTatsugiriEggMoveLearnset[] = {
 #if P_FAMILY_FRIGIBAX
 static const u16 sFrigibaxEggMoveLearnset[] = {
     MOVE_AQUA_TAIL,
-    MOVE_DRAGON_RUSH,
-    MOVE_FREEZE_DRY,
-    MOVE_ICICLE_SPEAR,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_FRIGIBAX

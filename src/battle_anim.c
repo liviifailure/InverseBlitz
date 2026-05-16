@@ -439,6 +439,18 @@ void LaunchBattleAnimation(u32 animType, u32 animId)
         {
         case MOVE_LUNGE:
         case MOVE_SMOG:
+        case MOVE_BULLET_SEED:
+        case MOVE_ICICLE_SPEAR:
+        case MOVE_TAIL_SLAP:
+        case MOVE_FURY_SWIPES:
+        case MOVE_PIN_MISSILE:
+        case MOVE_SCALE_SHOT:
+        case MOVE_SPIKE_CANNON:
+        case MOVE_COMET_PUNCH:
+        case MOVE_WATER_SHURIKEN:
+        case MOVE_DOUBLE_SLAP:
+        case MOVE_ARM_THRUST:
+        case MOVE_BONE_RUSH:
             gIsFastAnim = TRUE;
             break;
         }

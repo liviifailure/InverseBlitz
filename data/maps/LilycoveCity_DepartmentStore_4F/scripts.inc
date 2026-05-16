@@ -25,29 +25,7 @@ LilycoveCity_DepartmentStore_4F_EventScript_ClerkLeft::
 
 	.align 2
 LilycoveCity_DepartmentStore_4F_Pokemart_AttackTMs:
-	.2byte ITEM_TM_SOLAR_BEAM
-	.2byte ITEM_TM_BLIZZARD
-	.2byte ITEM_TM_BRICK_BREAK
-	.2byte ITEM_TM_DAZZLING_GLEAM
-	.2byte ITEM_TM_DIG
-	.2byte ITEM_TM_DRAGON_CLAW
-	.2byte ITEM_TM_FIRE_BLAST
-	.2byte ITEM_TM_GIGA_DRAIN
-	.2byte ITEM_TM_HYPER_BEAM
-	.2byte ITEM_TM_IRON_TAIL
-	.2byte ITEM_TM_RAIN_DANCE
-	.2byte ITEM_TM_SUNNY_DAY
-	.2byte ITEM_TM_SHADOW_BALL
-	.2byte ITEM_TM_THUNDER
-	.2byte ITEM_TM_X_SCISSOR
-	.2byte ITEM_TM_FLAMETHROWER
-	.2byte ITEM_TM_ICE_BEAM
-	.2byte ITEM_TM_SLUDGE_BOMB
-	.2byte ITEM_TM_THUNDERBOLT
-	.2byte ITEM_TM_PROTECT
-	.2byte ITEM_TM_PSYCHIC
-	.2byte ITEM_TM_EARTHQUAKE
-	.2byte ITEM_TM_HONE_CLAWS
+	.2byte ITEM_POTION
 	pokemartlistend
 
 LilycoveCity_DepartmentStore_4F_EventScript_ClerkRight::
@@ -62,19 +40,7 @@ LilycoveCity_DepartmentStore_4F_EventScript_ClerkRight::
 
 	.align 2
 LilycoveCity_DepartmentStore_4F_Pokemart_DefenseTMs:
-	.2byte ITEM_TM_BULLET_SEED
-	.2byte ITEM_TM_HAIL
-	.2byte ITEM_TM_SAFEGUARD
-	.2byte ITEM_TM_SANDSTORM
-	.2byte ITEM_TM_SKILL_SWAP
-	.2byte ITEM_TM_STEEL_WING
-	.2byte ITEM_TM_THIEF
-	.2byte ITEM_TM_TORMENT
-	.2byte ITEM_TM_TRICK_ROOM
-	.2byte ITEM_TM_DOUBLE_TEAM
-	.2byte ITEM_TM_LIGHT_SCREEN
-	.2byte ITEM_TM_REFLECT
-	.2byte ITEM_TM_REST
+	.2byte ITEM_POTION
 	pokemartlistend
 
 LilycoveCity_DepartmentStore_4F_Text_AttackOrDefenseTM:

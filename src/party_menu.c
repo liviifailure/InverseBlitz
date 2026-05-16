@@ -2715,6 +2715,7 @@ static void LoadPartyBoxPalette(struct PartyMenuBox *menuBox, u8 palFlags)
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_CHARJABUG
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_GLOOM
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_ONIX
+         || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_PETILIL
          //|| GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_WEEPINBELL
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_EXEGGCUTE
          //|| GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_NUZLEAF
@@ -2725,7 +2726,6 @@ static void LoadPartyBoxPalette(struct PartyMenuBox *menuBox, u8 palFlags)
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_CETODDLE
          //|| GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_SUNKERN
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_COTTONEE
-         //|| GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_PETILIL
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_HELIOPTILE
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_CLOBBOPUS
          //|| GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_NIDORINA
@@ -2759,6 +2759,7 @@ static void LoadPartyBoxPalette(struct PartyMenuBox *menuBox, u8 palFlags)
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_CROAGUNK
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_SNOVER
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_LARVESTA
+         || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_SCRAGGY
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_CLAUNCHER
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_TIRTOUGA
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_AMAURA
@@ -2790,6 +2791,7 @@ static void LoadPartyBoxPalette(struct PartyMenuBox *menuBox, u8 palFlags)
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_GOTHITA
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_HONEDGE
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_IMPIDIMP
+         || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_FRIGIBAX
          //|| GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_DEINO
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_TYNAMO
          || GetMonData(&gPlayerParty[menuBox->windowId], MON_DATA_SPECIES) == SPECIES_SWINUB
@@ -6327,6 +6329,7 @@ void ItemUseCB_RareCandy(u8 taskId, TaskFunc task)
             DisplayPartyMenuMessage(gStringVar4, TRUE);
             ScheduleBgCopyTilemapToVram(2);
             gTasks[taskId].func = Task_WaitForAButtonPressAfterMessage;
+            break;
         }
         else
         {
@@ -6336,10 +6339,12 @@ void ItemUseCB_RareCandy(u8 taskId, TaskFunc task)
             // If a move was learned or evolution can happen, handle it
             if (learnedNewMove)
             {
+                gIsFromFieldMove = FALSE;
                 gTasks[taskId].func = Task_TryLearnNewMoves;
             }
             else if (canEvolve)
             {
+                gIsFromFieldMove = FALSE;
                 gTasks[taskId].func = PartyMenuTryEvolution;
             }
             else
@@ -8628,6 +8633,7 @@ static const u16 sSketchMovePool[] = {
     MOVE_BEAK_BLAST,
     MOVE_BOOMBURST,
     //MOVE_BUG_BITE,
+    MOVE_CEASELESS_EDGE,
     MOVE_CHARM,
     MOVE_DESTINY_BOND,
     MOVE_DRACO_METEOR,
@@ -8644,7 +8650,7 @@ static const u16 sSketchMovePool[] = {
     MOVE_KINGS_SHIELD,
     MOVE_LEECH_SEED,
     MOVE_LIGHT_SCREEN,
-    MOVE_MAT_BLOCK,
+    //MOVE_MAT_BLOCK,
     MOVE_MILK_DRINK,
     MOVE_NIGHT_DAZE,
     MOVE_OBSTRUCT,

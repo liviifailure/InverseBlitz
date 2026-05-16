@@ -144,7 +144,7 @@ Route110_EventScript_ChallengeGuy::
 	lock
 	faceplayer
 	specialvar VAR_RESULT, GetPlayerAvatarBike
-	goto_if_eq VAR_RESULT, 1, Route110_EventScript_PlayerRidingAcroBike
+	@goto_if_eq VAR_RESULT, 1, Route110_EventScript_PlayerRidingAcroBike
 	goto_if_eq VAR_CYCLING_CHALLENGE_STATE, 0, Route110_EventScript_PlayerNotRidingBike
 	msgbox Route110_Text_AlwaysAimHigher, MSGBOX_DEFAULT
 	release

@@ -80,6 +80,14 @@ EverGrandeCity_PokemonLeague_1F_EventScript_ClerkTrap_SkipMoney::
 	callnative DoLightsOnFast
 	waitstate
 	setflashlevel 0
+	special HasEnoughMonsForBattle
+	goto_if_eq VAR_RESULT, FALSE, EverGrandeCity_PokemonLeague_1F_EventScript_ClerkGiveSpinda
+	release
+	end
+
+EverGrandeCity_PokemonLeague_1F_EventScript_ClerkGiveSpinda::
+	msgbox EverGrandeCity_PokemonLeague_1F_Text_GetLost, MSGBOX_DEFAULT
+	givemon SPECIES_SPINDA, 5
 	release
 	end
 
@@ -108,6 +116,7 @@ EverGrandeCity_PokemonLeague_1F_Pokemart:
 	.2byte ITEM_AMPHAROSITE
 	.2byte ITEM_BANETTITE
 	.2byte ITEM_BARBARACITE
+	.2byte ITEM_BAXCALIBRITE
 	.2byte ITEM_BEEDRILLITE
 	.2byte ITEM_BLASTOISINITE
 	.2byte ITEM_BLAZIKENITE
@@ -145,6 +154,7 @@ EverGrandeCity_PokemonLeague_1F_Pokemart:
 	.2byte ITEM_SCEPTILITE
 	.2byte ITEM_SCIZORITE
 	.2byte ITEM_SCOLIPITE
+	.2byte ITEM_SCRAFTINITE
 	.2byte ITEM_SHARPEDONITE
 	.2byte ITEM_STARAPTITE
 	.2byte ITEM_STARMINITE
@@ -253,3 +263,7 @@ EverGrandeCity_PokemonLeague_1F_Text_CantHideFromMe:
 
 EverGrandeCity_PokemonLeague_1F_Text_TookMoney:
 	.string "{PLAYER} handed over ¥{STR_VAR_1}.$"
+
+EverGrandeCity_PokemonLeague_1F_Text_GetLost:
+	.string "You don't even have any more POKéMON?\n"
+	.string "Pathetic. Take this and get lost!$"

@@ -1357,8 +1357,8 @@ static s32 AI_CheckBadMove(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
             break;  // check move damage
         case EFFECT_EXPLOSION:
         case EFFECT_MISTY_EXPLOSION:
-            if (!(gAiThinkingStruct->aiFlags[battlerAtk] & AI_FLAG_WILL_SUICIDE))
-                ADJUST_SCORE(-2);
+            //if (!(gAiThinkingStruct->aiFlags[battlerAtk] & AI_FLAG_WILL_SUICIDE))
+                //ADJUST_SCORE(-2);
 
             if (effectiveness == UQ_4_12(0.0))
             {
@@ -1368,13 +1368,13 @@ static s32 AI_CheckBadMove(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
             {
                 ADJUST_SCORE(-10);
             }
-            else if (CountUsablePartyMons(battlerAtk) == 0)
-            {
-                if (CountUsablePartyMons(battlerDef) != 0)
-                    ADJUST_SCORE(-10);
-                else
-                    ADJUST_SCORE(-1);
-            }
+            //else if (CountUsablePartyMons(battlerAtk) == 0)
+            //{
+                //if (CountUsablePartyMons(battlerDef) != 0)
+                    //ADJUST_SCORE(-10);
+                //else
+                    //ADJUST_SCORE(-1);
+            //}
             break;
     // stat raising effects
         case EFFECT_ATTACK_UP:
@@ -4216,11 +4216,8 @@ static s32 AI_CalcMoveEffectScore(u32 battlerAtk, u32 battlerDef, u32 move, stru
     case EFFECT_EXPLOSION:
     case EFFECT_MISTY_EXPLOSION:
     case EFFECT_MEMENTO:
-        if (gAiThinkingStruct->aiFlags[battlerAtk] & AI_FLAG_WILL_SUICIDE && gBattleMons[battlerDef].statStages[STAT_EVASION] < 7)
-        {
-            if (aiData->hpPercents[battlerAtk] < 50 && AI_RandLessThan(128))
-                ADJUST_SCORE(DECENT_EFFECT);
-        }
+        //if (AI_RandLessThan(255))
+            ADJUST_SCORE(-10);
         break;
     case EFFECT_FINAL_GAMBIT:
         if (gAiThinkingStruct->aiFlags[battlerAtk] & AI_FLAG_WILL_SUICIDE)
@@ -6381,8 +6378,8 @@ static s32 AI_HPAware(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
             // high hp
             switch (effect)
             {
-            case EFFECT_EXPLOSION:
-            case EFFECT_MISTY_EXPLOSION:
+            //case EFFECT_EXPLOSION:
+            //case EFFECT_MISTY_EXPLOSION:
             case EFFECT_RESTORE_HP:
             case EFFECT_REST:
             case EFFECT_DESTINY_BOND:
@@ -6410,8 +6407,8 @@ static s32 AI_HPAware(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
 
             switch (effect)
             {
-            case EFFECT_EXPLOSION:
-            case EFFECT_MISTY_EXPLOSION:
+            //case EFFECT_EXPLOSION:
+            //case EFFECT_MISTY_EXPLOSION:
             case EFFECT_BIDE:
             case EFFECT_CONVERSION:
             case EFFECT_LIGHT_SCREEN:
