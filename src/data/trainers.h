@@ -41144,7 +41144,8 @@ F_TRAINER_FEMALE |
             {
 #line 15904
             .species = SPECIES_VULPIX,
-            .gender = TRAINER_MON_RANDOM_GENDER,
+#line 15904
+            .gender = TRAINER_MON_FEMALE,
 #line 15906
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 #line 15908
@@ -41165,7 +41166,8 @@ F_TRAINER_FEMALE |
             {
 #line 15914
             .species = SPECIES_NUMEL,
-            .gender = TRAINER_MON_RANDOM_GENDER,
+#line 15914
+            .gender = TRAINER_MON_FEMALE,
 #line 15916
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 #line 15918
@@ -41186,7 +41188,8 @@ F_TRAINER_FEMALE |
             {
 #line 15924
             .species = SPECIES_TORKOAL,
-            .gender = TRAINER_MON_RANDOM_GENDER,
+#line 15924
+            .gender = TRAINER_MON_FEMALE,
 #line 15924
             .heldItem = ITEM_ORAN_BERRY,
 #line 15926

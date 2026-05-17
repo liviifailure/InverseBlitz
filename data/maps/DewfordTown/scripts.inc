@@ -9,6 +9,7 @@ DewfordTown_OnTransition:
 
 DewfordTown_EventScript_GymDoor::
 	goto_if_eq VAR_DEWFORD_LOCKED, 1, RandGym_EventScript_Locked
+	setrespawn HEAL_LOCATION_DEWFORD_TOWN
 	random 8
 	copyvar VAR_0x800A, VAR_RESULT
 	switch VAR_RESULT

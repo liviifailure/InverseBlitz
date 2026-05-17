@@ -15,6 +15,7 @@ MauvilleCity_OnTransition:
 
 MauvilleCity_EventScript_GymDoor::
 	goto_if_eq VAR_MAUVILLE_LOCKED, 1, RandGym_EventScript_Locked
+	setrespawn HEAL_LOCATION_MAUVILLE_CITY
 	random 8
 	copyvar VAR_0x800A, VAR_RESULT
 	switch VAR_RESULT

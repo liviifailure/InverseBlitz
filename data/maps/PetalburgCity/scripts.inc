@@ -13,6 +13,7 @@ PetalburgCity_OnTransition:
 
 PetalburgCity_EventScript_GymDoor::
 	goto_if_eq VAR_PETALBURG_LOCKED, 1, RandGym_EventScript_Locked
+	setrespawn HEAL_LOCATION_PETALBURG_CITY
 	random 8
 	copyvar VAR_0x800A, VAR_RESULT
 	switch VAR_RESULT

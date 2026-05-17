@@ -10,6 +10,7 @@ FortreeCity_OnTransition:
 
 FortreeCity_EventScript_GymDoor::
 	goto_if_eq VAR_FORTREE_LOCKED, 1, RandGym_EventScript_Locked
+	setrespawn HEAL_LOCATION_FORTREE_CITY
 	random 8
 	copyvar VAR_0x800A, VAR_RESULT
 	switch VAR_RESULT

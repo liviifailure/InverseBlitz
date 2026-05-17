@@ -380,9 +380,9 @@ void DoWhiteOut(void)
 {
     RunScriptImmediately(EventScript_WhiteOut);
     VarSet(VAR_FORCEANIM, 0);
-    HealPlayerParty();
-    Overworld_ResetStateAfterWhiteOut();
     SetWarpDestinationToLastHealLocation();
+    Overworld_ResetStateAfterWhiteOut();
+    HealPlayerParty();
     WarpIntoMap();
 }
 
@@ -720,7 +720,22 @@ static bool32 IsWhiteoutCutscene(void)
 
 void SetWarpDestinationToLastHealLocation(void)
 {
-    SetWarpDestination(MAP_GROUP(MAP_INSIDE_OF_TRUCK), MAP_NUM(MAP_INSIDE_OF_TRUCK), WARP_ID_NONE, -1, -1);
+    u32 i;
+    bool8 hasAlivePokemon = FALSE;
+
+    for (i = 0; i < CalculatePlayerPartyCount(); i++)
+    {
+        if (GetMonData(&gPlayerParty[i], MON_DATA_HP) != 0 && !GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG))
+        {
+            hasAlivePokemon = TRUE;
+            break;
+        }
+    }
+
+    if (hasAlivePokemon)
+        sWarpDestination = gSaveBlock1Ptr->lastHealLocation;
+    else
+        SetWarpDestination(MAP_GROUP(MAP_INSIDE_OF_TRUCK), MAP_NUM(MAP_INSIDE_OF_TRUCK), WARP_ID_NONE, -1, -1);
 }
 
 void SetLastHealLocationWarp(u8 healLocationId)

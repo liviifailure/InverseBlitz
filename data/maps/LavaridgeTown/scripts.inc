@@ -15,6 +15,7 @@ LavaridgeTown_OnTransition:
 
 LavaridgeTown_EventScript_GymDoor::
 	goto_if_eq VAR_LAVARIDGE_LOCKED, 1, RandGym_EventScript_Locked
+	setrespawn HEAL_LOCATION_LAVARIDGE_TOWN
 	random 8
 	copyvar VAR_0x800A, VAR_RESULT
 	switch VAR_RESULT

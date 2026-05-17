@@ -1418,7 +1418,7 @@ SlateportCity_EventScript_RentalIntercept_Continue::
 	setvar VAR_SLATEPORT_RENTAL_STATE, 0
 	setvar VAR_RENTAL_MON_SPECIES, 0
 	special HasEnoughMonsForBattle
-	goto_if_eq VAR_RESULT, FALSE, SlateportCity_EventScript_RentalIntercept_GiveDucklett
+	goto_if_eq VAR_RESULT, FALSE, SlateportCity_EventScript_RentalIntercept_GiveLedyba
 	
 	@ Return Shady Man (Teleport back for simplicity or walk back)
 	getplayerxy VAR_0x8004, VAR_0x8005
@@ -1431,7 +1431,7 @@ SlateportCity_EventScript_RentalReturn_Continue::
 	releaseall
 	end
 
-SlateportCity_EventScript_RentalIntercept_GiveDucklett::
+SlateportCity_EventScript_RentalIntercept_GiveLedyba::
 	msgbox SlateportCity_Text_GetLost, MSGBOX_DEFAULT
 	givemon SPECIES_LEDYBA, 5
 	applymovement LOCALID_SHADY_MAN, SlateportCity_Movement_ShadyManSpin

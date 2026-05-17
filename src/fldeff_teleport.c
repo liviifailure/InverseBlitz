@@ -7,6 +7,7 @@
 #include "overworld.h"
 #include "task.h"
 #include "constants/field_effects.h"
+#include "constants/songs.h"
 
 static void FieldCallback_Teleport(void);
 static void StartTeleportFieldEffect(void);
@@ -16,7 +17,7 @@ bool32 SetUpFieldMove_Teleport(void)
     if (!CheckFollowerNPCFlag(FOLLOWER_NPC_FLAG_CAN_LEAVE_ROUTE))
         return FALSE;
 
-    if (Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType) == TRUE)
+    if (Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType) == TRUE || gMapHeader.music == MUS_GYM)
     {
         gFieldCallback2 = FieldCallback_PrepareFadeInForTeleport;
         gPostMenuFieldCallback = FieldCallback_Teleport;

@@ -3259,6 +3259,21 @@ static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
     {
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_FIELD_MOVES + FIELD_MOVE_FLASH);
     }
+    if (MonKnowsMove(&mons[slotId], MOVE_TELEPORT))
+    {
+        u16 species = GetMonData(&mons[slotId], MON_DATA_SPECIES);
+        bool32 used = FALSE;
+
+        if (species == SPECIES_RALTS || species == SPECIES_KIRLIA || species == SPECIES_GARDEVOIR || species == SPECIES_GALLADE)
+            used = FlagGet(FLAG_RALTS_USED_TELEPORT);
+        else if (species == SPECIES_ELGYEM || species == SPECIES_BEHEEYEM)
+            used = FlagGet(FLAG_ELGYEM_USED_TELEPORT);
+        else if (species == SPECIES_ESPURR || species == SPECIES_MEOWSTIC)
+            used = FlagGet(FLAG_ESPURR_USED_TELEPORT);
+
+        if (!used && GetMonData(&mons[slotId], MON_DATA_HP) != 0)
+            AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_FIELD_MOVES + FIELD_MOVE_TELEPORT);
+    }
     if (MonKnowsMove(&mons[slotId], MOVE_SKETCH))
     {
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_FIELD_MOVES + FIELD_MOVE_SKETCH);
@@ -4541,6 +4556,16 @@ static void Task_HandleFieldMoveExitAreaYesNoInput(u8 taskId)
     switch (Menu_ProcessInputNoWrapClearOnChoose())
     {
     case 0:
+        if (sPartyMenuInternal->data[0] == FIELD_MOVE_TELEPORT)
+        {
+            u16 species = GetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_SPECIES);
+            if (species == SPECIES_RALTS || species == SPECIES_KIRLIA || species == SPECIES_GARDEVOIR || species == SPECIES_GALLADE)
+                FlagSet(FLAG_RALTS_USED_TELEPORT);
+            else if (species == SPECIES_ELGYEM || species == SPECIES_BEHEEYEM)
+                FlagSet(FLAG_ELGYEM_USED_TELEPORT);
+            else if (species == SPECIES_ESPURR || species == SPECIES_MEOWSTIC)
+                FlagSet(FLAG_ESPURR_USED_TELEPORT);
+        }
         gPartyMenu.exitCallback = CB2_ReturnToField;
         Task_ClosePartyMenu(taskId);
         break;
