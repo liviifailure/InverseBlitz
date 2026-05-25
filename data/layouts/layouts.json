@@ -4500,6 +4500,16 @@
       "secondary_tileset": "gTileset_SootopolisGym",
       "border_filepath": "data/layouts/SootopolisCity_Gym_1F_VAR_I/border.bin",
       "blockdata_filepath": "data/layouts/SootopolisCity_Gym_1F_VAR_I/map.bin"
+    },
+    {
+      "id": "LAYOUT_OLDALE_TOWN_HOUSE2_BASEMENT",
+      "name": "OldaleTown_House2_Basement_Layout",
+      "width": 19,
+      "height": 19,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_SecretBaseBlueCave",
+      "border_filepath": "data/layouts/OldaleTown_House2_Basement/border.bin",
+      "blockdata_filepath": "data/layouts/OldaleTown_House2_Basement/map.bin"
     }
   ]
 }

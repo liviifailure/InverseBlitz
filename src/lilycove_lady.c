@@ -476,6 +476,11 @@ void QuizLadyGetPlayerAnswer(void)
     ShowEasyChatScreen();
 }
 
+u16 Special_GetQuizAnswer(void)
+{
+    return gSaveBlock1Ptr->lilycoveLady.quiz.playerAnswer;
+}
+
 bool8 IsQuizAnswerCorrect(void)
 {
     sQuizLadyPtr = &gSaveBlock1Ptr->lilycoveLady.quiz;

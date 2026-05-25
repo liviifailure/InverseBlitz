@@ -1332,3 +1332,5 @@ EventScript_FlygonLearnedFly::
 	.include "data/scripts/choose_gift_pokemon.inc"
 	.include "data/scripts/battle_frontier.inc"
 	.include "data/scripts/apricorn_tree.inc"
+
+	.include "data/maps/OldaleTown_House2_Basement/scripts.inc"

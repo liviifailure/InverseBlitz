@@ -809,6 +809,20 @@ static const struct MenuAction MultichoiceList_WallySteven[] =
     {COMPOUND_STRING("STEVEN")},
 };
 
+static const struct MenuAction MultichoiceList_LevelCaps[] =
+{
+    {COMPOUND_STRING("0 Badges (Lv 15)")},
+    {COMPOUND_STRING("1 Badge  (Lv 19)")},
+    {COMPOUND_STRING("2 Badges (Lv 24)")},
+    {COMPOUND_STRING("3 Badges (Lv 29)")},
+    {COMPOUND_STRING("4 Badges (Lv 32)")},
+    {COMPOUND_STRING("5 Badges (Lv 35)")},
+    {COMPOUND_STRING("6 Badges (Lv 42)")},
+    {COMPOUND_STRING("7 Badges (Lv 48)")},
+    {COMPOUND_STRING("8 Badges (Lv 58)")},
+    {gText_Exit},
+};
+
 static const struct MenuAction MultichoiceList_Exit[] =
 {
     {gText_Exit},
@@ -940,6 +954,7 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_BERRY_PLOT]                 = MULTICHOICE(MultichoiceList_BerryPlot),
     [MULTI_STATUS_EFFECTS]             = MULTICHOICE(MultichoiceList_StatusEffects),
     [MULTI_WALLY_STEVEN]               = MULTICHOICE(MultichoiceList_WallySteven),
+    [MULTI_LEVEL_CAPS]                 = {MultichoiceList_LevelCaps, ARRAY_COUNT(MultichoiceList_LevelCaps), 5},
 };
 
 const u8 *const gStdStrings[] =

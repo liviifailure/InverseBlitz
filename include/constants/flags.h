@@ -105,7 +105,7 @@
 #define FLAG_RESCUED_BIRCH                       0x52
 #define FLAG_LEGENDARIES_IN_SOOTOPOLIS           0x53
 
-#define FLAG_UNUSED_0x054                    0x54  // Unused Flag
+#define FLAG_FREE_SHOP                       0x54
 #define FLAG_UNUSED_0x055                    0x55  // Unused Flag
 
 #define FLAG_HIDE_CONTEST_POKE_BALL          0x56  // Always set after new game, object it hides is added directly
@@ -666,9 +666,9 @@
 #define FLAG_UNUSED_0x264  0x264 // Sparkle Flag 1
 #define FLAG_UNUSED_0x265  0x265 // Sparkle Flag 2
 #define FLAG_UNUSED_0x266  0x266 // Sparkle Flag 3
-#define FLAG_UNUSED_0x267  0x267 // Unused Flag
-#define FLAG_UNUSED_0x268  0x268 // Unused Flag
-#define FLAG_UNUSED_0x269  0x269 // Unused Flag
+#define FLAG_UNUSED_0x267  0x267 // Sparkle Flag 4
+#define FLAG_OLDALE_HOUSE_SECRET_STAIRS  0x268
+#define FLAG_SYS_BATTLE_DEBUG            0x269
 #define FLAG_UNUSED_0x26A  0x26A // Unused Flag
 #define FLAG_UNUSED_0x26B  0x26B // Unused Flag
 #define FLAG_UNUSED_0x26C  0x26C // Unused Flag

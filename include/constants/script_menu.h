@@ -125,6 +125,7 @@
 #define MULTI_BERRY_PLOT                   114
 #define MULTI_STATUS_EFFECTS               115
 #define MULTI_WALLY_STEVEN                 116
+#define MULTI_LEVEL_CAPS                   117
 
 // Lilycove SS Tidal Multichoice Selections
 #define SSTIDAL_SELECTION_SLATEPORT        0

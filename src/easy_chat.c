@@ -769,7 +769,7 @@ static const struct EasyChatPhraseFrameDimensions sPhraseFrameDimensions[] = {
         .top = 4,
         .width = 12,
         .height = 2,
-        .footerId = FOOTER_QUIZ,
+        .footerId = FOOTER_NORMAL,
     },
     [FRAMEID_QUIZ_QUESTION] = {
         .left = 5,
