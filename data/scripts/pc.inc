@@ -4,7 +4,7 @@ EventScript_PC::
 	special DoPCTurnOnEffect
 	playse SE_PC_ON
 	msgbox Text_BootUpPC, MSGBOX_DEFAULT
-	goto EventScript_PCMainMenu
+	goto EventScript_AccessPokemonStorage
 	end
 
 EventScript_Statue::
@@ -12,7 +12,7 @@ EventScript_Statue::
 	setvar VAR_0x8004, PC_LOCATION_OTHER
 	special DoPCTurnOnEffect
 	playse SE_PC_ON
-	goto EventScript_PCMainMenu
+	goto EventScript_AccessPokemonStorage
 	end
 
 EventScript_PCMainMenu::
@@ -44,7 +44,7 @@ EventScript_AccessPokemonStorage::
 	playse SE_PC_LOGIN
 	special ShowPokemonStorageSystemPC
 	waitstate
-	goto EventScript_PCMainMenu
+	goto EventScript_TurnOffPC
 	end
 
 EventScript_AccessSomeonesPC::
