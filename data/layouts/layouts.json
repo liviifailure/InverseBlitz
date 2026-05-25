@@ -1092,6 +1092,86 @@
       "blockdata_filepath": "data/layouts/SootopolisCity_Gym_1F/map.bin"
     },
     {
+      "id": "LAYOUT_SOOTOPOLIS_CITY_GYM_1F_VAR_B",
+      "name": "SootopolisCity_Gym_1F_VAR_B_Layout",
+      "width": 17,
+      "height": 26,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_SootopolisGym",
+      "border_filepath": "data/layouts/SootopolisCity_Gym_1F/border.bin",
+      "blockdata_filepath": "data/layouts/SootopolisCity_Gym_1F_Var_B/map.bin"
+    },
+    {
+      "id": "LAYOUT_SOOTOPOLIS_CITY_GYM_1F_VAR_C",
+      "name": "SootopolisCity_Gym_1F_VAR_C_Layout",
+      "width": 17,
+      "height": 26,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_SootopolisGym",
+      "border_filepath": "data/layouts/SootopolisCity_Gym_1F/border.bin",
+      "blockdata_filepath": "data/layouts/SootopolisCity_Gym_1F_Var_C/map.bin"
+    },
+    {
+      "id": "LAYOUT_SOOTOPOLIS_CITY_GYM_1F_VAR_D",
+      "name": "SootopolisCity_Gym_1F_VAR_D_Layout",
+      "width": 17,
+      "height": 26,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_SootopolisGym",
+      "border_filepath": "data/layouts/SootopolisCity_Gym_1F/border.bin",
+      "blockdata_filepath": "data/layouts/SootopolisCity_Gym_1F_Var_D/map.bin"
+    },
+    {
+      "id": "LAYOUT_SOOTOPOLIS_CITY_GYM_1F_VAR_E",
+      "name": "SootopolisCity_Gym_1F_VAR_E_Layout",
+      "width": 17,
+      "height": 26,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_SootopolisGym",
+      "border_filepath": "data/layouts/SootopolisCity_Gym_1F/border.bin",
+      "blockdata_filepath": "data/layouts/SootopolisCity_Gym_1F_Var_E/map.bin"
+    },
+    {
+      "id": "LAYOUT_SOOTOPOLIS_CITY_GYM_1F_VAR_F",
+      "name": "SootopolisCity_Gym_1F_VAR_F_Layout",
+      "width": 17,
+      "height": 26,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_SootopolisGym",
+      "border_filepath": "data/layouts/SootopolisCity_Gym_1F/border.bin",
+      "blockdata_filepath": "data/layouts/SootopolisCity_Gym_1F_Var_F/map.bin"
+    },
+    {
+      "id": "LAYOUT_SOOTOPOLIS_CITY_GYM_1F_VAR_G",
+      "name": "SootopolisCity_Gym_1F_VAR_G_Layout",
+      "width": 17,
+      "height": 26,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_SootopolisGym",
+      "border_filepath": "data/layouts/SootopolisCity_Gym_1F/border.bin",
+      "blockdata_filepath": "data/layouts/SootopolisCity_Gym_1F_Var_G/map.bin"
+    },
+    {
+      "id": "LAYOUT_SOOTOPOLIS_CITY_GYM_1F_VAR_H",
+      "name": "SootopolisCity_Gym_1F_VAR_H_Layout",
+      "width": 17,
+      "height": 26,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_SootopolisGym",
+      "border_filepath": "data/layouts/SootopolisCity_Gym_1F/border.bin",
+      "blockdata_filepath": "data/layouts/SootopolisCity_Gym_1F_Var_H/map.bin"
+    },
+    {
+      "id": "LAYOUT_SOOTOPOLIS_CITY_GYM_1F_VAR_J",
+      "name": "SootopolisCity_Gym_1F_VAR_J_Layout",
+      "width": 17,
+      "height": 26,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_SootopolisGym",
+      "border_filepath": "data/layouts/SootopolisCity_Gym_1F/border.bin",
+      "blockdata_filepath": "data/layouts/SootopolisCity_Gym_1F_Var_J/map.bin"
+    },
+    {
       "id": "LAYOUT_SOOTOPOLIS_CITY_GYM_B1F",
       "name": "SootopolisCity_Gym_B1F_Layout",
       "width": 17,
@@ -4410,6 +4490,16 @@
       "secondary_tileset": "gTileset_MysteryEventsHouse",
       "border_filepath": "data/layouts/SootopolisCity_MysteryEventsHouse_1F_StairsUnblocked/border.bin",
       "blockdata_filepath": "data/layouts/SootopolisCity_MysteryEventsHouse_1F_StairsUnblocked/map.bin"
+    },
+    {
+      "id": "LAYOUT_SOOTOPOLIS_CITY_GYM_1F_VAR_I",
+      "name": "SootopolisCity_Gym_1F_VAR_I",
+      "width": 17,
+      "height": 26,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_SootopolisGym",
+      "border_filepath": "data/layouts/SootopolisCity_Gym_1F_VAR_I/border.bin",
+      "blockdata_filepath": "data/layouts/SootopolisCity_Gym_1F_VAR_I/map.bin"
     }
   ]
 }

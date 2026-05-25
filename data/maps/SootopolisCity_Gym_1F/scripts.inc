@@ -7,6 +7,57 @@ SootopolisCity_Gym_1F_MapScripts::
 
 SootopolisCity_Gym_1F_OnTransition:
 	setvar VAR_ICE_STEP_COUNT, 1
+	goto_if_ne VAR_SOOTOPOLIS_GYM_LAYOUT, 0, SootopolisCity_Gym_1F_EventScript_ApplyLayout
+	random 2
+	addvar VAR_RESULT, 1
+	copyvar VAR_SOOTOPOLIS_GYM_LAYOUT, VAR_RESULT
+SootopolisCity_Gym_1F_EventScript_ApplyLayout:
+	goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 2, SootopolisCity_Gym_1F_EventScript_SetLayoutD
+	goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 3, SootopolisCity_Gym_1F_EventScript_SetLayoutB
+	goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 4, SootopolisCity_Gym_1F_EventScript_SetLayoutC
+	goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 5, SootopolisCity_Gym_1F_EventScript_SetLayoutE
+	goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 6, SootopolisCity_Gym_1F_EventScript_SetLayoutF
+	goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 7, SootopolisCity_Gym_1F_EventScript_SetLayoutG
+	goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 8, SootopolisCity_Gym_1F_EventScript_SetLayoutH
+	goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 9, SootopolisCity_Gym_1F_EventScript_SetLayoutI
+	goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 10, SootopolisCity_Gym_1F_EventScript_SetLayoutJ
+	setmaplayoutindex LAYOUT_SOOTOPOLIS_CITY_GYM_1F
+	end
+
+SootopolisCity_Gym_1F_EventScript_SetLayoutB:
+	setmaplayoutindex LAYOUT_SOOTOPOLIS_CITY_GYM_1F_VAR_B
+	end
+
+SootopolisCity_Gym_1F_EventScript_SetLayoutC:
+	setmaplayoutindex LAYOUT_SOOTOPOLIS_CITY_GYM_1F_VAR_C
+	end
+
+SootopolisCity_Gym_1F_EventScript_SetLayoutD:
+	setmaplayoutindex LAYOUT_SOOTOPOLIS_CITY_GYM_1F_VAR_D
+	end
+
+SootopolisCity_Gym_1F_EventScript_SetLayoutE:
+	setmaplayoutindex LAYOUT_SOOTOPOLIS_CITY_GYM_1F_VAR_E
+	end
+
+SootopolisCity_Gym_1F_EventScript_SetLayoutF:
+	setmaplayoutindex LAYOUT_SOOTOPOLIS_CITY_GYM_1F_VAR_F
+	end
+
+SootopolisCity_Gym_1F_EventScript_SetLayoutG:
+	setmaplayoutindex LAYOUT_SOOTOPOLIS_CITY_GYM_1F_VAR_G
+	end
+
+SootopolisCity_Gym_1F_EventScript_SetLayoutH:
+	setmaplayoutindex LAYOUT_SOOTOPOLIS_CITY_GYM_1F_VAR_H
+	end
+
+SootopolisCity_Gym_1F_EventScript_SetLayoutI:
+	setmaplayoutindex LAYOUT_SOOTOPOLIS_CITY_GYM_1F_VAR_I
+	end
+
+SootopolisCity_Gym_1F_EventScript_SetLayoutJ:
+	setmaplayoutindex LAYOUT_SOOTOPOLIS_CITY_GYM_1F_VAR_J
 	end
 
 SootopolisCity_Gym_1F_OnResume:
@@ -44,8 +95,17 @@ SootopolisCity_Gym_1F_EventScript_CheckSetStairMetatiles::
 	setmetatile 8, 4, METATILE_SootopolisGym_Stairs, FALSE
 	setmetatile 8, 5, METATILE_SootopolisGym_Stairs, FALSE
 SootopolisCity_Gym_1F_EventScript_OpenFirstAndSecondStairs::
+	goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 7, SootopolisCity_Gym_1F_EventScript_OpenFirstAndSecondStairsG
+	goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 8, SootopolisCity_Gym_1F_EventScript_OpenFirstAndSecondStairsG
 	setmetatile 8, 10, METATILE_SootopolisGym_Stairs, FALSE
 	setmetatile 8, 11, METATILE_SootopolisGym_Stairs, FALSE
+	goto SootopolisCity_Gym_1F_EventScript_OpenFirstStairs
+
+SootopolisCity_Gym_1F_EventScript_OpenFirstAndSecondStairsG::
+	setmetatile 6, 10, METATILE_SootopolisGym_Stairs, FALSE
+	setmetatile 6, 11, METATILE_SootopolisGym_Stairs, FALSE
+	setmetatile 10, 10, METATILE_SootopolisGym_Stairs, FALSE
+	setmetatile 10, 11, METATILE_SootopolisGym_Stairs, FALSE
 SootopolisCity_Gym_1F_EventScript_OpenFirstStairs::
 	setmetatile 8, 15, METATILE_SootopolisGym_Stairs, FALSE
 	setmetatile 8, 16, METATILE_SootopolisGym_Stairs, FALSE
