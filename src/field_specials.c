@@ -2069,6 +2069,7 @@ bool8 UsedPokemonCenterWarp(void)
         MAP_EVER_GRANDE_CITY_POKEMON_LEAGUE_1F,
         MAP_BATTLE_FRONTIER_POKEMON_CENTER_1F,
         MAP_UNION_ROOM,
+        MAP_OLDALE_TOWN_HOUSE2_BASEMENT,
         MAP_UNDEFINED
     };
 
@@ -3899,6 +3900,7 @@ bool8 InPokemonCenter(void)
         MAP_TRADE_CENTER,
         MAP_RECORD_CORNER,
         MAP_BATTLE_COLOSSEUM_4P,
+        MAP_OLDALE_TOWN_HOUSE2_BASEMENT,
         MAP_UNDEFINED
     };
 
@@ -4492,6 +4494,11 @@ void SetHiddenPowerType(void)
 
     SetMonData(&gPlayerParty[partyIdx], MON_DATA_HIDDEN_POWER_TYPE, &type);
     CalculateMonStats(&gPlayerParty[partyIdx]);
+}
+
+void Special_GetEggSpecies(void)
+{
+    gSpecialVar_Result = GetEggSpecies(gSpecialVar_0x8004);
 }
 
 void CheckHiddenPower(void)

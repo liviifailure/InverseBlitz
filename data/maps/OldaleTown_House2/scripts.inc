@@ -10,6 +10,13 @@ OldaleTown_House2_EventScript_SetStairs::
 	setmetatile 10, 3, 0x219, FALSE
 	return
 
+OldaleTown_House2_EventScript_FallIntoBasement::
+	lockall
+	setholewarp MAP_OLDALE_TOWN_HOUSE2_BASEMENT, 15, 10
+	warphole MAP_UNDEFINED
+	waitstate
+	end
+
 OldaleTown_House2_EventScript_Woman::
 	lock
 	faceplayer

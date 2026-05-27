@@ -5,6 +5,7 @@
 #include "bg.h"
 #include "contest_effect.h"
 #include "data.h"
+#include "daycare.h"
 #include "decompress.h"
 #include "event_data.h"
 #include "field_screen_effect.h"
@@ -993,7 +994,33 @@ static void CreateLearnableMovesList(void)
     switch (gMoveRelearnerState)
     {
     case MOVE_RELEARNER_EGG_MOVES:
-        sMoveRelearnerStruct->numMenuChoices = GetRelearnerEggMoves(&gPlayerParty[sMoveRelearnerStruct->partyMon], sMoveRelearnerStruct->movesToLearn);
+        {
+            u16 species = GetMonData(&gPlayerParty[sMoveRelearnerStruct->partyMon], MON_DATA_SPECIES);
+            u16 i, j;
+            const u16 *eggMoves;
+            bool8 knowsMove;
+
+            species = GetEggSpecies(species);
+            eggMoves = GetSpeciesEggMoves(species);
+            sMoveRelearnerStruct->numMenuChoices = 0;
+            if (eggMoves != NULL)
+            {
+                for (i = 0; eggMoves[i] != MOVE_UNAVAILABLE && sMoveRelearnerStruct->numMenuChoices < MAX_RELEARNER_MOVES; i++)
+                {
+                    knowsMove = FALSE;
+                    for (j = 0; j < MAX_MON_MOVES; j++)
+                    {
+                        if (GetMonData(&gPlayerParty[sMoveRelearnerStruct->partyMon], MON_DATA_MOVE1 + j) == eggMoves[i])
+                        {
+                            knowsMove = TRUE;
+                            break;
+                        }
+                    }
+                    if (!knowsMove)
+                        sMoveRelearnerStruct->movesToLearn[sMoveRelearnerStruct->numMenuChoices++] = eggMoves[i];
+                }
+            }
+        }
         break;
     case MOVE_RELEARNER_TM_MOVES:
         sMoveRelearnerStruct->numMenuChoices = GetRelearnerTMMoves(&gPlayerParty[sMoveRelearnerStruct->partyMon], sMoveRelearnerStruct->movesToLearn);

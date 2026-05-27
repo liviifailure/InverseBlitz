@@ -120,6 +120,7 @@ SlateportCity_Movement_ScottExit:
 SlateportCity_EventScript_EnergyGuru::
 	lock
 	faceplayer
+	goto_if_unset FLAG_BADGE02_GET, SlateportCity_EventScript_EnergyGuruNotEnoughBadges
 	callnative CheckPartyForEnergyGuruMon
 	goto_if_eq VAR_RESULT, FALSE, SlateportCity_EventScript_EnergyGuru_NoMon
 	msgbox SlateportCity_Text_EnergyGuru_HaveMon, MSGBOX_YESNO
@@ -133,6 +134,11 @@ SlateportCity_EventScript_EnergyGuru::
 	callnative TriggerEnergyGuruEvolution
 	waitstate
 	goto SlateportCity_EventScript_EnergyGuru_Decline
+	end
+
+SlateportCity_EventScript_EnergyGuruNotEnoughBadges::
+	msgbox SlateportCity_Text_EnergyGuruNotEnoughBadges, MSGBOX_DEFAULT
+	release
 	end
 
 SlateportCity_EventScript_EnergyGuru_NoMon::
@@ -153,6 +159,7 @@ SlateportCity_EventScript_EnergyGuru_Decline::
 SlateportCity_EventScript_EffortRibbonWoman::
 	lock
 	faceplayer
+	goto_if_unset FLAG_BADGE04_GET, SlateportCity_EventScript_EffortRibbonWomanNotEnoughBadges
 	callnative CheckPartyForEffortRibbonMon
 	goto_if_eq VAR_RESULT, FALSE, SlateportCity_EventScript_EffortRibbonWoman_NoMon
 	msgbox SlateportCity_Text_EffortRibbonWoman_HaveMon, MSGBOX_YESNO
@@ -180,6 +187,11 @@ SlateportCity_EventScript_EffortRibbonWoman_InvalidMon::
 
 SlateportCity_EventScript_EffortRibbonWoman_Decline::
 	msgbox SlateportCity_Text_EffortRibbonWoman_Decline, MSGBOX_DEFAULT
+	release
+	end
+
+SlateportCity_EventScript_EffortRibbonWomanNotEnoughBadges::
+	msgbox SlateportCity_Text_EffortRibbonWomanNotEnoughBadges, MSGBOX_DEFAULT
 	release
 	end
 
@@ -2723,3 +2735,15 @@ SlateportCity_EventScript_ShadyManGiveDucklett::
 SlateportCity_Text_GetLost:
 	.string "What's this? You have no POKéMON left?\n"
 	.string "How pathetic. Take this and get lost!$"
+
+SlateportCity_Text_EffortRibbonWomanNotEnoughBadges:
+	.string "I'm sorry, but I only help experienced\n"
+	.string "TRAINERS with their POKéMON.\p"
+	.string "Come back once you have at least\n"
+	.string "four GYM BADGES.$"
+
+SlateportCity_Text_EnergyGuruNotEnoughBadges:
+	.string "I'm sorry, but I only help experienced\n"
+	.string "TRAINERS with their POKéMON.\p"
+	.string "Come back once you have at least\n"
+	.string "two GYM BADGES.$"

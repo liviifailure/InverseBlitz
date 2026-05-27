@@ -218,6 +218,15 @@
       "y": 51,
       "respawn_x": 20,
       "respawn_y": 108
+    },
+    {
+      "id": "HEAL_LOCATION_OLDALE_TOWN_HOUSE2_BASEMENT",
+      "map": "MAP_OLDALE_TOWN_HOUSE2_BASEMENT",
+      "x": 4,
+      "y": 3,
+      "respawn_map": "MAP_OLDALE_TOWN_HOUSE2_BASEMENT",
+      "respawn_x": 4,
+      "respawn_y": 3
     }
   ]
 }

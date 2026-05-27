@@ -55,15 +55,18 @@
       "elevation": 0,
       "dest_map": "MAP_OLDALE_TOWN",
       "dest_warp_id": "1"
-    },
+    }
+  ],
+  "coord_events": [
     {
+      "type": "trigger",
       "x": 10,
       "y": 3,
       "elevation": 0,
-      "dest_map": "MAP_OLDALE_TOWN_HOUSE2_BASEMENT",
-      "dest_warp_id": "0"
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "OldaleTown_House2_EventScript_FallIntoBasement"
     }
   ],
-  "coord_events": [],
   "bg_events": []
 }

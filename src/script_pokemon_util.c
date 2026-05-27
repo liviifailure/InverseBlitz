@@ -37,7 +37,9 @@ void HealPlayerParty(void)
     u32 i;
     for (i = 0; i < gPlayerPartyCount; i++)
     {
-        if ((gPlayerParty[i].hp) != 0)
+        if (gPlayerParty[i].hp != 0
+         || (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_OLDALE_TOWN_HOUSE2_BASEMENT)
+          && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_OLDALE_TOWN_HOUSE2_BASEMENT)))
         {
             HealPokemon(&gPlayerParty[i]);
         }

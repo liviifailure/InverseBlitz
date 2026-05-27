@@ -1,6 +1,7 @@
 EventScript_ChooseGiftPokemon::
 	faceplayer
 	msgbox Text_ChooseAGiftPokemon, MSGBOX_DEFAULT
+EventScript_ChooseGiftPokemon_NoMsg::
 	closemessage
 	special BuildGiftPokemonMenu
 	special SetIsGiftPokemonMenu
@@ -8,6 +9,13 @@ EventScript_ChooseGiftPokemon::
 	// The max items shown before scrolling is set to 8 to fit on the screen.
 	dynmultistack 0, 0, FALSE, 8, FALSE, 0, NULL
 EventScript_EndGiftPokemon::
+	return
+
+EventScript_ChooseGiftPokemon2_NoMsg::
+	closemessage
+	special BuildGiftPokemonMenu2
+	special SetIsGiftPokemonMenu
+	dynmultistack 0, 0, FALSE, 8, FALSE, 0, NULL
 	return
 
 Text_ChooseAGiftPokemon:

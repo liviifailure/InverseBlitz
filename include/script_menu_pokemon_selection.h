@@ -2,6 +2,7 @@
 #define GUARD_SCRIPT_MENU_POKEMON_SELECTION_H
 
 void Special_BuildGiftPokemonMenu(void);
+void Special_BuildGiftPokemonMenu2(void);
 void Special_SetGiftPokemonFlag(void);
 
 #endif // GUARD_SCRIPT_MENU_POKEMON_SELECTION_H

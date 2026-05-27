@@ -238,6 +238,37 @@ static const struct GiftPokemon sGiftPokemonList[] = {
     {SPECIES_EGG, 18}
 };
 
+static const struct GiftPokemon sGiftPokemonList2[] = {
+    {SPECIES_ABSOL, 10},
+    {SPECIES_ALOMOMOLA, 10},
+    {SPECIES_BOMBIRDIER, 10},
+    {SPECIES_BOUFFALANT, 10},
+    {SPECIES_CARNIVINE, 10},
+    {SPECIES_COMFEY, 10},
+    {SPECIES_CRYOGONAL, 10},
+    {SPECIES_DHELMISE, 10},
+    {SPECIES_DRAMPA, 10},
+    {SPECIES_DURANT, 10},
+    {SPECIES_FALINKS, 10},
+    {SPECIES_HAWLUCHA, 10},
+    {SPECIES_HEATMOR, 10},
+    {SPECIES_HERACROSS, 10},
+    {SPECIES_KANGASKHAN, 10},
+    {SPECIES_LAPRAS, 10},
+    {SPECIES_MILTANK, 10},
+    {SPECIES_MIMIKYU, 10},
+    {SPECIES_PINSIR, 10},
+    {SPECIES_RELICANTH, 10},
+    {SPECIES_SEVIPER, 10},
+    {SPECIES_SKARMORY, 10},
+    {SPECIES_STONJOURNER, 10},
+    {SPECIES_TOGEDEMARU, 10},
+    {SPECIES_TORKOAL, 10},
+    {SPECIES_TROPIUS, 10},
+    {SPECIES_TURTONATOR, 10},
+    {SPECIES_ZANGOOSE, 10}
+};
+
 u8 GetGiftMonCost(u16 species)
 {
     u32 i;
@@ -245,6 +276,11 @@ u8 GetGiftMonCost(u16 species)
     {
         if (sGiftPokemonList[i].species == species)
             return sGiftPokemonList[i].cost;
+    }
+    for (i = 0; i < ARRAY_COUNT(sGiftPokemonList2); i++)
+    {
+        if (sGiftPokemonList2[i].species == species)
+            return sGiftPokemonList2[i].cost;
     }
     return 0;
 }
@@ -283,6 +319,18 @@ void BuildGiftPokemonMenu(void)
         else
             ScriptMenu_AddDynmultichoice(gSpeciesInfo[species].speciesName, species, 0);
     }
+
+    ScriptMenu_AddDynmultichoice(gText_Finished, 999, -1);
+}
+
+void BuildGiftPokemonMenu2(void)
+{
+    u32 i;
+
+    ScriptMenu_ClearDynMultichoice();
+
+    for (i = 0; i < ARRAY_COUNT(sGiftPokemonList2); i++)
+        ScriptMenu_AddDynmultichoice(gSpeciesInfo[sGiftPokemonList2[i].species].speciesName, sGiftPokemonList2[i].species, 0);
 
     ScriptMenu_AddDynmultichoice(gText_Finished, 999, -1);
 }

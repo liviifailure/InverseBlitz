@@ -16,6 +16,7 @@
 		.align 2
 gSpecials::
 	def_special BuildGiftPokemonMenu
+	def_special BuildGiftPokemonMenu2
 	def_special HealPlayerParty
 	def_special SetCableClubWarp
 	def_special DoCableClubWarp
@@ -217,6 +218,7 @@ gSpecials::
 	def_special TakePokemonFromDaycare
 	def_special ScriptHatchMon
 	def_special EggHatch
+	def_special Special_GetEggSpecies
 	def_special CheckDaycareMonReceivedMail
 	def_special ShowLinkBattleRecords
 	def_special IsEnoughForCostInVar0x8005

@@ -732,7 +732,8 @@ void SetWarpDestinationToLastHealLocation(void)
         }
     }
 
-    if (hasAlivePokemon)
+    if (hasAlivePokemon || (gSaveBlock1Ptr->lastHealLocation.mapGroup == MAP_GROUP(MAP_OLDALE_TOWN_HOUSE2_BASEMENT) 
+     && gSaveBlock1Ptr->lastHealLocation.mapNum == MAP_NUM(MAP_OLDALE_TOWN_HOUSE2_BASEMENT)))
         sWarpDestination = gSaveBlock1Ptr->lastHealLocation;
     else
         SetWarpDestination(MAP_GROUP(MAP_INSIDE_OF_TRUCK), MAP_NUM(MAP_INSIDE_OF_TRUCK), WARP_ID_NONE, -1, -1);

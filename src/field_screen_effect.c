@@ -1091,6 +1091,11 @@ void DoLightsOutFast(struct ScriptContext *ctx)
     AnimateFlashWithSpeed(6, 8);
 }
 
+void DoLightsToLevel1Fast(struct ScriptContext *ctx)
+{
+    AnimateFlashWithSpeed(1, 8);
+}
+
 void DoLightsOnFast(struct ScriptContext *ctx)
 {
     AnimateFlashWithSpeed(0, 8);

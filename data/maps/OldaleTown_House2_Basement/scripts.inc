@@ -1,6 +1,14 @@
+.set SCROLL_MULTI_HIDDEN_POWER_TYPES, 13
+
 OldaleTown_House2_Basement_MapScripts::
+	map_script MAP_SCRIPT_ON_TRANSITION, OldaleTown_House2_Basement_OnTransition
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, OldaleTown_House2_Basement_OnFrame
 	.byte 0
+
+OldaleTown_House2_Basement_OnTransition:
+	setrespawn HEAL_LOCATION_OLDALE_TOWN_HOUSE2_BASEMENT
+	special HealPlayerParty
+	end
 
 OldaleTown_House2_Basement_OnFrame:
 	map_script_2 VAR_TEMP_0, 0, OldaleTown_House2_Basement_EventScript_LightUpRoom
@@ -9,8 +17,8 @@ OldaleTown_House2_Basement_OnFrame:
 OldaleTown_House2_Basement_EventScript_LightUpRoom::
 	lockall
 	setvar VAR_TEMP_0, 1
-	animateflash 0
-	setflashlevel 0
+	animateflash 1
+	setflashlevel 1
 	releaseall
 	end
 
@@ -170,9 +178,26 @@ OldaleTown_House2_Text_LevelCaps8:
 OldaleTown_House2_Basement_EventScript_GiftPokemonNPC::
 	lock
 	faceplayer
-	call EventScript_ChooseGiftPokemon
+	callnative DoLightsOnFast
+	msgbox OldaleTown_House2_Basement_Text_PeeredIntoBox, MSGBOX_DEFAULT
+	call EventScript_ChooseGiftPokemon_NoMsg
+	callnative DoLightsToLevel1Fast
 	release
 	end
+
+OldaleTown_House2_Basement_EventScript_GiftPokemonNPC2::
+	lock
+	faceplayer
+	callnative DoLightsOnFast
+	msgbox OldaleTown_House2_Basement_Text_PeeredIntoBox, MSGBOX_DEFAULT
+	call EventScript_ChooseGiftPokemon2_NoMsg
+	callnative DoLightsToLevel1Fast
+	release
+	end
+
+OldaleTown_House2_Basement_Text_PeeredIntoBox:
+	.string "{PLAYER} peered into the box…\n"
+	.string "It's full of POKéMON!$"
 
 OldaleTown_House2_Basement_EventScript_Miltank::
 	lock
@@ -384,6 +409,8 @@ OldaleTown_House2_Basement_Mart_EvoItems:
 	.hword ITEM_LINKING_CORD
 	.hword ITEM_ROTOM_CATALOG
 	.hword ITEM_BURMY_BINDER
+	.hword ITEM_LEEK
+	.hword ITEM_THICK_CLUB
 	.hword ITEM_NONE
 
 OldaleTown_House2_Basement_EventScript_AbilityMint_Clerk::
@@ -400,14 +427,26 @@ OldaleTown_House2_Basement_EventScript_AbilityMint_Clerk::
 
 	.align 2
 OldaleTown_House2_Basement_Mart_AbilitiesMints:
+	.hword ITEM_SITRUS_BERRY
+	.hword ITEM_LUM_BERRY
+	.hword ITEM_LEPPA_BERRY
+	.hword ITEM_ORAN_BERRY
+	.hword ITEM_CHERI_BERRY
+	.hword ITEM_CHESTO_BERRY
+	.hword ITEM_PECHA_BERRY
+	.hword ITEM_RAWST_BERRY
+	.hword ITEM_ASPEAR_BERRY
+	.hword ITEM_PERSIM_BERRY
 	.hword ITEM_ABILITY_CAPSULE
 	.hword ITEM_ABILITY_PATCH
 	.hword ITEM_CHARCOAL
 	.hword ITEM_MYSTIC_WATER
 	.hword ITEM_MIRACLE_SEED
+	.hword ITEM_SILK_SCARF
 	.hword ITEM_SOFT_SAND
 	.hword ITEM_BLACK_GLASSES
 	.hword ITEM_NEVER_MELT_ICE
+	.hword ITEM_WHITE_HERB
 	.hword ITEM_LONELY_MINT
 	.hword ITEM_ADAMANT_MINT
 	.hword ITEM_NAUGHTY_MINT
@@ -429,6 +468,7 @@ OldaleTown_House2_Basement_Mart_AbilitiesMints:
 	.hword ITEM_JOLLY_MINT
 	.hword ITEM_NAIVE_MINT
 	.hword ITEM_SERIOUS_MINT
+	
 	.hword ITEM_MAX_REVIVE
 	.hword ITEM_NONE
 
@@ -439,7 +479,9 @@ OldaleTown_House2_Basement_Text_HowMayIHelpYou:
 
 OldaleTown_House2_Basement_EventScript_MoveRelearner::
 	lock
+	goto_if_unset FLAG_BADGE04_GET, OldaleTown_House2_Basement_EventScript_MoveRelearnerNotEnoughBadges
 	faceplayer
+	callnative DoLightsOnFast
 	msgbox OldaleTown_House2_Basement_Text_MoveRelearnerIntro, MSGBOX_DEFAULT
 	goto OldaleTown_House2_Basement_EventScript_ChooseMon
 	end
@@ -475,6 +517,12 @@ OldaleTown_House2_Basement_EventScript_CantTeachEgg::
 	end
 
 OldaleTown_House2_Basement_EventScript_End::
+	callnative DoLightsToLevel1Fast
+	release
+	end
+
+OldaleTown_House2_Basement_EventScript_MoveRelearnerNotEnoughBadges::
+	msgbox OldaleTown_House2_Basement_Text_MoveRelearnerNotEnoughBadges, MSGBOX_DEFAULT
 	release
 	end
 
@@ -486,18 +534,187 @@ OldaleTown_House2_Basement_Text_MoveRelearnerIntro:
 	.string "I can teach a move to a POKéMON\n"
 	.string "of yours if you'd like.$"
 
-OldaleTown_House2_Basement_EventScript_BossRushClerk::
+OldaleTown_House2_Basement_EventScript_MoveTutorNPC::
 	lock
 	faceplayer
-	message OldaleTown_House2_Basement_Text_BossRushIntro
+	goto_if_unset FLAG_BADGE04_GET, OldaleTown_House2_Basement_EventScript_MoveTutorNotEnoughBadges
+	msgbox OldaleTown_House2_Basement_Text_MoveTutorIntro, MSGBOX_DEFAULT
+
+OldaleTown_House2_Basement_EventScript_MoveTutorMenu::
+	message OldaleTown_House2_Basement_Text_WhichMoveToTeach
 	waitmessage
-	call OldaleTown_House2_Basement_EventScript_CountBadges
-	compare VAR_TEMP_0, 8
-	goto_if_eq OldaleTown_House2_Basement_EventScript_Elite8Menu
-	goto OldaleTown_House2_Basement_EventScript_GymLeaderMenu
+	dynmultipush OldaleTown_House2_Basement_Text_DoubleEdge, 0
+	dynmultipush OldaleTown_House2_Basement_Text_DynamicPunch, 1
+	dynmultipush OldaleTown_House2_Basement_Text_Explosion, 2
+	dynmultipush OldaleTown_House2_Basement_Text_FuryCutter, 3
+	dynmultipush OldaleTown_House2_Basement_Text_Metronome, 4
+	dynmultipush OldaleTown_House2_Basement_Text_Mimic, 5
+	dynmultipush OldaleTown_House2_Basement_Text_Rollout, 6
+	dynmultipush OldaleTown_House2_Basement_Text_SleepTalk, 7
+	dynmultipush OldaleTown_House2_Basement_Text_Substitute, 8
+	dynmultipush OldaleTown_House2_Basement_Text_Swagger, 9
+	dynmultipush gText_Exit, 10
+	dynmultistack 0, 0, FALSE, 6, FALSE, 0, DYN_MULTICHOICE_CB_NONE
+	switch VAR_RESULT
+	case 0, OldaleTown_House2_Basement_EventScript_DoubleEdge
+	case 1, OldaleTown_House2_Basement_EventScript_DynamicPunch
+	case 2, OldaleTown_House2_Basement_EventScript_Explosion
+	case 3, OldaleTown_House2_Basement_EventScript_FuryCutter
+	case 4, OldaleTown_House2_Basement_EventScript_Metronome
+	case 5, OldaleTown_House2_Basement_EventScript_Mimic
+	case 6, OldaleTown_House2_Basement_EventScript_Rollout
+	case 7, OldaleTown_House2_Basement_EventScript_SleepTalk
+	case 8, OldaleTown_House2_Basement_EventScript_Substitute
+	case 9, OldaleTown_House2_Basement_EventScript_Swagger
+	goto OldaleTown_House2_Basement_EventScript_TutorCancel
 	end
 
-OldaleTown_House2_Basement_EventScript_GymLeaderMenu::
+OldaleTown_House2_Basement_EventScript_DoubleEdge::
+	setvar VAR_0x8005, MOVE_DOUBLE_EDGE
+	goto OldaleTown_House2_Basement_EventScript_DoTutor
+
+OldaleTown_House2_Basement_EventScript_DynamicPunch::
+	setvar VAR_0x8005, MOVE_DYNAMIC_PUNCH
+	goto OldaleTown_House2_Basement_EventScript_DoTutor
+
+OldaleTown_House2_Basement_EventScript_Explosion::
+	setvar VAR_0x8005, MOVE_EXPLOSION
+	goto OldaleTown_House2_Basement_EventScript_DoTutor
+
+OldaleTown_House2_Basement_EventScript_FuryCutter::
+	setvar VAR_0x8005, MOVE_FURY_CUTTER
+	goto OldaleTown_House2_Basement_EventScript_DoTutor
+
+OldaleTown_House2_Basement_EventScript_Metronome::
+	setvar VAR_0x8005, MOVE_METRONOME
+	goto OldaleTown_House2_Basement_EventScript_DoTutor
+
+OldaleTown_House2_Basement_EventScript_Mimic::
+	setvar VAR_0x8005, MOVE_MIMIC
+	goto OldaleTown_House2_Basement_EventScript_DoTutor
+
+OldaleTown_House2_Basement_EventScript_Rollout::
+	setvar VAR_0x8005, MOVE_ROLLOUT
+	goto OldaleTown_House2_Basement_EventScript_DoTutor
+
+OldaleTown_House2_Basement_EventScript_SleepTalk::
+	setvar VAR_0x8005, MOVE_SLEEP_TALK
+	goto OldaleTown_House2_Basement_EventScript_DoTutor
+
+OldaleTown_House2_Basement_EventScript_Substitute::
+	setvar VAR_0x8005, MOVE_SUBSTITUTE
+	goto OldaleTown_House2_Basement_EventScript_DoTutor
+
+OldaleTown_House2_Basement_EventScript_Swagger::
+	setvar VAR_0x8005, MOVE_SWAGGER
+	goto OldaleTown_House2_Basement_EventScript_DoTutor
+
+OldaleTown_House2_Basement_EventScript_DoTutor::
+	special ChooseMonForMoveTutor
+	waitstate
+	goto OldaleTown_House2_Basement_EventScript_MoveTutorMenu
+
+OldaleTown_House2_Basement_EventScript_TutorCancel::
+	msgbox OldaleTown_House2_Basement_Text_TutorCancel, MSGBOX_DEFAULT
+	release
+	end
+
+OldaleTown_House2_Basement_EventScript_MoveTutorNotEnoughBadges::
+	msgbox OldaleTown_House2_Basement_Text_MoveTutorNotEnoughBadges, MSGBOX_DEFAULT
+	release
+	end
+
+OldaleTown_House2_Basement_Text_TutorCancel:
+	.string "I'll be here if you want to learn\n"
+	.string "something new!$"
+
+OldaleTown_House2_Basement_Text_MoveTutorIntro:
+	.string "I can teach your precious POKéMON\n"
+	.string "something new!$"
+
+OldaleTown_House2_Basement_Text_MoveTutorNotEnoughBadges:
+	.string "I'm sorry, but I only teach these\n"
+	.string "moves to experienced TRAINERS.\p"
+	.string "Come back once you have at least\n"
+	.string "four GYM BADGES.$"
+
+OldaleTown_House2_Basement_Text_DoubleEdge:
+	.string "DOUBLE-EDGE$"
+
+OldaleTown_House2_Basement_Text_DynamicPunch:
+	.string "DYNAMICPUNCH$"
+
+OldaleTown_House2_Basement_Text_Explosion:
+	.string "EXPLOSION$"
+
+OldaleTown_House2_Basement_Text_FuryCutter:
+	.string "FURY CUTTER$"
+
+OldaleTown_House2_Basement_Text_Metronome:
+	.string "METRONOME$"
+
+OldaleTown_House2_Basement_Text_Mimic:
+	.string "MIMIC$"
+
+OldaleTown_House2_Basement_Text_Rollout:
+	.string "ROLLOUT$"
+
+OldaleTown_House2_Basement_Text_SleepTalk:
+	.string "SLEEP TALK$"
+
+OldaleTown_House2_Basement_Text_Substitute:
+	.string "SUBSTITUTE$"
+
+OldaleTown_House2_Basement_Text_Swagger:
+	.string "SWAGGER$"
+
+OldaleTown_House2_Basement_Text_TeachDoubleEdge:
+	.string "Would you like to teach DOUBLE-EDGE?$"
+
+OldaleTown_House2_Basement_Text_TeachDynamicPunch:
+	.string "Would you like to teach DYNAMICPUNCH?$"
+
+OldaleTown_House2_Basement_Text_TeachExplosion:
+	.string "Would you like to teach EXPLOSION?$"
+
+OldaleTown_House2_Basement_Text_TeachFuryCutter:
+	.string "Would you like to teach FURY CUTTER?$"
+
+OldaleTown_House2_Basement_Text_TeachMetronome:
+	.string "Would you like to teach METRONOME?$"
+
+OldaleTown_House2_Basement_Text_TeachMimic:
+	.string "Would you like to teach MIMIC?$"
+
+OldaleTown_House2_Basement_Text_TeachRollout:
+	.string "Would you like to teach ROLLOUT?$"
+
+OldaleTown_House2_Basement_Text_TeachSleepTalk:
+	.string "Would you like to teach SLEEP TALK?$"
+
+OldaleTown_House2_Basement_Text_TeachSubstitute:
+	.string "Would you like to teach SUBSTITUTE?$"
+
+OldaleTown_House2_Basement_Text_TeachSwagger:
+	.string "Would you like to teach SWAGGER?$"
+
+OldaleTown_House2_Basement_Text_NoOtherMoves:
+	.string "I don't have any more moves to offer.\n"
+	.string "Would you like to see the list again?$"
+
+OldaleTown_House2_Basement_Text_WhichMoveToTeach:
+	.string "Which move should I teach?$"
+
+OldaleTown_House2_Basement_EventScript_BossNPC::
+	lock
+	faceplayer
+	message OldaleTown_House2_Basement_Text_WhichBossToFight
+	waitmessage
+	goto_if_set FLAG_BADGE08_GET, OldaleTown_House2_Basement_EventScript_BossMenu_8Badges
+	goto_if_set FLAG_BADGE07_GET, OldaleTown_House2_Basement_EventScript_BossMenu_7Badges
+	goto OldaleTown_House2_Basement_EventScript_BossMenu_Normal
+
+OldaleTown_House2_Basement_EventScript_BossMenu_Normal::
 	dynmultipush OldaleTown_House2_Basement_Text_Viola, 0
 	dynmultipush OldaleTown_House2_Basement_Text_Roxanne, 1
 	dynmultipush OldaleTown_House2_Basement_Text_Brawly, 2
@@ -507,15 +724,9 @@ OldaleTown_House2_Basement_EventScript_GymLeaderMenu::
 	dynmultipush OldaleTown_House2_Basement_Text_Winona, 6
 	dynmultipush OldaleTown_House2_Basement_Text_TateLiza, 7
 	dynmultipush OldaleTown_House2_Basement_Text_JuanWallace, 8
-	compare VAR_TEMP_0, 7
-	call_if_eq OldaleTown_House2_Basement_EventScript_AddMaxieArchie
-	dynmultipush gText_Exit, 11
-	dynmultistack 0, 0, FALSE, 6, FALSE, 0, DYN_MULTICHOICE_CB_NONE
-	compare VAR_RESULT, 11
-	call_if_ne VAR_RESULT, 11, OldaleTown_House2_Basement_EventScript_CloseMessage
-	goto_if_eq OldaleTown_House2_Basement_EventScript_End
-	copyvar VAR_TEMP_1, VAR_RESULT
-	switch VAR_TEMP_1
+	dynmultipush gText_Exit, 9
+	dynmultistack 0, 0, FALSE, 5, FALSE, 0, DYN_MULTICHOICE_CB_NONE
+	switch VAR_RESULT
 	case 0, OldaleTown_House2_Basement_EventScript_FightViola
 	case 1, OldaleTown_House2_Basement_EventScript_FightRoxanne
 	case 2, OldaleTown_House2_Basement_EventScript_FightBrawly
@@ -525,624 +736,673 @@ OldaleTown_House2_Basement_EventScript_GymLeaderMenu::
 	case 6, OldaleTown_House2_Basement_EventScript_FightWinona
 	case 7, OldaleTown_House2_Basement_EventScript_FightTateLiza
 	case 8, OldaleTown_House2_Basement_EventScript_FightJuanWallace
-	case 9, OldaleTown_House2_Basement_EventScript_FightMaxie
-	case 10, OldaleTown_House2_Basement_EventScript_FightArchie
+	goto OldaleTown_House2_Basement_EventScript_TutorCancel
+	end
+
+OldaleTown_House2_Basement_EventScript_BossMenu_7Badges::
+	dynmultipush OldaleTown_House2_Basement_Text_Viola, 0
+	dynmultipush OldaleTown_House2_Basement_Text_Roxanne, 1
+	dynmultipush OldaleTown_House2_Basement_Text_Brawly, 2
+	dynmultipush OldaleTown_House2_Basement_Text_Wattson, 3
+	dynmultipush OldaleTown_House2_Basement_Text_Flannery, 4
+	dynmultipush OldaleTown_House2_Basement_Text_Norman, 5
+	dynmultipush OldaleTown_House2_Basement_Text_Winona, 6
+	dynmultipush OldaleTown_House2_Basement_Text_TateLiza, 7
+	dynmultipush OldaleTown_House2_Basement_Text_JuanWallace, 8
+	dynmultipush OldaleTown_House2_Basement_Text_Maxie, 10
+	dynmultipush OldaleTown_House2_Basement_Text_Archie, 11
+	dynmultipush gText_Exit, 9
+	dynmultistack 0, 0, FALSE, 5, FALSE, 0, DYN_MULTICHOICE_CB_NONE
+	switch VAR_RESULT
+	case 0, OldaleTown_House2_Basement_EventScript_FightViola
+	case 1, OldaleTown_House2_Basement_EventScript_FightRoxanne
+	case 2, OldaleTown_House2_Basement_EventScript_FightBrawly
+	case 3, OldaleTown_House2_Basement_EventScript_FightWattson
+	case 4, OldaleTown_House2_Basement_EventScript_FightFlannery
+	case 5, OldaleTown_House2_Basement_EventScript_FightNorman
+	case 6, OldaleTown_House2_Basement_EventScript_FightWinona
+	case 7, OldaleTown_House2_Basement_EventScript_FightTateLiza
+	case 8, OldaleTown_House2_Basement_EventScript_FightJuanWallace
+	case 10, OldaleTown_House2_Basement_EventScript_FightMaxie
+	case 11, OldaleTown_House2_Basement_EventScript_FightArchie
+	goto OldaleTown_House2_Basement_EventScript_TutorCancel
+	end
+
+OldaleTown_House2_Basement_EventScript_BossMenu_8Badges::
+	dynmultipush OldaleTown_House2_Basement_Text_Sidney, 12
+	dynmultipush OldaleTown_House2_Basement_Text_Spenser, 13
+	dynmultipush OldaleTown_House2_Basement_Text_Phoebe, 14
+	dynmultipush OldaleTown_House2_Basement_Text_Lucy, 15
+	dynmultipush OldaleTown_House2_Basement_Text_Glacia, 16
+	dynmultipush OldaleTown_House2_Basement_Text_Tucker, 17
+	dynmultipush OldaleTown_House2_Basement_Text_Drake, 18
+	dynmultipush OldaleTown_House2_Basement_Text_Brandon, 19
+	dynmultipush OldaleTown_House2_Basement_Text_Wally, 20
+	dynmultipush OldaleTown_House2_Basement_Text_Steven, 21
+	dynmultipush gText_Exit, 9
+	dynmultistack 0, 0, FALSE, 5, FALSE, 0, DYN_MULTICHOICE_CB_NONE
+	switch VAR_RESULT
+	case 12, OldaleTown_House2_Basement_EventScript_FightSidney
+	case 13, OldaleTown_House2_Basement_EventScript_FightSpenser
+	case 14, OldaleTown_House2_Basement_EventScript_FightPhoebe
+	case 15, OldaleTown_House2_Basement_EventScript_FightLucy
+	case 16, OldaleTown_House2_Basement_EventScript_FightGlacia
+	case 17, OldaleTown_House2_Basement_EventScript_FightTucker
+	case 18, OldaleTown_House2_Basement_EventScript_FightDrake
+	case 19, OldaleTown_House2_Basement_EventScript_FightBrandon
+	case 20, OldaleTown_House2_Basement_EventScript_FightWally
+	case 21, OldaleTown_House2_Basement_EventScript_FightSteven
+	goto OldaleTown_House2_Basement_EventScript_TutorCancel
+	end
+
+OldaleTown_House2_Basement_EventScript_FightFlannery::
+	goto_if_set FLAG_BADGE07_GET, OldaleTown_House2_Basement_EventScript_Flannery8
+	goto_if_set FLAG_BADGE06_GET, OldaleTown_House2_Basement_EventScript_Flannery7
+	goto_if_set FLAG_BADGE05_GET, OldaleTown_House2_Basement_EventScript_Flannery6
+	goto_if_set FLAG_BADGE04_GET, OldaleTown_House2_Basement_EventScript_Flannery5
+	goto_if_set FLAG_BADGE03_GET, OldaleTown_House2_Basement_EventScript_Flannery4
+	goto_if_set FLAG_BADGE02_GET, OldaleTown_House2_Basement_EventScript_Flannery3
+	goto_if_set FLAG_BADGE01_GET, OldaleTown_House2_Basement_EventScript_Flannery2
+	goto OldaleTown_House2_Basement_EventScript_Flannery1
+	end
+
+OldaleTown_House2_Basement_EventScript_Flannery1:
+	trainerbattle_no_intro TRAINER_FLANNERY_1, OldaleTown_House2_Basement_Text_BossDefeated
+	release
+	end
+OldaleTown_House2_Basement_EventScript_Flannery2:
+	trainerbattle_no_intro TRAINER_FLANNERY_2, OldaleTown_House2_Basement_Text_BossDefeated
+	release
+	end
+OldaleTown_House2_Basement_EventScript_Flannery3:
+	trainerbattle_no_intro TRAINER_FLANNERY_3, OldaleTown_House2_Basement_Text_BossDefeated
+	release
+	end
+OldaleTown_House2_Basement_EventScript_Flannery4:
+	trainerbattle_no_intro TRAINER_FLANNERY_4, OldaleTown_House2_Basement_Text_BossDefeated
+	release
+	end
+OldaleTown_House2_Basement_EventScript_Flannery5:
+	trainerbattle_no_intro TRAINER_FLANNERY_5, OldaleTown_House2_Basement_Text_BossDefeated
+	release
+	end
+OldaleTown_House2_Basement_EventScript_Flannery6:
+	trainerbattle_no_intro TRAINER_FLANNERY_6, OldaleTown_House2_Basement_Text_BossDefeated
+	release
+	end
+OldaleTown_House2_Basement_EventScript_Flannery7:
+	trainerbattle_no_intro TRAINER_FLANNERY_7, OldaleTown_House2_Basement_Text_BossDefeated
+	release
+	end
+OldaleTown_House2_Basement_EventScript_Flannery8:
+	trainerbattle_no_intro TRAINER_FLANNERY_8, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 
-OldaleTown_House2_Basement_EventScript_AddMaxieArchie::
-	dynmultipush OldaleTown_House2_Basement_Text_Maxie, 9
-	dynmultipush OldaleTown_House2_Basement_Text_Archie, 10
-	return
-
-OldaleTown_House2_Basement_EventScript_Elite8Menu::
-	dynmultipush OldaleTown_House2_Basement_Text_Sidney, 0
-	dynmultipush OldaleTown_House2_Basement_Text_Spenser, 1
-	dynmultipush OldaleTown_House2_Basement_Text_Phoebe, 2
-	dynmultipush OldaleTown_House2_Basement_Text_Lucy, 3
-	dynmultipush OldaleTown_House2_Basement_Text_Glacia, 4
-	dynmultipush OldaleTown_House2_Basement_Text_Tucker, 5
-	dynmultipush OldaleTown_House2_Basement_Text_Drake, 6
-	dynmultipush OldaleTown_House2_Basement_Text_Brandon, 7
-	dynmultipush OldaleTown_House2_Basement_Text_Wally, 8
-	dynmultipush OldaleTown_House2_Basement_Text_Steven, 9
-	dynmultipush gText_Exit, 10
-	dynmultistack 0, 0, FALSE, 6, FALSE, 0, DYN_MULTICHOICE_CB_NONE
-	call_if_ne VAR_RESULT, 10, OldaleTown_House2_Basement_EventScript_CloseMessage
-	compare VAR_RESULT, 10
-	goto_if_eq OldaleTown_House2_Basement_EventScript_End
-	copyvar VAR_TEMP_1, VAR_RESULT
-	switch VAR_TEMP_1
-	case 0, OldaleTown_House2_Basement_EventScript_FightSidney
-	case 1, OldaleTown_House2_Basement_EventScript_FightSpenser
-	case 2, OldaleTown_House2_Basement_EventScript_FightPhoebe
-	case 3, OldaleTown_House2_Basement_EventScript_FightLucy
-	case 4, OldaleTown_House2_Basement_EventScript_FightGlacia
-	case 5, OldaleTown_House2_Basement_EventScript_FightTucker
-	case 6, OldaleTown_House2_Basement_EventScript_FightDrake
-	case 7, OldaleTown_House2_Basement_EventScript_FightBrandon
-	case 8, OldaleTown_House2_Basement_EventScript_FightWally
-	case 9, OldaleTown_House2_Basement_EventScript_FightSteven
-	release
-	end
-
-OldaleTown_House2_Basement_EventScript_CloseMessage::
-	closemessage
-	return
-
-@ Gym Battle Setup
 OldaleTown_House2_Basement_EventScript_FightViola::
-	switch VAR_TEMP_0
-	case 0, OldaleTown_House2_Basement_EventScript_FightViola1
-	case 1, OldaleTown_House2_Basement_EventScript_FightViola2
-	case 2, OldaleTown_House2_Basement_EventScript_FightViola3
-	case 3, OldaleTown_House2_Basement_EventScript_FightViola4
-	case 4, OldaleTown_House2_Basement_EventScript_FightViola5
-	case 5, OldaleTown_House2_Basement_EventScript_FightViola6
-	case 6, OldaleTown_House2_Basement_EventScript_FightViola7
-	case 7, OldaleTown_House2_Basement_EventScript_FightViola8
+	goto_if_set FLAG_BADGE07_GET, OldaleTown_House2_Basement_EventScript_Viola8
+	goto_if_set FLAG_BADGE06_GET, OldaleTown_House2_Basement_EventScript_Viola7
+	goto_if_set FLAG_BADGE05_GET, OldaleTown_House2_Basement_EventScript_Viola6
+	goto_if_set FLAG_BADGE04_GET, OldaleTown_House2_Basement_EventScript_Viola5
+	goto_if_set FLAG_BADGE03_GET, OldaleTown_House2_Basement_EventScript_Viola4
+	goto_if_set FLAG_BADGE02_GET, OldaleTown_House2_Basement_EventScript_Viola3
+	goto_if_set FLAG_BADGE01_GET, OldaleTown_House2_Basement_EventScript_Viola2
+	goto OldaleTown_House2_Basement_EventScript_Viola1
 	end
 
-OldaleTown_House2_Basement_EventScript_FightViola1::
-	trainerbattle_no_intro TRAINER_VIOLA_1, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Viola1:
+	trainerbattle_no_intro TRAINER_VIOLA_1, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightViola2::
-	trainerbattle_no_intro TRAINER_VIOLA_2, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Viola2:
+	trainerbattle_no_intro TRAINER_VIOLA_2, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightViola3::
-	trainerbattle_no_intro TRAINER_VIOLA_3, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Viola3:
+	trainerbattle_no_intro TRAINER_VIOLA_3, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightViola4::
-	trainerbattle_no_intro TRAINER_VIOLA_4, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Viola4:
+	trainerbattle_no_intro TRAINER_VIOLA_4, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightViola5::
-	trainerbattle_no_intro TRAINER_VIOLA_5, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Viola5:
+	trainerbattle_no_intro TRAINER_VIOLA_5, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightViola6::
-	trainerbattle_no_intro TRAINER_VIOLA_6, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Viola6:
+	trainerbattle_no_intro TRAINER_VIOLA_6, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightViola7::
-	trainerbattle_no_intro TRAINER_VIOLA_7, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Viola7:
+	trainerbattle_no_intro TRAINER_VIOLA_7, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightViola8::
-	trainerbattle_no_intro TRAINER_VIOLA_8, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Viola8:
+	trainerbattle_no_intro TRAINER_VIOLA_8, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 
 OldaleTown_House2_Basement_EventScript_FightRoxanne::
-	switch VAR_TEMP_0
-	case 0, OldaleTown_House2_Basement_EventScript_FightRoxanne1
-	case 1, OldaleTown_House2_Basement_EventScript_FightRoxanne2
-	case 2, OldaleTown_House2_Basement_EventScript_FightRoxanne3
-	case 3, OldaleTown_House2_Basement_EventScript_FightRoxanne4
-	case 4, OldaleTown_House2_Basement_EventScript_FightRoxanne5
-	case 5, OldaleTown_House2_Basement_EventScript_FightRoxanne6
-	case 6, OldaleTown_House2_Basement_EventScript_FightRoxanne7
-	case 7, OldaleTown_House2_Basement_EventScript_FightRoxanne8
+	goto_if_set FLAG_BADGE07_GET, OldaleTown_House2_Basement_EventScript_Roxanne8
+	goto_if_set FLAG_BADGE06_GET, OldaleTown_House2_Basement_EventScript_Roxanne7
+	goto_if_set FLAG_BADGE05_GET, OldaleTown_House2_Basement_EventScript_Roxanne6
+	goto_if_set FLAG_BADGE04_GET, OldaleTown_House2_Basement_EventScript_Roxanne5
+	goto_if_set FLAG_BADGE03_GET, OldaleTown_House2_Basement_EventScript_Roxanne4
+	goto_if_set FLAG_BADGE02_GET, OldaleTown_House2_Basement_EventScript_Roxanne3
+	goto_if_set FLAG_BADGE01_GET, OldaleTown_House2_Basement_EventScript_Roxanne2
+	goto OldaleTown_House2_Basement_EventScript_Roxanne1
 	end
 
-OldaleTown_House2_Basement_EventScript_FightRoxanne1::
-	trainerbattle_no_intro TRAINER_ROXANNE_1, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Roxanne1:
+	trainerbattle_no_intro TRAINER_ROXANNE_1, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightRoxanne2::
-	trainerbattle_no_intro TRAINER_ROXANNE_2, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Roxanne2:
+	trainerbattle_no_intro TRAINER_ROXANNE_2, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightRoxanne3::
-	trainerbattle_no_intro TRAINER_ROXANNE_3, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Roxanne3:
+	trainerbattle_no_intro TRAINER_ROXANNE_3, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightRoxanne4::
-	trainerbattle_no_intro TRAINER_ROXANNE_4, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Roxanne4:
+	trainerbattle_no_intro TRAINER_ROXANNE_4, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightRoxanne5::
-	trainerbattle_no_intro TRAINER_ROXANNE_5, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Roxanne5:
+	trainerbattle_no_intro TRAINER_ROXANNE_5, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightRoxanne6::
-	trainerbattle_no_intro TRAINER_ROXANNE_6, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Roxanne6:
+	trainerbattle_no_intro TRAINER_ROXANNE_6, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightRoxanne7::
-	trainerbattle_no_intro TRAINER_ROXANNE_7, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Roxanne7:
+	trainerbattle_no_intro TRAINER_ROXANNE_7, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightRoxanne8::
-	trainerbattle_no_intro TRAINER_ROXANNE_8, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Roxanne8:
+	trainerbattle_no_intro TRAINER_ROXANNE_8, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 
 OldaleTown_House2_Basement_EventScript_FightBrawly::
-	switch VAR_TEMP_0
-	case 0, OldaleTown_House2_Basement_EventScript_FightBrawly1
-	case 1, OldaleTown_House2_Basement_EventScript_FightBrawly2
-	case 2, OldaleTown_House2_Basement_EventScript_FightBrawly3
-	case 3, OldaleTown_House2_Basement_EventScript_FightBrawly4
-	case 4, OldaleTown_House2_Basement_EventScript_FightBrawly5
-	case 5, OldaleTown_House2_Basement_EventScript_FightBrawly6
-	case 6, OldaleTown_House2_Basement_EventScript_FightBrawly7
-	case 7, OldaleTown_House2_Basement_EventScript_FightBrawly8
+	goto_if_set FLAG_BADGE07_GET, OldaleTown_House2_Basement_EventScript_Brawly8
+	goto_if_set FLAG_BADGE06_GET, OldaleTown_House2_Basement_EventScript_Brawly7
+	goto_if_set FLAG_BADGE05_GET, OldaleTown_House2_Basement_EventScript_Brawly6
+	goto_if_set FLAG_BADGE04_GET, OldaleTown_House2_Basement_EventScript_Brawly5
+	goto_if_set FLAG_BADGE03_GET, OldaleTown_House2_Basement_EventScript_Brawly4
+	goto_if_set FLAG_BADGE02_GET, OldaleTown_House2_Basement_EventScript_Brawly3
+	goto_if_set FLAG_BADGE01_GET, OldaleTown_House2_Basement_EventScript_Brawly2
+	goto OldaleTown_House2_Basement_EventScript_Brawly1
 	end
 
-OldaleTown_House2_Basement_EventScript_FightBrawly1::
-	trainerbattle_no_intro TRAINER_BRAWLY_1, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Brawly1:
+	trainerbattle_no_intro TRAINER_BRAWLY_1, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightBrawly2::
-	trainerbattle_no_intro TRAINER_BRAWLY_2, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Brawly2:
+	trainerbattle_no_intro TRAINER_BRAWLY_2, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightBrawly3::
-	trainerbattle_no_intro TRAINER_BRAWLY_3, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Brawly3:
+	trainerbattle_no_intro TRAINER_BRAWLY_3, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightBrawly4::
-	trainerbattle_no_intro TRAINER_BRAWLY_4, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Brawly4:
+	trainerbattle_no_intro TRAINER_BRAWLY_4, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightBrawly5::
-	trainerbattle_no_intro TRAINER_BRAWLY_5, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Brawly5:
+	trainerbattle_no_intro TRAINER_BRAWLY_5, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightBrawly6::
-	trainerbattle_no_intro TRAINER_BRAWLY_6, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Brawly6:
+	trainerbattle_no_intro TRAINER_BRAWLY_6, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightBrawly7::
-	trainerbattle_no_intro TRAINER_BRAWLY_7, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Brawly7:
+	trainerbattle_no_intro TRAINER_BRAWLY_7, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightBrawly8::
-	trainerbattle_no_intro TRAINER_BRAWLY_8, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Brawly8:
+	trainerbattle_no_intro TRAINER_BRAWLY_8, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 
 OldaleTown_House2_Basement_EventScript_FightWattson::
-	switch VAR_TEMP_0
-	case 0, OldaleTown_House2_Basement_EventScript_FightWattson1
-	case 1, OldaleTown_House2_Basement_EventScript_FightWattson2
-	case 2, OldaleTown_House2_Basement_EventScript_FightWattson3
-	case 3, OldaleTown_House2_Basement_EventScript_FightWattson4
-	case 4, OldaleTown_House2_Basement_EventScript_FightWattson5
-	case 5, OldaleTown_House2_Basement_EventScript_FightWattson6
-	case 6, OldaleTown_House2_Basement_EventScript_FightWattson7
-	case 7, OldaleTown_House2_Basement_EventScript_FightWattson8
+	goto_if_set FLAG_BADGE07_GET, OldaleTown_House2_Basement_EventScript_Wattson8
+	goto_if_set FLAG_BADGE06_GET, OldaleTown_House2_Basement_EventScript_Wattson7
+	goto_if_set FLAG_BADGE05_GET, OldaleTown_House2_Basement_EventScript_Wattson6
+	goto_if_set FLAG_BADGE04_GET, OldaleTown_House2_Basement_EventScript_Wattson5
+	goto_if_set FLAG_BADGE03_GET, OldaleTown_House2_Basement_EventScript_Wattson4
+	goto_if_set FLAG_BADGE02_GET, OldaleTown_House2_Basement_EventScript_Wattson3
+	goto_if_set FLAG_BADGE01_GET, OldaleTown_House2_Basement_EventScript_Wattson2
+	goto OldaleTown_House2_Basement_EventScript_Wattson1
 	end
 
-OldaleTown_House2_Basement_EventScript_FightWattson1::
-	trainerbattle_no_intro TRAINER_WATTSON_1, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Wattson1:
+	trainerbattle_no_intro TRAINER_WATTSON_1, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightWattson2::
-	trainerbattle_no_intro TRAINER_WATTSON_2, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Wattson2:
+	trainerbattle_no_intro TRAINER_WATTSON_2, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightWattson3::
-	trainerbattle_no_intro TRAINER_WATTSON_3, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Wattson3:
+	trainerbattle_no_intro TRAINER_WATTSON_3, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightWattson4::
-	trainerbattle_no_intro TRAINER_WATTSON_4, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Wattson4:
+	trainerbattle_no_intro TRAINER_WATTSON_4, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightWattson5::
-	trainerbattle_no_intro TRAINER_WATTSON_5, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Wattson5:
+	trainerbattle_no_intro TRAINER_WATTSON_5, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightWattson6::
-	trainerbattle_no_intro TRAINER_WATTSON_6, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Wattson6:
+	trainerbattle_no_intro TRAINER_WATTSON_6, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightWattson7::
-	trainerbattle_no_intro TRAINER_WATTSON_7, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Wattson7:
+	trainerbattle_no_intro TRAINER_WATTSON_7, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightWattson8::
-	trainerbattle_no_intro TRAINER_WATTSON_8, OldaleTown_House2_Basement_Text_TrainerDefeated
-	release
-	end
-
-OldaleTown_House2_Basement_EventScript_FightFlannery::
-	switch VAR_TEMP_0
-	case 0, OldaleTown_House2_Basement_EventScript_FightFlannery1
-	case 1, OldaleTown_House2_Basement_EventScript_FightFlannery2
-	case 2, OldaleTown_House2_Basement_EventScript_FightFlannery3
-	case 3, OldaleTown_House2_Basement_EventScript_FightFlannery4
-	case 4, OldaleTown_House2_Basement_EventScript_FightFlannery5
-	case 5, OldaleTown_House2_Basement_EventScript_FightFlannery6
-	case 6, OldaleTown_House2_Basement_EventScript_FightFlannery7
-	case 7, OldaleTown_House2_Basement_EventScript_FightFlannery8
-	end
-
-OldaleTown_House2_Basement_EventScript_FightFlannery1::
-	trainerbattle_no_intro TRAINER_FLANNERY_1, OldaleTown_House2_Basement_Text_TrainerDefeated
-	release
-	end
-
-OldaleTown_House2_Basement_EventScript_FightFlannery2::
-	trainerbattle_no_intro TRAINER_FLANNERY_2, OldaleTown_House2_Basement_Text_TrainerDefeated
-	release
-	end
-
-OldaleTown_House2_Basement_EventScript_FightFlannery3::
-	trainerbattle_no_intro TRAINER_FLANNERY_3, OldaleTown_House2_Basement_Text_TrainerDefeated
-	release
-	end
-
-OldaleTown_House2_Basement_EventScript_FightFlannery4::
-	trainerbattle_no_intro TRAINER_FLANNERY_4, OldaleTown_House2_Basement_Text_TrainerDefeated
-	release
-	end
-
-OldaleTown_House2_Basement_EventScript_FightFlannery5::
-	trainerbattle_no_intro TRAINER_FLANNERY_5, OldaleTown_House2_Basement_Text_TrainerDefeated
-	release
-	end
-
-OldaleTown_House2_Basement_EventScript_FightFlannery6::
-	trainerbattle_no_intro TRAINER_FLANNERY_6, OldaleTown_House2_Basement_Text_TrainerDefeated
-	release
-	end
-
-OldaleTown_House2_Basement_EventScript_FightFlannery7::
-	trainerbattle_no_intro TRAINER_FLANNERY_7, OldaleTown_House2_Basement_Text_TrainerDefeated
-	release
-	end
-
-OldaleTown_House2_Basement_EventScript_FightFlannery8::
-	trainerbattle_no_intro TRAINER_FLANNERY_8, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Wattson8:
+	trainerbattle_no_intro TRAINER_WATTSON_8, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 
 OldaleTown_House2_Basement_EventScript_FightNorman::
-	switch VAR_TEMP_0
-	case 0, OldaleTown_House2_Basement_EventScript_FightNorman1
-	case 1, OldaleTown_House2_Basement_EventScript_FightNorman2
-	case 2, OldaleTown_House2_Basement_EventScript_FightNorman3
-	case 3, OldaleTown_House2_Basement_EventScript_FightNorman4
-	case 4, OldaleTown_House2_Basement_EventScript_FightNorman5
-	case 5, OldaleTown_House2_Basement_EventScript_FightNorman6
-	case 6, OldaleTown_House2_Basement_EventScript_FightNorman7
-	case 7, OldaleTown_House2_Basement_EventScript_FightNorman8
+	goto_if_set FLAG_BADGE07_GET, OldaleTown_House2_Basement_EventScript_Norman8
+	goto_if_set FLAG_BADGE06_GET, OldaleTown_House2_Basement_EventScript_Norman7
+	goto_if_set FLAG_BADGE05_GET, OldaleTown_House2_Basement_EventScript_Norman6
+	goto_if_set FLAG_BADGE04_GET, OldaleTown_House2_Basement_EventScript_Norman5
+	goto_if_set FLAG_BADGE03_GET, OldaleTown_House2_Basement_EventScript_Norman4
+	goto_if_set FLAG_BADGE02_GET, OldaleTown_House2_Basement_EventScript_Norman3
+	goto_if_set FLAG_BADGE01_GET, OldaleTown_House2_Basement_EventScript_Norman2
+	goto OldaleTown_House2_Basement_EventScript_Norman1
 	end
 
-OldaleTown_House2_Basement_EventScript_FightNorman1::
-	trainerbattle_no_intro TRAINER_NORMAN_1, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Norman1:
+	trainerbattle_no_intro TRAINER_NORMAN_1, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightNorman2::
-	trainerbattle_no_intro TRAINER_NORMAN_2, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Norman2:
+	trainerbattle_no_intro TRAINER_NORMAN_2, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightNorman3::
-	trainerbattle_no_intro TRAINER_NORMAN_3, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Norman3:
+	trainerbattle_no_intro TRAINER_NORMAN_3, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightNorman4::
-	trainerbattle_no_intro TRAINER_NORMAN_4, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Norman4:
+	trainerbattle_no_intro TRAINER_NORMAN_4, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightNorman5::
-	trainerbattle_no_intro TRAINER_NORMAN_5, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Norman5:
+	trainerbattle_no_intro TRAINER_NORMAN_5, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightNorman6::
-	trainerbattle_no_intro TRAINER_NORMAN_6, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Norman6:
+	trainerbattle_no_intro TRAINER_NORMAN_6, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightNorman7::
-	trainerbattle_no_intro TRAINER_NORMAN_7, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Norman7:
+	trainerbattle_no_intro TRAINER_NORMAN_7, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightNorman8::
-	trainerbattle_no_intro TRAINER_NORMAN_8, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Norman8:
+	trainerbattle_no_intro TRAINER_NORMAN_8, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 
 OldaleTown_House2_Basement_EventScript_FightWinona::
-	switch VAR_TEMP_0
-	case 0, OldaleTown_House2_Basement_EventScript_FightWinona1
-	case 1, OldaleTown_House2_Basement_EventScript_FightWinona2
-	case 2, OldaleTown_House2_Basement_EventScript_FightWinona3
-	case 3, OldaleTown_House2_Basement_EventScript_FightWinona4
-	case 4, OldaleTown_House2_Basement_EventScript_FightWinona5
-	case 5, OldaleTown_House2_Basement_EventScript_FightWinona6
-	case 6, OldaleTown_House2_Basement_EventScript_FightWinona7
-	case 7, OldaleTown_House2_Basement_EventScript_FightWinona8
+	goto_if_set FLAG_BADGE07_GET, OldaleTown_House2_Basement_EventScript_Winona8
+	goto_if_set FLAG_BADGE06_GET, OldaleTown_House2_Basement_EventScript_Winona7
+	goto_if_set FLAG_BADGE05_GET, OldaleTown_House2_Basement_EventScript_Winona6
+	goto_if_set FLAG_BADGE04_GET, OldaleTown_House2_Basement_EventScript_Winona5
+	goto_if_set FLAG_BADGE03_GET, OldaleTown_House2_Basement_EventScript_Winona4
+	goto_if_set FLAG_BADGE02_GET, OldaleTown_House2_Basement_EventScript_Winona3
+	goto_if_set FLAG_BADGE01_GET, OldaleTown_House2_Basement_EventScript_Winona2
+	goto OldaleTown_House2_Basement_EventScript_Winona1
 	end
 
-OldaleTown_House2_Basement_EventScript_FightWinona1::
-	trainerbattle_no_intro TRAINER_WINONA_1, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Winona1:
+	trainerbattle_no_intro TRAINER_WINONA_1, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightWinona2::
-	trainerbattle_no_intro TRAINER_WINONA_2, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Winona2:
+	trainerbattle_no_intro TRAINER_WINONA_2, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightWinona3::
-	trainerbattle_no_intro TRAINER_WINONA_3, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Winona3:
+	trainerbattle_no_intro TRAINER_WINONA_3, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightWinona4::
-	trainerbattle_no_intro TRAINER_WINONA_4, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Winona4:
+	trainerbattle_no_intro TRAINER_WINONA_4, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightWinona5::
-	trainerbattle_no_intro TRAINER_WINONA_5, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Winona5:
+	trainerbattle_no_intro TRAINER_WINONA_5, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightWinona6::
-	trainerbattle_no_intro TRAINER_WINONA_6, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Winona6:
+	trainerbattle_no_intro TRAINER_WINONA_6, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightWinona7::
-	trainerbattle_no_intro TRAINER_WINONA_7, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Winona7:
+	trainerbattle_no_intro TRAINER_WINONA_7, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightWinona8::
-	trainerbattle_no_intro TRAINER_WINONA_8, OldaleTown_House2_Basement_Text_TrainerDefeated
+OldaleTown_House2_Basement_EventScript_Winona8:
+	trainerbattle_no_intro TRAINER_WINONA_8, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 
 OldaleTown_House2_Basement_EventScript_FightTateLiza::
-	switch VAR_TEMP_0
-	case 0, OldaleTown_House2_Basement_EventScript_FightTateLiza1
-	case 1, OldaleTown_House2_Basement_EventScript_FightTateLiza2
-	case 2, OldaleTown_House2_Basement_EventScript_FightTateLiza3
-	case 3, OldaleTown_House2_Basement_EventScript_FightTateLiza4
-	case 4, OldaleTown_House2_Basement_EventScript_FightTateLiza5
-	case 5, OldaleTown_House2_Basement_EventScript_FightTateLiza6
-	case 6, OldaleTown_House2_Basement_EventScript_FightTateLiza7
-	case 7, OldaleTown_House2_Basement_EventScript_FightTateLiza8
+	goto_if_set FLAG_BADGE07_GET, OldaleTown_House2_Basement_EventScript_TateLiza8
+	goto_if_set FLAG_BADGE06_GET, OldaleTown_House2_Basement_EventScript_TateLiza7
+	goto_if_set FLAG_BADGE05_GET, OldaleTown_House2_Basement_EventScript_TateLiza6
+	goto_if_set FLAG_BADGE04_GET, OldaleTown_House2_Basement_EventScript_TateLiza5
+	goto_if_set FLAG_BADGE03_GET, OldaleTown_House2_Basement_EventScript_TateLiza4
+	goto_if_set FLAG_BADGE02_GET, OldaleTown_House2_Basement_EventScript_TateLiza3
+	goto_if_set FLAG_BADGE01_GET, OldaleTown_House2_Basement_EventScript_TateLiza2
+	goto OldaleTown_House2_Basement_EventScript_TateLiza1
 	end
 
-OldaleTown_House2_Basement_EventScript_FightTateLiza1::
-	trainerbattle_double TRAINER_TATE_AND_LIZA_1, NULL, OldaleTown_House2_Basement_Text_TrainerDefeated, OldaleTown_House2_Basement_Text_NotEnoughMons
+OldaleTown_House2_Basement_EventScript_TateLiza1:
+	trainerbattle_no_intro TRAINER_TATE_AND_LIZA_1, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightTateLiza2::
-	trainerbattle_double TRAINER_TATE_AND_LIZA_2, NULL, OldaleTown_House2_Basement_Text_TrainerDefeated, OldaleTown_House2_Basement_Text_NotEnoughMons
+OldaleTown_House2_Basement_EventScript_TateLiza2:
+	trainerbattle_no_intro TRAINER_TATE_AND_LIZA_2, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightTateLiza3::
-	trainerbattle_double TRAINER_TATE_AND_LIZA_3, NULL, OldaleTown_House2_Basement_Text_TrainerDefeated, OldaleTown_House2_Basement_Text_NotEnoughMons
+OldaleTown_House2_Basement_EventScript_TateLiza3:
+	trainerbattle_no_intro TRAINER_TATE_AND_LIZA_3, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightTateLiza4::
-	trainerbattle_double TRAINER_TATE_AND_LIZA_4, NULL, OldaleTown_House2_Basement_Text_TrainerDefeated, OldaleTown_House2_Basement_Text_NotEnoughMons
+OldaleTown_House2_Basement_EventScript_TateLiza4:
+	trainerbattle_no_intro TRAINER_TATE_AND_LIZA_4, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightTateLiza5::
-	trainerbattle_double TRAINER_TATE_AND_LIZA_5, NULL, OldaleTown_House2_Basement_Text_TrainerDefeated, OldaleTown_House2_Basement_Text_NotEnoughMons
+OldaleTown_House2_Basement_EventScript_TateLiza5:
+	trainerbattle_no_intro TRAINER_TATE_AND_LIZA_5, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightTateLiza6::
-	trainerbattle_double TRAINER_TATE_AND_LIZA_6, NULL, OldaleTown_House2_Basement_Text_TrainerDefeated, OldaleTown_House2_Basement_Text_NotEnoughMons
+OldaleTown_House2_Basement_EventScript_TateLiza6:
+	trainerbattle_no_intro TRAINER_TATE_AND_LIZA_6, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightTateLiza7::
-	trainerbattle_double TRAINER_TATE_AND_LIZA_7, NULL, OldaleTown_House2_Basement_Text_TrainerDefeated, OldaleTown_House2_Basement_Text_NotEnoughMons
+OldaleTown_House2_Basement_EventScript_TateLiza7:
+	trainerbattle_no_intro TRAINER_TATE_AND_LIZA_7, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
-
-OldaleTown_House2_Basement_EventScript_FightTateLiza8::
-	trainerbattle_double TRAINER_TATE_AND_LIZA_8, NULL, OldaleTown_House2_Basement_Text_TrainerDefeated, OldaleTown_House2_Basement_Text_NotEnoughMons
+OldaleTown_House2_Basement_EventScript_TateLiza8:
+	trainerbattle_no_intro TRAINER_TATE_AND_LIZA_8, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 
 OldaleTown_House2_Basement_EventScript_FightJuanWallace::
-	switch VAR_TEMP_0
-	case 0, OldaleTown_House2_Basement_EventScript_FightJuanWallace1
-	case 1, OldaleTown_House2_Basement_EventScript_FightJuanWallace2
-	case 2, OldaleTown_House2_Basement_EventScript_FightJuanWallace3
-	case 3, OldaleTown_House2_Basement_EventScript_FightJuanWallace4
-	case 4, OldaleTown_House2_Basement_EventScript_FightJuanWallace5
-	case 5, OldaleTown_House2_Basement_EventScript_FightJuanWallace6
-	case 6, OldaleTown_House2_Basement_EventScript_FightJuanWallace7
-	case 7, OldaleTown_House2_Basement_EventScript_FightJuanWallace8
+	goto_if_set FLAG_BADGE07_GET, OldaleTown_House2_Basement_EventScript_Juan8
+	goto_if_set FLAG_BADGE06_GET, OldaleTown_House2_Basement_EventScript_Juan7
+	goto_if_set FLAG_BADGE05_GET, OldaleTown_House2_Basement_EventScript_Juan6
+	goto_if_set FLAG_BADGE04_GET, OldaleTown_House2_Basement_EventScript_Juan5
+	goto_if_set FLAG_BADGE03_GET, OldaleTown_House2_Basement_EventScript_Juan4
+	goto_if_set FLAG_BADGE02_GET, OldaleTown_House2_Basement_EventScript_Juan3
+	goto_if_set FLAG_BADGE01_GET, OldaleTown_House2_Basement_EventScript_Juan2
+	goto OldaleTown_House2_Basement_EventScript_Juan1
 	end
 
-OldaleTown_House2_Basement_EventScript_FightJuanWallace1::
-	trainerbattle_double TRAINER_JUAN_1, NULL, OldaleTown_House2_Basement_Text_TrainerDefeated, OldaleTown_House2_Basement_Text_NotEnoughMons
+OldaleTown_House2_Basement_EventScript_Juan1:
+	trainerbattle_no_intro TRAINER_JUAN_1, OldaleTown_House2_Basement_Text_BossDefeated
+	release
+	end
+OldaleTown_House2_Basement_EventScript_Juan2:
+	trainerbattle_no_intro TRAINER_JUAN_2, OldaleTown_House2_Basement_Text_BossDefeated
+	release
+	end
+OldaleTown_House2_Basement_EventScript_Juan3:
+	trainerbattle_no_intro TRAINER_JUAN_3, OldaleTown_House2_Basement_Text_BossDefeated
+	release
+	end
+OldaleTown_House2_Basement_EventScript_Juan4:
+	trainerbattle_no_intro TRAINER_JUAN_4, OldaleTown_House2_Basement_Text_BossDefeated
+	release
+	end
+OldaleTown_House2_Basement_EventScript_Juan5:
+	trainerbattle_no_intro TRAINER_JUAN_5, OldaleTown_House2_Basement_Text_BossDefeated
+	release
+	end
+OldaleTown_House2_Basement_EventScript_Juan6:
+	trainerbattle_no_intro TRAINER_JUAN_6, OldaleTown_House2_Basement_Text_BossDefeated
+	release
+	end
+OldaleTown_House2_Basement_EventScript_Juan7:
+	trainerbattle_no_intro TRAINER_JUAN_7, OldaleTown_House2_Basement_Text_BossDefeated
+	release
+	end
+OldaleTown_House2_Basement_EventScript_Juan8:
+	trainerbattle_no_intro TRAINER_JUAN_8, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 
-OldaleTown_House2_Basement_EventScript_FightJuanWallace2::
-	trainerbattle_double TRAINER_JUAN_2, NULL, OldaleTown_House2_Basement_Text_TrainerDefeated, OldaleTown_House2_Basement_Text_NotEnoughMons
-	release
-	end
-
-OldaleTown_House2_Basement_EventScript_FightJuanWallace3::
-	trainerbattle_double TRAINER_JUAN_3, NULL, OldaleTown_House2_Basement_Text_TrainerDefeated, OldaleTown_House2_Basement_Text_NotEnoughMons
-	release
-	end
-
-OldaleTown_House2_Basement_EventScript_FightJuanWallace4::
-	trainerbattle_double TRAINER_JUAN_4, NULL, OldaleTown_House2_Basement_Text_TrainerDefeated, OldaleTown_House2_Basement_Text_NotEnoughMons
-	release
-	end
-
-OldaleTown_House2_Basement_EventScript_FightJuanWallace5::
-	trainerbattle_double TRAINER_JUAN_5, NULL, OldaleTown_House2_Basement_Text_TrainerDefeated, OldaleTown_House2_Basement_Text_NotEnoughMons
-	release
-	end
-
-OldaleTown_House2_Basement_EventScript_FightJuanWallace6::
-	trainerbattle_double TRAINER_JUAN_6, NULL, OldaleTown_House2_Basement_Text_TrainerDefeated, OldaleTown_House2_Basement_Text_NotEnoughMons
-	release
-	end
-
-OldaleTown_House2_Basement_EventScript_FightJuanWallace7::
-	trainerbattle_double TRAINER_JUAN_7, NULL, OldaleTown_House2_Basement_Text_TrainerDefeated, OldaleTown_House2_Basement_Text_NotEnoughMons
-	release
-	end
-
-OldaleTown_House2_Basement_EventScript_FightJuanWallace8::
-	trainerbattle_double TRAINER_JUAN_8, NULL, OldaleTown_House2_Basement_Text_TrainerDefeated, OldaleTown_House2_Basement_Text_NotEnoughMons
-	release
-	end
-
-@ Elite 8 and Specials (No version scaling requested for these)
 OldaleTown_House2_Basement_EventScript_FightMaxie::
-	trainerbattle_no_intro TRAINER_MAXIE_MAGMA_HIDEOUT, OldaleTown_House2_Basement_Text_TrainerDefeated
+	trainerbattle_no_intro TRAINER_MAXIE_MAGMA_HIDEOUT, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 OldaleTown_House2_Basement_EventScript_FightArchie::
-	trainerbattle_no_intro TRAINER_ARCHIE, OldaleTown_House2_Basement_Text_TrainerDefeated
+	trainerbattle_no_intro TRAINER_ARCHIE, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 OldaleTown_House2_Basement_EventScript_FightSidney::
-	trainerbattle_no_intro TRAINER_SIDNEY, OldaleTown_House2_Basement_Text_TrainerDefeated
+	trainerbattle_no_intro TRAINER_SIDNEY, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 OldaleTown_House2_Basement_EventScript_FightSpenser::
-	trainerbattle_no_intro TRAINER_SPENSER, OldaleTown_House2_Basement_Text_TrainerDefeated
+	trainerbattle_no_intro TRAINER_SPENSER, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 OldaleTown_House2_Basement_EventScript_FightPhoebe::
-	trainerbattle_no_intro TRAINER_PHOEBE, OldaleTown_House2_Basement_Text_TrainerDefeated
+	trainerbattle_no_intro TRAINER_PHOEBE, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 OldaleTown_House2_Basement_EventScript_FightLucy::
-	trainerbattle_no_intro TRAINER_LUCY, OldaleTown_House2_Basement_Text_TrainerDefeated
+	trainerbattle_no_intro TRAINER_LUCY, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 OldaleTown_House2_Basement_EventScript_FightGlacia::
-	trainerbattle_no_intro TRAINER_GLACIA, OldaleTown_House2_Basement_Text_TrainerDefeated
+	trainerbattle_no_intro TRAINER_GLACIA, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 OldaleTown_House2_Basement_EventScript_FightTucker::
-	trainerbattle_no_intro TRAINER_TUCKER, OldaleTown_House2_Basement_Text_TrainerDefeated
+	trainerbattle_no_intro TRAINER_TUCKER, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 OldaleTown_House2_Basement_EventScript_FightDrake::
-	trainerbattle_no_intro TRAINER_DRAKE, OldaleTown_House2_Basement_Text_TrainerDefeated
+	trainerbattle_no_intro TRAINER_DRAKE, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 OldaleTown_House2_Basement_EventScript_FightBrandon::
-	trainerbattle_no_intro TRAINER_BRANDON, OldaleTown_House2_Basement_Text_TrainerDefeated
+	trainerbattle_no_intro TRAINER_BRANDON, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 OldaleTown_House2_Basement_EventScript_FightWally::
-	trainerbattle_no_intro TRAINER_WALLY, OldaleTown_House2_Basement_Text_TrainerDefeated
+	trainerbattle_no_intro TRAINER_WALLY, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 OldaleTown_House2_Basement_EventScript_FightSteven::
-	trainerbattle_no_intro TRAINER_STEVEN, OldaleTown_House2_Basement_Text_TrainerDefeated
+	trainerbattle_no_intro TRAINER_STEVEN, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 
-OldaleTown_House2_Basement_EventScript_CountBadges::
-	setvar VAR_TEMP_0, 0
-	checkflag FLAG_BADGE01_GET
-	call_if_eq VAR_RESULT, TRUE, OldaleTown_House2_Basement_EventScript_IncrementBadges
-	checkflag FLAG_BADGE02_GET
-	call_if_eq VAR_RESULT, TRUE, OldaleTown_House2_Basement_EventScript_IncrementBadges
-	checkflag FLAG_BADGE03_GET
-	call_if_eq VAR_RESULT, TRUE, OldaleTown_House2_Basement_EventScript_IncrementBadges
-	checkflag FLAG_BADGE04_GET
-	call_if_eq VAR_RESULT, TRUE, OldaleTown_House2_Basement_EventScript_IncrementBadges
-	checkflag FLAG_BADGE05_GET
-	call_if_eq VAR_RESULT, TRUE, OldaleTown_House2_Basement_EventScript_IncrementBadges
-	checkflag FLAG_BADGE06_GET
-	call_if_eq VAR_RESULT, TRUE, OldaleTown_House2_Basement_EventScript_IncrementBadges
-	checkflag FLAG_BADGE07_GET
-	call_if_eq VAR_RESULT, TRUE, OldaleTown_House2_Basement_EventScript_IncrementBadges
-	checkflag FLAG_BADGE08_GET
-	call_if_eq VAR_RESULT, TRUE, OldaleTown_House2_Basement_EventScript_IncrementBadges
-	return
+OldaleTown_House2_Basement_Text_WhichBossToFight:
+	.string "Which Boss would you like to fight?$"
+OldaleTown_House2_Basement_Text_BossDefeated:
+	.string "What a spectacular performance!$"
+OldaleTown_House2_Basement_Text_Viola:
+	.string "VIOLA$"
+OldaleTown_House2_Basement_Text_Roxanne:
+	.string "ROXANNE$"
+OldaleTown_House2_Basement_Text_Brawly:
+	.string "BRAWLY$"
+OldaleTown_House2_Basement_Text_Wattson:
+	.string "WATTSON$"
+OldaleTown_House2_Basement_Text_Flannery:
+	.string "FLANNERY$"
+OldaleTown_House2_Basement_Text_Norman:
+	.string "NORMAN$"
+OldaleTown_House2_Basement_Text_Winona:
+	.string "WINONA$"
+OldaleTown_House2_Basement_Text_TateLiza:
+	.string "TATE&LIZA$"
+OldaleTown_House2_Basement_Text_JuanWallace:
+	.string "JUAN&WALCE$"
+OldaleTown_House2_Basement_Text_Maxie:
+	.string "MAXIE$"
+OldaleTown_House2_Basement_Text_Archie:
+	.string "ARCHIE$"
+OldaleTown_House2_Basement_Text_Sidney:
+	.string "SIDNEY$"
+OldaleTown_House2_Basement_Text_Spenser:
+	.string "SPENSER$"
+OldaleTown_House2_Basement_Text_Phoebe:
+	.string "PHOEBE$"
+OldaleTown_House2_Basement_Text_Lucy:
+	.string "LUCY$"
+OldaleTown_House2_Basement_Text_Glacia:
+	.string "GLACIA$"
+OldaleTown_House2_Basement_Text_Tucker:
+	.string "TUCKER$"
+OldaleTown_House2_Basement_Text_Drake:
+	.string "DRAKE$"
+OldaleTown_House2_Basement_Text_Brandon:
+	.string "BRANDON$"
+OldaleTown_House2_Basement_Text_Wally:
+	.string "WALLY$"
+OldaleTown_House2_Basement_Text_Steven:
+	.string "STEVEN$"
 
-OldaleTown_House2_Basement_EventScript_IncrementBadges::
-	addvar VAR_TEMP_0, 1
-	return
+OldaleTown_House2_Basement_EventScript_Cook::
+	goto SlateportCity_EventScript_Cook
 
-OldaleTown_House2_Basement_Text_BossRushIntro:
-	.string "I can summon strong projections of\n"
-	.string "trainers for you to battle.\p"
-	.string "Who would you like to fight?$"
+OldaleTown_House2_Basement_EventScript_HiddenPowerNPC::
+	lock
+	faceplayer
+	msgbox OldaleTown_House2_Basement_Text_HiddenPowerNPC_Intro, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, SlateportCity_EventScript_HiddenPowerNPC_Decline
+	msgbox SlateportCity_Text_HiddenPowerNPC_ChooseMon, MSGBOX_DEFAULT
+	special ChoosePartyMon
+	waitstate
+	goto_if_eq VAR_0x8004, 255, SlateportCity_EventScript_HiddenPowerNPC_Decline
+	special IsSelectedMonEgg
+	goto_if_eq VAR_RESULT, TRUE, SlateportCity_EventScript_HiddenPowerNPC_Egg
+	callnative CheckHiddenPower
+	goto_if_eq VAR_RESULT, FALSE, SlateportCity_EventScript_HiddenPowerNPC_NoHiddenPower
+	msgbox SlateportCity_Text_HiddenPowerNPC_ChooseType, MSGBOX_DEFAULT
+	copyvar VAR_0x8006, VAR_0x8004
+	setvar VAR_0x8004, SCROLL_MULTI_HIDDEN_POWER_TYPES
+	special ShowScrollableMultichoice
+	waitstate
+	goto_if_eq VAR_RESULT, MULTI_B_PRESSED, SlateportCity_EventScript_HiddenPowerNPC_Decline
+	copyvar VAR_0x8005, VAR_RESULT
+	callnative MapHiddenPowerMenuSelectionToType
+	copyvar VAR_0x8004, VAR_0x8006
+	callnative SetHiddenPowerType
+	msgbox SlateportCity_Text_HiddenPowerNPC_Success, MSGBOX_DEFAULT
+	release
+	end
 
-OldaleTown_House2_Basement_Text_TrainerDefeated:
-	.string "An impressive display of strength.$"
+OldaleTown_House2_Basement_Text_HiddenPowerNPC_Intro:
+	.string "I can change the type of your\n"
+	.string "POKéMON's HIDDEN POWER.\p"
+	.string "Would you like to do that?$"
 
-OldaleTown_House2_Basement_Text_NotEnoughMons:
-	.string "You need more than one Pokémon for\n"
-	.string "a double battle!$"
+OldaleTown_House2_Basement_EventScript_EnergyGuru::
+	goto SlateportCity_EventScript_EnergyGuru
+	goto_if_unset FLAG_BADGE02_GET, OldaleTown_House2_Basement_EventScript_EnergyGuruNotEnoughBadges
 
-OldaleTown_House2_Basement_Text_Viola: .string "VIOLA$"
-OldaleTown_House2_Basement_Text_Roxanne: .string "ROXANNE$"
-OldaleTown_House2_Basement_Text_Brawly: .string "BRAWLY$"
-OldaleTown_House2_Basement_Text_Wattson: .string "WATTSON$"
-OldaleTown_House2_Basement_Text_Flannery: .string "FLANNERY$"
-OldaleTown_House2_Basement_Text_Norman: .string "NORMAN$"
-OldaleTown_House2_Basement_Text_Winona: .string "WINONA$"
-OldaleTown_House2_Basement_Text_TateLiza: .string "TATE AND LIZA$"
-OldaleTown_House2_Basement_Text_JuanWallace: .string "JUAN AND WALLACE$"
-OldaleTown_House2_Basement_Text_Maxie: .string "MAXIE$"
-OldaleTown_House2_Basement_Text_Archie: .string "ARCHIE$"
-OldaleTown_House2_Basement_Text_Sidney: .string "SIDNEY$"
-OldaleTown_House2_Basement_Text_Spenser: .string "SPENSER$"
-OldaleTown_House2_Basement_Text_Phoebe: .string "PHOEBE$"
-OldaleTown_House2_Basement_Text_Lucy: .string "LUCY$"
-OldaleTown_House2_Basement_Text_Glacia: .string "GLACIA$"
-OldaleTown_House2_Basement_Text_Tucker: .string "TUCKER$"
-OldaleTown_House2_Basement_Text_Drake: .string "DRAKE$"
-OldaleTown_House2_Basement_Text_Brandon: .string "BRANDON$"
-OldaleTown_House2_Basement_Text_Wally: .string "WALLY$"
-OldaleTown_House2_Basement_Text_Steven: .string "STEVEN$"
+OldaleTown_House2_Basement_EventScript_EffortRibbonWoman::
+	goto SlateportCity_EventScript_EffortRibbonWoman
+
+OldaleTown_House2_Basement_EventScript_EnergyGuruNotEnoughBadges::
+	msgbox OldaleTown_House2_Basement_Text_EnergyGuruNotEnoughBadges, MSGBOX_DEFAULT
+	release
+	end
+
+OldaleTown_House2_Basement_Text_HiddenPowerNPC_Decline:
+	.string "Come back if you change your mind.$"
+
+OldaleTown_House2_Basement_Text_MoveRelearnerNotEnoughBadges:
+	.string "I'm sorry, but I only teach these\n"
+	.string "moves to experienced TRAINERS.\p"
+	.string "Come back once you have at least\n"
+	.string "four GYM BADGES.$"
+
+OldaleTown_House2_Basement_Text_EnergyGuruNotEnoughBadges:
+	.string "I'm sorry, but I only help experienced\n"
+	.string "TRAINERS with their POKéMON.\p"
+	.string "Come back once you have at least\n"
+	.string "two GYM BADGES.$"
+
+OldaleTown_House2_Basement_EventScript_EggMoveTutor::
+	lock
+	faceplayer
+	callnative DoLightsOnFast
+	msgbox OldaleTown_House2_Basement_Text_EggMoveTutor_Intro, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, OldaleTown_House2_Basement_EventScript_EggMoveTutor_Decline
+	msgbox OldaleTown_House2_Basement_Text_EggMoveTutor_ChooseMon, MSGBOX_DEFAULT
+	special ChoosePartyMon
+	waitstate
+	goto_if_eq VAR_0x8004, PARTY_NOTHING_CHOSEN, OldaleTown_House2_Basement_EventScript_EggMoveTutor_Decline
+	special IsSelectedMonEgg
+	goto_if_eq VAR_RESULT, TRUE, OldaleTown_House2_Basement_EventScript_EggMoveTutor_IsEgg
+	copyvar VAR_TEMP_1, VAR_0x8004 @ Store party slot
+	specialvar VAR_0x8004, ScriptGetPartyMonSpecies @ Overwrites VAR_0x8004 with species
+	special GetFirstEggMoveForSpecies
+	goto_if_eq VAR_RESULT, MOVE_NONE, OldaleTown_House2_Basement_EventScript_EggMoveTutor_NoEggMove
+	copyvar VAR_0x8004, VAR_TEMP_1 @ Restore party slot
+	msgbox FallarborTown_MoveRelearnersHouse_Text_TeachWhichMove, MSGBOX_DEFAULT
+	setmoverelearnerstate MOVE_RELEARNER_EGG_MOVES
+	special TeachMoveRelearnerMove
+	waitstate
+	goto OldaleTown_House2_Basement_EventScript_EggMoveTutor_Decline
+	end
+
+OldaleTown_House2_Basement_EventScript_EggMoveTutor_Decline::
+	msgbox OldaleTown_House2_Basement_Text_EggMoveTutor_Decline, MSGBOX_DEFAULT
+	callnative DoLightsToLevel1Fast
+	release
+	end
+
+OldaleTown_House2_Basement_EventScript_EggMoveTutor_IsEgg::
+	msgbox OldaleTown_House2_Basement_Text_EggMoveTutor_IsEgg, MSGBOX_DEFAULT
+	goto OldaleTown_House2_Basement_EventScript_EggMoveTutor_Decline
+
+OldaleTown_House2_Basement_EventScript_EggMoveTutor_NoEggMove::
+	msgbox OldaleTown_House2_Basement_Text_EggMoveTutor_NoEggMove, MSGBOX_DEFAULT
+	goto OldaleTown_House2_Basement_EventScript_EggMoveTutor_Decline
+
+OldaleTown_House2_Basement_Text_EggMoveTutor_Intro:
+	.string "I am an expert on POKéMON genetics.\n"
+	.string "I can teach a POKéMON a move it\l"
+	.string "normally only knows from birth.\p"
+	.string "Would you like me to try?$"
+
+OldaleTown_House2_Basement_Text_EggMoveTutor_ChooseMon:
+	.string "Which POKéMON should I tutor?$"
+
+OldaleTown_House2_Basement_Text_EggMoveTutor_NoEggMove:
+	.string "I'm sorry, but this species doesn't\n"
+	.string "seem to have any EGG MOVES.$"
+
+OldaleTown_House2_Basement_Text_EggMoveTutor_IsEgg:
+	.string "I cannot teach an EGG.$"
+
+OldaleTown_House2_Basement_Text_EggMoveTutor_Decline:
+	.string "Farewell.$"
+	
