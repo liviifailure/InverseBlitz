@@ -4542,3 +4542,19 @@ void MapHiddenPowerMenuSelectionToType(void)
         gSpecialVar_0x8005 = TYPE_NORMAL;
     }
 }
+
+void SetObjectGfx(void)
+{
+    u8 objEventId = GetObjectEventIdByLocalId(gSpecialVar_0x8004);
+    if (objEventId != OBJECT_EVENTS_COUNT)
+    {
+        struct ObjectEvent *objectEvent = &gObjectEvents[objEventId];
+        const struct ObjectEventGraphicsInfo *info = GetObjectEventGraphicsInfo(gSpecialVar_0x8005);
+
+        ObjectEventSetGraphicsId(objectEvent, gSpecialVar_0x8005);
+
+        // Manually update the sprite's tiles and reset the animation to force a VRAM refresh
+        gSprites[objectEvent->spriteId].images = info->images;
+        StartSpriteAnim(&gSprites[objectEvent->spriteId], 0);
+    }
+}

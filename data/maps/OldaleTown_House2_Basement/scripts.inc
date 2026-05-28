@@ -17,8 +17,8 @@ OldaleTown_House2_Basement_OnFrame:
 OldaleTown_House2_Basement_EventScript_LightUpRoom::
 	lockall
 	setvar VAR_TEMP_0, 1
-	animateflash 1
-	setflashlevel 1
+	animateflash 0
+	setflashlevel 0
 	releaseall
 	end
 
@@ -178,20 +178,16 @@ OldaleTown_House2_Text_LevelCaps8:
 OldaleTown_House2_Basement_EventScript_GiftPokemonNPC::
 	lock
 	faceplayer
-	callnative DoLightsOnFast
 	msgbox OldaleTown_House2_Basement_Text_PeeredIntoBox, MSGBOX_DEFAULT
 	call EventScript_ChooseGiftPokemon_NoMsg
-	callnative DoLightsToLevel1Fast
 	release
 	end
 
 OldaleTown_House2_Basement_EventScript_GiftPokemonNPC2::
 	lock
 	faceplayer
-	callnative DoLightsOnFast
 	msgbox OldaleTown_House2_Basement_Text_PeeredIntoBox, MSGBOX_DEFAULT
 	call EventScript_ChooseGiftPokemon2_NoMsg
-	callnative DoLightsToLevel1Fast
 	release
 	end
 
@@ -481,7 +477,6 @@ OldaleTown_House2_Basement_EventScript_MoveRelearner::
 	lock
 	goto_if_unset FLAG_BADGE04_GET, OldaleTown_House2_Basement_EventScript_MoveRelearnerNotEnoughBadges
 	faceplayer
-	callnative DoLightsOnFast
 	msgbox OldaleTown_House2_Basement_Text_MoveRelearnerIntro, MSGBOX_DEFAULT
 	goto OldaleTown_House2_Basement_EventScript_ChooseMon
 	end
@@ -796,6 +791,8 @@ OldaleTown_House2_Basement_EventScript_BossMenu_8Badges::
 	end
 
 OldaleTown_House2_Basement_EventScript_FightFlannery::
+	setvar VAR_0x8005, OBJ_EVENT_GFX_FLANNERY
+	call OldaleTown_House2_Basement_EventScript_BossTwirlAndChange
 	goto_if_set FLAG_BADGE07_GET, OldaleTown_House2_Basement_EventScript_Flannery8
 	goto_if_set FLAG_BADGE06_GET, OldaleTown_House2_Basement_EventScript_Flannery7
 	goto_if_set FLAG_BADGE05_GET, OldaleTown_House2_Basement_EventScript_Flannery6
@@ -840,6 +837,8 @@ OldaleTown_House2_Basement_EventScript_Flannery8:
 	end
 
 OldaleTown_House2_Basement_EventScript_FightViola::
+	setvar VAR_0x8005, OBJ_EVENT_GFX_VIOLA
+	call OldaleTown_House2_Basement_EventScript_BossTwirlAndChange
 	goto_if_set FLAG_BADGE07_GET, OldaleTown_House2_Basement_EventScript_Viola8
 	goto_if_set FLAG_BADGE06_GET, OldaleTown_House2_Basement_EventScript_Viola7
 	goto_if_set FLAG_BADGE05_GET, OldaleTown_House2_Basement_EventScript_Viola6
@@ -884,6 +883,8 @@ OldaleTown_House2_Basement_EventScript_Viola8:
 	end
 
 OldaleTown_House2_Basement_EventScript_FightRoxanne::
+	setvar VAR_0x8005, OBJ_EVENT_GFX_ROXANNE
+	call OldaleTown_House2_Basement_EventScript_BossTwirlAndChange
 	goto_if_set FLAG_BADGE07_GET, OldaleTown_House2_Basement_EventScript_Roxanne8
 	goto_if_set FLAG_BADGE06_GET, OldaleTown_House2_Basement_EventScript_Roxanne7
 	goto_if_set FLAG_BADGE05_GET, OldaleTown_House2_Basement_EventScript_Roxanne6
@@ -928,6 +929,8 @@ OldaleTown_House2_Basement_EventScript_Roxanne8:
 	end
 
 OldaleTown_House2_Basement_EventScript_FightBrawly::
+	setvar VAR_0x8005, OBJ_EVENT_GFX_BRAWLY
+	call OldaleTown_House2_Basement_EventScript_BossTwirlAndChange
 	goto_if_set FLAG_BADGE07_GET, OldaleTown_House2_Basement_EventScript_Brawly8
 	goto_if_set FLAG_BADGE06_GET, OldaleTown_House2_Basement_EventScript_Brawly7
 	goto_if_set FLAG_BADGE05_GET, OldaleTown_House2_Basement_EventScript_Brawly6
@@ -972,6 +975,8 @@ OldaleTown_House2_Basement_EventScript_Brawly8:
 	end
 
 OldaleTown_House2_Basement_EventScript_FightWattson::
+	setvar VAR_0x8005, OBJ_EVENT_GFX_WATTSON
+	call OldaleTown_House2_Basement_EventScript_BossTwirlAndChange
 	goto_if_set FLAG_BADGE07_GET, OldaleTown_House2_Basement_EventScript_Wattson8
 	goto_if_set FLAG_BADGE06_GET, OldaleTown_House2_Basement_EventScript_Wattson7
 	goto_if_set FLAG_BADGE05_GET, OldaleTown_House2_Basement_EventScript_Wattson6
@@ -1016,6 +1021,8 @@ OldaleTown_House2_Basement_EventScript_Wattson8:
 	end
 
 OldaleTown_House2_Basement_EventScript_FightNorman::
+	setvar VAR_0x8005, OBJ_EVENT_GFX_NORMAN
+	call OldaleTown_House2_Basement_EventScript_BossTwirlAndChange
 	goto_if_set FLAG_BADGE07_GET, OldaleTown_House2_Basement_EventScript_Norman8
 	goto_if_set FLAG_BADGE06_GET, OldaleTown_House2_Basement_EventScript_Norman7
 	goto_if_set FLAG_BADGE05_GET, OldaleTown_House2_Basement_EventScript_Norman6
@@ -1060,6 +1067,8 @@ OldaleTown_House2_Basement_EventScript_Norman8:
 	end
 
 OldaleTown_House2_Basement_EventScript_FightWinona::
+	setvar VAR_0x8005, OBJ_EVENT_GFX_WINONA
+	call OldaleTown_House2_Basement_EventScript_BossTwirlAndChange
 	goto_if_set FLAG_BADGE07_GET, OldaleTown_House2_Basement_EventScript_Winona8
 	goto_if_set FLAG_BADGE06_GET, OldaleTown_House2_Basement_EventScript_Winona7
 	goto_if_set FLAG_BADGE05_GET, OldaleTown_House2_Basement_EventScript_Winona6
@@ -1104,6 +1113,8 @@ OldaleTown_House2_Basement_EventScript_Winona8:
 	end
 
 OldaleTown_House2_Basement_EventScript_FightTateLiza::
+	setvar VAR_0x8005, OBJ_EVENT_GFX_TATE
+	call OldaleTown_House2_Basement_EventScript_BossTwirlAndChange
 	goto_if_set FLAG_BADGE07_GET, OldaleTown_House2_Basement_EventScript_TateLiza8
 	goto_if_set FLAG_BADGE06_GET, OldaleTown_House2_Basement_EventScript_TateLiza7
 	goto_if_set FLAG_BADGE05_GET, OldaleTown_House2_Basement_EventScript_TateLiza6
@@ -1148,6 +1159,8 @@ OldaleTown_House2_Basement_EventScript_TateLiza8:
 	end
 
 OldaleTown_House2_Basement_EventScript_FightJuanWallace::
+	setvar VAR_0x8005, OBJ_EVENT_GFX_JUAN
+	call OldaleTown_House2_Basement_EventScript_BossTwirlAndChange
 	goto_if_set FLAG_BADGE07_GET, OldaleTown_House2_Basement_EventScript_Juan8
 	goto_if_set FLAG_BADGE06_GET, OldaleTown_House2_Basement_EventScript_Juan7
 	goto_if_set FLAG_BADGE05_GET, OldaleTown_House2_Basement_EventScript_Juan6
@@ -1192,50 +1205,74 @@ OldaleTown_House2_Basement_EventScript_Juan8:
 	end
 
 OldaleTown_House2_Basement_EventScript_FightMaxie::
+	setvar VAR_0x8005, OBJ_EVENT_GFX_MAXIE
+	call OldaleTown_House2_Basement_EventScript_BossTwirlAndChange
 	trainerbattle_no_intro TRAINER_MAXIE_MAGMA_HIDEOUT, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 OldaleTown_House2_Basement_EventScript_FightArchie::
+	setvar VAR_0x8005, OBJ_EVENT_GFX_ARCHIE
+	call OldaleTown_House2_Basement_EventScript_BossTwirlAndChange
 	trainerbattle_no_intro TRAINER_ARCHIE, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 OldaleTown_House2_Basement_EventScript_FightSidney::
+	setvar VAR_0x8005, OBJ_EVENT_GFX_SIDNEY
+	call OldaleTown_House2_Basement_EventScript_BossTwirlAndChange
 	trainerbattle_no_intro TRAINER_SIDNEY, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 OldaleTown_House2_Basement_EventScript_FightSpenser::
+	setvar VAR_0x8005, OBJ_EVENT_GFX_SPENSER
+	call OldaleTown_House2_Basement_EventScript_BossTwirlAndChange
 	trainerbattle_no_intro TRAINER_SPENSER, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 OldaleTown_House2_Basement_EventScript_FightPhoebe::
+	setvar VAR_0x8005, OBJ_EVENT_GFX_PHOEBE
+	call OldaleTown_House2_Basement_EventScript_BossTwirlAndChange
 	trainerbattle_no_intro TRAINER_PHOEBE, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 OldaleTown_House2_Basement_EventScript_FightLucy::
+	setvar VAR_0x8005, OBJ_EVENT_GFX_LUCY
+	call OldaleTown_House2_Basement_EventScript_BossTwirlAndChange
 	trainerbattle_no_intro TRAINER_LUCY, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 OldaleTown_House2_Basement_EventScript_FightGlacia::
+	setvar VAR_0x8005, OBJ_EVENT_GFX_GLACIA
+	call OldaleTown_House2_Basement_EventScript_BossTwirlAndChange
 	trainerbattle_no_intro TRAINER_GLACIA, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 OldaleTown_House2_Basement_EventScript_FightTucker::
+	setvar VAR_0x8005, OBJ_EVENT_GFX_TUCKER
+	call OldaleTown_House2_Basement_EventScript_BossTwirlAndChange
 	trainerbattle_no_intro TRAINER_TUCKER, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 OldaleTown_House2_Basement_EventScript_FightDrake::
+	setvar VAR_0x8005, OBJ_EVENT_GFX_DRAKE
+	call OldaleTown_House2_Basement_EventScript_BossTwirlAndChange
 	trainerbattle_no_intro TRAINER_DRAKE, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 OldaleTown_House2_Basement_EventScript_FightBrandon::
+	setvar VAR_0x8005, OBJ_EVENT_GFX_BRANDON
+	call OldaleTown_House2_Basement_EventScript_BossTwirlAndChange
 	trainerbattle_no_intro TRAINER_BRANDON, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 OldaleTown_House2_Basement_EventScript_FightWally::
+	setvar VAR_0x8005, OBJ_EVENT_GFX_WALLY
+	call OldaleTown_House2_Basement_EventScript_BossTwirlAndChange
 	trainerbattle_no_intro TRAINER_WALLY, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
 OldaleTown_House2_Basement_EventScript_FightSteven::
+	setvar VAR_0x8005, OBJ_EVENT_GFX_STEVEN
+	call OldaleTown_House2_Basement_EventScript_BossTwirlAndChange
 	trainerbattle_no_intro TRAINER_STEVEN, OldaleTown_House2_Basement_Text_BossDefeated
 	release
 	end
@@ -1352,7 +1389,7 @@ OldaleTown_House2_Basement_Text_EnergyGuruNotEnoughBadges:
 OldaleTown_House2_Basement_EventScript_EggMoveTutor::
 	lock
 	faceplayer
-	callnative DoLightsOnFast
+	goto_if_unset FLAG_BADGE01_GET, OldaleTown_House2_Basement_EventScript_EggMoveTutor_NotEnoughBadges
 	msgbox OldaleTown_House2_Basement_Text_EggMoveTutor_Intro, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, OldaleTown_House2_Basement_EventScript_EggMoveTutor_Decline
 	msgbox OldaleTown_House2_Basement_Text_EggMoveTutor_ChooseMon, MSGBOX_DEFAULT
@@ -1371,6 +1408,11 @@ OldaleTown_House2_Basement_EventScript_EggMoveTutor::
 	special TeachMoveRelearnerMove
 	waitstate
 	goto OldaleTown_House2_Basement_EventScript_EggMoveTutor_Decline
+	end
+
+OldaleTown_House2_Basement_EventScript_EggMoveTutor_NotEnoughBadges::
+	msgbox OldaleTown_House2_Basement_Text_EggMoveTutor_NotEnoughBadges, MSGBOX_DEFAULT
+	release
 	end
 
 OldaleTown_House2_Basement_EventScript_EggMoveTutor_Decline::
@@ -1393,6 +1435,12 @@ OldaleTown_House2_Basement_Text_EggMoveTutor_Intro:
 	.string "normally only knows from birth.\p"
 	.string "Would you like me to try?$"
 
+OldaleTown_House2_Basement_Text_EggMoveTutor_NotEnoughBadges:
+	.string "I'm sorry, but I only help experienced\n"
+	.string "TRAINERS with their POKéMON.\p"
+	.string "Come back once you have at least\n"
+	.string "one GYM BADGE.$"
+
 OldaleTown_House2_Basement_Text_EggMoveTutor_ChooseMon:
 	.string "Which POKéMON should I tutor?$"
 
@@ -1405,4 +1453,21 @@ OldaleTown_House2_Basement_Text_EggMoveTutor_IsEgg:
 
 OldaleTown_House2_Basement_Text_EggMoveTutor_Decline:
 	.string "Farewell.$"
-	
+
+OldaleTown_House2_Basement_EventScript_BossTwirlAndChange::
+	copyvar VAR_0x8004, VAR_LAST_TALKED
+	applymovement VAR_0x8004, OldaleTown_House2_Basement_Movement_Twirl
+	waitmovement 0
+	callnative SetObjectGfx
+	return
+
+OldaleTown_House2_Basement_Movement_Twirl:
+	face_left
+	face_up
+	face_right
+	face_down
+	face_left
+	face_up
+	face_right
+	face_down
+	step_end
