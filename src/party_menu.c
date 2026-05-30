@@ -9202,3 +9202,51 @@ static void CursorCb_Clear(u8 taskId)
     ScheduleBgCopyTilemapToVram(2);
     gTasks[taskId].func = Task_UpdateHeldItemSpritesAndReturn;
 }
+
+void ItemUseCB_BottleCap(u8 taskId, TaskFunc task)
+{
+    struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
+    u16 item = gSpecialVar_ItemId;
+    u32 i;
+    u8 iv;
+
+    if (GetMonData(mon, MON_DATA_IS_EGG))
+    {
+        gPartyMenuUseExitCallback = FALSE;
+        PlaySE(SE_SELECT);
+        DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
+        ScheduleBgCopyTilemapToVram(2);
+        gTasks[taskId].func = task;
+    }
+    else
+    {
+        if (item == ITEM_GOLD_BOTTLE_CAP)
+            iv = MAX_PER_STAT_IVS; // Sets all IVs to 31
+        else
+            iv = 0; // Sets all IVs to 0
+
+        for (i = 0; i < NUM_STATS; i++)
+            SetMonData(mon, MON_DATA_HP_IV + i, &iv);
+
+        CalculateMonStats(mon);
+
+        // Update the UI to show new HP values
+        DisplayPartyPokemonHPCheck(mon, &sPartyMenuBoxes[gPartyMenu.slotId], 1);
+        DisplayPartyPokemonMaxHPCheck(mon, &sPartyMenuBoxes[gPartyMenu.slotId], 1);
+        DisplayPartyPokemonHPBarCheck(mon, &sPartyMenuBoxes[gPartyMenu.slotId]);
+
+        gPartyMenuUseExitCallback = TRUE;
+        PlaySE(SE_USE_ITEM);
+        RemoveBagItem(item, 1);
+
+        GetMonNickname(mon, gStringVar1);
+        if (item == ITEM_GOLD_BOTTLE_CAP)
+            StringExpandPlaceholders(gStringVar4, COMPOUND_STRING("{STR_VAR_1}'s potential was maximized!"));
+        else
+            StringExpandPlaceholders(gStringVar4, COMPOUND_STRING("{STR_VAR_1} became a total fool!"));
+
+        DisplayPartyMenuMessage(gStringVar4, TRUE);
+        ScheduleBgCopyTilemapToVram(2);
+        gTasks[taskId].func = task;
+    }
+}

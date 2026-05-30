@@ -45984,7 +45984,7 @@ F_TRAINER_FEMALE |
                 MOVE_EARTHQUAKE,
                 MOVE_HEAT_WAVE,
                 MOVE_SMOKESCREEN,
-                MOVE_YAWN,
+                MOVE_ROCK_SLIDE,
             },
             },
             {
@@ -47381,7 +47381,7 @@ F_TRAINER_FEMALE |
             .moves = {
 #line 18599
                 MOVE_BRAVE_BIRD,
-                MOVE_FLAME_CHARGE,
+                MOVE_BLAZE_KICK,
                 MOVE_ROOST,
                 MOVE_STEEL_WING,
             },

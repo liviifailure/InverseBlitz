@@ -503,7 +503,7 @@
       "y": 28,
       "elevation": 0,
       "dest_map": "MAP_MOSSDEEP_CITY_GYM",
-      "dest_warp_id": "3"
+      "dest_warp_id": "13"
     },
     {
       "x": 1,
@@ -545,7 +545,7 @@
       "y": 33,
       "elevation": 3,
       "dest_map": "MAP_MOSSDEEP_CITY_GYM",
-      "dest_warp_id": "9"
+      "dest_warp_id": "13"
     },
     {
       "x": 20,
@@ -692,5 +692,6 @@
       "var_value": "0",
       "script": "MossdeepCity_Gym_EventScript_WarpToLeaders"
     }
-  ]
+  ],
+  "bg_events": []
 }

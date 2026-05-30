@@ -1347,7 +1347,11 @@ static void BuyMenuPrintItemQuantityAndPrice(u8 taskId)
 
 static void ExitBuyMenu(u8 taskId)
 {
-    gFieldCallback = MapPostLoadHook_ReturnToShopMenu;
+    if (FlagGet(FLAG_IN_BASEMENT))
+        gFieldCallback = FieldCB_ContinueScriptHandleMusic;
+    else
+        gFieldCallback = MapPostLoadHook_ReturnToShopMenu;
+
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
     gTasks[taskId].func = Task_ExitBuyMenu;
 }
@@ -1410,22 +1414,52 @@ static void RecordItemPurchase(u8 taskId)
 
 void CreatePokemartMenu(const u16 *itemsForSale)
 {
-    CreateShopMenu(MART_TYPE_NORMAL);
     SetShopItemsForSale(itemsForSale);
     ClearItemPurchases();
     SetShopMenuCallback(ScriptContext_Enable);
+
+    if (FlagGet(FLAG_IN_BASEMENT))
+    {
+        LockPlayerFieldControls();
+        sMartInfo.martType = MART_TYPE_NORMAL;
+        CreateTask(Task_HandleShopMenuBuy, 8);
+    }
+    else
+    {
+        CreateShopMenu(MART_TYPE_NORMAL);
+    }
 }
 
 void CreateDecorationShop1Menu(const u16 *itemsForSale)
 {
-    CreateShopMenu(MART_TYPE_DECOR);
     SetShopItemsForSale(itemsForSale);
     SetShopMenuCallback(ScriptContext_Enable);
+
+    if (FlagGet(FLAG_IN_BASEMENT))
+    {
+        LockPlayerFieldControls();
+        sMartInfo.martType = MART_TYPE_DECOR;
+        CreateTask(Task_HandleShopMenuBuy, 8);
+    }
+    else
+    {
+        CreateShopMenu(MART_TYPE_DECOR);
+    }
 }
 
 void CreateDecorationShop2Menu(const u16 *itemsForSale)
 {
-    CreateShopMenu(MART_TYPE_DECOR2);
     SetShopItemsForSale(itemsForSale);
     SetShopMenuCallback(ScriptContext_Enable);
+
+    if (FlagGet(FLAG_IN_BASEMENT))
+    {
+        LockPlayerFieldControls();
+        sMartInfo.martType = MART_TYPE_DECOR2;
+        CreateTask(Task_HandleShopMenuBuy, 8);
+    }
+    else
+    {
+        CreateShopMenu(MART_TYPE_DECOR2);
+    }
 }

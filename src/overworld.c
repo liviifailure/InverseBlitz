@@ -36,6 +36,7 @@
 #include "main.h"
 #include "malloc.h"
 #include "m4a.h"
+#include "script_menu.h"
 #include "map_name_popup.h"
 #include "match_call.h"
 #include "menu.h"
@@ -784,7 +785,13 @@ void SetWarpDestinationToFixedHoleWarp(s16 x, s16 y)
     if (IsDummyWarp(&sFixedHoleWarp) == TRUE)
         sWarpDestination = gLastUsedWarp;
     else
+    {
+        if (sFixedHoleWarp.x != -1)
+            x = (s8)sFixedHoleWarp.x;
+        if (sFixedHoleWarp.y != -1)
+            y = (s8)sFixedHoleWarp.y;
         SetWarpDestination(sFixedHoleWarp.mapGroup, sFixedHoleWarp.mapNum, WARP_ID_NONE, x, y);
+    }
 }
 
 static void SetWarpDestinationToContinueGameWarp(void)
@@ -2174,8 +2181,8 @@ static bool32 LoadMapInStepsLocal(u8 *state, bool32 a2)
     case 1:
         if (gMain.callback2 == CB2_WhiteOut)
         {
-        gSaveBlock2Ptr->optionsTextSpeed = OPTIONS_TEXT_SPEED_SLOW;
-            if (B_FLAG_FOLLOWERS_DISABLED != 0)
+            if (B_FLAG_FOLLOWERS_DISABLED != 0
+             && (gSaveBlock1Ptr->location.mapGroup != MAP_GROUP(MAP_OLDALE_TOWN_HOUSE2_BASEMENT)))
                 FlagSet(B_FLAG_FOLLOWERS_DISABLED);
         }
         ResetMirageTowerAndSaveBlockPtrs();
@@ -3730,5 +3737,63 @@ u16 SetTimeOfDay(u16 hours)
 bool8 ScrFunc_settimeofday(struct ScriptContext *ctx)
 {
     SetTimeOfDay(ScriptReadByte(ctx));
+    return FALSE;
+}
+
+bool8 Script_ShowMapNamePopup(struct ScriptContext *ctx)
+{
+    ShowMapNamePopup();
+    return FALSE;
+}
+
+static EWRAM_DATA u8 sFaintCounterStrings[21][4];
+
+bool8 Script_BuildFaintCounterMenu(struct ScriptContext *ctx)
+{
+    u32 i;
+    ScriptMenu_ClearDynMultichoice();
+    for (i = 0; i <= 20; i++)
+    {
+        ConvertIntToDecimalStringN(sFaintCounterStrings[i], i, STR_CONV_MODE_LEFT_ALIGN, 2);
+        ScriptMenu_AddDynmultichoice(sFaintCounterStrings[i], i, 0);
+    }
+    return FALSE;
+}
+
+bool8 Script_SetPlayerFaintCounter(struct ScriptContext *ctx)
+{
+    gSaveBlock1Ptr->playerFaintCounter = gSpecialVar_0x8004;
+    return FALSE;
+}
+
+static u32 GetBasementLevelCap(void)
+{
+    if (FlagGet(FLAG_BADGE08_GET)) return 60;
+    if (FlagGet(FLAG_BADGE07_GET)) return 49;
+    if (FlagGet(FLAG_BADGE06_GET)) return 43;
+    if (FlagGet(FLAG_BADGE05_GET)) return 36;
+    if (FlagGet(FLAG_BADGE04_GET)) return 33;
+    if (FlagGet(FLAG_BADGE03_GET)) return 30;
+    if (FlagGet(FLAG_BADGE02_GET)) return 25;
+    if (FlagGet(FLAG_BADGE01_GET)) return 20;
+    return 16;
+}
+
+bool8 Script_IsPartyOverLevelCap(struct ScriptContext *ctx)
+{
+    u32 i;
+    u32 cap = GetBasementLevelCap();
+    u32 count = CalculatePlayerPartyCount();
+
+    for (i = 0; i < count; i++)
+    {
+        if (GetMonData(&gPlayerParty[i], MON_DATA_LEVEL) > cap)
+        {
+            gSpecialVar_Result = TRUE;
+            return FALSE;
+        }
+    }
+
+    gSpecialVar_Result = FALSE;
     return FALSE;
 }

@@ -1,8 +1,25 @@
 EverGrandeCity_PhoebesRoom_MapScripts::
 	map_script MAP_SCRIPT_ON_LOAD, EverGrandeCity_PhoebesRoom_OnLoad
 	map_script MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE, EverGrandeCity_PhoebesRoom_OnWarp
+	map_script MAP_SCRIPT_ON_TRANSITION, EverGrandeCity_PhoebesRoom_OnTransition
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, EverGrandeCity_PhoebesRoom_OnFrame
 	.byte 0
+
+EverGrandeCity_PhoebesRoom_OnTransition:
+	end
+
+EverGrandeCity_PhoebesRoom_OnLoad:
+	call_if_set FLAG_DEFEATED_ELITE_4_PHOEBE, EverGrandeCity_PhoebesRoom_EventScript_ResetAdvanceToNextRoom
+	call_if_eq VAR_ELITE_4_STATE, 2, EverGrandeCity_PhoebesRoom_EventScript_CloseDoor
+	end
+
+EverGrandeCity_PhoebesRoom_EventScript_ResetAdvanceToNextRoom::
+	call PokemonLeague_EliteFour_EventScript_ResetAdvanceToNextRoom
+	return
+
+EverGrandeCity_PhoebesRoom_EventScript_CloseDoor::
+	call PokemonLeague_EliteFour_EventScript_CloseDoor
+	return
 
 EverGrandeCity_PhoebesRoom_OnWarp:
 	map_script_2 VAR_TEMP_1, 0, EverGrandeCity_PhoebesRoom_EventScript_PlayerTurnNorth
@@ -17,53 +34,28 @@ EverGrandeCity_PhoebesRoom_OnFrame:
 	.2byte 0
 
 EverGrandeCity_PhoebesRoom_EventScript_WalkInCloseDoor::
+	setvar VAR_FORCEANIM, 1
 	lockall
 	call PokemonLeague_EliteFour_EventScript_WalkInCloseDoor
 	setvar VAR_ELITE_4_STATE, 2
 	releaseall
 	end
 
-EverGrandeCity_PhoebesRoom_OnLoad:
-	call_if_set FLAG_DEFEATED_ELITE_4_PHOEBE, EverGrandeCity_PhoebesRoom_EventScript_ResetAdvanceToNextRoom
-	call_if_eq VAR_ELITE_4_STATE, 2, EverGrandeCity_PhoebesRoom_EventScript_CloseDoor
-	goto_if_eq VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_PHOEBE, EverGrandeCity_PhoebesRoom_End
-	goto_if_eq VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_LUCY, EverGrandeCity_PhoebesRoom_End
-	random 2
-	goto_if_eq VAR_RESULT, 1, EverGrandeCity_LucyAppears
-    setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_PHOEBE
-	end
-
-EverGrandeCity_LucyAppears:
-    setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_LUCY
-    setflag FLAG_BOSS_FLIP
-    end
-
-EverGrandeCity_PhoebesRoom_End:
-	end
-
-EverGrandeCity_PhoebesRoom_EventScript_ResetAdvanceToNextRoom::
-	call PokemonLeague_EliteFour_EventScript_ResetAdvanceToNextRoom
-	return
-
-EverGrandeCity_PhoebesRoom_EventScript_CloseDoor::
-	call PokemonLeague_EliteFour_EventScript_CloseDoor
-	return
-
 EverGrandeCity_PhoebesRoom_EventScript_Phoebe::
-	setvar VAR_FORCEANIM, 1
 	lock
 	faceplayer
+	specialvar VAR_RESULT, Script_CheckPartyBelowLevelCap
+	goto_if_eq VAR_RESULT, TRUE, EverGrandeCity_PhoebesRoom_EventScript_NotReady
 	goto_if_set FLAG_DEFEATED_ELITE_4_PHOEBE, EverGrandeCity_PhoebesRoom_EventScript_PostBattleSpeech
 	playbgm MUS_ENCOUNTER_ELITE_FOUR, FALSE
 	msgbox EverGrandeCity_PhoebesRoom_Text_IntroSpeech, MSGBOX_DEFAULT
-	goto_if_set FLAG_BOSS_FLIP, EverGrandeCity_PhoebesRoom_EventScript_Lucy
 	trainerbattle_no_intro TRAINER_PHOEBE, EverGrandeCity_PhoebesRoom_Text_Defeat
 	goto EverGrandeCity_PhoebesRoom_EventScript_Defeated
 	end
 
-EverGrandeCity_PhoebesRoom_EventScript_Lucy::
-	trainerbattle_no_intro TRAINER_LUCY, EverGrandeCity_PhoebesRoom_Text_Defeat
-	goto EverGrandeCity_PhoebesRoom_EventScript_Defeated
+EverGrandeCity_PhoebesRoom_EventScript_NotReady::
+	msgbox EverGrandeCity_PhoebesRoom_Text_NotReady, MSGBOX_DEFAULT
+	release
 	end
 
 EverGrandeCity_PhoebesRoom_EventScript_PostBattleSpeech::
@@ -73,18 +65,19 @@ EverGrandeCity_PhoebesRoom_EventScript_PostBattleSpeech::
 
 EverGrandeCity_PhoebesRoom_EventScript_Defeated::
 	setvar VAR_FORCEANIM, 0
-	goto_if_set FLAG_BOSS_FLIP, EverGrandeCity_PhoebesRoom_EventScript_RecordLucy
 	recordtrainerwin TRAINER_PHOEBE
-	goto EverGrandeCity_PhoebesRoom_EventScript_DoRecord
-EverGrandeCity_PhoebesRoom_EventScript_RecordLucy:
-	recordtrainerwin TRAINER_LUCY
-EverGrandeCity_PhoebesRoom_EventScript_DoRecord:
 	setflag FLAG_DEFEATED_ELITE_4_PHOEBE
 	call PokemonLeague_EliteFour_SetAdvanceToNextRoomMetatiles
 	msgbox EverGrandeCity_PhoebesRoom_Text_PostBattleSpeech, MSGBOX_DEFAULT
-	clearflag FLAG_BOSS_FLIP
 	release
 	end
+
+EverGrandeCity_PhoebesRoom_Text_NotReady:
+	.string "I look forward to our fight,\n"
+	.string "but your POKéMON are not yet\p"
+	.string "strong enough.\p"
+	.string "Level up your POKéMON and return\n"
+	.string "when you're ready.$"
 
 EverGrandeCity_PhoebesRoom_Text_IntroSpeech:
 	.string "Ahahaha!\n"

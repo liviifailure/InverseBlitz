@@ -123,8 +123,8 @@
       "x": 8,
       "y": 9,
       "elevation": 3,
-      "dest_map": "MAP_LAVARIDGE_TOWN_GYM_B1F",
-      "dest_warp_id": "2"
+      "dest_map": "MAP_LAVARIDGE_TOWN_GYM_1F",
+      "dest_warp_id": "25"
     },
     {
       "x": 4,
@@ -300,5 +300,6 @@
       "var_value": "1",
       "script": "EventScript_NoBackingOut"
     }
-  ]
+  ],
+  "bg_events": []
 }

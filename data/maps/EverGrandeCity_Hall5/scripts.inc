@@ -1,6 +1,18 @@
 EverGrandeCity_Hall5_MapScripts::
+	map_script MAP_SCRIPT_ON_TRANSITION, EverGrandeCity_Hall5_OnTransition
 	map_script MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE, EverGrandeCity_Hall5_OnWarp
 	.byte 0
+
+EverGrandeCity_Hall5_OnTransition:
+	random 2
+	copyvar VAR_TEMP_0, VAR_RESULT
+	goto_if_eq VAR_TEMP_0, 0, EverGrandeCity_Hall5_EventScript_SetSidney
+	setdynamicwarp MAP_EVER_GRANDE_CITY_SPENSERS_ROOM, 255, 6, 13
+	end
+
+EverGrandeCity_Hall5_EventScript_SetSidney:
+	setdynamicwarp MAP_EVER_GRANDE_CITY_SIDNEYS_ROOM, 255, 6, 13
+	end
 
 EverGrandeCity_Hall5_OnWarp:
 	map_script_2 VAR_TEMP_1, 0, EverGrandeCity_Hall5_EventScript_TurnPlayerNorth
@@ -11,4 +23,3 @@ EverGrandeCity_Hall5_EventScript_TurnPlayerNorth::
 	clearflag FLAG_BOSS_FLIP  @ This shouldn't be necessary since it should be impossible for this flag to be set. That said, it seems it is somehow possible…
 	special SwapRegisteredKit
 	end
-

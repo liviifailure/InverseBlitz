@@ -15,27 +15,24 @@ PetalburgCity_House2_EventScript_SchoolKid::
 	end
 
 PetalburgCity_House2_EventScript_EnableDebugMode::
-	//setflag FLAG_BADGE01_GET
-	//setflag FLAG_BADGE02_GET
-	//setflag FLAG_BADGE03_GET
-	//setflag FLAG_BADGE04_GET
+	setflag FLAG_BADGE01_GET
+	setflag FLAG_BADGE02_GET
+	setflag FLAG_BADGE03_GET
+	setflag FLAG_BADGE04_GET
+	setflag FLAG_BADGE05_GET
+	setflag FLAG_BADGE06_GET
+	setflag FLAG_BADGE07_GET
+	setflag FLAG_BADGE08_GET
 	//clearflag FLAG_TWO_BADGES
 	//clearflag FLAG_FOUR_BADGES
 	//setvar VAR_BADGE_COUNT, 4
 	//setflag FLAG_VISITED_SLATEPORT_CITY
 	//setflag FLAG_VISITED_FORTREE_CITY
 	setflag FLAG_VISITED_LILYCOVE_CITY
-	//setflag FLAG_VISITED_EVER_GRANDE_CITY
-	//setflag FLAG_LANDMARK_POKEMON_LEAGUE
-	givemon SPECIES_UMBREON, 58
-	giveitem ITEM_HEART_SCALE
-	giveitem ITEM_HEART_SCALE
-	giveitem ITEM_HEART_SCALE
-	giveitem ITEM_HEART_SCALE
-	giveitem ITEM_HEART_SCALE
-	giveitem ITEM_HEART_SCALE
-	giveitem ITEM_HEART_SCALE
-	giveitem ITEM_HEART_SCALE
+	setflag FLAG_VISITED_EVER_GRANDE_CITY
+	setflag FLAG_LANDMARK_POKEMON_LEAGUE
+	givemon SPECIES_RAYQUAZA, 100
+	givemon SPECIES_GROUDON, 100
 	release
 	end
 

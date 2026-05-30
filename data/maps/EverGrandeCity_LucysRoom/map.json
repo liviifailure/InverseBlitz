@@ -15,7 +15,7 @@
   "connections": null,
   "object_events": [
     {
-      "graphics_id": "OBJ_EVENT_GFX_VAR_1",
+      "graphics_id": "OBJ_EVENT_GFX_LUCY",
       "x": 6,
       "y": 5,
       "elevation": 3,
@@ -24,7 +24,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "EverGrandeCity_PhoebesRoom_EventScript_Phoebe",
+      "script": "EverGrandeCity_LucysRoom_EventScript_Lucy",
       "flag": "0"
     }
   ],

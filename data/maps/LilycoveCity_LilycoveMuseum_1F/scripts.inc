@@ -4,6 +4,7 @@ LilycoveCity_LilycoveMuseum_1F_MapScripts::
 
 LilycoveCity_LilycoveMuseum_1F_OnTransition:
 	setweather WEATHER_SUNNY
+	callnative Script_SetTextSpeedSlow
 	end
 
 LilycoveCity_LilycoveMuseum_1F_EventScript_Trapped::

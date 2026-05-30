@@ -94,7 +94,7 @@ u8 ScriptGiveEgg(u16 species)
     isEgg = TRUE;
     SetMonData(&mon, MON_DATA_IS_EGG, &isEgg);
 
-    if (FlagGet(FLAG_SYS_SOLO_MODE))
+    if (FlagGet(FLAG_SYS_SOLO_MODE) || FlagGet(FLAG_IN_BASEMENT))
     {
         //u8 nature = 0; // NATURE_HARDY
         u8 iv = 15;
@@ -376,9 +376,8 @@ static u32 ScriptGiveMonParameterized(u8 side, u8 slot, u16 species, u8 level, u
     u16 targetSpecies;
     bool32 isShiny;
 
-    if (FlagGet(FLAG_SYS_SOLO_MODE))
+    if (FlagGet(FLAG_SYS_SOLO_MODE) || FlagGet(FLAG_IN_BASEMENT))
         nature = 0; // NATURE_HARDY
-
     // check whether to use a specific nature or a random one
     if (nature >= NUM_NATURES)
     {
@@ -430,7 +429,7 @@ static u32 ScriptGiveMonParameterized(u8 side, u8 slot, u16 species, u8 level, u
             SetMonData(&mon, MON_DATA_HP_IV + i, &ivs[i]);
     }
 
-    if (FlagGet(FLAG_SYS_SOLO_MODE))
+    if (FlagGet(FLAG_SYS_SOLO_MODE) || FlagGet(FLAG_IN_BASEMENT))
     {
         u8 soloIv = 15;
         for (i = 0; i < NUM_STATS; i++)

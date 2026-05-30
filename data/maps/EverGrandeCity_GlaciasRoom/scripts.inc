@@ -1,8 +1,25 @@
 EverGrandeCity_GlaciasRoom_MapScripts::
-	map_script MAP_SCRIPT_ON_FRAME_TABLE, EverGrandeCity_GlaciasRoom_OnFrame
 	map_script MAP_SCRIPT_ON_LOAD, EverGrandeCity_GlaciasRoom_OnLoad
 	map_script MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE, EverGrandeCity_GlaciasRoom_OnWarp
+	map_script MAP_SCRIPT_ON_TRANSITION, EverGrandeCity_GlaciasRoom_OnTransition
+	map_script MAP_SCRIPT_ON_FRAME_TABLE, EverGrandeCity_GlaciasRoom_OnFrame
 	.byte 0
+
+EverGrandeCity_GlaciasRoom_OnTransition:
+	end
+
+EverGrandeCity_GlaciasRoom_OnLoad:
+	call_if_set FLAG_DEFEATED_ELITE_4_GLACIA, EverGrandeCity_GlaciasRoom_EventScript_ResetAdvanceToNextRoom
+	call_if_eq VAR_ELITE_4_STATE, 3, EverGrandeCity_GlaciasRoom_EventScript_CloseDoor
+	end
+
+EverGrandeCity_GlaciasRoom_EventScript_ResetAdvanceToNextRoom::
+	call PokemonLeague_EliteFour_EventScript_ResetAdvanceToNextRoom
+	return
+
+EverGrandeCity_GlaciasRoom_EventScript_CloseDoor::
+	call PokemonLeague_EliteFour_EventScript_CloseDoor
+	return
 
 EverGrandeCity_GlaciasRoom_OnWarp:
 	map_script_2 VAR_TEMP_1, 0, EverGrandeCity_GlaciasRoom_EventScript_PlayerTurnNorth
@@ -17,53 +34,28 @@ EverGrandeCity_GlaciasRoom_OnFrame:
 	.2byte 0
 
 EverGrandeCity_GlaciasRoom_EventScript_WalkInCloseDoor::
+	setvar VAR_FORCEANIM, 1
 	lockall
 	call PokemonLeague_EliteFour_EventScript_WalkInCloseDoor
 	setvar VAR_ELITE_4_STATE, 3
 	releaseall
 	end
 
-EverGrandeCity_GlaciasRoom_OnLoad:
-	call_if_set FLAG_DEFEATED_ELITE_4_GLACIA, EverGrandeCity_GlaciasRoom_EventScript_ResetAdvanceToNextRoom
-	call_if_eq VAR_ELITE_4_STATE, 3, EverGrandeCity_GlaciasRoom_EventScript_CloseDoor
-	goto_if_eq VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_GLACIA, EverGrandeCity_GlaciasRoom_End
-	goto_if_eq VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_TUCKER, EverGrandeCity_GlaciasRoom_End
-	random 2
-	goto_if_eq VAR_RESULT, 1, EverGrandeCity_TuckerAppears
-    setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_GLACIA
-	end
-
-EverGrandeCity_TuckerAppears:
-    setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_TUCKER
-    setflag FLAG_BOSS_FLIP
-    end
-
-EverGrandeCity_GlaciasRoom_End:
-	end
-
-EverGrandeCity_GlaciasRoom_EventScript_ResetAdvanceToNextRoom::
-	call PokemonLeague_EliteFour_EventScript_ResetAdvanceToNextRoom
-	return
-
-EverGrandeCity_GlaciasRoom_EventScript_CloseDoor::
-	call PokemonLeague_EliteFour_EventScript_CloseDoor
-	return
-
 EverGrandeCity_GlaciasRoom_EventScript_Glacia::
-	setvar VAR_FORCEANIM, 1
 	lock
 	faceplayer
+	specialvar VAR_RESULT, Script_CheckPartyBelowLevelCap
+	goto_if_eq VAR_RESULT, TRUE, EverGrandeCity_GlaciasRoom_EventScript_NotReady
 	goto_if_set FLAG_DEFEATED_ELITE_4_GLACIA, EverGrandeCity_GlaciasRoom_EventScript_PostBattleSpeech
 	playbgm MUS_ENCOUNTER_ELITE_FOUR, FALSE
 	msgbox EverGrandeCity_GlaciasRoom_Text_IntroSpeech, MSGBOX_DEFAULT
-	goto_if_set FLAG_BOSS_FLIP, EverGrandeCity_GlaciasRoom_EventScript_Tucker
 	trainerbattle_no_intro TRAINER_GLACIA, EverGrandeCity_GlaciasRoom_Text_Defeat
 	goto EverGrandeCity_GlaciasRoom_EventScript_Defeated
 	end
 
-EverGrandeCity_GlaciasRoom_EventScript_Tucker::
-	trainerbattle_no_intro TRAINER_TUCKER, EverGrandeCity_GlaciasRoom_Text_Defeat
-	goto EverGrandeCity_GlaciasRoom_EventScript_Defeated
+EverGrandeCity_GlaciasRoom_EventScript_NotReady::
+	msgbox EverGrandeCity_GlaciasRoom_Text_NotReady, MSGBOX_DEFAULT
+	release
 	end
 
 EverGrandeCity_GlaciasRoom_EventScript_PostBattleSpeech::
@@ -73,18 +65,19 @@ EverGrandeCity_GlaciasRoom_EventScript_PostBattleSpeech::
 
 EverGrandeCity_GlaciasRoom_EventScript_Defeated::
 	setvar VAR_FORCEANIM, 0
-	goto_if_set FLAG_BOSS_FLIP, EverGrandeCity_GlaciasRoom_EventScript_RecordTucker
 	recordtrainerwin TRAINER_GLACIA
-	goto EverGrandeCity_GlaciasRoom_EventScript_DoRecord
-EverGrandeCity_GlaciasRoom_EventScript_RecordTucker:
-	recordtrainerwin TRAINER_TUCKER
-EverGrandeCity_GlaciasRoom_EventScript_DoRecord:
 	setflag FLAG_DEFEATED_ELITE_4_GLACIA
 	call PokemonLeague_EliteFour_SetAdvanceToNextRoomMetatiles
 	msgbox EverGrandeCity_GlaciasRoom_Text_PostBattleSpeech, MSGBOX_DEFAULT
-	clearflag FLAG_BOSS_FLIP
 	release
 	end
+
+EverGrandeCity_GlaciasRoom_Text_NotReady:
+	.string "I look forward to our fight,\n"
+	.string "but your POKéMON are not yet\p"
+	.string "strong enough.\p"
+	.string "Level up your POKéMON and return\n"
+	.string "when you're ready.$"
 
 EverGrandeCity_GlaciasRoom_Text_IntroSpeech:
 	.string "Welcome, challenger.\p"

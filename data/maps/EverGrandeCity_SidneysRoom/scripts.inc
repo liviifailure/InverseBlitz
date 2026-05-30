@@ -8,19 +8,6 @@ EverGrandeCity_SidneysRoom_MapScripts::
 EverGrandeCity_SidneysRoom_OnTransition:
 	setflag FLAG_MET_SCOTT_IN_EVERGRANDE
 	setflag FLAG_HIDE_EVER_GRANDE_POKEMON_CENTER_1F_SCOTT
-	goto_if_eq VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_SIDNEY, EverGrandeCity_SidneysRoom_End
-	goto_if_eq VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_SPENSER, EverGrandeCity_SidneysRoom_End
-	random 2
-	goto_if_eq VAR_RESULT, 1, EverGrandeCity_SpenserAppears
-    setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_SIDNEY
-	end
-
-EverGrandeCity_SpenserAppears:
-    setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_SPENSER
-    setflag FLAG_BOSS_FLIP
-    end
-
-EverGrandeCity_SidneysRoom_End:
 	end
 
 EverGrandeCity_SidneysRoom_OnLoad:
@@ -64,7 +51,6 @@ EverGrandeCity_SidneysRoom_EventScript_Sidney::
 	goto_if_set FLAG_DEFEATED_ELITE_4_SIDNEY, EverGrandeCity_SidneysRoom_EventScript_PostBattleSpeech
 	playbgm MUS_ENCOUNTER_ELITE_FOUR, FALSE
 	msgbox EverGrandeCity_SidneysRoom_Text_IntroSpeech, MSGBOX_DEFAULT
-	goto_if_set FLAG_BOSS_FLIP, EverGrandeCity_SidneysRoom_EventScript_Spenser
 	trainerbattle_no_intro TRAINER_SIDNEY, EverGrandeCity_SidneysRoom_Text_Defeat
 	goto EverGrandeCity_SidneysRoom_EventScript_Defeated
 	end
@@ -74,11 +60,6 @@ EverGrandeCity_SidneysRoom_EventScript_NotReady::
 	release
 	end
 
-EverGrandeCity_SidneysRoom_EventScript_Spenser::
-	trainerbattle_no_intro TRAINER_SPENSER, EverGrandeCity_SidneysRoom_Text_Defeat
-	goto EverGrandeCity_SidneysRoom_EventScript_Defeated
-	end
-
 EverGrandeCity_SidneysRoom_EventScript_PostBattleSpeech::
 	msgbox EverGrandeCity_SidneysRoom_Text_PostBattleSpeech, MSGBOX_DEFAULT
 	release
@@ -86,16 +67,10 @@ EverGrandeCity_SidneysRoom_EventScript_PostBattleSpeech::
 
 EverGrandeCity_SidneysRoom_EventScript_Defeated::
 	setvar VAR_FORCEANIM, 0
-	goto_if_set FLAG_BOSS_FLIP, EverGrandeCity_SidneysRoom_EventScript_RecordSpenser
 	recordtrainerwin TRAINER_SIDNEY
-	goto EverGrandeCity_SidneysRoom_EventScript_DoRecord
-EverGrandeCity_SidneysRoom_EventScript_RecordSpenser:
-	recordtrainerwin TRAINER_SPENSER
-EverGrandeCity_SidneysRoom_EventScript_DoRecord:
 	setflag FLAG_DEFEATED_ELITE_4_SIDNEY
 	call PokemonLeague_EliteFour_SetAdvanceToNextRoomMetatiles
 	msgbox EverGrandeCity_SidneysRoom_Text_PostBattleSpeech, MSGBOX_DEFAULT
-	clearflag FLAG_BOSS_FLIP
 	release
 	end
 

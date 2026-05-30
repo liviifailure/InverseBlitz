@@ -2188,7 +2188,7 @@ static const u16 sGibleEggMoveLearnset[] = {
 
 #if P_FAMILY_RIOLU
 static const u16 sRioluEggMoveLearnset[] = {
-    MOVE_METEOR_MASH,
+    MOVE_SKY_UPPERCUT,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_RIOLU
@@ -2381,7 +2381,7 @@ static const u16 sPidoveEggMoveLearnset[] = {
 
 #if P_FAMILY_BLITZLE
 static const u16 sBlitzleEggMoveLearnset[] = {
-    MOVE_DOUBLE_KICK,
+    MOVE_HIGH_HORSEPOWER,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_BLITZLE
@@ -2977,7 +2977,7 @@ static const u16 sBunnelbyEggMoveLearnset[] = {
 
 #if P_FAMILY_FLETCHLING
 static const u16 sFletchlingEggMoveLearnset[] = {
-    MOVE_TAILWIND,
+    MOVE_BLAZE_KICK,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_FLETCHLING
