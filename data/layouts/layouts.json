@@ -4510,6 +4510,46 @@
       "secondary_tileset": "gTileset_SecretBaseBlueCave",
       "border_filepath": "data/layouts/OldaleTown_House2_Basement/border.bin",
       "blockdata_filepath": "data/layouts/OldaleTown_House2_Basement/map.bin"
+    },
+    {
+      "id": "LAYOUT_EVER_GRANDE_CITY_SPENSERS_ROOM",
+      "name": "EverGrandeCity_SpensersRoom_Layout",
+      "width": 13,
+      "height": 14,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_EliteFrontier",
+      "border_filepath": "data/layouts/EverGrandeCity_SpensersRoom/border.bin",
+      "blockdata_filepath": "data/layouts/EverGrandeCity_SpensersRoom/map.bin"
+    },
+    {
+      "id": "LAYOUT_EVER_GRANDE_CITY_BRANDONS_ROOM",
+      "name": "EverGrandeCity_BrandonsRoom_Layout",
+      "width": 13,
+      "height": 14,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_EliteFrontier",
+      "border_filepath": "data/layouts/EverGrandeCity_BrandonsRoom/border.bin",
+      "blockdata_filepath": "data/layouts/EverGrandeCity_BrandonsRoom/map.bin"
+    },
+    {
+      "id": "LAYOUT_EVER_GRANDE_CITY_LUCYS_ROOM",
+      "name": "EverGrandeCity_LucysRoom_Layout",
+      "width": 13,
+      "height": 14,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_EliteFrontier",
+      "border_filepath": "data/layouts/EverGrandeCity_LucysRoom/border.bin",
+      "blockdata_filepath": "data/layouts/EverGrandeCity_LucysRoom/map.bin"
+    },
+    {
+      "id": "LAYOUT_EVER_GRANDE_CITY_TUCKERS_ROOM",
+      "name": "EverGrandeCity_TuckersRoom_Layout",
+      "width": 13,
+      "height": 14,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_EliteFrontier",
+      "border_filepath": "data/layouts/EverGrandeCity_TuckersRoom/border.bin",
+      "blockdata_filepath": "data/layouts/EverGrandeCity_TuckersRoom/map.bin"
     }
   ]
 }

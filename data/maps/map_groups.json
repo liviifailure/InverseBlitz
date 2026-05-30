@@ -294,7 +294,11 @@
     "EverGrandeCity_HallOfFame",
     "EverGrandeCity_PokemonCenter_1F",
     "EverGrandeCity_PokemonCenter_2F",
-    "EverGrandeCity_PokemonLeague_2F"
+    "EverGrandeCity_PokemonLeague_2F",
+    "EverGrandeCity_SpensersRoom",
+    "EverGrandeCity_LucysRoom",
+    "EverGrandeCity_BrandonsRoom",
+    "EverGrandeCity_TuckersRoom"
   ],
   "gMapGroup_IndoorRoute104": [
     "Route104_MrBrineysHouse",

@@ -1334,3 +1334,11 @@ EventScript_FlygonLearnedFly::
 	.include "data/scripts/apricorn_tree.inc"
 
 	.include "data/maps/OldaleTown_House2_Basement/scripts.inc"
+
+	.include "data/maps/EverGrandeCity_SpensersRoom/scripts.inc"
+
+	.include "data/maps/EverGrandeCity_TuckersRoom/scripts.inc"
+
+	.include "data/maps/EverGrandeCity_LucysRoom/scripts.inc"
+
+	.include "data/maps/EverGrandeCity_BrandonsRoom/scripts.inc"
