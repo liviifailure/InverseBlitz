@@ -1,3 +1,12 @@
+EventScript_ChooseGiftPokemon_Basement::
+	msgbox Text_PeeredIntoBox, MSGBOX_DEFAULT
+	closemessage
+	goto EventScript_ChooseGiftPokemon_NoMsg
+
+EventScript_ChooseGiftPokemon2_Basement::
+	msgbox Text_PeeredIntoBox, MSGBOX_DEFAULT
+	goto EventScript_ChooseGiftPokemon2_NoMsg
+
 EventScript_ChooseGiftPokemon::
 	faceplayer
 	msgbox Text_ChooseAGiftPokemon, MSGBOX_DEFAULT
@@ -24,3 +33,7 @@ Text_ChooseAGiftPokemon:
 
 gText_ReceivedGiftMon::
 	.string "{PLAYER} received a {STR_VAR_1}!$"
+
+Text_PeeredIntoBox:
+	.string "{PLAYER} peered into the box…\n"
+	.string "It's full of POKéMON!$"

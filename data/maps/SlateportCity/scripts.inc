@@ -454,8 +454,148 @@ SlateportCity_EventScript_Sailor2::
 	end
 
 SlateportCity_EventScript_PokefanF::
-	msgbox SlateportCity_Text_BuyTooMuch, MSGBOX_NPC
+	lock
+	faceplayer
+	goto_if_ge VAR_BADGE_COUNT, 4, SlateportCity_EventScript_PokefanF_Eeveelutions
+	msgbox SlateportCity_Text_BuyTooMuch, MSGBOX_DEFAULT
+	release
 	end
+
+SlateportCity_EventScript_PokefanF_Eeveelutions::
+	randomelement SPECIES_VAPOREON, SPECIES_JOLTEON, SPECIES_FLAREON, SPECIES_ESPEON, SPECIES_UMBREON, SPECIES_LEAFEON, SPECIES_GLACEON, SPECIES_SYLVEON
+	copyvar VAR_TEMP_1, VAR_RESULT
+	copyvar VAR_0x8000, VAR_TEMP_1
+	call SlateportCity_EventScript_BufferMon1
+SlateportCity_EventScript_PokefanF_Eeveelutions_Roll2:
+	randomelement SPECIES_VAPOREON, SPECIES_JOLTEON, SPECIES_FLAREON, SPECIES_ESPEON, SPECIES_UMBREON, SPECIES_LEAFEON, SPECIES_GLACEON, SPECIES_SYLVEON
+	copyvar VAR_TEMP_2, VAR_RESULT
+	goto_if_eq VAR_TEMP_2, VAR_TEMP_1, SlateportCity_EventScript_PokefanF_Eeveelutions_Roll2
+	copyvar VAR_0x8000, VAR_TEMP_2
+	call SlateportCity_EventScript_BufferMon2
+SlateportCity_EventScript_PokefanF_Eeveelutions_Roll3:
+	randomelement SPECIES_VAPOREON, SPECIES_JOLTEON, SPECIES_FLAREON, SPECIES_ESPEON, SPECIES_UMBREON, SPECIES_LEAFEON, SPECIES_GLACEON, SPECIES_SYLVEON
+	copyvar VAR_TEMP_3, VAR_RESULT
+	goto_if_eq VAR_TEMP_3, VAR_TEMP_1, SlateportCity_EventScript_PokefanF_Eeveelutions_Roll3
+	goto_if_eq VAR_TEMP_3, VAR_TEMP_2, SlateportCity_EventScript_PokefanF_Eeveelutions_Roll3
+	copyvar VAR_0x8000, VAR_TEMP_3
+	call SlateportCity_EventScript_BufferMon3
+	msgbox SlateportCity_Text_FavoriteEeveelutions, MSGBOX_DEFAULT
+	setvar VAR_TEMP_1, 0
+	setvar VAR_TEMP_2, 0
+	setvar VAR_TEMP_3, 0
+	release
+	end
+
+SlateportCity_EventScript_BufferMon1::
+	switch VAR_0x8000
+	case SPECIES_VAPOREON, SlateportCity_EventScript_Mon1Vaporeon
+	case SPECIES_JOLTEON,  SlateportCity_EventScript_Mon1Jolteon
+	case SPECIES_FLAREON,  SlateportCity_EventScript_Mon1Flareon
+	case SPECIES_ESPEON,   SlateportCity_EventScript_Mon1Espeon
+	case SPECIES_UMBREON,  SlateportCity_EventScript_Mon1Umbreon
+	case SPECIES_LEAFEON,  SlateportCity_EventScript_Mon1Leafeon
+	case SPECIES_GLACEON,  SlateportCity_EventScript_Mon1Glaceon
+	case SPECIES_SYLVEON,  SlateportCity_EventScript_Mon1Sylveon
+	return
+
+SlateportCity_EventScript_Mon1Vaporeon::
+	bufferstring 0, SlateportCity_Text_Vaporeon
+	return
+SlateportCity_EventScript_Mon1Jolteon::
+	bufferstring 0, SlateportCity_Text_Jolteon
+	return
+SlateportCity_EventScript_Mon1Flareon::
+	bufferstring 0, SlateportCity_Text_Flareon
+	return
+SlateportCity_EventScript_Mon1Espeon::
+	bufferstring 0, SlateportCity_Text_Espeon
+	return
+SlateportCity_EventScript_Mon1Umbreon::
+	bufferstring 0, SlateportCity_Text_Umbreon
+	return
+SlateportCity_EventScript_Mon1Leafeon::
+	bufferstring 0, SlateportCity_Text_Leafeon
+	return
+SlateportCity_EventScript_Mon1Glaceon::
+	bufferstring 0, SlateportCity_Text_Glaceon
+	return
+SlateportCity_EventScript_Mon1Sylveon::
+	bufferstring 0, SlateportCity_Text_Sylveon
+	return
+
+SlateportCity_EventScript_BufferMon2::
+	switch VAR_0x8000
+	case SPECIES_VAPOREON, SlateportCity_EventScript_Mon2Vaporeon
+	case SPECIES_JOLTEON,  SlateportCity_EventScript_Mon2Jolteon
+	case SPECIES_FLAREON,  SlateportCity_EventScript_Mon2Flareon
+	case SPECIES_ESPEON,   SlateportCity_EventScript_Mon2Espeon
+	case SPECIES_UMBREON,  SlateportCity_EventScript_Mon2Umbreon
+	case SPECIES_LEAFEON,  SlateportCity_EventScript_Mon2Leafeon
+	case SPECIES_GLACEON,  SlateportCity_EventScript_Mon2Glaceon
+	case SPECIES_SYLVEON,  SlateportCity_EventScript_Mon2Sylveon
+	return
+
+SlateportCity_EventScript_Mon2Vaporeon::
+	bufferstring 1, SlateportCity_Text_Vaporeon
+	return
+SlateportCity_EventScript_Mon2Jolteon::
+	bufferstring 1, SlateportCity_Text_Jolteon
+	return
+SlateportCity_EventScript_Mon2Flareon::
+	bufferstring 1, SlateportCity_Text_Flareon
+	return
+SlateportCity_EventScript_Mon2Espeon::
+	bufferstring 1, SlateportCity_Text_Espeon
+	return
+SlateportCity_EventScript_Mon2Umbreon::
+	bufferstring 1, SlateportCity_Text_Umbreon
+	return
+SlateportCity_EventScript_Mon2Leafeon::
+	bufferstring 1, SlateportCity_Text_Leafeon
+	return
+SlateportCity_EventScript_Mon2Glaceon::
+	bufferstring 1, SlateportCity_Text_Glaceon
+	return
+SlateportCity_EventScript_Mon2Sylveon::
+	bufferstring 1, SlateportCity_Text_Sylveon
+	return
+
+SlateportCity_EventScript_BufferMon3::
+	switch VAR_0x8000
+	case SPECIES_VAPOREON, SlateportCity_EventScript_Mon3Vaporeon
+	case SPECIES_JOLTEON,  SlateportCity_EventScript_Mon3Jolteon
+	case SPECIES_FLAREON,  SlateportCity_EventScript_Mon3Flareon
+	case SPECIES_ESPEON,   SlateportCity_EventScript_Mon3Espeon
+	case SPECIES_UMBREON,  SlateportCity_EventScript_Mon3Umbreon
+	case SPECIES_LEAFEON,  SlateportCity_EventScript_Mon3Leafeon
+	case SPECIES_GLACEON,  SlateportCity_EventScript_Mon3Glaceon
+	case SPECIES_SYLVEON,  SlateportCity_EventScript_Mon3Sylveon
+	return
+
+SlateportCity_EventScript_Mon3Vaporeon::
+	bufferstring 2, SlateportCity_Text_Vaporeon
+	return
+SlateportCity_EventScript_Mon3Jolteon::
+	bufferstring 2, SlateportCity_Text_Jolteon
+	return
+SlateportCity_EventScript_Mon3Flareon::
+	bufferstring 2, SlateportCity_Text_Flareon
+	return
+SlateportCity_EventScript_Mon3Espeon::
+	bufferstring 2, SlateportCity_Text_Espeon
+	return
+SlateportCity_EventScript_Mon3Umbreon::
+	bufferstring 2, SlateportCity_Text_Umbreon
+	return
+SlateportCity_EventScript_Mon3Leafeon::
+	bufferstring 2, SlateportCity_Text_Leafeon
+	return
+SlateportCity_EventScript_Mon3Glaceon::
+	bufferstring 2, SlateportCity_Text_Glaceon
+	return
+SlateportCity_EventScript_Mon3Sylveon::
+	bufferstring 2, SlateportCity_Text_Sylveon
+	return
 
 SlateportCity_EventScript_Man2::
 	msgbox SlateportCity_Text_BattleTentBuiltRecently, MSGBOX_NPC
@@ -967,13 +1107,13 @@ SlateportCity_Pokemart_StageTwoMegasPlusRentals:
 	.2byte ITEM_CAMERUPTITE
 	.2byte ITEM_CHIMECHITE
 	.2byte ITEM_DRAGALGITE
-	.2byte ITEM_DRAMPANITE;
+	.2byte ITEM_DRAMPANITE
 	.2byte ITEM_EXCADRITE
-	.2byte ITEM_FALINKSITE;
+	.2byte ITEM_FALINKSITE
 	.2byte ITEM_FROSLASSITE
 	.2byte ITEM_GLALITITE
-	.2byte ITEM_HAWLUCHANITE;
-	.2byte ITEM_HERACRONITE;
+	.2byte ITEM_HAWLUCHANITE
+	.2byte ITEM_HERACRONITE
 	.2byte ITEM_HOUNDOOMINITE
 	.2byte ITEM_KANGASKHANITE
 	.2byte ITEM_LOPUNNITE
@@ -983,13 +1123,13 @@ SlateportCity_Pokemart_StageTwoMegasPlusRentals:
 	.2byte ITEM_MAWILITE
 	.2byte ITEM_MEDICHAMITE
 	.2byte ITEM_MEOWSTICITE
-	.2byte ITEM_PINSIRITE;
+	.2byte ITEM_PINSIRITE
 	.2byte ITEM_PYROARITE
 	.2byte ITEM_SABLENITE
 	.2byte ITEM_SCIZORITE
 	.2byte ITEM_SCRAFTINITE
 	.2byte ITEM_SHARPEDONITE
-	.2byte ITEM_SKARMORITE;
+	.2byte ITEM_SKARMORITE
 	.2byte ITEM_STARMINITE
 	.2byte ITEM_STEELIXITE
 	pokemartlistend
@@ -2259,6 +2399,29 @@ SlateportCity_Text_SinkOldBoats:
 SlateportCity_Text_BuyTooMuch:
 	.string "Whenever I visit here, I get carried\n"
 	.string "away and buy too much.$"
+
+SlateportCity_Text_FavoriteEeveelutions:
+	.string "Ah, who are my favorite Eeveelutions\n"
+	.string "today?\p"
+	.string "I think I prefer {STR_VAR_1}, {STR_VAR_2},\n"
+	.string "and {STR_VAR_3}.$"
+
+SlateportCity_Text_Vaporeon:
+	.string "{COLOR BLUE}Vaporeon{COLOR DARK_GRAY}$"
+SlateportCity_Text_Jolteon:
+	.string "{COLOR LIGHT_RED}Jolteon{COLOR DARK_GRAY}$"
+SlateportCity_Text_Flareon:
+	.string "{COLOR RED}Flareon{COLOR DARK_GRAY}$"
+SlateportCity_Text_Espeon:
+	.string "{COLOR RED}Espeon{COLOR DARK_GRAY}$"
+SlateportCity_Text_Umbreon:
+	.string "{COLOR DARK_GRAY}Umbreon{COLOR DARK_GRAY}$"
+SlateportCity_Text_Leafeon:
+	.string "{COLOR GREEN}Leafeon{COLOR DARK_GRAY}$"
+SlateportCity_Text_Glaceon:
+	.string "{COLOR DYNAMIC_COLOR6}Glaceon{COLOR DARK_GRAY}$"
+SlateportCity_Text_Sylveon:
+	.string "{COLOR RED}Sylveon{COLOR DARK_GRAY}$"
 
 SlateportCity_Text_GetNameRaterToHelpYou:
 	.string "If you want to change your POKéMON's\n"

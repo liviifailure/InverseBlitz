@@ -239,6 +239,7 @@ static const struct GiftPokemon sGiftPokemonList[] = {
 };
 
 static const struct GiftPokemon sGiftPokemonList2[] = {
+    {SPECIES_EEVEE, 10},
     {SPECIES_ABSOL, 10},
     {SPECIES_ALOMOMOLA, 10},
     {SPECIES_BOMBIRDIER, 10},

@@ -194,26 +194,20 @@ OldaleTown_House2_Text_LevelCaps8:
 	.string "8 Badges (Lv 58)$"
 
 OldaleTown_House2_Basement_EventScript_GiftPokemonBox::
-	lock
+	lockall
 	faceplayer
 	setflag FLAG_IN_BASEMENT
-	msgbox OldaleTown_House2_Basement_Text_PeeredIntoBox, MSGBOX_DEFAULT
-	call EventScript_ChooseGiftPokemon_NoMsg
-	release
+	call EventScript_ChooseGiftPokemon_Basement
+	releaseall
 	end
 
 OldaleTown_House2_Basement_EventScript_GiftPokemonBox2::
-	lock
+	lockall
 	faceplayer
 	setflag FLAG_IN_BASEMENT
-	msgbox OldaleTown_House2_Basement_Text_PeeredIntoBox, MSGBOX_DEFAULT
-	call EventScript_ChooseGiftPokemon2_NoMsg
-	release
+	call EventScript_ChooseGiftPokemon2_Basement
+	releaseall
 	end
-
-OldaleTown_House2_Basement_Text_PeeredIntoBox:
-	.string "{PLAYER} peered into the box…\n"
-	.string "It's full of POKéMON!$"
 
 OldaleTown_House2_Basement_EventScript_Miltank::
 	lock

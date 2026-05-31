@@ -42303,7 +42303,7 @@ F_TRAINER_FEMALE |
             .moves = {
 #line 16399
                 MOVE_BEAT_UP,
-                MOVE_UPROAR,
+                MOVE_ENDURE,
                 MOVE_FACADE,
                 MOVE_TRAILBLAZE,
             },
