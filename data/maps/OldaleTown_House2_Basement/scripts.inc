@@ -7,8 +7,14 @@ OldaleTown_House2_Basement_MapScripts::
 
 OldaleTown_House2_Basement_OnTransition:
 	setrespawn HEAL_LOCATION_OLDALE_TOWN_HOUSE2_BASEMENT
+	call_if_set FLAG_IN_BASEMENT, OldaleTown_House2_Basement_EventScript_InstantLights
 	special HealPlayerParty
 	end
+
+OldaleTown_House2_Basement_EventScript_InstantLights::
+	setvar VAR_TEMP_0, 1
+	setflashlevel 0
+	return
 
 OldaleTown_House2_Basement_OnFrame:
 	map_script_2 VAR_TEMP_0, 0, OldaleTown_House2_Basement_EventScript_LightUpRoom
@@ -17,6 +23,7 @@ OldaleTown_House2_Basement_OnFrame:
 OldaleTown_House2_Basement_EventScript_LightUpRoom::
 	lockall
 	setvar VAR_TEMP_0, 1
+	setflag FLAG_IN_BASEMENT
 	animateflash 0
 	setflashlevel 0
 	callnative Script_ShowMapNamePopup
@@ -456,6 +463,9 @@ OldaleTown_House2_Basement_Mart_EvoItems:
 	.hword ITEM_LINKING_CORD
 	.hword ITEM_ROTOM_CATALOG
 	.hword ITEM_BURMY_BINDER
+	.hword ITEM_TART_APPLE
+	.hword ITEM_SWEET_APPLE
+	.hword ITEM_SYRUPY_APPLE
 	.hword ITEM_NONE
 
 OldaleTown_House2_Basement_EventScript_AbilityMint_Clerk::
@@ -1495,3 +1505,11 @@ OldaleTown_House2_Basement_Text_HoundstoneDisappointed:
 OldaleTown_House2_Basement_Text_BossOverleveled:
 	.string "I'm sorry, but you have a POKéMON\n"
 	.string "that's too high a level to fight me.$"
+
+OldaleTown_House2_Basement_EventScript_WallEtching::
+	msgbox OldaleTown_House2_Basement_Text_WallEtching, MSGBOX_SIGN
+	end
+
+OldaleTown_House2_Basement_Text_WallEtching:
+	.string "Two words are etched into the wall:\n"
+	.string "BLITZ JAIL$"

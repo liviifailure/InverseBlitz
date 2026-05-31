@@ -4504,7 +4504,7 @@
     {
       "id": "LAYOUT_OLDALE_TOWN_HOUSE2_BASEMENT",
       "name": "OldaleTown_House2_Basement_Layout",
-      "width": 19,
+      "width": 30,
       "height": 19,
       "primary_tileset": "gTileset_Building",
       "secondary_tileset": "gTileset_SecretBaseBlueCave",

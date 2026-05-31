@@ -96,5 +96,6 @@
       "var_value": "1",
       "script": "EventScript_NoBackingOut"
     }
-  ]
+  ],
+  "bg_events": []
 }

@@ -8,8 +8,8 @@ PetalburgCity_House2_EventScript_Woman::
 PetalburgCity_House2_EventScript_SchoolKid::
 	lock
 	faceplayer
-	msgbox PetalburgCity_House2_Text_DebugModePrompt, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, PetalburgCity_House2_EventScript_EnableDebugMode
+	//msgbox PetalburgCity_House2_Text_DebugModePrompt, MSGBOX_YESNO
+	//goto_if_eq VAR_RESULT, YES, PetalburgCity_House2_EventScript_EnableDebugMode
 	msgbox PetalburgCity_House2_Text_BattledNormanOnce, MSGBOX_DEFAULT
 	release
 	end
@@ -23,11 +23,11 @@ PetalburgCity_House2_EventScript_EnableDebugMode::
 	setflag FLAG_BADGE06_GET
 	setflag FLAG_BADGE07_GET
 	setflag FLAG_BADGE08_GET
-	//clearflag FLAG_TWO_BADGES
-	//clearflag FLAG_FOUR_BADGES
-	//setvar VAR_BADGE_COUNT, 4
-	//setflag FLAG_VISITED_SLATEPORT_CITY
-	//setflag FLAG_VISITED_FORTREE_CITY
+	clearflag FLAG_TWO_BADGES
+	clearflag FLAG_FOUR_BADGES
+	setvar VAR_BADGE_COUNT, 4
+	setflag FLAG_VISITED_SLATEPORT_CITY
+	setflag FLAG_VISITED_FORTREE_CITY
 	setflag FLAG_VISITED_LILYCOVE_CITY
 	setflag FLAG_VISITED_EVER_GRANDE_CITY
 	setflag FLAG_LANDMARK_POKEMON_LEAGUE
