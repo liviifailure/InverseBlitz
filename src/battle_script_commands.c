@@ -1652,6 +1652,9 @@ s32 CalcCritChanceStage(u32 battlerAtk, u32 battlerDef, u32 move, bool32 recordA
     if (sCantCritBattlers & (1u << battlerAtk))
         return CRITICAL_HIT_BLOCKED;
 
+    if (FlagGet(FLAG_DISABLE_CRITICAL_HITS))
+        return CRITICAL_HIT_BLOCKED;
+
     if (gSideStatuses[GetBattlerSide(battlerDef)] & SIDE_STATUS_LUCKY_CHANT)
     {
         critChance = CRITICAL_HIT_BLOCKED;
@@ -1706,6 +1709,9 @@ s32 CalcCritChanceStageGen1(u32 battlerAtk, u32 battlerDef, u32 move, bool32 rec
     u16 baseSpeed = GetSpeciesBaseSpeed(gBattleMons[battlerAtk].species);
 
     if (sCantCritBattlers & (1u << battlerAtk))
+        return CRITICAL_HIT_BLOCKED;
+
+    if (FlagGet(FLAG_DISABLE_CRITICAL_HITS))
         return CRITICAL_HIT_BLOCKED;
 
     critChance = baseSpeed / 2;

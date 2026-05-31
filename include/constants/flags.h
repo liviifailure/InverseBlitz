@@ -669,7 +669,7 @@
 #define FLAG_UNUSED_0x267  0x267 // Sparkle Flag 4
 #define FLAG_OLDALE_HOUSE_SECRET_STAIRS  0x268
 #define FLAG_SYS_BATTLE_DEBUG            0x269
-#define FLAG_UNUSED_0x26A  0x26A // Unused Flag
+#define FLAG_DISABLE_CRITICAL_HITS       0x26A
 #define FLAG_UNUSED_0x26B  0x26B // Unused Flag
 #define FLAG_UNUSED_0x26C  0x26C // Unused Flag
 #define FLAG_UNUSED_0x26D  0x26D // Unused Flag

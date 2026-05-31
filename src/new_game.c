@@ -58,9 +58,9 @@ static void ResetMiniGamesRecords(void);
 static void ResetItemFlags(void);
 static void ResetDexNav(void);
 
-void Script_SetTextSpeedSlow(void)
+void Script_SetTextSpeedMid(void)
 {
-    gSaveBlock2Ptr->optionsTextSpeed = OPTIONS_TEXT_SPEED_SLOW;
+    gSaveBlock2Ptr->optionsTextSpeed = OPTIONS_TEXT_SPEED_MID;
 }
 
 EWRAM_DATA bool8 gDifferentSaveFile = FALSE;
@@ -246,6 +246,7 @@ void NewGameInitData(void)
         AddBagItem(ITEM_CLEANSE_TAG, 1);
         AddBagItem(ITEM_MED_KIT, 1);
         AddBagItem(ITEM_PORTABLE_PC, 1);
+        FlagClear(FLAG_DISABLE_CRITICAL_HITS);
         FlagSet(FLAG_SYS_B_DASH);
         FlagSet(FLAG_HIDE_LITTLEROOT_TOWN_MOM_OUTSIDE);
         FlagSet(FLAG_CLEANSE_TAG);

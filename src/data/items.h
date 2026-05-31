@@ -2646,18 +2646,18 @@ const struct Item gItemsInfo[] =
 
 // Treasures
 
-    [ITEM_BOTTLE_CAP] =
+    [ITEM_SILVER_BOTTLE_CAP] =
     {
-        .name = ITEM_NAME("Bottle Cap"),
+        .name = ITEM_NAME("Silver Bottle Cap"),
         .price = (I_PRICE >= GEN_9) ? 20000 : 5000,
         .description = COMPOUND_STRING(
-            "A beautiful bottle\n"
-            "cap that gives off\n"
-            "a silver gleam."),
+            "A beautiful cap.\n"
+            "It sets all of a\n"
+            "Pokémon's IVs to 15."),
         .pocket = POCKET_ITEMS,
         .sortType = ITEM_TYPE_SELLABLE,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_BottleCap,
         .flingPower = 30,
         .iconPic = gItemIcon_BottleCap,
         .iconPalette = gItemIconPalette_BottleCap,
@@ -15461,7 +15461,7 @@ const struct Item gItemsInfo[] =
         .fieldUseFunc = ItemUseOutOfBattle_BottleCap,
         .flingPower = 30,
         .iconPic = gItemIcon_BottleCap,
-        .iconPalette = gItemIconPalette_BottleCap,
+        .iconPalette = gItemIconPalette_GoldBottleCap,
     },
 };
 

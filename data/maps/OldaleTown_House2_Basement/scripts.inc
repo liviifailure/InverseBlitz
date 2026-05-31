@@ -476,6 +476,7 @@ OldaleTown_House2_Basement_Mart_AbilitiesMints:
 	.hword ITEM_ABILITY_CAPSULE
 	.hword ITEM_ABILITY_PATCH
 	.hword ITEM_GOLD_BOTTLE_CAP
+	.hword ITEM_SILVER_BOTTLE_CAP
 	.hword ITEM_FOOLS_BOTTLE_CAP
 	.hword ITEM_LONELY_MINT
 	.hword ITEM_ADAMANT_MINT
@@ -543,7 +544,7 @@ OldaleTown_House2_Basement_Text_CategoryStatChangers:
 OldaleTown_House2_Basement_EventScript_MoveRelearner::
 	lock
 	faceplayer
-	goto_if_unset FLAG_BADGE04_GET, OldaleTown_House2_Basement_EventScript_MoveRelearnerNotEnoughBadges
+	goto_if_lt VAR_BADGE_COUNT, 4, OldaleTown_House2_Basement_EventScript_MoveRelearnerNotEnoughBadges
 	msgbox OldaleTown_House2_Basement_Text_MoveRelearnerIntro, MSGBOX_DEFAULT
 	goto OldaleTown_House2_Basement_EventScript_ChooseMon
 	end
@@ -598,7 +599,7 @@ OldaleTown_House2_Basement_Text_MoveRelearnerIntro:
 OldaleTown_House2_Basement_EventScript_MoveTutorNPC::
 	lock
 	faceplayer
-	goto_if_unset FLAG_BADGE04_GET, OldaleTown_House2_Basement_EventScript_MoveTutorNotEnoughBadges
+	goto_if_lt VAR_BADGE_COUNT, 4, OldaleTown_House2_Basement_EventScript_MoveTutorNotEnoughBadges
 	msgbox OldaleTown_House2_Basement_Text_MoveTutorIntro, MSGBOX_DEFAULT
 
 OldaleTown_House2_Basement_EventScript_MoveTutorMenu::
@@ -1350,7 +1351,7 @@ OldaleTown_House2_Basement_Text_HiddenPowerNPC_Intro:
 
 OldaleTown_House2_Basement_EventScript_EnergyGuru::
 	goto SlateportCity_EventScript_EnergyGuru
-	goto_if_unset FLAG_BADGE02_GET, OldaleTown_House2_Basement_EventScript_EnergyGuruNotEnoughBadges
+	goto_if_lt VAR_BADGE_COUNT, 2, OldaleTown_House2_Basement_EventScript_EnergyGuruNotEnoughBadges
 
 OldaleTown_House2_Basement_EventScript_EffortRibbonWoman::
 	goto SlateportCity_EventScript_EffortRibbonWoman
@@ -1378,7 +1379,7 @@ OldaleTown_House2_Basement_Text_EnergyGuruNotEnoughBadges:
 OldaleTown_House2_Basement_EventScript_EggMoveTutor::
 	lock
 	faceplayer
-	goto_if_unset FLAG_BADGE01_GET, OldaleTown_House2_Basement_EventScript_EggMoveTutor_NotEnoughBadges
+	goto_if_lt VAR_BADGE_COUNT, 2,  OldaleTown_House2_Basement_EventScript_EggMoveTutor_NotEnoughBadges
 	msgbox OldaleTown_House2_Basement_Text_EggMoveTutor_Intro, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, OldaleTown_House2_Basement_EventScript_EggMoveTutor_Decline
 	msgbox OldaleTown_House2_Basement_Text_EggMoveTutor_ChooseMon, MSGBOX_DEFAULT
@@ -1427,7 +1428,7 @@ OldaleTown_House2_Basement_Text_EggMoveTutor_NotEnoughBadges:
 	.string "I'm sorry, but I only help experienced\n"
 	.string "TRAINERS with their POKéMON.\p"
 	.string "Come back once you have at least\n"
-	.string "one GYM BADGE.$"
+	.string "two GYM BADGES.$"
 
 OldaleTown_House2_Basement_Text_EggMoveTutor_ChooseMon:
 	.string "Which POKéMON should I tutor?$"
@@ -1513,3 +1514,44 @@ OldaleTown_House2_Basement_EventScript_WallEtching::
 OldaleTown_House2_Basement_Text_WallEtching:
 	.string "Two words are etched into the wall:\n"
 	.string "BLITZ JAIL$"
+
+OldaleTown_House2_Basement_EventScript_Slowbro::
+    lock
+    faceplayer
+    goto_if_set FLAG_DISABLE_CRITICAL_HITS, OldaleTown_House2_Basement_EventScript_Slowbro_Enabled
+    msgbox OldaleTown_House2_Basement_Text_Slowbro_Disable, MSGBOX_YESNO
+    goto_if_eq VAR_RESULT, YES, OldaleTown_House2_Basement_EventScript_Slowbro_DoDisable
+    release
+    end
+
+OldaleTown_House2_Basement_EventScript_Slowbro_DoDisable::
+    setflag FLAG_DISABLE_CRITICAL_HITS
+    msgbox OldaleTown_House2_Basement_Text_Slowbro_Disabled, MSGBOX_DEFAULT
+    release
+    end
+
+OldaleTown_House2_Basement_EventScript_Slowbro_Enabled::
+    msgbox OldaleTown_House2_Basement_Text_Slowbro_Enable, MSGBOX_YESNO
+    goto_if_eq VAR_RESULT, YES, OldaleTown_House2_Basement_EventScript_Slowbro_DoEnable
+    release
+    end
+
+OldaleTown_House2_Basement_EventScript_Slowbro_DoEnable::
+    clearflag FLAG_DISABLE_CRITICAL_HITS
+    msgbox OldaleTown_House2_Basement_Text_Slowbro_EnabledMsg, MSGBOX_DEFAULT
+    release
+    end
+
+OldaleTown_House2_Basement_Text_Slowbro_Disable:
+    .string "Slobro's carefree demeanor fills you\n"
+    .string "with confidence. Disable Critical Hits?$"
+
+OldaleTown_House2_Basement_Text_Slowbro_Disabled:
+    .string "Critical hits have been disabled.$"
+
+OldaleTown_House2_Basement_Text_Slowbro_Enable:
+    .string "Critical hits are currently disabled.\n"
+    .string "Would you like to re-enable them?$"
+
+OldaleTown_House2_Basement_Text_Slowbro_EnabledMsg:
+    .string "Critical hits have been re-enabled.$"

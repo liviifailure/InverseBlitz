@@ -9222,6 +9222,8 @@ void ItemUseCB_BottleCap(u8 taskId, TaskFunc task)
     {
         if (item == ITEM_GOLD_BOTTLE_CAP)
             iv = MAX_PER_STAT_IVS; // Sets all IVs to 31
+        else if (item == ITEM_SILVER_BOTTLE_CAP)
+            iv = 15; // Sets all IVs to 15
         else
             iv = 0; // Sets all IVs to 0
 
@@ -9242,6 +9244,8 @@ void ItemUseCB_BottleCap(u8 taskId, TaskFunc task)
         GetMonNickname(mon, gStringVar1);
         if (item == ITEM_GOLD_BOTTLE_CAP)
             StringExpandPlaceholders(gStringVar4, COMPOUND_STRING("{STR_VAR_1}'s potential was maximized!"));
+        else if (item == ITEM_SILVER_BOTTLE_CAP)
+            StringExpandPlaceholders(gStringVar4, COMPOUND_STRING("{STR_VAR_1}'s potential was improved!"));
         else
             StringExpandPlaceholders(gStringVar4, COMPOUND_STRING("{STR_VAR_1} became a total fool!"));
 

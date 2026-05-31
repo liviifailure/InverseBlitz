@@ -120,7 +120,7 @@ SlateportCity_Movement_ScottExit:
 SlateportCity_EventScript_EnergyGuru::
 	lock
 	faceplayer
-	goto_if_unset FLAG_BADGE02_GET, SlateportCity_EventScript_EnergyGuruNotEnoughBadges
+	goto_if_lt VAR_BADGE_COUNT, 2, SlateportCity_EventScript_EnergyGuruNotEnoughBadges
 	callnative CheckPartyForEnergyGuruMon
 	goto_if_eq VAR_RESULT, FALSE, SlateportCity_EventScript_EnergyGuru_NoMon
 	msgbox SlateportCity_Text_EnergyGuru_HaveMon, MSGBOX_YESNO
@@ -159,7 +159,7 @@ SlateportCity_EventScript_EnergyGuru_Decline::
 SlateportCity_EventScript_EffortRibbonWoman::
 	lock
 	faceplayer
-	goto_if_unset FLAG_BADGE04_GET, SlateportCity_EventScript_EffortRibbonWomanNotEnoughBadges
+	goto_if_lt VAR_BADGE_COUNT, 4, SlateportCity_EventScript_EffortRibbonWomanNotEnoughBadges
 	callnative CheckPartyForEffortRibbonMon
 	goto_if_eq VAR_RESULT, FALSE, SlateportCity_EventScript_EffortRibbonWoman_NoMon
 	msgbox SlateportCity_Text_EffortRibbonWoman_HaveMon, MSGBOX_YESNO
