@@ -28,6 +28,7 @@
       "flag": "0"
     },
     {
+      "local_id": "LOCALID_BOX_2",
       "graphics_id": "OBJ_EVENT_GFX_MOVING_BOX",
       "x": 16,
       "y": 9,
@@ -41,6 +42,7 @@
       "flag": "0"
     },
     {
+      "local_id": "LOCALID_BOX_1",
       "graphics_id": "OBJ_EVENT_GFX_MOVING_BOX",
       "x": 16,
       "y": 10,
@@ -132,6 +134,7 @@
       "flag": "0"
     },
     {
+      "local_id": "LOCALID_HIDDEN_POWER_NPC",
       "graphics_id": "OBJ_EVENT_GFX_MAN_5",
       "x": 16,
       "y": 5,

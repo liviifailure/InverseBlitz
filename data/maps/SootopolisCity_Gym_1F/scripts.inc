@@ -8,19 +8,19 @@ SootopolisCity_Gym_1F_MapScripts::
 SootopolisCity_Gym_1F_OnTransition:
 	setvar VAR_ICE_STEP_COUNT, 1
 	goto_if_ne VAR_SOOTOPOLIS_GYM_LAYOUT, 0, SootopolisCity_Gym_1F_EventScript_ApplyLayout
-	random 2
+	random 1
 	addvar VAR_RESULT, 1
 	copyvar VAR_SOOTOPOLIS_GYM_LAYOUT, VAR_RESULT
 SootopolisCity_Gym_1F_EventScript_ApplyLayout:
-	goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 2, SootopolisCity_Gym_1F_EventScript_SetLayoutD
-	goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 3, SootopolisCity_Gym_1F_EventScript_SetLayoutB
-	goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 4, SootopolisCity_Gym_1F_EventScript_SetLayoutC
-	goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 5, SootopolisCity_Gym_1F_EventScript_SetLayoutE
-	goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 6, SootopolisCity_Gym_1F_EventScript_SetLayoutF
-	goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 7, SootopolisCity_Gym_1F_EventScript_SetLayoutG
-	goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 8, SootopolisCity_Gym_1F_EventScript_SetLayoutH
-	goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 9, SootopolisCity_Gym_1F_EventScript_SetLayoutI
-	goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 10, SootopolisCity_Gym_1F_EventScript_SetLayoutJ
+	@ goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 2, SootopolisCity_Gym_1F_EventScript_SetLayoutD
+	@ goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 3, SootopolisCity_Gym_1F_EventScript_SetLayoutB
+	@ goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 4, SootopolisCity_Gym_1F_EventScript_SetLayoutC
+	@ goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 5, SootopolisCity_Gym_1F_EventScript_SetLayoutE
+	@ goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 6, SootopolisCity_Gym_1F_EventScript_SetLayoutF
+	@ goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 7, SootopolisCity_Gym_1F_EventScript_SetLayoutG
+	@ goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 8, SootopolisCity_Gym_1F_EventScript_SetLayoutH
+	@ goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 9, SootopolisCity_Gym_1F_EventScript_SetLayoutI
+	@ goto_if_eq VAR_SOOTOPOLIS_GYM_LAYOUT, 10, SootopolisCity_Gym_1F_EventScript_SetLayoutJ
 	setmaplayoutindex LAYOUT_SOOTOPOLIS_CITY_GYM_1F
 	end
 

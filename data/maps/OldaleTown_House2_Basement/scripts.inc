@@ -33,6 +33,7 @@ OldaleTown_House2_Basement_EventScript_LightUpRoom::
 OldaleTown_House2_EventScript_LevelCapNPC::
 	lock
 	faceplayer
+    clearflag FLAG_SYS_OPPONENT_LEVEL_1
 	message OldaleTown_House2_Text_LevelCapIntro
 	waitmessage
 	dynmultipush OldaleTown_House2_Text_LevelCaps0, 0

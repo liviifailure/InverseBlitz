@@ -60,7 +60,7 @@ static const struct GiftPokemon sGiftPokemonList[] = {
     {SPECIES_CUFANT, 10},
     {SPECIES_CUTIEFLY, 12},
     {SPECIES_CYNDAQUIL, 14},
-    //{SPECIES_DEERLING, 6},
+    {SPECIES_DEERLING, 6},
     {SPECIES_DEWPIDER, 10},
     {SPECIES_DIGLETT, 6},
     {SPECIES_DRIFLOON, 8},
@@ -311,6 +311,11 @@ void BuildGiftPokemonMenu(void)
         {
             species = sScatterbugFormSpeciesIdTable[Random() % (ARRAY_COUNT(sScatterbugFormSpeciesIdTable) - 1)];
             ScriptMenu_AddDynmultichoice(gSpeciesInfo[SPECIES_SCATTERBUG].speciesName, species, 0);
+        }
+        else if (species == SPECIES_DEERLING)
+        {
+            species = sDeerlingFormSpeciesIdTable[Random() % (ARRAY_COUNT(sDeerlingFormSpeciesIdTable) - 1)];
+            ScriptMenu_AddDynmultichoice(gSpeciesInfo[SPECIES_DEERLING].speciesName, species, 0);
         }
         else if (species == SPECIES_EGG)
         {

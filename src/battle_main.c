@@ -1966,12 +1966,16 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
     u32 personalityValue;
     s32 i;
     u8 monsCount;
+    bool32 shouldUseLevel1 = FALSE;
     if (battleTypeFlags & BATTLE_TYPE_TRAINER && !(battleTypeFlags & (BATTLE_TYPE_FRONTIER
                                                                         | BATTLE_TYPE_EREADER_TRAINER
                                                                         | BATTLE_TYPE_TRAINER_HILL)))
     {
         if (firstTrainer == TRUE)
             ZeroEnemyPartyMons();
+
+        if (FlagGet(FLAG_SYS_OPPONENT_LEVEL_1) && party >= gEnemyParty && party < gEnemyParty + PARTY_SIZE)
+            shouldUseLevel1 = TRUE;
 
         if (battleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
         {
@@ -2039,7 +2043,8 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
                 otIdType = OT_ID_PRESET;
                 fixedOtId = HIHALF(personalityValue) ^ LOHALF(personalityValue);
             }
-            CreateMon(&party[i], species, partyData[monIndex].lvl, 0, TRUE, personalityValue, otIdType, fixedOtId);
+            u16 monLevel = shouldUseLevel1 ? 1 : partyData[monIndex].lvl;
+            CreateMon(&party[i], species, monLevel, 0, TRUE, personalityValue, otIdType, fixedOtId);
             SetMonData(&party[i], MON_DATA_HELD_ITEM, &partyData[monIndex].heldItem);
 
             CustomTrainerPartyAssignMoves(&party[i], &partyData[monIndex]);

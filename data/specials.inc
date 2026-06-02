@@ -17,6 +17,7 @@
 gSpecials::
 	def_special BuildGiftPokemonMenu
 	def_special BuildGiftPokemonMenu2
+	def_special ReleaseObjectEventSpritePalettes
 	def_special HealPlayerParty
 	def_special SetCableClubWarp
 	def_special DoCableClubWarp

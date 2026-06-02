@@ -4435,6 +4435,11 @@ void Special_SetIsGiftPokemonMenu(void)
     SetIsGiftPokemonMenu();
 }
 
+void ReleaseObjectEventSpritePalettes(void)
+{
+    FreeObjectEventSpritePalettes();
+}
+
 void Special_AcroBikeFly(void)
 {
     VarSet(VAR_TEMP_2, 1);

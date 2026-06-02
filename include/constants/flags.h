@@ -667,10 +667,10 @@
 #define FLAG_UNUSED_0x265  0x265 // Sparkle Flag 2
 #define FLAG_UNUSED_0x266  0x266 // Sparkle Flag 3
 #define FLAG_UNUSED_0x267  0x267 // Sparkle Flag 4
-#define FLAG_OLDALE_HOUSE_SECRET_STAIRS  0x268
-#define FLAG_SYS_BATTLE_DEBUG            0x269
-#define FLAG_DISABLE_CRITICAL_HITS       0x26A
-#define FLAG_UNUSED_0x26B  0x26B // Unused Flag
+#define FLAG_OLDALE_HOUSE_SECRET_STAIRS  0x268 //Triggers the warp to Oldale Basement
+#define FLAG_SYS_BATTLE_DEBUG         0x269 // Enables Debug mode in battle; can be setin the Oldale Basement
+#define FLAG_DISABLE_CRITICAL_HITS    0x26A // Disables critical hits in the Oldale Basement
+#define FLAG_SYS_OPPONENT_LEVEL_1     0x26B // Sets all enemy Pokemon to level 1
 #define FLAG_UNUSED_0x26C  0x26C // Unused Flag
 #define FLAG_UNUSED_0x26D  0x26D // Unused Flag
 #define FLAG_UNUSED_0x26E  0x26E // Unused Flag

@@ -3204,6 +3204,14 @@ void FreeAndReserveObjectSpritePalettes(void)
     gReservedSpritePaletteCount = OBJ_PALSLOT_COUNT;
 }
 
+void FreeObjectEventSpritePalettes(void)
+{
+    u8 i;
+
+    for (i = 0; sObjectEventSpritePalettes[i].data != NULL; i++)
+        FreeSpritePaletteByTag(sObjectEventSpritePalettes[i].tag);
+}
+
 u8 LoadObjectEventPalette(u16 paletteTag)
 {
     u16 i = FindObjectEventPaletteIndexByTag(paletteTag);

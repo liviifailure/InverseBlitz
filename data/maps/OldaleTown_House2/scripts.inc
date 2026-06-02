@@ -12,6 +12,7 @@ OldaleTown_House2_EventScript_SetStairs::
 
 OldaleTown_House2_EventScript_FallIntoBasement::
 	lockall
+	playse SE_FALL
 	setholewarp MAP_OLDALE_TOWN_HOUSE2_BASEMENT, 13, 11
 	warphole MAP_UNDEFINED
 	waitstate
