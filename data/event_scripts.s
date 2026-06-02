@@ -1342,3 +1342,5 @@ EventScript_FlygonLearnedFly::
 	.include "data/maps/EverGrandeCity_LucysRoom/scripts.inc"
 
 	.include "data/maps/EverGrandeCity_BrandonsRoom/scripts.inc"
+
+	.include "data/maps/RustboroCity_Gym_Viola_Edition/scripts.inc"

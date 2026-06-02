@@ -1,7 +1,7 @@
 {
-  "id": "MAP_RUSTBORO_CITY_GYM",
-  "name": "RustboroCity_Gym",
-  "layout": "LAYOUT_RUSTBORO_CITY_GYM",
+  "id": "MAP_RUSTBORO_CITY_GYM_VIOLA_EDITION",
+  "name": "RustboroCity_Gym_Viola_Edition",
+  "layout": "LAYOUT_RUSTBORO_CITY_GYM_VIOLA_EDITION",
   "music": "MUS_GYM",
   "region_map_section": "MAPSEC_RUSTBORO_CITY",
   "requires_flash": false,
@@ -67,7 +67,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_HIKER",
+      "graphics_id": "OBJ_EVENT_GFX_BUG_CATCHER",
       "x": 1,
       "y": 6,
       "elevation": 3,

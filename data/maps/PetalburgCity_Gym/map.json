@@ -181,7 +181,7 @@
       "y": 105,
       "elevation": 3,
       "dest_map": "MAP_PETALBURG_CITY_GYM",
-      "dest_warp_id": "3"
+      "dest_warp_id": "34"
     },
     {
       "x": 7,
@@ -202,7 +202,7 @@
       "y": 105,
       "elevation": 3,
       "dest_map": "MAP_PETALBURG_CITY_GYM",
-      "dest_warp_id": "6"
+      "dest_warp_id": "36"
     },
     {
       "x": 1,
