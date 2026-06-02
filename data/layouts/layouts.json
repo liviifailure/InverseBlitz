@@ -4557,7 +4557,7 @@
       "width": 11,
       "height": 20,
       "primary_tileset": "gTileset_Building",
-      "secondary_tileset": "gTileset_RustboroGym",
+      "secondary_tileset": "gTileset_RustboroGymViolaEdition",
       "border_filepath": "data/layouts/RustboroCity_Gym_Viola_Edition/border.bin",
       "blockdata_filepath": "data/layouts/RustboroCity_Gym_Viola_Edition/map.bin"
     }

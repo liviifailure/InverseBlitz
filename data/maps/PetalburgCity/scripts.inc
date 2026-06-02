@@ -31,7 +31,13 @@ PetalburgCity_EventScript_GymDoor::
 PetalburgCity_EventScript_RandGymRustboro::
 	call_if_set FLAG_DEFEATED_RUSTBORO_GYM, PetalburgCity_EventScript_AlreadyBeaten
 	setvar VAR_RETURN_MAP, 4
+	random 2
+	goto_if_eq VAR_RESULT, 1, PetalburgCity_EventScript_RandGymViola
 	setdynamicwarp MAP_RUSTBORO_CITY_GYM, 5, 19
+	end
+
+PetalburgCity_EventScript_RandGymViola::
+	setdynamicwarp MAP_RUSTBORO_CITY_GYM_VIOLA_EDITION, 5, 19
 	end
 
 PetalburgCity_EventScript_RandGymDewford::

@@ -405,28 +405,28 @@
       "y": 7,
       "elevation": 3,
       "dest_map": "MAP_PETALBURG_CITY_GYM",
-      "dest_warp_id": "32"
+      "dest_warp_id": "2"
     },
     {
       "x": 2,
       "y": 7,
       "elevation": 3,
       "dest_map": "MAP_PETALBURG_CITY_GYM",
-      "dest_warp_id": "32"
+      "dest_warp_id": "2"
     },
     {
       "x": 7,
       "y": 7,
       "elevation": 3,
       "dest_map": "MAP_PETALBURG_CITY_GYM",
-      "dest_warp_id": "33"
+      "dest_warp_id": "5"
     },
     {
       "x": 6,
       "y": 7,
       "elevation": 3,
       "dest_map": "MAP_PETALBURG_CITY_GYM",
-      "dest_warp_id": "33"
+      "dest_warp_id": "5"
     }
   ],
   "coord_events": [

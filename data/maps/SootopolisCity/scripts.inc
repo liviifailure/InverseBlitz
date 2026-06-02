@@ -69,7 +69,13 @@ SootopolisCity_EventScript_GymDoor::
 SootopolisCity_EventScript_RandGymRustboro::
 	call_if_set FLAG_DEFEATED_RUSTBORO_GYM, SootopolisCity_EventScript_AlreadyBeaten
 	setvar VAR_RETURN_MAP, 7
+	random 2
+	goto_if_eq VAR_RESULT, 1, SootopolisCity_EventScript_RandGymViola
 	setdynamicwarp MAP_RUSTBORO_CITY_GYM, 5, 19
+	end
+
+SootopolisCity_EventScript_RandGymViola::
+	setdynamicwarp MAP_RUSTBORO_CITY_GYM_VIOLA_EDITION, 5, 19
 	end
 
 SootopolisCity_EventScript_RandGymDewford::

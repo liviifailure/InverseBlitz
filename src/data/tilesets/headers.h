@@ -553,6 +553,17 @@ const struct Tileset gTileset_RustboroGym =
     .callback = NULL,
 };
 
+const struct Tileset gTileset_RustboroGymViolaEdition =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_RustboroGym,
+    .palettes = gTilesetPalettes_RustboroGymViolaEdition,
+    .metatiles = gMetatiles_RustboroGym,
+    .metatileAttributes = gMetatileAttributes_RustboroGym,
+    .callback = NULL,
+};
+
 const struct Tileset gTileset_DewfordGym =
 {
     .isCompressed = TRUE,

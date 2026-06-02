@@ -33,7 +33,13 @@ LavaridgeTown_EventScript_GymDoor::
 LavaridgeTown_EventScript_RandGymRustboro::
 	call_if_set FLAG_DEFEATED_RUSTBORO_GYM, LavaridgeTown_EventScript_AlreadyBeaten
 	setvar VAR_RETURN_MAP, 3
+	random 2
+	goto_if_eq VAR_RESULT, 1, LavaridgeTown_EventScript_RandGymViola
 	setdynamicwarp MAP_RUSTBORO_CITY_GYM, 5, 19
+	end
+
+LavaridgeTown_EventScript_RandGymViola::
+	setdynamicwarp MAP_RUSTBORO_CITY_GYM_VIOLA_EDITION, 5, 19
 	end
 
 LavaridgeTown_EventScript_RandGymDewford::

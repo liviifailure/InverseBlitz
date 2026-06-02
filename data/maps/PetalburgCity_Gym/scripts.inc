@@ -796,8 +796,8 @@ PetalburgCity_Gym_EventScript_NoAmountOfTrainingIsEnough::
 PetalburgCity_Gym_EventScript_SpeedRoomDoor::
 	lockall
 	goto_if_lt VAR_PETALBURG_GYM_STATE, 6, PetalburgCity_Gym_EventScript_DoorLocked
-	setvar VAR_0x8008, 7
-	setvar VAR_0x8009, 85
+	setvar VAR_0x8008, 1
+	setvar VAR_0x8009, 7
 	goto PetalburgCity_Gym_EventScript_EnterRoom
 	end
 
@@ -821,88 +821,88 @@ PetalburgCity_Gym_EventScript_DoorLocked::
 PetalburgCity_Gym_EventScript_AccuracyRoomDoor::
 	lockall
 	goto_if_lt VAR_PETALBURG_GYM_STATE, 6, PetalburgCity_Gym_EventScript_DoorLocked
-	setvar VAR_0x8008, 1
-	setvar VAR_0x8009, 98
+	setvar VAR_0x8008, 7
+	setvar VAR_0x8009, 7
 	goto PetalburgCity_Gym_EventScript_EnterRoom
 	end
 
 PetalburgCity_Gym_EventScript_ConfusionRoomDoor::
 	lockall
 	//goto_if_not_defeated TRAINER_RANDALL, PetalburgCity_Gym_EventScript_DoorLocked
-	setvar VAR_0x8008, 7
-	setvar VAR_0x8009, 46
+	setvar VAR_0x8008, 4
+	setvar VAR_0x8009, 108
 	goto PetalburgCity_Gym_EventScript_EnterRoom
 	end
 
 PetalburgCity_Gym_EventScript_LeftDefenseRoomDoor::
 	lockall
 	//goto_if_not_defeated TRAINER_RANDALL, PetalburgCity_Gym_EventScript_DoorLocked
-	setvar VAR_0x8008, 1
-	setvar VAR_0x8009, 59
+	setvar VAR_0x8008, 4
+	setvar VAR_0x8009, 108
 	goto PetalburgCity_Gym_EventScript_EnterRoom
 	end
 
 PetalburgCity_Gym_EventScript_RightDefenseRoomDoor::
 	lockall
 	//goto_if_not_defeated TRAINER_MARY, PetalburgCity_Gym_EventScript_DoorLocked
-	setvar VAR_0x8008, 7
-	setvar VAR_0x8009, 59
+	setvar VAR_0x8008, 4
+	setvar VAR_0x8009, 108
 	goto PetalburgCity_Gym_EventScript_EnterRoom
 	end
 
 PetalburgCity_Gym_EventScript_RecoveryRoomDoor::
 	lockall
 	//goto_if_not_defeated TRAINER_MARY, PetalburgCity_Gym_EventScript_DoorLocked
-	setvar VAR_0x8008, 1
-	setvar VAR_0x8009, 72
+	setvar VAR_0x8008, 4
+	setvar VAR_0x8009, 108
 	goto PetalburgCity_Gym_EventScript_EnterRoom
 	end
 
 PetalburgCity_Gym_EventScript_LeftStrengthRoomDoor::
 	lockall
 	//goto_if_not_defeated TRAINER_PARKER, PetalburgCity_Gym_EventScript_DoorLocked
-	setvar VAR_0x8008, 1
-	setvar VAR_0x8009, 20
+	setvar VAR_0x8008, 4
+	setvar VAR_0x8009, 108
 	goto PetalburgCity_Gym_EventScript_EnterRoom
 	end
 
 PetalburgCity_Gym_EventScript_RightStrengthRoomDoor::
 	lockall
 	//goto_if_not_defeated TRAINER_ALEXIA, PetalburgCity_Gym_EventScript_DoorLocked
-	setvar VAR_0x8008, 7
-	setvar VAR_0x8009, 20
+	setvar VAR_0x8008, 4
+	setvar VAR_0x8009, 108
 	goto PetalburgCity_Gym_EventScript_EnterRoom
 	end
 
 PetalburgCity_Gym_EventScript_LeftOHKORoomDoor::
 	lockall
 	//goto_if_not_defeated TRAINER_ALEXIA, PetalburgCity_Gym_EventScript_DoorLocked
-	setvar VAR_0x8008, 1
-	setvar VAR_0x8009, 33
+	setvar VAR_0x8008, 4
+	setvar VAR_0x8009, 108
 	goto PetalburgCity_Gym_EventScript_EnterRoom
 	end
 
 PetalburgCity_Gym_EventScript_RightOHKORoomDoor::
 	lockall
 	//goto_if_not_defeated TRAINER_GEORGE, PetalburgCity_Gym_EventScript_DoorLocked
-	setvar VAR_0x8008, 7
-	setvar VAR_0x8009, 33
+	setvar VAR_0x8008, 4
+	setvar VAR_0x8009, 108
 	goto PetalburgCity_Gym_EventScript_EnterRoom
 	end
 
 PetalburgCity_Gym_EventScript_LeftGymLeadersRoomDoor::
 	lockall
 	//goto_if_not_defeated TRAINER_JODY, PetalburgCity_Gym_EventScript_DoorLocked
-	setvar VAR_0x8008, 1
-	setvar VAR_0x8009, 7
+	setvar VAR_0x8008, 4
+	setvar VAR_0x8009, 108
 	goto PetalburgCity_Gym_EventScript_EnterRoom
 	end
 
 PetalburgCity_Gym_EventScript_RightGymLeadersRoomDoor::
 	lockall
 	//goto_if_not_defeated TRAINER_BERKE, PetalburgCity_Gym_EventScript_DoorLocked
-	setvar VAR_0x8008, 7
-	setvar VAR_0x8009, 7
+	setvar VAR_0x8008, 4
+	setvar VAR_0x8009, 108
 	goto PetalburgCity_Gym_EventScript_EnterRoom
 
 	end

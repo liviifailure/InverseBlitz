@@ -1040,6 +1040,28 @@ const u16 gTilesetPalettes_RustboroGym[][16] =
     INCBIN_U16("data/tilesets/secondary/rustboro_gym/palettes/15.gbapal"),
 };
 
+const u32 gTilesetTiles_RustboroGymViolaEdition[] = INCBIN_U32("data/tilesets/secondary/rustboro_gym/tiles.4bpp.fastSmol");
+
+const u16 gTilesetPalettes_RustboroGymViolaEdition[][16] =
+{
+    INCBIN_U16("data/tilesets/secondary/rustboro_gym_viola_edition/palettes/00.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/rustboro_gym_viola_edition/palettes/01.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/rustboro_gym_viola_edition/palettes/02.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/rustboro_gym_viola_edition/palettes/03.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/rustboro_gym_viola_edition/palettes/04.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/rustboro_gym_viola_edition/palettes/05.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/rustboro_gym_viola_edition/palettes/06.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/rustboro_gym_viola_edition/palettes/07.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/rustboro_gym_viola_edition/palettes/08.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/rustboro_gym_viola_edition/palettes/09.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/rustboro_gym_viola_edition/palettes/10.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/rustboro_gym_viola_edition/palettes/11.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/rustboro_gym_viola_edition/palettes/12.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/rustboro_gym_viola_edition/palettes/13.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/rustboro_gym_viola_edition/palettes/14.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/rustboro_gym_viola_edition/palettes/15.gbapal"),
+};
+
 const u32 gTilesetTiles_DewfordGym[] = INCBIN_U32("data/tilesets/secondary/dewford_gym/tiles.4bpp.fastSmol");
 
 const u16 gTilesetPalettes_DewfordGym[][16] =

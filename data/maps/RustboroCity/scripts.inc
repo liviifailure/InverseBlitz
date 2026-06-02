@@ -40,7 +40,13 @@ RandGym_EventScript_Locked::
 RustboroCity_EventScript_RandGymRustboro::
 	call_if_set FLAG_DEFEATED_RUSTBORO_GYM, RustboroCity_EventScript_AlreadyBeaten
 	setvar VAR_RETURN_MAP, 0
+	random 2
+	goto_if_eq VAR_RESULT, 1, RustboroCity_EventScript_RandGymViola
 	setdynamicwarp MAP_RUSTBORO_CITY_GYM, 5, 19
+	end
+
+RustboroCity_EventScript_RandGymViola::
+	setdynamicwarp MAP_RUSTBORO_CITY_GYM_VIOLA_EDITION, 5, 19
 	end
 
 RustboroCity_EventScript_RandGymDewford::

@@ -33,7 +33,13 @@ MauvilleCity_EventScript_GymDoor::
 MauvilleCity_EventScript_RandGymRustboro::
 	call_if_set FLAG_DEFEATED_RUSTBORO_GYM, MauvilleCity_EventScript_AlreadyBeaten
 	setvar VAR_RETURN_MAP, 2
+	random 2
+	goto_if_eq VAR_RESULT, 1, MauvilleCity_EventScript_RandGymViola
 	setdynamicwarp MAP_RUSTBORO_CITY_GYM, 5, 19
+	end
+
+MauvilleCity_EventScript_RandGymViola::
+	setdynamicwarp MAP_RUSTBORO_CITY_GYM_VIOLA_EDITION, 5, 19
 	end
 
 MauvilleCity_EventScript_RandGymDewford::

@@ -28,7 +28,13 @@ FortreeCity_EventScript_GymDoor::
 FortreeCity_EventScript_RandGymRustboro::
 	call_if_set FLAG_DEFEATED_RUSTBORO_GYM, FortreeCity_EventScript_AlreadyBeaten
 	setvar VAR_RETURN_MAP, 5
+	random 2
+	goto_if_eq VAR_RESULT, 1, FortreeCity_EventScript_RandGymViola
 	setdynamicwarp MAP_RUSTBORO_CITY_GYM, 5, 19
+	end
+
+FortreeCity_EventScript_RandGymViola::
+	setdynamicwarp MAP_RUSTBORO_CITY_GYM_VIOLA_EDITION, 5, 19
 	end
 
 FortreeCity_EventScript_RandGymDewford::

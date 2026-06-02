@@ -9,6 +9,7 @@ OldaleTown_House2_Basement_OnTransition:
 	setrespawn HEAL_LOCATION_OLDALE_TOWN_HOUSE2_BASEMENT
 	call_if_set FLAG_IN_BASEMENT, OldaleTown_House2_Basement_EventScript_InstantLights
 	special HealPlayerParty
+	setvar VAR_FORCEANIM, 0
 	end
 
 OldaleTown_House2_Basement_EventScript_InstantLights::
