@@ -247,7 +247,7 @@ void NewGameInitData(void)
         AddBagItem(ITEM_MED_KIT, 1);
         AddBagItem(ITEM_PORTABLE_PC, 1);
         FlagClear(FLAG_DISABLE_CRITICAL_HITS);
-        FlagSet(FLAG_SYS_OPPONENT_LEVEL_1);
+        FlagClear(FLAG_SYS_OPPONENT_LEVEL_1);
         FlagSet(FLAG_SYS_B_DASH);
         FlagSet(FLAG_HIDE_LITTLEROOT_TOWN_MOM_OUTSIDE);
         FlagSet(FLAG_CLEANSE_TAG);
