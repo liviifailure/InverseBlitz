@@ -2467,6 +2467,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
                                 {EVO_ITEM, ITEM_SWEET_APPLE, SPECIES_APPLETUN},
                                 {EVO_ITEM, ITEM_SYRUPY_APPLE, SPECIES_DIPPLIN},
                                 {EVO_LEVEL, 0, SPECIES_DIPPLIN, CONDITIONS({IF_IN_MAP, MAP_RUSTBORO_CITY_GYM})},
+                                {EVO_LEVEL, 0, SPECIES_DIPPLIN, CONDITIONS({IF_IN_MAP, MAP_RUSTBORO_CITY_GYM_VIOLA_EDITION})},
                                 {EVO_LEVEL, 0, SPECIES_FLAPPLE, CONDITIONS({IF_IN_MAP, MAP_FORTREE_CITY_GYM})},
                                 {EVO_LEVEL, 0, SPECIES_APPLETUN, CONDITIONS({IF_IN_MAP, MAP_LAVARIDGE_TOWN_GYM_1F})},
                                 {EVO_LEVEL, 0, SPECIES_APPLETUN, CONDITIONS({IF_IN_MAP, MAP_LAVARIDGE_TOWN_GYM_B1F})}),

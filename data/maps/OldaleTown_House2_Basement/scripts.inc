@@ -32,6 +32,7 @@ OldaleTown_House2_Basement_EventScript_LightUpRoom::
 	end
 
 OldaleTown_House2_EventScript_LevelCapNPC::
+    clearflag FLAG_SYS_OPPONENT_LEVEL_1
 	lock
 	faceplayer
 	message OldaleTown_House2_Text_LevelCapIntro
@@ -1538,7 +1539,7 @@ OldaleTown_House2_Basement_EventScript_Slowbro_DoEnable::
     end
 
 OldaleTown_House2_Basement_Text_Slowbro_Disable:
-    .string "Slobro's carefree demeanor fills you\n"
+    .string "SLOWBRO's carefree demeanor fills you\n"
     .string "with confidence. Disable Critical Hits?$"
 
 OldaleTown_House2_Basement_Text_Slowbro_Disabled:

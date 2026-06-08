@@ -1318,4 +1318,4 @@ const u8 gText_CannotSendMonToBoxHM[] = _("Cannot send that mon to the box,\nbec
 const u8 gText_CannotSendMonToBoxActive[] = _("Cannot send an active battler\nto the box.{PAUSE_UNTIL_PRESS}");
 const u8 gText_CannotSendMonToBoxPartner[] = _("Cannot send a mon that doesn't,\nbelong to you to the box.{PAUSE_UNTIL_PRESS}");
 
-const u8 gText_GrandPrixMessage[] = _("You stare at the wall with quiet\ndetermination.");
+const u8 gText_GrandPrixMessage[] = _("Happy Saturday! Let's do our best\nand win some fights! Yahoo!");

@@ -1,16 +1,16 @@
 EventScript_TV::
 	lockall
-	goto_if_set FLAG_SYS_SOLO_MODE, EventScript_SoloModeToggleOff
+	//goto_if_set FLAG_SYS_SOLO_MODE, EventScript_SoloModeToggleOff
 
-	incrementgamestat GAME_STAT_WATCHED_TV
-	special ResetTVShowState
-	specialvar VAR_RESULT, CheckForPlayersHouseNews
-	goto_if_eq VAR_RESULT, PLAYERS_HOUSE_TV_MOVIE, EventScript_PlayersHouseMovie
-	goto_if_eq VAR_RESULT, PLAYERS_HOUSE_TV_LATI, EventScript_PlayersHouseLatiNewsFlash
-	goto_if_unset FLAG_SYS_TV_START, EventScript_MomDadMightLikeThis1
-	goto_if_set FLAG_SYS_TV_WATCH, EventScript_MomDadMightLikeThis1
-	specialvar VAR_RESULT, IsGabbyAndTyShowOnTheAir
-	goto_if_eq VAR_RESULT, TRUE, EventScript_DoInSearchOfTrainers
+	//incrementgamestat GAME_STAT_WATCHED_TV
+	//special ResetTVShowState
+	//specialvar VAR_RESULT, CheckForPlayersHouseNews
+	//goto_if_eq VAR_RESULT, PLAYERS_HOUSE_TV_MOVIE, EventScript_PlayersHouseMovie
+	//goto_if_eq VAR_RESULT, PLAYERS_HOUSE_TV_LATI, EventScript_PlayersHouseLatiNewsFlash
+	//goto_if_unset FLAG_SYS_TV_START, EventScript_MomDadMightLikeThis1
+	//goto_if_set FLAG_SYS_TV_WATCH, EventScript_MomDadMightLikeThis1
+	//specialvar VAR_RESULT, IsGabbyAndTyShowOnTheAir
+	//goto_if_eq VAR_RESULT, TRUE, EventScript_DoInSearchOfTrainers
 	goto EventScript_TryDoPokeNews
 	end
 
