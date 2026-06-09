@@ -31342,6 +31342,23 @@ gBattleAnimGeneral_Rain::
 	call RainDrops
 	end
 
+gBattleAnimGeneral_Thunderstorm::
+	loadspritegfx ANIM_TAG_RAIN_DROPS
+	loadspritegfx ANIM_TAG_SPARK_2
+	playsewithpan SE_M_RAIN_DANCE, SOUND_PAN_ATTACKER
+	createvisualtask AnimTask_BlendBattleAnimPal, 10, (F_PAL_BG | F_PAL_BATTLERS_2), 2, 0, 6, RGB_BLACK
+	waitforvisualfinish
+	createvisualtask AnimTask_CreateRaindrops, 2, 0, 3, 60
+	createvisualtask AnimTask_CreateRaindrops, 2, 0, 3, 60
+	delay 20
+	playsewithpan SE_M_THUNDERBOLT, SOUND_PAN_TARGET
+	createvisualtask AnimTask_Flash, 2
+	delay 20
+	waitforvisualfinish
+	createvisualtask AnimTask_BlendBattleAnimPal, 10, (F_PAL_BG | F_PAL_BATTLERS_2), 2, 6, 0, RGB_BLACK
+	waitforvisualfinish
+	end
+
 RainDrops:
 	loadspritegfx ANIM_TAG_RAIN_DROPS
 	playsewithpan SE_M_RAIN_DANCE, SOUND_PAN_ATTACKER
@@ -37859,6 +37876,7 @@ gBattleAnimGeneral_SetWeather::
 	jumpreteq 2, gBattleAnimGeneral_Rain
 	jumpreteq 3, gBattleAnimGeneral_Sandstorm
 	jumpreteq 4, gBattleAnimGeneral_Hail
+	jumpreteq 7, gBattleAnimGeneral_Thunderstorm
 	end
 
 gBattleAnimMove_MaxGuard::

@@ -215,6 +215,15 @@ static const struct BattleWeatherInfo sBattleWeatherInfo[BATTLE_WEATHER_COUNT] =
         .continuesMessage = B_MSG_WEATHER_TURN_STRONG_WINDS,
         .animation = B_ANIM_STRONG_WINDS,
     },
+
+    [BATTLE_WEATHER_THUNDERSTORM] =
+    {
+        .flag = B_WEATHER_THUNDERSTORM,
+        .rock = HOLD_EFFECT_DAMP_ROCK,
+        .endMessage = B_MSG_WEATHER_END_THUNDERSTORM,
+        .continuesMessage = B_MSG_WEATHER_TURN_THUNDERSTORM,
+        .animation = B_ANIM_THUNDERSTORM_CONTINUES,
+    },
 };
 
 // Helper function for actual dmg calcs during battle. For simulated AI dmg, CalcTypeEffectivenessMultiplier should be used directly
@@ -3290,6 +3299,9 @@ bool32 TryChangeBattleTerrain(u32 battler, u32 statusFlag)
     if (gBattleStruct->isSkyBattle)
         return FALSE;
 
+    if (statusFlag == STATUS_FIELD_ELECTRIC_TERRAIN)
+        return TryChangeBattleWeather(battler, BATTLE_WEATHER_THUNDERSTORM, ABILITY_NONE);
+
     if (!(gFieldStatuses & statusFlag))
     {
         gFieldStatuses &= ~STATUS_FIELD_TERRAIN_ANY;
@@ -3735,12 +3747,7 @@ bool32 TryFieldEffects(enum FieldEffectCases caseId)
         case STARTING_STATUS_NONE:
             break;
         case STARTING_STATUS_ELECTRIC_TERRAIN:
-            effect = SetStartingFieldStatus(
-                        STATUS_FIELD_ELECTRIC_TERRAIN,
-                        B_MSG_TERRAIN_SET_ELECTRIC,
-                        0,
-                        &gFieldTimers.terrainTimer);
-            isTerrain = TRUE;
+            effect = TryChangeBattleWeather(GetBattlerAtPosition(B_POSITION_PLAYER_LEFT), BATTLE_WEATHER_THUNDERSTORM, ABILITY_NONE);
             break;
         case STARTING_STATUS_MISTY_TERRAIN:
             effect = SetStartingFieldStatus(
@@ -3862,14 +3869,14 @@ bool32 TryFieldEffects(enum FieldEffectCases caseId)
         break;
     case FIELD_EFFECT_OVERWORLD_TERRAIN:   // terrain starting from overworld weather
         if (B_THUNDERSTORM_TERRAIN == TRUE
-         && !(gFieldStatuses & STATUS_FIELD_ELECTRIC_TERRAIN)
+         && !(gBattleWeather & B_WEATHER_THUNDERSTORM)
          && GetCurrentWeather() == WEATHER_RAIN_THUNDERSTORM)
         {
-            // overworld weather started rain, so just do electric terrain anim
-            gFieldStatuses = STATUS_FIELD_ELECTRIC_TERRAIN;
-            gFieldTimers.terrainTimer = 0;
-            gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_TERRAIN_SET_ELECTRIC;
-            BattleScriptPushCursorAndCallback(BattleScript_OverworldTerrain);
+            // overworld weather started thunderstorm, so set weather and play anim
+            gBattleWeather = B_WEATHER_THUNDERSTORM;
+            gFieldTimers.terrainTimer = 0; // Infinite weather
+            gBattleScripting.animArg1 = B_ANIM_THUNDERSTORM_CONTINUES;
+            BattleScriptPushCursorAndCallback(BattleScript_OverworldWeatherStarts);
             effect = TRUE;
         }
         else if (B_OVERWORLD_FOG >= GEN_8
@@ -3888,8 +3895,15 @@ bool32 TryFieldEffects(enum FieldEffectCases caseId)
         {
             switch (GetCurrentWeather())
             {
-            case WEATHER_RAIN:
             case WEATHER_RAIN_THUNDERSTORM:
+                if (!(gBattleWeather & B_WEATHER_THUNDERSTORM))
+                {
+                    gBattleWeather = B_WEATHER_THUNDERSTORM;
+                    gBattleScripting.animArg1 = B_ANIM_THUNDERSTORM_CONTINUES;
+                    effect = TRUE;
+                }
+                break;
+            case WEATHER_RAIN:
             case WEATHER_DOWNPOUR:
                 if (!(gBattleWeather & B_WEATHER_RAIN))
                 {
@@ -4466,9 +4480,9 @@ u32 AbilityBattleEffects(enum AbilityEffect caseID, u32 battler, enum Ability ab
             break;
         case ABILITY_ELECTRIC_SURGE:
         case ABILITY_HADRON_ENGINE:
-            if (TryChangeBattleTerrain(battler, STATUS_FIELD_ELECTRIC_TERRAIN))
+            if (TryChangeBattleWeather(battler, BATTLE_WEATHER_THUNDERSTORM, gLastUsedAbility))
             {
-                BattleScriptPushCursorAndCallback(BattleScript_ElectricSurgeActivates);
+                BattleScriptPushCursorAndCallback(BattleScript_ThunderstormActivates);
                 effect++;
             }
             break;
@@ -5996,8 +6010,13 @@ void BattleScriptPushCursorAndCallback(const u8 *BS_ptr)
 
 bool32 IsBattlerTerrainAffected(u32 battler, enum Ability ability, enum HoldEffect holdEffect, u32 terrainFlag)
 {
-    if (!(gFieldStatuses & terrainFlag))
+    u32 fieldStatuses = gFieldStatuses;
+    if (gBattleWeather & B_WEATHER_THUNDERSTORM)
+        fieldStatuses |= STATUS_FIELD_ELECTRIC_TERRAIN;
+
+    if (!(fieldStatuses & terrainFlag))
         return FALSE;
+
     if (IsSemiInvulnerable(battler, CHECK_ALL))
         return FALSE;
 
@@ -8230,7 +8249,7 @@ static uq4_12_t GetWeatherDamageModifier(struct DamageContext *ctx)
     if (ctx->holdEffectDef == HOLD_EFFECT_UTILITY_UMBRELLA)
         return UQ_4_12(1.0);
 
-    if (ctx->weather & B_WEATHER_RAIN)
+    if (ctx->weather & (B_WEATHER_RAIN | B_WEATHER_THUNDERSTORM))
     {
         if (ctx->moveType != TYPE_FIRE && ctx->moveType != TYPE_WATER)
             return UQ_4_12(1.0);
@@ -10107,7 +10126,11 @@ bool32 PickupHasValidTarget(u32 battler)
 
 bool32 IsBattlerWeatherAffected(u32 battler, u32 weatherFlags)
 {
-    if (gBattleWeather & weatherFlags && HasWeatherEffect())
+    u32 weather = gBattleWeather;
+    if (weatherFlags & B_WEATHER_RAIN) weatherFlags |= B_WEATHER_THUNDERSTORM;
+    if (weatherFlags & B_WEATHER_SUN)  weatherFlags |= B_WEATHER_SUN_PRIMAL; // Optional: consistency
+
+    if (weather & weatherFlags && HasWeatherEffect())
     {
         // given weather is active -> check if its sun, rain against utility umbrella (since only 1 weather can be active at once)
         if (gBattleWeather & (B_WEATHER_SUN | B_WEATHER_RAIN) && GetBattlerHoldEffect(battler) == HOLD_EFFECT_UTILITY_UMBRELLA)
@@ -11266,7 +11289,7 @@ u32 GetNaturePowerMove(u32 battler)
     u32 move = gBattleEnvironmentInfo[gBattleEnvironment].naturePower;
     if (gFieldStatuses & STATUS_FIELD_MISTY_TERRAIN)
         move = MOVE_MOONBLAST;
-    else if (gFieldStatuses & STATUS_FIELD_ELECTRIC_TERRAIN)
+    else if ((gFieldStatuses & STATUS_FIELD_ELECTRIC_TERRAIN) || (gBattleWeather & B_WEATHER_THUNDERSTORM))
         move = MOVE_THUNDERBOLT;
     else if (gFieldStatuses & STATUS_FIELD_GRASSY_TERRAIN)
         move = MOVE_ENERGY_BALL;

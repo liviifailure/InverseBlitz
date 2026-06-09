@@ -594,7 +594,8 @@
 #define B_ANIM_POWER_CONSTRUCT          53
 #define B_ANIM_SWAP_TO_SUBSTITUTE       54
 #define B_ANIM_SWAP_FROM_SUBSTITUTE     55
-#define NUM_B_ANIMS_GENERAL             56
+#define B_ANIM_THUNDERSTORM_CONTINUES   56
+#define NUM_B_ANIMS_GENERAL             57
 
 // special animations table (sBattleAnims_Special)
 #define B_ANIM_LVL_UP                   0
@@ -648,6 +649,7 @@
 #define ANIM_WEATHER_HAIL 4
 #define ANIM_WEATHER_SNOW 5
 #define ANIM_WEATHER_FOG 6
+#define ANIM_WEATHER_THUNDERSTORM 7
 
 // horseshoe/fist frames
 #define ANIM_RIGHT_FIST  0
