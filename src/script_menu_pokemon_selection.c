@@ -207,7 +207,7 @@ static const struct GiftPokemon sGiftPokemonList2[] = {
     {SPECIES_PASSIMIAN, 0},
     {SPECIES_TYPE_NULL, 0},
     {SPECIES_BRUXISH, 0},
-    {SPECIES_INDEEDEE, 0},
+    {SPECIES_INDEEDEE_F, 0},
     {SPECIES_DRACOVISH, 0},
     {SPECIES_ARCTOZOLT, 0},
     {SPECIES_DURALUDON, 0},
