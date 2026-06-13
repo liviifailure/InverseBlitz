@@ -1066,127 +1066,58 @@ SlateportCity_EventScript_SellStageTwoStones::
 
 	.align 2
 SlateportCity_Pokemart_StageOneMegas:
-	.2byte ITEM_MAWILITE
-	.2byte ITEM_SABLENITE
+	.2byte ITEM_AUDINITE
+	.2byte ITEM_TATSUGIRINITE
 	pokemartlistend
 
 	.align 2
 SlateportCity_Pokemart_StageTwoMegas:
-	.2byte ITEM_ABOMASITE
-	.2byte ITEM_BANETTITE
-	.2byte ITEM_BARBARACITE
-	.2byte ITEM_CAMERUPTITE
-	.2byte ITEM_CHIMECHITE
-	.2byte ITEM_DRAGALGITE
-	.2byte ITEM_EXCADRITE
-	.2byte ITEM_FROSLASSITE
-	.2byte ITEM_GLALITITE
-	.2byte ITEM_HOUNDOOMINITE
-	.2byte ITEM_LOPUNNITE
-	.2byte ITEM_LUCARIONITE
-	.2byte ITEM_MALAMARITE
-	.2byte ITEM_MANECTITE
-	.2byte ITEM_MAWILITE
-	.2byte ITEM_MEDICHAMITE
-	.2byte ITEM_MEOWSTICITE
-	.2byte ITEM_PYROARITE
-	.2byte ITEM_SABLENITE
-	.2byte ITEM_SCIZORITE
-	.2byte ITEM_SCRAFTINITE
-	.2byte ITEM_SHARPEDONITE
-	.2byte ITEM_STARMINITE
-	.2byte ITEM_STEELIXITE
+	.2byte ITEM_ALTARIANITE
+	.2byte ITEM_AUDINITE
+	.2byte ITEM_CRABOMINITE
+	.2byte ITEM_GLIMMORANITE
+	.2byte ITEM_GOLISOPITE
+	.2byte ITEM_GOLURKITE
+	.2byte ITEM_GYARADOSITE
+	.2byte ITEM_SCOVILLAINITE
+	.2byte ITEM_SLOWBRONITE
+	.2byte ITEM_TATSUGIRINITE
 	pokemartlistend
 
 	.align 2
 SlateportCity_Pokemart_StageTwoMegasPlusRentals:
-	.2byte ITEM_ABOMASITE
-	.2byte ITEM_ABSOLITE
-	.2byte ITEM_BANETTITE
-	.2byte ITEM_BARBARACITE
-	.2byte ITEM_CAMERUPTITE
-	.2byte ITEM_CHIMECHITE
-	.2byte ITEM_DRAGALGITE
-	.2byte ITEM_DRAMPANITE
-	.2byte ITEM_EXCADRITE
-	.2byte ITEM_FALINKSITE
-	.2byte ITEM_FROSLASSITE
-	.2byte ITEM_GLALITITE
-	.2byte ITEM_HAWLUCHANITE
-	.2byte ITEM_HERACRONITE
-	.2byte ITEM_HOUNDOOMINITE
-	.2byte ITEM_KANGASKHANITE
-	.2byte ITEM_LOPUNNITE
-	.2byte ITEM_LUCARIONITE
-	.2byte ITEM_MALAMARITE
-	.2byte ITEM_MANECTITE
-	.2byte ITEM_MAWILITE
-	.2byte ITEM_MEDICHAMITE
-	.2byte ITEM_MEOWSTICITE
-	.2byte ITEM_PINSIRITE
-	.2byte ITEM_PYROARITE
-	.2byte ITEM_SABLENITE
-	.2byte ITEM_SCIZORITE
-	.2byte ITEM_SCRAFTINITE
-	.2byte ITEM_SHARPEDONITE
-	.2byte ITEM_SKARMORITE
-	.2byte ITEM_STARMINITE
-	.2byte ITEM_STEELIXITE
+	.2byte ITEM_AERODACTYLITE
+	.2byte ITEM_ALTARIANITE
+	.2byte ITEM_AUDINITE
+	.2byte ITEM_CRABOMINITE
+	.2byte ITEM_GLIMMORANITE
+	.2byte ITEM_GOLISOPITE
+	.2byte ITEM_GOLURKITE
+	.2byte ITEM_GYARADOSITE
+	.2byte ITEM_SCOVILLAINITE
+	.2byte ITEM_SLOWBRONITE
+	.2byte ITEM_TATSUGIRINITE
 	pokemartlistend
 
 	.align 2
 SlateportCity_Pokemart_StageThreeMegas:
-	.2byte ITEM_ABOMASITE
-	.2byte ITEM_AGGRONITE
-	.2byte ITEM_AMPHAROSITE
-	.2byte ITEM_BANETTITE
-	.2byte ITEM_BARBARACITE
-	.2byte ITEM_BAXCALIBRITE
-	.2byte ITEM_BEEDRILLITE
-	.2byte ITEM_BLASTOISINITE
-	.2byte ITEM_BLAZIKENITE
-	.2byte ITEM_CAMERUPTITE
-	.2byte ITEM_CHANDELURITE
-	.2byte ITEM_CHARIZARDITE_X
-	.2byte ITEM_CHESNAUGHTITE
-	.2byte ITEM_CHIMECHITE
-	.2byte ITEM_CLEFABLITE
-	.2byte ITEM_DELPHOXITE
-	.2byte ITEM_DRAGALGITE
-	.2byte ITEM_EELEKTROSSITE
-	.2byte ITEM_EXCADRITE
-	.2byte ITEM_FERALIGITE
-	.2byte ITEM_FROSLASSITE
-	.2byte ITEM_GALLADITE
-	.2byte ITEM_GARCHOMPITE
-	.2byte ITEM_GARDEVOIRITE
-	.2byte ITEM_GENGARITE
-	.2byte ITEM_GLALITITE
-	.2byte ITEM_GRENINJITE
-	.2byte ITEM_HOUNDOOMINITE
-	.2byte ITEM_LOPUNNITE
-	.2byte ITEM_LUCARIONITE
-	.2byte ITEM_MALAMARITE
-	.2byte ITEM_MANECTITE
-	.2byte ITEM_MAWILITE
-	.2byte ITEM_MEDICHAMITE
-	.2byte ITEM_MEOWSTICITE
-	.2byte ITEM_METAGROSSITE
-	.2byte ITEM_PYROARITE
-	.2byte ITEM_RAICHUNITE_X
-	.2byte ITEM_SABLENITE
-	.2byte ITEM_SALAMENCITE
-	.2byte ITEM_SCEPTILITE
-	.2byte ITEM_SCIZORITE
-	.2byte ITEM_SCRAFTINITE
-	.2byte ITEM_SCOLIPITE
-	.2byte ITEM_SHARPEDONITE
-	.2byte ITEM_STARAPTITE
-	.2byte ITEM_STARMINITE
-	.2byte ITEM_STEELIXITE
-	.2byte ITEM_SWAMPERTITE
-	.2byte ITEM_TYRANITARITE
-	.2byte ITEM_VENUSAURITE
+	.2byte ITEM_AERODACTYLITE
+	.2byte ITEM_ALAKAZITE
+	.2byte ITEM_ALTARIANITE
+	.2byte ITEM_AUDINITE
+	.2byte ITEM_CRABOMINITE
+	.2byte ITEM_DRAGONINITE
+	.2byte ITEM_EMBOARITE
+	.2byte ITEM_GLIMMORANITE
+	.2byte ITEM_GOLISOPITE
+	.2byte ITEM_GOLURKITE
+	.2byte ITEM_GYARADOSITE
+	.2byte ITEM_MEGANIUMITE
+	.2byte ITEM_PIDGEOTITE
+	.2byte ITEM_SCOVILLAINITE
+	.2byte ITEM_SLOWBRONITE
+	.2byte ITEM_TATSUGIRINITE
+	.2byte ITEM_VICTREEBELITE
 	pokemartlistend
 
 SlateportCity_EventScript_ShadyRentalMan::
@@ -1203,34 +1134,36 @@ SlateportCity_EventScript_ShadyRentalMan::
 	goto_if_ne VAR_RENTAL_MON_OFFER, 0, SlateportCity_EventScript_ShadyManShowOffer
 	callnative GenerateRentalOffer
 	switch VAR_RESULT
-	case 0, SlateportCity_EventScript_SetOfferSkarmory
-	case 1, SlateportCity_EventScript_SetOfferFalinks
-	case 2, SlateportCity_EventScript_SetOfferHawlucha
-	case 3, SlateportCity_EventScript_SetOfferDrampa
-	case 4, SlateportCity_EventScript_SetOfferHeracross
-	case 5, SlateportCity_EventScript_SetOfferPinsir
-	case 6, SlateportCity_EventScript_SetOfferKangaskhan
-	case 7, SlateportCity_EventScript_SetOfferAbsol
-	case 8, SlateportCity_EventScript_SetOfferZangoose
-	case 9, SlateportCity_EventScript_SetOfferSeviper
-	case 10, SlateportCity_EventScript_SetOfferTorkoal
-	case 11, SlateportCity_EventScript_SetOfferTropius
-	case 12, SlateportCity_EventScript_SetOfferTurtonator
-	case 13, SlateportCity_EventScript_SetOfferLapras
-	case 14, SlateportCity_EventScript_SetOfferMiltank
-	case 15, SlateportCity_EventScript_SetOfferMimikyu
-	case 16, SlateportCity_EventScript_SetOfferTogedemaru
-	case 17, SlateportCity_EventScript_SetOfferBombirdier
-	case 18, SlateportCity_EventScript_SetOfferDhelmise
-	case 19, SlateportCity_EventScript_SetOfferRelicanth
-	case 20, SlateportCity_EventScript_SetOfferBouffalant
-	case 21, SlateportCity_EventScript_SetOfferCarnivine
-	case 22, SlateportCity_EventScript_SetOfferHeatmor
-	case 23, SlateportCity_EventScript_SetOfferDurant
-	case 24, SlateportCity_EventScript_SetOfferComfey
-	case 25, SlateportCity_EventScript_SetOfferCryogonal
-	case 26, SlateportCity_EventScript_SetOfferStonjourner
-	case 27, SlateportCity_EventScript_SetOfferAlomomola
+	case 0, SlateportCity_EventScript_SetOfferTaurosBlaze
+	case 1, SlateportCity_EventScript_SetOfferTaurosAqua
+	case 2, SlateportCity_EventScript_SetOfferDitto
+	case 3, SlateportCity_EventScript_SetOfferAerodactyl
+	case 4, SlateportCity_EventScript_SetOfferGligar
+	case 5, SlateportCity_EventScript_SetOfferShuckle
+	case 6, SlateportCity_EventScript_SetOfferLunatone
+	case 7, SlateportCity_EventScript_SetOfferSolrock
+	case 8, SlateportCity_EventScript_SetOfferSpiritomb
+	case 9, SlateportCity_EventScript_SetOfferThroh
+	case 10, SlateportCity_EventScript_SetOfferSawk
+	case 11, SlateportCity_EventScript_SetOfferBasculin
+	case 12, SlateportCity_EventScript_SetOfferMaractus
+	case 13, SlateportCity_EventScript_SetOfferSigilyph
+	case 14, SlateportCity_EventScript_SetOfferStunfisk
+	case 15, SlateportCity_EventScript_SetOfferDruddigon
+	case 16, SlateportCity_EventScript_SetOfferFurfrou
+	case 17, SlateportCity_EventScript_SetOfferOranguru
+	case 18, SlateportCity_EventScript_SetOfferPassimian
+	case 19, SlateportCity_EventScript_SetOfferTypeNull
+	case 20, SlateportCity_EventScript_SetOfferBruxish
+	case 21, SlateportCity_EventScript_SetOfferIndeedee
+	case 22, SlateportCity_EventScript_SetOfferDracovish
+	case 23, SlateportCity_EventScript_SetOfferArctozolt
+	case 24, SlateportCity_EventScript_SetOfferDuraludon
+	case 25, SlateportCity_EventScript_SetOfferSquawkabilly
+	case 26, SlateportCity_EventScript_SetOfferCyclizar
+	case 27, SlateportCity_EventScript_SetOfferOrthworm
+	case 28, SlateportCity_EventScript_SetOfferFlamigo
+	case 29, SlateportCity_EventScript_SetOfferDondozo
 	end
 
 SlateportCity_EventScript_SetOfferSkarmory::
@@ -1317,6 +1250,96 @@ SlateportCity_EventScript_SetOfferStonjourner::
 SlateportCity_EventScript_SetOfferAlomomola::
 	setvar VAR_RENTAL_MON_OFFER, SPECIES_ALOMOMOLA
 	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferTaurosBlaze::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_TAUROS_PALDEA_BLAZE
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferTaurosAqua::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_TAUROS_PALDEA_AQUA
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferDitto::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_DITTO
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferAerodactyl::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_AERODACTYL
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferGligar::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_GLIGAR
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferShuckle::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_SHUCKLE
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferLunatone::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_LUNATONE
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferSolrock::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_SOLROCK
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferSpiritomb::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_SPIRITOMB
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferThroh::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_THROH
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferSawk::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_SAWK
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferBasculin::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_BASCULIN_WHITE_STRIPED
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferMaractus::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_MARACTUS
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferSigilyph::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_SIGILYPH
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferStunfisk::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_STUNFISK
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferDruddigon::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_DRUDDIGON
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferFurfrou::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_FURFROU
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferOranguru::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_ORANGURU
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferPassimian::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_PASSIMIAN
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferTypeNull::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_TYPE_NULL
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferBruxish::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_BRUXISH
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferIndeedee::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_INDEEDEE_F
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferArctozolt::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_ARCTOZOLT
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferDracovish::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_DRACOVISH
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferDuraludon::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_DURALUDON
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferSquawkabilly::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_SQUAWKABILLY_BLUE
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferCyclizar::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_CYCLIZAR
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferOrthworm::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_ORTHWORM
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferFlamigo::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_FLAMIGO
+	goto SlateportCity_EventScript_ShadyManShowOffer
+SlateportCity_EventScript_SetOfferDondozo::
+	setvar VAR_RENTAL_MON_OFFER, SPECIES_DONDOZO
+	goto SlateportCity_EventScript_ShadyManShowOffer
 
 SlateportCity_EventScript_ShadyManShowOffer::
 	bufferspeciesname STR_VAR_1, VAR_RENTAL_MON_OFFER
@@ -1380,6 +1403,9 @@ SlateportCity_EventScript_SetFalinksite::
 	return
 SlateportCity_EventScript_SetHawluchite::
 	setvar VAR_0x8006, ITEM_HAWLUCHANITE
+	return
+SlateportCity_EventScript_SetAerodactylite::
+	setvar VAR_0x8006, ITEM_AERODACTYLITE
 	return
 
 SlateportCity_EventScript_ShadyManDecline::
