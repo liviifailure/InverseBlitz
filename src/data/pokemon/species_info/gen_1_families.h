@@ -14266,8 +14266,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .levelUpLearnset = sKoffingLevelUpLearnset,
         .teachableLearnset = sKoffingTeachableLearnset,
         .eggMoveLearnset = sKoffingEggMoveLearnset,
-        .evolutions = EVOLUTION({EVO_LEVEL, 35, SPECIES_WEEZING, CONDITIONS({IF_NOT_REGION, REGION_GALAR})},
-                                {EVO_LEVEL, 35, SPECIES_WEEZING_GALAR, CONDITIONS({IF_REGION, REGION_GALAR})}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 35, SPECIES_WEEZING, CONDITIONS({IF_TIME, TIME_DAY})},
+                                {EVO_LEVEL, 35, SPECIES_WEEZING_GALAR, CONDITIONS({IF_TIME, TIME_NIGHT})}),
     },
 
     [SPECIES_WEEZING] =
