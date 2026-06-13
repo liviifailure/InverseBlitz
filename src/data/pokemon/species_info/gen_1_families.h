@@ -14582,7 +14582,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .teachableLearnset = sRhydonTeachableLearnset,
     #if P_GEN_4_CROSS_EVOS
         .evolutions = EVOLUTION({EVO_TRADE, 0, SPECIES_RHYPERIOR, CONDITIONS({IF_HOLD_ITEM, ITEM_PROTECTOR})},
-                                {EVO_ITEM, ITEM_PROTECTOR, SPECIES_RHYPERIOR}),
+                                {EVO_ITEM, ITEM_LINKING_CORD, SPECIES_RHYPERIOR}),
     #endif
     },
 
