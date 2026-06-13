@@ -14819,7 +14819,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .teachableLearnset = sChanseyTeachableLearnset,
         .eggMoveLearnset = sChanseyEggMoveLearnset,
     #if P_GEN_2_CROSS_EVOS
-        .evolutions = EVOLUTION({EVO_ITEM, ITEM_SOOTHE_BELL, SPECIES_BLISSEY}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 30, SPECIES_BLISSEY}),
     #endif
     },
 
@@ -17556,7 +17556,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         )
         .levelUpLearnset = sMagikarpLevelUpLearnset,
         .teachableLearnset = sMagikarpTeachableLearnset,
-        .evolutions = EVOLUTION({EVO_LEVEL, 20, SPECIES_GYARADOS}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 30, SPECIES_GYARADOS}),
     },
 
     [SPECIES_GYARADOS] =
