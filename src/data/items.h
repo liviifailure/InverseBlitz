@@ -7045,7 +7045,7 @@ const struct Item gItemsInfo[] =
     [ITEM_CRABOMINITE] =
     {
         .name = ITEM_NAME("Crabominite"),
-        .price = 0,
+        .price = 10000,
         .holdEffect = HOLD_EFFECT_MEGA_STONE,
         .description = COMPOUND_STRING(
             "This stone enables\n"
@@ -7063,7 +7063,7 @@ const struct Item gItemsInfo[] =
     [ITEM_GOLISOPITE] =
     {
         .name = ITEM_NAME("Golisopite"),
-        .price = 0,
+        .price = 10000,
         .holdEffect = HOLD_EFFECT_MEGA_STONE,
         .description = COMPOUND_STRING(
             "This stone enables\n"
@@ -7099,7 +7099,7 @@ const struct Item gItemsInfo[] =
     [ITEM_SCOVILLAINITE] =
     {
         .name = ITEM_NAME("Scovillainite"),
-        .price = 0,
+        .price = 10000,
         .holdEffect = HOLD_EFFECT_MEGA_STONE,
         .description = COMPOUND_STRING(
             "This stone enables\n"
@@ -7135,7 +7135,7 @@ const struct Item gItemsInfo[] =
     [ITEM_TATSUGIRINITE] =
     {
         .name = ITEM_NAME("Tatsugirinite"),
-        .price = 0,
+        .price = 10000,
         .holdEffect = HOLD_EFFECT_MEGA_STONE,
         .description = COMPOUND_STRING(
             "This stone enables\n"
@@ -7153,7 +7153,7 @@ const struct Item gItemsInfo[] =
     [ITEM_GLIMMORANITE] =
     {
         .name = ITEM_NAME("Glimmoranite"),
-        .price = 0,
+        .price = 10000,
         .holdEffect = HOLD_EFFECT_MEGA_STONE,
         .description = COMPOUND_STRING(
             "This stone enables\n"
