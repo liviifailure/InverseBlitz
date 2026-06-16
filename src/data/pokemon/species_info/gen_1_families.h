@@ -7236,7 +7236,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .teachableLearnset = sMeowthAlolaTeachableLearnset,
         .eggMoveLearnset = sMeowthAlolaEggMoveLearnset,
         .formSpeciesIdTable = sMeowthFormSpeciesIdTable,
-        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_PERSIAN_ALOLA, CONDITIONS({IF_MIN_FRIENDSHIP, FRIENDSHIP_EVO_THRESHOLD})}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 28, SPECIES_PERSIAN_ALOLA}),
     },
 
     [SPECIES_PERSIAN_ALOLA] =
